@@ -5,7 +5,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -17,35 +19,44 @@ import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import com.skanderj.g3.log.Logger;
+import com.skanderj.g3.log.Logger.LogLevel;
+
 public final class AudioManager {
-	private static final Map<String, AudioInputStream> soundsMap = new HashMap<String, AudioInputStream>();
+	private static final Map<String, AudioInputStream> audioMap = new HashMap<String, AudioInputStream>();
 	private static final Map<String, Clip> clipsMap = new HashMap<String, Clip>();
 	private static final Map<String, Thread> threadsMap = new HashMap<String, Thread>();
+	private static final Set<String> pausesMap = new HashSet<String>();
 
 	private AudioManager() {
 		return;
 	}
 
-	public static final void registerSound(String identifier, String path) throws IOException, UnsupportedAudioFileException {
+	public static final void registerAudio(String identifier, String path) throws IOException, UnsupportedAudioFileException {
 		File soundFile = new File(path);
 		AudioInputStream reusableAudioInputStream = AudioManager.createReusableAudioInputStream(soundFile);
-		AudioManager.soundsMap.put(identifier, reusableAudioInputStream);
+		AudioManager.audioMap.put(identifier, reusableAudioInputStream);
+		Logger.log(AudioManager.class, LogLevel.DEBUG, "Succesfully registered audio with identifier %s!", identifier);
 	}
 
-	public static final void playSound(String identifier) throws LineUnavailableException, IOException, InterruptedException {
-		AudioInputStream stream = AudioManager.soundsMap.get(identifier);
-		stream.reset();
-		AudioManager.playSound(identifier, stream);
+	public static final void playAudio(String identifier) throws LineUnavailableException, IOException, InterruptedException {
+		AudioInputStream stream = AudioManager.audioMap.get(identifier);
+		if (stream == null) {
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio with identifier %s!", identifier);
+		} else {
+			stream.reset();
+			AudioManager.playAudio(identifier, stream);
+		}
 	}
 
-	private static final void playSound(String identifier, AudioInputStream audioInputStream) throws LineUnavailableException, IOException, InterruptedException {
+	private static final void playAudio(String identifier, AudioInputStream audioInputStream) throws LineUnavailableException, IOException, InterruptedException {
 		class AudioListener implements LineListener {
 			private boolean isDone = false;
 
 			@Override
 			public synchronized void update(LineEvent event) {
 				Type eventType = event.getType();
-				if ((eventType == Type.CLOSE)) {
+				if (eventType == Type.CLOSE) {
 					this.isDone = true;
 					this.notifyAll();
 				}
@@ -92,36 +103,70 @@ public final class AudioManager {
 		AudioManager.threadsMap.put(identifier, thread);
 	}
 
+	public static final boolean isAudioPaused(String identifier) {
+		if (pausesMap.contains(identifier)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public static final float getVolume(String identifier) {
 		Clip clip = AudioManager.clipsMap.get(identifier);
-		FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-		return (float) Math.pow(10f, gainControl.getValue() / 20f);
+		if (clip == null) {
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier %s!", identifier);
+			return -1;
+		} else {
+			FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+			return (float) Math.pow(10f, gainControl.getValue() / 20f);
+		}
 	}
 
 	public static final void setVolume(String identifier, float volume) {
 		Clip clip = AudioManager.clipsMap.get(identifier);
-		if ((volume < 0f) || (volume > 1f)) {
-			throw new IllegalArgumentException("Volume not valid: " + volume);
+		if (clip == null) {
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier %s!", identifier);
+		} else {
+			if ((volume < 0f) || (volume > 1f)) {
+				throw new IllegalArgumentException("Volume not valid: " + volume);
+			}
+			FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+			gainControl.setValue(20f * (float) Math.log10(volume));
 		}
-		FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-		gainControl.setValue(20f * (float) Math.log10(volume));
 	}
 
-	public static final void pauseSound(String identifier) {
-		AudioManager.clipsMap.get(identifier).stop();
+	public static final void pauseAudio(String identifier) {
+		Clip clip = AudioManager.clipsMap.get(identifier);
+		if (clip == null) {
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier %s!", identifier);
+		} else {
+			clip.stop();
+			pausesMap.add(identifier);
+		}
 	}
 
-	public static final void resumeSound(String identifier) {
-		AudioManager.clipsMap.get(identifier).start();
+	public static final void resumeAudio(String identifier) {
+		Clip clip = AudioManager.clipsMap.get(identifier);
+		if (clip == null) {
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier %s!", identifier);
+		} else {
+			clip.start();
+			pausesMap.remove(identifier);
+		}
 	}
 
-	public static final void stopSound(String identifier) {
-		AudioManager.clipsMap.get(identifier).stop();
-		AudioManager.threadsMap.get(identifier).interrupt();
+	public static final void stopAudio(String identifier) {
+		Clip clip = AudioManager.clipsMap.get(identifier);
+		if (clip == null) {
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier %s!", identifier);
+		} else {
+			clip.stop();
+			AudioManager.threadsMap.get(identifier).interrupt();
+		}
 	}
 
-	public static final void stopAllSounds() {
-		for (AudioInputStream audioInputStream : AudioManager.soundsMap.values()) {
+	public static final void stopAllAudio() {
+		for (AudioInputStream audioInputStream : AudioManager.audioMap.values()) {
 			try {
 				audioInputStream.reset();
 				audioInputStream.close();
@@ -137,20 +182,24 @@ public final class AudioManager {
 		}
 	}
 
-	public static final void loopSound(String identifier, int count) throws IOException, LineUnavailableException, InterruptedException {
-		AudioInputStream stream = AudioManager.soundsMap.get(identifier);
-		stream.reset();
-		AudioManager.loopSound(identifier, count, stream);
+	public static final void loopAudio(String identifier, int count) throws IOException, LineUnavailableException, InterruptedException {
+		AudioInputStream stream = AudioManager.audioMap.get(identifier);
+		if (stream == null) {
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio with identifier %s!", identifier);
+		} else {
+			stream.reset();
+			AudioManager.loopAudio(identifier, count, stream);
+		}
 	}
 
-	private static final void loopSound(String identifier, int count, AudioInputStream audioInputStream) throws LineUnavailableException, IOException, InterruptedException {
+	private static final void loopAudio(String identifier, int count, AudioInputStream audioInputStream) throws LineUnavailableException, IOException, InterruptedException {
 		class AudioListener implements LineListener {
 			private boolean isDone = false;
 
 			@Override
 			public synchronized void update(LineEvent event) {
 				Type eventType = event.getType();
-				if ((eventType == Type.STOP) || (eventType == Type.CLOSE)) {
+				if (eventType == Type.CLOSE) {
 					this.isDone = true;
 					this.notifyAll();
 				}

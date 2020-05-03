@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.skanderj.g3.log.Logger;
+import com.skanderj.g3.log.Logger.LogLevel;
+
 public final class FontManager {
 	private FontManager() {
 		return;
@@ -20,13 +23,24 @@ public final class FontManager {
 		FileInputStream fileInputStream = new FileInputStream(fontFile);
 		Font font = Font.createFont(Font.TRUETYPE_FONT, fileInputStream);
 		FontManager.fontsMap.put(identifier, font);
+		Logger.log(FontManager.class, LogLevel.DEBUG, "Succesfully registered font with identifier %s!", identifier);
 	}
 
 	public static final Font getFont(String identifier) {
-		return FontManager.fontsMap.get(identifier);
+		Font font = FontManager.fontsMap.get(identifier);
+		if (font == null) {
+			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier %s!", identifier);
+			return null;
+		}
+		return font;
 	}
 
 	public static final Font getFont(String identifier, int size) {
-		return FontManager.fontsMap.get(identifier).deriveFont((float) size);
+		Font font = FontManager.fontsMap.get(identifier);
+		if (font == null) {
+			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier %s!", identifier);
+			return null;
+		}
+		return font.deriveFont((float) size);
 	}
 }
