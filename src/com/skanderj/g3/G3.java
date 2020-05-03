@@ -20,6 +20,8 @@ public final class G3 {
 	private static final String VERSION = "B.1";
 	public static boolean DEBUG = true;
 
+	private static Color backgroundColor = Color.BLACK;
+
 	public static void main(String[] args) {
 		Logger.redirectSystemOutput();
 		Logger.log(G3.class, LogLevel.INFO, "Gingerbread3 version %s - by SkanderJ", G3.VERSION);
@@ -29,13 +31,14 @@ public final class G3 {
 			exception.printStackTrace();
 			System.exit(-1);
 		}
-		Window window = new Window.Regular(null, "G3", 800, 600, 3);
+		Window window = new Window.Fullscreen(null, "G3", 3, 1);
 		Keyboard keyboard = new Keyboard();
 		Mouse mouse = new Mouse();
 		window.create();
 		window.registerInput(keyboard);
 		window.registerInput(mouse);
 		window.show();
+		window.requestFocus();
 		try {
 			AudioManager.loopAudio("theme", -1);
 		} catch (IOException | LineUnavailableException | InterruptedException exception) {
@@ -55,8 +58,8 @@ public final class G3 {
 	}
 
 	private static final void update(Window window, Keyboard keyboard, Mouse mouse) {
-		if (keyboard.isKeyDownInFrame(Keyboard.KEY_SPACE)) {
-			System.out.println("space");
+		if (keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+			backgroundColor = Utilities.randomColor(false);
 		}
 		if (keyboard.isKeyDownInFrame(Keyboard.KEY_ESCAPE)) {
 			window.requestClosing();
@@ -69,7 +72,10 @@ public final class G3 {
 			}
 			System.out.println(mouse.getX());
 		}
-		float volume = Utilities.map(mouse.getX(), 0, 800, 0, 1.0f, true);
+		if (mouse.isButtonDownInFrame(Mouse.BUTTON_RIGHT)) {
+			Logger.log(mouse.getClass(), LogLevel.INFO, "A random number between -10 and 10: %d", Utilities.randomInteger(-10, 10));
+		}
+		float volume = Utilities.map(mouse.getX(), 0, window.getWidth(), 0, 1.0f, true);
 		AudioManager.setVolume("theme", volume);
 		keyboard.update();
 		mouse.update();
@@ -79,6 +85,8 @@ public final class G3 {
 		BufferStrategy bufferStrategy = window.getBufferStrategy();
 		Graphics2D graphics = (Graphics2D) bufferStrategy.getDrawGraphics();
 		graphics.setColor(Color.BLACK);
+		graphics.fillRect(0, 0, window.getWidth(), window.getHeight());
+		graphics.setColor(backgroundColor);
 		graphics.fillRect(0, 0, window.getWidth(), window.getHeight());
 		graphics.dispose();
 		bufferStrategy.show();

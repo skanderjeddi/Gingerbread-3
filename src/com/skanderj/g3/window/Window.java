@@ -19,8 +19,7 @@ import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
 
 public abstract class Window {
-	public static GraphicsDevice DEFAULT_DEVICE = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
-	public static int DEFAULT_DEVICE_WIDTH = Window.DEFAULT_DEVICE.getDisplayMode().getWidth(), DEFAULT_DEVICE_HEIGHT = Window.DEFAULT_DEVICE.getDisplayMode().getHeight();
+	public static GraphicsDevice[] DEFAULT_DEVICES = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
 
 	protected String title;
 	protected int width, height;
@@ -56,7 +55,7 @@ public abstract class Window {
 	public abstract void resize();
 
 	public void registerInput(InputDevice device) {
-		Logger.log(Window.class, LogLevel.DEBUG, "Registering input device (type=%s)", device.getType().name());
+		Logger.log(Window.class, LogLevel.DEBUG, "Registering input deviceId (type=%s)", device.getType().name());
 		switch (device.getType()) {
 		case KEYBOARD:
 			this.canvas.addKeyListener((KeyListener) device);
@@ -181,8 +180,15 @@ public abstract class Window {
 	}
 
 	public static class Fullscreen extends Window {
+		private int deviceId;
+
 		public Fullscreen(Game game, String title, int buffers) {
-			super(game, title, Window.DEFAULT_DEVICE_WIDTH, Window.DEFAULT_DEVICE_HEIGHT, buffers);
+			this(game, title, buffers, 0);
+		}
+
+		public Fullscreen(Game game, String title, int buffers, int device) {
+			super(game, title, Window.DEFAULT_DEVICES[device].getDisplayMode().getWidth(), Window.DEFAULT_DEVICES[device].getDisplayMode().getHeight(), buffers);
+			this.deviceId = device;
 		}
 
 		@Override
@@ -206,13 +212,13 @@ public abstract class Window {
 
 		@Override
 		public void destroy() {
-			Window.DEFAULT_DEVICE.setFullScreenWindow(null);
+			Window.DEFAULT_DEVICES[this.deviceId].setFullScreenWindow(null);
 		}
 
 		@Override
 		public void show() {
 			if (this.created) {
-				Window.DEFAULT_DEVICE.setFullScreenWindow(this.frame);
+				Window.DEFAULT_DEVICES[this.deviceId].setFullScreenWindow(this.frame);
 			} else {
 				Logger.log(Window.class, LogLevel.FATAL, "You need to call create() before show() on any window instance!");
 			}
@@ -220,7 +226,7 @@ public abstract class Window {
 
 		@Override
 		public void hide() {
-			Window.DEFAULT_DEVICE.setFullScreenWindow(null);
+			Window.DEFAULT_DEVICES[this.deviceId].setFullScreenWindow(null);
 			this.frame.setVisible(false);
 		}
 
