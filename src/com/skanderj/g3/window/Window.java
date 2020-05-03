@@ -15,6 +15,8 @@ import java.awt.image.BufferStrategy;
 
 import com.skanderj.g3.core.Game;
 import com.skanderj.g3.inputdevice.InputDevice;
+import com.skanderj.g3.log.Logger;
+import com.skanderj.g3.log.Logger.LogLevel;
 
 public abstract class Window {
 	public static GraphicsDevice DEFAULT_DEVICE = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
@@ -29,7 +31,7 @@ public abstract class Window {
 	protected Frame frame;
 	protected Canvas canvas;
 
-	protected boolean closeRequested;
+	protected boolean closeRequested, created;
 
 	public Window(Game game, String title, int width, int height, int buffers) {
 		this.game = game;
@@ -40,6 +42,7 @@ public abstract class Window {
 		this.frame = new Frame();
 		this.canvas = new Canvas();
 		this.closeRequested = false;
+		this.created = false;
 	}
 
 	public abstract void create();
@@ -53,6 +56,7 @@ public abstract class Window {
 	public abstract void resize();
 
 	public void registerInput(InputDevice device) {
+		Logger.log(Window.class, LogLevel.DEBUG, "Registering input device (type=%s)", device.getType().name());
 		switch (device.getType()) {
 		case KEYBOARD:
 			this.canvas.addKeyListener((KeyListener) device);
@@ -144,6 +148,7 @@ public abstract class Window {
 					Regular.this.requestClosing();
 				}
 			});
+			this.created = true;
 		}
 
 		@Override
@@ -153,7 +158,11 @@ public abstract class Window {
 
 		@Override
 		public void show() {
-			this.frame.setVisible(true);
+			if (this.created) {
+				this.frame.setVisible(true);
+			} else {
+				Logger.log(Window.class, LogLevel.FATAL, "You need to call create() before show() on any window instance!");
+			}
 		}
 
 		@Override
@@ -192,6 +201,7 @@ public abstract class Window {
 				}
 			});
 			this.frame.setUndecorated(true);
+			this.created = true;
 		}
 
 		@Override
@@ -201,7 +211,11 @@ public abstract class Window {
 
 		@Override
 		public void show() {
-			Window.DEFAULT_DEVICE.setFullScreenWindow(this.frame);
+			if (this.created) {
+				Window.DEFAULT_DEVICE.setFullScreenWindow(this.frame);
+			} else {
+				Logger.log(Window.class, LogLevel.FATAL, "You need to call create() before show() on any window instance!");
+			}
 		}
 
 		@Override

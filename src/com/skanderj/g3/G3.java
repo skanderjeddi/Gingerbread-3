@@ -29,7 +29,7 @@ public final class G3 {
 		Window window = new Window.Regular(null, "G3", 800, 600, 3);
 		Keyboard keyboard = new Keyboard();
 		Mouse mouse = new Mouse();
-		window.create();
+		//window.create();
 		window.registerInput(keyboard);
 		window.registerInput(mouse);
 		window.show();
