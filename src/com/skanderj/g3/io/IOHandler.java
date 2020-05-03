@@ -37,7 +37,8 @@ public final class IOHandler {
 	}
 
 	public static final void registerFont(String identifier, String path) throws FontFormatException, IOException {
-		FileInputStream fileInputStream = new FileInputStream(new File(path));
+		File fontFile = new File(path);
+		FileInputStream fileInputStream = new FileInputStream(fontFile);
 		Font font = Font.createFont(Font.TRUETYPE_FONT, fileInputStream);
 		IOHandler.fontsMap.put(identifier, font);
 	}
