@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.skanderj.g3.audio.AudioManager;
 import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
 
@@ -18,12 +19,19 @@ public final class FontManager {
 
 	private static final Map<String, Font> fontsMap = new HashMap<String, Font>();
 
-	public static final void registerFont(String identifier, String path) throws FontFormatException, IOException {
+	public static final boolean registerFont(String identifier, String path) {
 		File fontFile = new File(path);
-		FileInputStream fileInputStream = new FileInputStream(fontFile);
-		Font font = Font.createFont(Font.TRUETYPE_FONT, fileInputStream);
-		FontManager.fontsMap.put(identifier, font);
-		Logger.log(FontManager.class, LogLevel.DEBUG, "Succesfully registered font with identifier %s!", identifier);
+		FileInputStream fileInputStream;
+		try {
+			fileInputStream = new FileInputStream(fontFile);
+			Font font = Font.createFont(Font.TRUETYPE_FONT, fileInputStream);
+			FontManager.fontsMap.put(identifier, font);
+			Logger.log(FontManager.class, LogLevel.DEBUG, "Succesfully registered font with identifier %s!", identifier);
+			return true;
+		} catch (FontFormatException | IOException exception) {
+			Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while loading font from %s: %s", path, exception.getMessage());
+			return false;
+		}
 	}
 
 	public static final Font getFont(String identifier) {
