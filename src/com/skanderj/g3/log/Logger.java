@@ -63,17 +63,17 @@ public final class Logger {
 
 		@Override
 		public PrintStream printf(String format, Object... args) {
-			return this.printStream.printf(Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + format + " (please do not print directly to the console, use Logger.log(...) instead)", args);
+			return this.printStream.printf(Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + format, args);
 		}
 
 		@Override
 		public PrintStream printf(Locale l, String format, Object... args) {
-			return this.printStream.printf(l, Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + format + " (please do not print directly to the console, use Logger.log(...) instead)", args);
+			return this.printStream.printf(l, Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + format, args);
 		}
 
 		@Override
 		public void print(Object obj) {
-			this.printStream.print(Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + obj + " (please do not print directly to the console, use Logger.log(...) instead)");
+			this.printStream.print(Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + obj);
 		}
 
 		@Override
@@ -118,7 +118,7 @@ public final class Logger {
 
 		@Override
 		public void println(Object x) {
-			this.printStream.println(Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + x + " (please do not print directly to the console, use Logger.log(...) instead)");
+			this.printStream.println(Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + x);
 		}
 
 		@Override

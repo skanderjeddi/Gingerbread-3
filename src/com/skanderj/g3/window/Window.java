@@ -59,6 +59,7 @@ public abstract class Window {
 		switch (device.getType()) {
 		case KEYBOARD:
 			this.canvas.addKeyListener((KeyListener) device);
+			this.canvas.setFocusTraversalKeysEnabled(false);
 			break;
 		case MOUSE:
 			this.canvas.addMouseListener((MouseListener) device);

@@ -1,12 +1,16 @@
 package com.skanderj.g3.inputdevice;
 
+import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.skanderj.g3.log.Logger;
+import com.skanderj.g3.log.Logger.LogLevel;
+
 public class Keyboard extends KeyAdapter implements InputDevice {
-	private static final int KEY_COUNT = 256;
+	private static final int KEY_COUNT = 65536;
 
 	public static final int KEY_ENTER = KeyEvent.VK_ENTER;
 	public static final int KEY_BACK_SPACE = KeyEvent.VK_BACK_SPACE;
@@ -247,6 +251,18 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 		}
 	}
 
+	public synchronized boolean isShiftDown() {
+		return this.isKeyDown(Keyboard.KEY_SHIFT);
+	}
+
+	public synchronized boolean isCapsLocked() {
+		return Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK);
+	}
+
+	public synchronized boolean isAltGrDown() {
+		return this.isKeyDown(17) && this.isKeyDown(18);
+	}
+
 	public static enum KeyState {
 		UP, DOWN, DOWN_IN_FRAME;
 	}
@@ -255,28 +271,466 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 		List<Integer> keys = new ArrayList<Integer>();
 		switch (state) {
 		case DOWN:
-			for (int keycode = 0; keycode < 255; keycode += 1) {
-				if (isKeyDown(keycode)) {
+			for (int keycode = 0; keycode < Keyboard.KEY_COUNT; keycode += 1) {
+				if (this.isKeyDown(keycode)) {
 					keys.add(keycode);
 				}
 			}
-			return (Integer[]) keys.toArray(new Integer[keys.size()]);
+			return keys.toArray(new Integer[keys.size()]);
 		case DOWN_IN_FRAME:
-			for (int keycode = 0; keycode < 255; keycode += 1) {
-				if (isKeyDownInFrame(keycode)) {
+			for (int keycode = 0; keycode < Keyboard.KEY_COUNT; keycode += 1) {
+				if (this.isKeyDownInFrame(keycode)) {
 					keys.add(keycode);
 				}
 			}
-			return (Integer[]) keys.toArray(new Integer[keys.size()]);
+			return keys.toArray(new Integer[keys.size()]);
 		case UP:
-			for (int keycode = 0; keycode < 255; keycode += 1) {
-				if (!isKeyDown(keycode) && !isKeyDownInFrame(keycode)) {
+			for (int keycode = 0; keycode < Keyboard.KEY_COUNT; keycode += 1) {
+				if (!this.isKeyDown(keycode) && !this.isKeyDownInFrame(keycode)) {
 					keys.add(keycode);
 				}
 			}
-			return (Integer[]) keys.toArray(new Integer[keys.size()]);
+			return keys.toArray(new Integer[keys.size()]);
 		}
 		return new Integer[0];
+	}
+
+	public static final String getKeyName(int keycode) {
+		switch (keycode) {
+		case Keyboard.KEY_0:
+			return "0";
+		case Keyboard.KEY_1:
+			return "1";
+		case Keyboard.KEY_2:
+			return "2";
+		case Keyboard.KEY_3:
+			return "3";
+		case Keyboard.KEY_4:
+			return "4";
+		case Keyboard.KEY_5:
+			return "5";
+		case Keyboard.KEY_6:
+			return "6";
+		case Keyboard.KEY_7:
+			return "7";
+		case Keyboard.KEY_8:
+			return "8";
+		case Keyboard.KEY_9:
+			return "9";
+		case Keyboard.KEY_SPACE:
+			return "[SPACE]";
+		case Keyboard.KEY_ENTER:
+			return "[ENTER]";
+		case Keyboard.KEY_BACK_SPACE:
+			return "[BACKSPACE]";
+		case Keyboard.KEY_ESCAPE:
+			return "[ESCAPE]";
+		case Keyboard.KEY_A:
+			return "A";
+		case Keyboard.KEY_Z:
+			return "Z";
+		case Keyboard.KEY_E:
+			return "E";
+		case Keyboard.KEY_R:
+			return "R";
+		case Keyboard.KEY_T:
+			return "T";
+		case Keyboard.KEY_Y:
+			return "Y";
+		case Keyboard.KEY_U:
+			return "U";
+		case Keyboard.KEY_I:
+			return "I";
+		case Keyboard.KEY_O:
+			return "O";
+		case Keyboard.KEY_P:
+			return "P";
+		case Keyboard.KEY_Q:
+			return "Q";
+		case Keyboard.KEY_S:
+			return "S";
+		case Keyboard.KEY_D:
+			return "D";
+		case Keyboard.KEY_F:
+			return "F";
+		case Keyboard.KEY_G:
+			return "G";
+		case Keyboard.KEY_H:
+			return "H";
+		case Keyboard.KEY_J:
+			return "J";
+		case Keyboard.KEY_K:
+			return "K";
+		case Keyboard.KEY_L:
+			return "L";
+		case Keyboard.KEY_M:
+			return "M";
+		case Keyboard.KEY_W:
+			return "W";
+		case Keyboard.KEY_X:
+			return "X";
+		case Keyboard.KEY_C:
+			return "C";
+		case Keyboard.KEY_V:
+			return "V";
+		case Keyboard.KEY_B:
+			return "B";
+		case Keyboard.KEY_N:
+			return "N";
+		case Keyboard.KEY_COLON:
+			return ":";
+		case Keyboard.KEY_SEMICOLON:
+			return ";";
+		case Keyboard.KEY_COMMA:
+			return ",";
+		case Keyboard.KEY_EXCLAMATION_MARK:
+			return "!";
+		case Keyboard.KEY_SHIFT:
+			return "[SHIFT]";
+		default:
+			return "?";
+		}
+	}
+
+	public static final String getKeyRepresentation(int keycode, boolean shiftDown, boolean capsLocked, boolean altGrDown) {
+		Logger.log(Keyboard.class, LogLevel.DEBUG, "Key %d has been pressed..", keycode);
+		switch (keycode) {
+		case Keyboard.KEY_0:
+			if (altGrDown) {
+				return "@";
+			} else if (shiftDown) {
+				return "0";
+			} else if (capsLocked) {
+				return "À";
+			} else {
+				return "à";
+			}
+		case Keyboard.KEY_1:
+			if (shiftDown ^ capsLocked) {
+				return "1";
+			} else {
+				return "&";
+			}
+		case 131:
+			return "~";
+		case Keyboard.KEY_2:
+			if (altGrDown) {
+				return Keyboard.getKeyRepresentation(131, shiftDown, capsLocked, altGrDown);
+			} else if (shiftDown) {
+				return "2";
+			} else if (capsLocked) {
+				return "É";
+			} else {
+				return "é";
+			}
+		case Keyboard.KEY_3:
+			if (altGrDown) {
+				return "#";
+			} else if (shiftDown ^ capsLocked) {
+				return "3";
+			} else {
+				return "\"";
+			}
+		case Keyboard.KEY_4:
+			if (altGrDown) {
+				return "{";
+			} else if (shiftDown ^ capsLocked) {
+				return "4";
+			} else {
+				return "'";
+			}
+		case Keyboard.KEY_5:
+			if (altGrDown) {
+				return "[";
+			} else if (shiftDown ^ capsLocked) {
+				return "5";
+			} else {
+				return "(";
+			}
+		case Keyboard.KEY_6:
+			if (altGrDown) {
+				return "|";
+			} else if (shiftDown ^ capsLocked) {
+				return "6";
+			} else {
+				return "-";
+			}
+		case 128:
+			return "`";
+		case Keyboard.KEY_7:
+			if (altGrDown) {
+				return Keyboard.getKeyRepresentation(128, shiftDown, capsLocked, altGrDown);
+			} else if (shiftDown) {
+				return "7";
+			} else if (capsLocked) {
+				return "È";
+			} else {
+				return "è";
+			}
+		case Keyboard.KEY_8:
+			if (altGrDown) {
+				return "\\";
+			} else if (shiftDown ^ capsLocked) {
+				return "8";
+			} else {
+				return "_";
+			}
+		case Keyboard.KEY_9:
+			if (altGrDown) {
+				return "^";
+			} else if (shiftDown) {
+				return "9";
+			} else if (capsLocked) {
+				return "Ç";
+			} else {
+				return "ç";
+			}
+		case Keyboard.KEY_RIGHT_PARENTHESIS:
+			if (altGrDown) {
+				return "]";
+			} else if (shiftDown ^ capsLocked) {
+				return "°";
+			} else {
+				return ")";
+			}
+		case Keyboard.KEY_EQUALS:
+			if (altGrDown) {
+				return "}";
+			} else if (shiftDown ^ capsLocked) {
+				return "+";
+			} else {
+				return "=";
+			}
+		case Keyboard.KEY_EXCLAMATION_MARK:
+			if (shiftDown ^ capsLocked) {
+				return "§";
+			} else {
+				return "!";
+			}
+		case 153:
+			if (shiftDown ^ capsLocked) {
+				return ">";
+			} else {
+				return "<";
+			}
+		case Keyboard.KEY_COLON:
+			if (shiftDown ^ capsLocked) {
+				return "/";
+			} else {
+				return ":";
+			}
+		case Keyboard.KEY_SEMICOLON:
+			if (shiftDown ^ capsLocked) {
+				return ".";
+			} else {
+				return ";";
+			}
+		case Keyboard.KEY_COMMA:
+			if (shiftDown ^ capsLocked) {
+				return "?";
+			} else {
+				return ",";
+			}
+		case Keyboard.KEY_SPACE:
+			return " ";
+		case Keyboard.KEY_SHIFT:
+		case Keyboard.KEY_ENTER:
+		case Keyboard.KEY_BACK_SPACE:
+		case Keyboard.KEY_ESCAPE:
+		case Keyboard.KEY_CAPS_LOCK:
+		case Keyboard.KEY_CONTROL:
+		case Keyboard.KEY_ALT:
+		case Keyboard.KEY_ALT_GRAPH:
+		case Keyboard.KEY_UP:
+		case Keyboard.KEY_DOWN:
+		case Keyboard.KEY_LEFT:
+		case Keyboard.KEY_RIGHT:
+			return "";
+		case Keyboard.KEY_A:
+			if (shiftDown ^ capsLocked) {
+				return "A";
+			} else {
+				return "a";
+			}
+		case Keyboard.KEY_Z:
+			if (shiftDown ^ capsLocked) {
+				return "z";
+			} else {
+				return "z";
+			}
+		case Keyboard.KEY_E:
+			if (shiftDown ^ capsLocked) {
+				return "E";
+			} else {
+				return "e";
+			}
+		case Keyboard.KEY_R:
+			if (shiftDown ^ capsLocked) {
+				return "R";
+			} else {
+				return "r";
+			}
+		case Keyboard.KEY_T:
+			if (shiftDown ^ capsLocked) {
+				return "T";
+			} else {
+				return "t";
+			}
+		case Keyboard.KEY_Y:
+			if (shiftDown ^ capsLocked) {
+				return "Y";
+			} else {
+				return "y";
+			}
+		case Keyboard.KEY_U:
+			if (shiftDown ^ capsLocked) {
+				return "U";
+			} else {
+				return "u";
+			}
+		case Keyboard.KEY_I:
+			if (shiftDown ^ capsLocked) {
+				return "I";
+			} else {
+				return "i";
+			}
+		case Keyboard.KEY_O:
+			if (shiftDown ^ capsLocked) {
+				return "O";
+			} else {
+				return "o";
+			}
+		case Keyboard.KEY_P:
+			if (shiftDown ^ capsLocked) {
+				return "P";
+			} else {
+				return "p";
+			}
+		case Keyboard.KEY_Q:
+			if (shiftDown ^ capsLocked) {
+				return "Q";
+			} else {
+				return "q";
+			}
+		case Keyboard.KEY_S:
+			if (shiftDown ^ capsLocked) {
+				return "S";
+			} else {
+				return "s";
+			}
+		case Keyboard.KEY_D:
+			if (shiftDown ^ capsLocked) {
+				return "D";
+			} else {
+				return "d";
+			}
+		case Keyboard.KEY_F:
+			if (shiftDown ^ capsLocked) {
+				return "F";
+			} else {
+				return "f";
+			}
+		case Keyboard.KEY_G:
+			if (shiftDown ^ capsLocked) {
+				return "G";
+			} else {
+				return "g";
+			}
+		case Keyboard.KEY_H:
+			if (shiftDown ^ capsLocked) {
+				return "H";
+			} else {
+				return "h";
+			}
+		case Keyboard.KEY_J:
+			if (shiftDown ^ capsLocked) {
+				return "J";
+			} else {
+				return "j";
+			}
+		case Keyboard.KEY_K:
+			if (shiftDown ^ capsLocked) {
+				return "K";
+			} else {
+				return "k";
+			}
+		case Keyboard.KEY_L:
+			if (shiftDown ^ capsLocked) {
+				return "L";
+			} else {
+				return "l";
+			}
+		case Keyboard.KEY_M:
+			if (shiftDown ^ capsLocked) {
+				return "M";
+			} else {
+				return "m";
+			}
+		case Keyboard.KEY_W:
+			if (shiftDown ^ capsLocked) {
+				return "W";
+			} else {
+				return "w";
+			}
+		case Keyboard.KEY_X:
+			if (shiftDown ^ capsLocked) {
+				return "X";
+			} else {
+				return "x";
+			}
+		case Keyboard.KEY_C:
+			if (shiftDown ^ capsLocked) {
+				return "C";
+			} else {
+				return "c";
+			}
+		case Keyboard.KEY_V:
+			if (shiftDown ^ capsLocked) {
+				return "V";
+			} else {
+				return "v";
+			}
+		case Keyboard.KEY_B:
+			if (shiftDown ^ capsLocked) {
+				return "B";
+			} else {
+				return "b";
+			}
+		case Keyboard.KEY_N:
+			if (shiftDown ^ capsLocked) {
+				return "N";
+			} else {
+				return "n";
+			}
+		case 0:
+			if (shiftDown ^ capsLocked) {
+				return "%";
+			} else {
+				return "ù";
+			}
+		case Keyboard.KEY_DOLLAR:
+			if (shiftDown ^ capsLocked) {
+				return "£";
+			} else {
+				return "$";
+			}
+		case Keyboard.KEY_ASTERISK:
+			if (shiftDown ^ capsLocked) {
+				return "µ";
+			} else {
+				return "*";
+			}
+		case 130:
+			if (shiftDown ^ capsLocked) {
+				return "¨";
+			} else {
+				return "^";
+			}
+		case Keyboard.KEY_TAB:
+			return "    ";
+		default:
+			return "(" + keycode + ")";
+		}
 	}
 
 	@Override

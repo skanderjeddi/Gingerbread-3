@@ -1,18 +1,19 @@
 package com.skanderj.g3;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
 import com.skanderj.g3.audio.AudioManager;
 import com.skanderj.g3.inputdevice.Keyboard;
+import com.skanderj.g3.inputdevice.Keyboard.KeyState;
 import com.skanderj.g3.inputdevice.Mouse;
+import com.skanderj.g3.io.FontManager;
 import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
 import com.skanderj.g3.util.Utilities;
@@ -23,17 +24,20 @@ public final class G3 {
 	public static boolean DEBUG = true;
 
 	private static Color backgroundColor = Color.BLACK;
+
 	private static List<String> toDraw = new ArrayList<String>();
+	private static String currentString = "";
 
 	public static void main(String[] args) {
 		Logger.redirectSystemOutput();
 		Logger.log(G3.class, LogLevel.INFO, "Gingerbread3 version %s - by SkanderJ", G3.VERSION);
 		try {
-			AudioManager.registerAudio("theme", "res/silhouette.wav");
-		} catch (IOException | UnsupportedAudioFileException exception) {
+			FontManager.registerFont("main_font", "res/fonts/main_font.ttf");
+		} catch (FontFormatException | IOException exception) {
 			exception.printStackTrace();
 			System.exit(-1);
 		}
+		AudioManager.registerAudio("theme", "res/audios/silhouette.wav");
 		Window window = new Window.Fullscreen(null, "G3", 3, 1);
 		Keyboard keyboard = new Keyboard();
 		Mouse mouse = new Mouse();
@@ -42,14 +46,10 @@ public final class G3 {
 		window.registerInput(mouse);
 		window.show();
 		window.requestFocus();
-		try {
-			AudioManager.loopAudio("theme", -1);
-		} catch (IOException | LineUnavailableException | InterruptedException exception) {
-			exception.printStackTrace();
-		}
+		AudioManager.loopAudio("theme", -1);
 		while (!window.isCloseRequested()) {
-			update(window, keyboard, mouse);
-			render(window);
+			G3.update(window, keyboard, mouse);
+			G3.render(window);
 			try {
 				Thread.sleep(1000 / 60);
 			} catch (InterruptedException interruptedException) {
@@ -62,7 +62,7 @@ public final class G3 {
 
 	private static final void update(Window window, Keyboard keyboard, Mouse mouse) {
 		if (keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-			backgroundColor = Utilities.randomColor(false);
+			G3.backgroundColor = Utilities.randomColor(false);
 		}
 		if (keyboard.isKeyDownInFrame(Keyboard.KEY_ESCAPE)) {
 			window.requestClosing();
@@ -80,10 +80,20 @@ public final class G3 {
 		}
 		float volume = Utilities.map(mouse.getX(), 0, window.getWidth(), 0, 1.0f, true);
 		AudioManager.setVolume("theme", volume);
-		toDraw.clear();
-		Integer[] downs = keyboard.getKeysByState(Keyboard.KeyState.DOWN);
-		for (Integer intg : downs) {
-			toDraw.add(Utilities.keyName(intg));
+		for (int keyCode : keyboard.getKeysByState(KeyState.DOWN_IN_FRAME)) {
+			if (keyCode == Keyboard.KEY_ENTER) {
+				G3.toDraw.add(G3.currentString);
+				G3.currentString = "";
+				break;
+			}
+			if (keyCode == Keyboard.KEY_BACK_SPACE) {
+				if (!G3.currentString.isEmpty()) {
+					G3.currentString = G3.currentString.substring(0, G3.currentString.length() - 1);
+					break;
+				}
+			}
+			String key = Keyboard.getKeyRepresentation(keyCode, keyboard.isShiftDown(), keyboard.isCapsLocked(), keyboard.isAltGrDown());
+			G3.currentString += key;
 		}
 		keyboard.update();
 		mouse.update();
@@ -94,14 +104,17 @@ public final class G3 {
 		Graphics2D graphics = (Graphics2D) bufferStrategy.getDrawGraphics();
 		graphics.setColor(Color.BLACK);
 		graphics.fillRect(0, 0, window.getWidth(), window.getHeight());
-		graphics.setColor(backgroundColor);
+		graphics.setColor(G3.backgroundColor);
 		graphics.fillRect(0, 0, window.getWidth(), window.getHeight());
 		graphics.setColor(Color.WHITE);
-		String td = new String();
-		for (String s : toDraw) {
-			td += s;
+		graphics.setFont(new Font("Times New Roman", Font.PLAIN, 48));
+		int counter = 0;
+		for (String s : G3.toDraw) {
+			graphics.drawString(s, 20, 40 + (40 * counter));
+			counter += 1;
 		}
-		graphics.drawString(td, 20, 20);
+		graphics.drawString(G3.currentString, 20, 40 + (40 * (counter + 1)));
+		graphics.drawString(String.format("Volume: %.2f", AudioManager.getVolume("theme") * 100) + "%", window.getWidth() - 350, window.getHeight() - 40);
 		graphics.dispose();
 		bufferStrategy.show();
 	}
