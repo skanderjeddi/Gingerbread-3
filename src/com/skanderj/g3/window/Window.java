@@ -55,7 +55,7 @@ public abstract class Window {
 	public abstract void resize();
 
 	public void registerInput(InputDevice device) {
-		Logger.log(Window.class, LogLevel.DEBUG, "Registering input deviceId (type=%s)", device.getType().name());
+		Logger.log(Window.class, LogLevel.DEBUG, "Registering input device (type=%s)", device.getType().name());
 		switch (device.getType()) {
 		case KEYBOARD:
 			this.canvas.addKeyListener((KeyListener) device);

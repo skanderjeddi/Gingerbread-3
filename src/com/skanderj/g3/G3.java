@@ -17,7 +17,7 @@ import com.skanderj.g3.util.Utilities;
 import com.skanderj.g3.window.Window;
 
 public final class G3 {
-	private static final String VERSION = "B.1";
+	private static final String VERSION = "A.01";
 	public static boolean DEBUG = true;
 
 	private static Color backgroundColor = Color.BLACK;
