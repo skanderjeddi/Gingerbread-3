@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -21,6 +23,7 @@ public final class G3 {
 	public static boolean DEBUG = true;
 
 	private static Color backgroundColor = Color.BLACK;
+	private static List<String> toDraw = new ArrayList<String>();
 
 	public static void main(String[] args) {
 		Logger.redirectSystemOutput();
@@ -77,6 +80,11 @@ public final class G3 {
 		}
 		float volume = Utilities.map(mouse.getX(), 0, window.getWidth(), 0, 1.0f, true);
 		AudioManager.setVolume("theme", volume);
+		toDraw.clear();
+		Integer[] downs = keyboard.getKeysByState(Keyboard.KeyState.DOWN);
+		for (Integer intg : downs) {
+			toDraw.add(Utilities.keyName(intg));
+		}
 		keyboard.update();
 		mouse.update();
 	}
@@ -88,6 +96,12 @@ public final class G3 {
 		graphics.fillRect(0, 0, window.getWidth(), window.getHeight());
 		graphics.setColor(backgroundColor);
 		graphics.fillRect(0, 0, window.getWidth(), window.getHeight());
+		graphics.setColor(Color.WHITE);
+		String td = new String();
+		for (String s : toDraw) {
+			td += s;
+		}
+		graphics.drawString(td, 20, 20);
 		graphics.dispose();
 		bufferStrategy.show();
 	}

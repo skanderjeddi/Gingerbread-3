@@ -2,6 +2,8 @@ package com.skanderj.g3.inputdevice;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Keyboard extends KeyAdapter implements InputDevice {
 	private static final int KEY_COUNT = 256;
@@ -245,8 +247,36 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 		}
 	}
 
-	private static enum KeyState {
+	public static enum KeyState {
 		UP, DOWN, DOWN_IN_FRAME;
+	}
+
+	public synchronized final Integer[] getKeysByState(KeyState state) {
+		List<Integer> keys = new ArrayList<Integer>();
+		switch (state) {
+		case DOWN:
+			for (int keycode = 0; keycode < 255; keycode += 1) {
+				if (isKeyDown(keycode)) {
+					keys.add(keycode);
+				}
+			}
+			return (Integer[]) keys.toArray(new Integer[keys.size()]);
+		case DOWN_IN_FRAME:
+			for (int keycode = 0; keycode < 255; keycode += 1) {
+				if (isKeyDownInFrame(keycode)) {
+					keys.add(keycode);
+				}
+			}
+			return (Integer[]) keys.toArray(new Integer[keys.size()]);
+		case UP:
+			for (int keycode = 0; keycode < 255; keycode += 1) {
+				if (!isKeyDown(keycode) && !isKeyDownInFrame(keycode)) {
+					keys.add(keycode);
+				}
+			}
+			return (Integer[]) keys.toArray(new Integer[keys.size()]);
+		}
+		return new Integer[0];
 	}
 
 	@Override
