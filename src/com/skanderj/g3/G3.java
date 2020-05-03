@@ -1,5 +1,8 @@
 package com.skanderj.g3;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferStrategy;
 import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -29,7 +32,7 @@ public final class G3 {
 		Window window = new Window.Regular(null, "G3", 800, 600, 3);
 		Keyboard keyboard = new Keyboard();
 		Mouse mouse = new Mouse();
-		//window.create();
+		window.create();
 		window.registerInput(keyboard);
 		window.registerInput(mouse);
 		window.show();
@@ -39,23 +42,8 @@ public final class G3 {
 			exception.printStackTrace();
 		}
 		while (!window.isCloseRequested()) {
-			if (keyboard.isKeyDownInFrame(Keyboard.KEY_SPACE)) {
-				System.out.println("space");
-			}
-			if (keyboard.isKeyDownInFrame(Keyboard.KEY_ESCAPE)) {
-				window.requestClosing();
-			}
-			if (mouse.isButtonDownInFrame(Mouse.BUTTON_LEFT)) {
-				if (AudioManager.isAudioPaused("theme")) {
-					AudioManager.resumeAudio("theme");
-				} else {
-					AudioManager.pauseAudio("theme");
-				}
-			}
-			float volume = Utilities.map(mouse.getX(), 0, 800, 0, 1.0f, true);
-			AudioManager.setVolume("theme", volume);
-			keyboard.update();
-			mouse.update();
+			update(window, keyboard, mouse);
+			render(window);
 			try {
 				Thread.sleep(1000 / 60);
 			} catch (InterruptedException interruptedException) {
@@ -64,5 +52,35 @@ public final class G3 {
 		}
 		window.hide();
 		System.exit(0);
+	}
+
+	private static final void update(Window window, Keyboard keyboard, Mouse mouse) {
+		if (keyboard.isKeyDownInFrame(Keyboard.KEY_SPACE)) {
+			System.out.println("space");
+		}
+		if (keyboard.isKeyDownInFrame(Keyboard.KEY_ESCAPE)) {
+			window.requestClosing();
+		}
+		if (mouse.isButtonDownInFrame(Mouse.BUTTON_LEFT)) {
+			if (AudioManager.isAudioPaused("theme")) {
+				AudioManager.resumeAudio("theme");
+			} else {
+				AudioManager.pauseAudio("theme");
+			}
+			System.out.println(mouse.getX());
+		}
+		float volume = Utilities.map(mouse.getX(), 0, 800, 0, 1.0f, true);
+		AudioManager.setVolume("theme", volume);
+		keyboard.update();
+		mouse.update();
+	}
+
+	private static final void render(Window window) {
+		BufferStrategy bufferStrategy = window.getBufferStrategy();
+		Graphics2D graphics = (Graphics2D) bufferStrategy.getDrawGraphics();
+		graphics.setColor(Color.BLACK);
+		graphics.fillRect(0, 0, window.getWidth(), window.getHeight());
+		graphics.dispose();
+		bufferStrategy.show();
 	}
 }
