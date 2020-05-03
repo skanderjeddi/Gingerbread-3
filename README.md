@@ -1,5 +1,5 @@
-# Gingerbread3
-A new, improved version of the Gingerbread engine for Java 2D games
+# G3
+The third and latest version of my Gingerbread engine for Java 2D games
 
 ## Getting Started
 
