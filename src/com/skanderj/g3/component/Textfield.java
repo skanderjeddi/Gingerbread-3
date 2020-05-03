@@ -18,7 +18,7 @@ public class Textfield {
 	private int x, y, width, height;
 	private Color backgroundColor, foregroundColor;
 	private Font font;
-	private List<String> text = new ArrayList<String>();
+	private List<String> text;
 	private String currentString;
 	private boolean hatCarry, twoPointsCarry, cursorBlink;
 	private int blinkRate, blinkTimer;
@@ -33,6 +33,7 @@ public class Textfield {
 		this.backgroundColor = background;
 		this.foregroundColor = foreground;
 		this.font = font;
+		this.text = new ArrayList<String>();
 		this.currentString = new String();
 		this.multiline = multiline;
 		this.hatCarry = false;

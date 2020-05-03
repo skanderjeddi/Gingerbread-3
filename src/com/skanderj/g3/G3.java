@@ -6,6 +6,7 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferStrategy;
 
 import com.skanderj.g3.audio.AudioManager;
+import com.skanderj.g3.component.Button;
 import com.skanderj.g3.component.Textfield;
 import com.skanderj.g3.inputdevice.Keyboard;
 import com.skanderj.g3.inputdevice.Mouse;
@@ -19,6 +20,7 @@ public final class G3 {
 	public static boolean DEBUG = true;
 
 	private static Textfield smallArea, largeArea;
+	private static Button button;
 
 	public static void main(String[] args) {
 		Logger.redirectSystemOutput();
@@ -34,8 +36,24 @@ public final class G3 {
 		window.show();
 		G3.smallArea = new Textfield(50, 50, window.getWidth() - 100, 50, Color.PINK, Color.BLACK, FontManager.getFont("roboto", 48), false);
 		G3.largeArea = new Textfield(50, 125, window.getWidth() - 100, 200, Color.PINK, Color.BLACK, FontManager.getFont("roboto", 48), true);
+		G3.button = new Button.RoundEdge(100, 400, 100, 60, "Pause", FontManager.getFont("roboto", 24), Color.GRAY, Color.BLACK, Color.WHITE, Color.GRAY, 16) {
+			@Override
+			public void update(double delta, Keyboard keyboard, Mouse mouse) {
+				if (this.containsMouse(mouse)) {
+					if (mouse.isButtonDownInFrame(Mouse.BUTTON_LEFT)) {
+						if (AudioManager.isAudioPaused("theme")) {
+							AudioManager.resumeAudio("theme");
+							this.setString("Pause");
+						} else {
+							AudioManager.pauseAudio("theme");
+							this.setString("Resume");
+						}
+					}
+				}
+			}
+		};
 		window.requestFocus();
-		// AudioManager.loopAudio("theme", -1);
+		AudioManager.loopAudio("theme", -1);
 		while (!window.isCloseRequested()) {
 			G3.update(window, keyboard, mouse);
 			G3.render(window);
@@ -70,6 +88,7 @@ public final class G3 {
 		// AudioManager.setVolume("theme", volume);
 		G3.smallArea.update(window, keyboard, mouse);
 		G3.largeArea.update(window, keyboard, mouse);
+		G3.button.update(0, keyboard, mouse);
 		keyboard.update();
 		mouse.update();
 	}
@@ -89,6 +108,7 @@ public final class G3 {
 		graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 		G3.smallArea.render(window, graphics);
 		G3.largeArea.render(window, graphics);
+		G3.button.render(window, graphics);
 //		graphics.setColor(Color.WHITE);
 //		graphics.drawString(String.format("Volume: %.2f", AudioManager.getVolume("theme") * 100) + "%", window.getWidth() - 350, window.getHeight() - 40);
 		graphics.dispose();
