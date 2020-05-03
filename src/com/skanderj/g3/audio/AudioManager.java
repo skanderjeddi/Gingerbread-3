@@ -1,4 +1,4 @@
-package com.skanderj.g3.sound;
+package com.skanderj.g3.audio;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

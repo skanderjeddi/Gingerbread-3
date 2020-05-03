@@ -6,7 +6,7 @@ import java.util.Scanner;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import com.skanderj.g3.sound.AudioManager;
+import com.skanderj.g3.audio.AudioManager;
 
 public final class G3 {
 	private static final String VERSION = "B.1";
