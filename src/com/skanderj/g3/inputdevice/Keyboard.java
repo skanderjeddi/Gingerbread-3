@@ -545,6 +545,7 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 		case Keyboard.KEY_DOWN:
 		case Keyboard.KEY_LEFT:
 		case Keyboard.KEY_RIGHT:
+		case Keyboard.KEY_DELETE:
 			return "";
 		case Keyboard.KEY_A:
 			if (shiftDown ^ capsLocked) {
