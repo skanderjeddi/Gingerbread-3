@@ -12,7 +12,6 @@ import com.skanderj.g3.inputdevice.Mouse;
 import com.skanderj.g3.io.FontManager;
 import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
-import com.skanderj.g3.util.Utilities;
 import com.skanderj.g3.window.Window;
 
 public final class G3 {
@@ -26,7 +25,7 @@ public final class G3 {
 		Logger.log(G3.class, LogLevel.INFO, "Gingerbread3 version %s - by SkanderJ", G3.VERSION);
 		FontManager.registerFont("roboto", "res/fonts/roboto.ttf");
 		AudioManager.registerAudio("theme", "res/audios/silhouette.wav");
-		Window window = new Window.Fullscreen(null, "G3", 3, 1);
+		Window window = new Window.Fullscreen(null, "G3", 3, 0);
 		Keyboard keyboard = new Keyboard();
 		Mouse mouse = new Mouse();
 		window.create();
@@ -36,7 +35,7 @@ public final class G3 {
 		G3.smallArea = new Textfield(50, 50, window.getWidth() - 100, 50, Color.PINK, Color.BLACK, FontManager.getFont("roboto", 48), false);
 		G3.largeArea = new Textfield(50, 125, window.getWidth() - 100, 200, Color.PINK, Color.BLACK, FontManager.getFont("roboto", 48), true);
 		window.requestFocus();
-		AudioManager.loopAudio("theme", -1);
+		// AudioManager.loopAudio("theme", -1);
 		while (!window.isCloseRequested()) {
 			G3.update(window, keyboard, mouse);
 			G3.render(window);
@@ -66,11 +65,9 @@ public final class G3 {
 				G3.largeArea.removeFocus();
 			}
 		}
-		if (mouse.isButtonDownInFrame(Mouse.BUTTON_RIGHT)) {
-			Logger.log(mouse.getClass(), LogLevel.INFO, "A random number between -10 and 10: %d", Utilities.randomInteger(-10, 10));
-		}
-		float volume = Utilities.map(mouse.getX(), 0, window.getWidth(), 0, 1.0f, true);
-		AudioManager.setVolume("theme", volume);
+		// float volume = Utilities.map(mouse.getX(), 0, window.getWidth(), 0, 1.0f,
+		// true);
+		// AudioManager.setVolume("theme", volume);
 		G3.smallArea.update(window, keyboard, mouse);
 		G3.largeArea.update(window, keyboard, mouse);
 		keyboard.update();
@@ -92,8 +89,8 @@ public final class G3 {
 		graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 		G3.smallArea.render(window, graphics);
 		G3.largeArea.render(window, graphics);
-		graphics.setColor(Color.WHITE);
-		graphics.drawString(String.format("Volume: %.2f", AudioManager.getVolume("theme") * 100) + "%", window.getWidth() - 350, window.getHeight() - 40);
+//		graphics.setColor(Color.WHITE);
+//		graphics.drawString(String.format("Volume: %.2f", AudioManager.getVolume("theme") * 100) + "%", window.getWidth() - 350, window.getHeight() - 40);
 		graphics.dispose();
 		bufferStrategy.show();
 	}

@@ -23,7 +23,7 @@ public class Textfield {
 	private boolean hatCarry, twoPointsCarry, cursorBlink;
 	private int blinkRate, blinkTimer;
 	private boolean multiline, hasFocus;
-	private int cursor;
+	private int cursor, lineCounter;
 
 	public Textfield(int x, int y, int width, int height, Color background, Color foreground, Font font, boolean multiline) {
 		this.x = x;
@@ -43,6 +43,7 @@ public class Textfield {
 		this.multiline = multiline;
 		this.hasFocus = false;
 		this.cursor = 0;
+		this.lineCounter = 0;
 	}
 
 	public final void giveFocus() {
@@ -86,11 +87,11 @@ public class Textfield {
 					if (!this.currentString.isEmpty() && (this.cursor != 0)) {
 						char[] newChar = new char[this.currentString.length() - 1];
 						boolean hasSkipped = false;
-						for (int i = 0; i < (this.currentString.length() - 1); i += 1) {
-							if (i == (this.cursor - 1)) {
+						for (int index = 0; index < (this.currentString.length() - 1); index += 1) {
+							if (index == (this.cursor - 1)) {
 								hasSkipped = true;
 							}
-							newChar[i] = this.currentString.toCharArray()[hasSkipped ? i + 1 : i];
+							newChar[index] = this.currentString.toCharArray()[hasSkipped ? index + 1 : index];
 						}
 						this.currentString = new String(newChar);
 						this.cursor -= 1;
@@ -103,11 +104,11 @@ public class Textfield {
 					} else {
 						char[] newChar = new char[this.currentString.length() - 1];
 						boolean hasSkipped = false;
-						for (int i = 0; i < (this.currentString.length() - 1); i += 1) {
-							if (i == this.cursor) {
+						for (int index = 0; index < (this.currentString.length() - 1); index += 1) {
+							if (index == this.cursor) {
 								hasSkipped = true;
 							}
-							newChar[i] = this.currentString.toCharArray()[hasSkipped ? i + 1 : i];
+							newChar[index] = this.currentString.toCharArray()[hasSkipped ? index + 1 : index];
 						}
 						this.currentString = new String(newChar);
 						break;
@@ -161,21 +162,21 @@ public class Textfield {
 					newChar[this.cursor + 1] = key.charAt(0);
 					newChar[this.cursor + 2] = key.charAt(0);
 					newChar[this.cursor + 3] = key.charAt(0);
-					for (int i = 0; i < this.cursor; i += 1) {
-						newChar[i] = this.currentString.toCharArray()[i];
+					for (int index = 0; index < this.cursor; index += 1) {
+						newChar[index] = this.currentString.toCharArray()[index];
 					}
-					for (int i = this.cursor + 4; i < newChar.length; i += 1) {
-						newChar[i] = this.currentString.toCharArray()[i - 4];
+					for (int index = this.cursor + 4; index < newChar.length; index += 1) {
+						newChar[index] = this.currentString.toCharArray()[index - 4];
 					}
 				} else {
 					if (!key.isEmpty()) {
 						newChar = new char[this.currentString.toCharArray().length + 1];
 						newChar[this.cursor] = key.charAt(0);
-						for (int i = 0; i < this.cursor; i += 1) {
-							newChar[i] = this.currentString.toCharArray()[i];
+						for (int index = 0; index < this.cursor; index += 1) {
+							newChar[index] = this.currentString.toCharArray()[index];
 						}
-						for (int i = this.cursor + 1; i < newChar.length; i += 1) {
-							newChar[i] = this.currentString.toCharArray()[i - 1];
+						for (int index = this.cursor + 1; index < newChar.length; index += 1) {
+							newChar[index] = this.currentString.toCharArray()[index - 1];
 						}
 					}
 				}
@@ -198,19 +199,20 @@ public class Textfield {
 	public synchronized final void render(Window window, Graphics2D graphics) {
 		graphics.setColor(this.backgroundColor);
 		graphics.fillRect(this.x, this.y, this.width, this.height);
-		graphics.setColor(this.backgroundColor.darker());
+		graphics.setColor(this.backgroundColor.darker().darker());
 		graphics.drawRect(this.x, this.y, this.width, this.height);
 		graphics.setColor(this.foregroundColor);
 		graphics.setFont(this.font);
 		FontMetrics fontMetrics = graphics.getFontMetrics();
-		int counter = 0, cursorX = 0, cursorY = 0, cursorWidth = 0, cursorHeight = 0;
+		this.lineCounter = 0;
+		int cursorX = 0, cursorY = 0, cursorWidth = 0, cursorHeight = 0;
 		if (this.multiline) {
-			for (String s : this.text) {
-				graphics.drawString(s, this.x + 10, (this.y - (fontMetrics.getHeight() / 10)) + (fontMetrics.getHeight() * (counter + 1)));
-				counter += 1;
+			for (String line : this.text) {
+				graphics.drawString(line, this.x + 10, (this.y - (fontMetrics.getHeight() / 10)) + (fontMetrics.getHeight() * (this.lineCounter + 1)));
+				this.lineCounter += 1;
 			}
-			graphics.drawString(this.currentString, this.x + 10, (this.y - (fontMetrics.getHeight() / 10)) + (fontMetrics.getHeight() * (counter + 1)));
-			cursorY = (this.y - (fontMetrics.getHeight() / 7)) + (((fontMetrics.getHeight() * counter) + (fontMetrics.getHeight() / 2)) - (fontMetrics.getDescent() / 2));
+			graphics.drawString(this.currentString, this.x + 10, (this.y - (fontMetrics.getHeight() / 10)) + (fontMetrics.getHeight() * (this.lineCounter + 1)));
+			cursorY = (this.y - (fontMetrics.getHeight() / 7)) + (((fontMetrics.getHeight() * this.lineCounter) + (fontMetrics.getHeight() / 2)) - (fontMetrics.getDescent() / 2));
 			cursorX = this.x + this.stringWidth(fontMetrics, this.currentString, this.cursor) + 9;
 			cursorWidth = 2;
 			cursorHeight = fontMetrics.getAscent() - (fontMetrics.getDescent() / 2);
@@ -232,19 +234,19 @@ public class Textfield {
 	}
 
 	private final int stringWidth(FontMetrics metrics, String string, int cursor) {
-		int sum = 0;
+		int finalWidth = 0;
 		int counter = 0;
-		for (char c : string.toCharArray()) {
+		for (char character : string.toCharArray()) {
 			if (counter >= cursor) {
 				break;
 			}
-			sum += metrics.charWidth(c);
+			finalWidth += metrics.charWidth(character);
 			counter += 1;
 		}
-		return sum;
+		return finalWidth;
 	}
 
-	public final int drawCenteredString(Graphics2D graphics, final String string, final int x0, final int y0, final int height, final Font font, final Color color) {
+	public final int drawCenteredString(Graphics2D graphics, String string, int x0, int y0, int height, Font font, Color color) {
 		graphics.setFont(font);
 		graphics.setColor(color);
 		final FontMetrics fontMetrics = graphics.getFontMetrics();
