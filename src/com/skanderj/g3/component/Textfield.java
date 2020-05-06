@@ -22,7 +22,7 @@ public class Textfield {
 	private String currentString;
 	private boolean hatCarry, twoPointsCarry, cursorBlink;
 	private int blinkRate, blinkTimer;
-	private boolean multiline, hasFocus;
+	private boolean multiline, hasFocus, canAddLines;
 	private int cursor, lineCounter;
 
 	public Textfield(int x, int y, int width, int height, Color background, Color foreground, Font font, boolean multiline) {
@@ -30,6 +30,10 @@ public class Textfield {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.blinkRate = 15;
+		this.blinkTimer = 0;
+		this.cursor = 0;
+		this.lineCounter = 0;
 		this.backgroundColor = background;
 		this.foregroundColor = foreground;
 		this.font = font;
@@ -37,17 +41,14 @@ public class Textfield {
 		this.currentString = new String();
 		this.multiline = multiline;
 		this.hatCarry = false;
+		this.canAddLines = true;
 		this.twoPointsCarry = false;
 		this.cursorBlink = false;
-		this.blinkRate = 15;
-		this.blinkTimer = 0;
-		this.multiline = multiline;
 		this.hasFocus = false;
-		this.cursor = 0;
-		this.lineCounter = 0;
+
 	}
 
-	public final void giveFocus() {
+	public final void grantFocus() {
 		this.hasFocus = true;
 	}
 
@@ -78,10 +79,12 @@ public class Textfield {
 				}
 				if (keyCode == Keyboard.KEY_ENTER) {
 					if (this.multiline) {
-						this.text.add(this.currentString);
-						this.currentString = "";
-						this.cursor = 0;
-						break;
+						if (this.canAddLines) {
+							this.text.add(this.currentString);
+							this.currentString = "";
+							this.cursor = 0;
+							break;
+						}
 					}
 				}
 				if (keyCode == Keyboard.KEY_BACK_SPACE) {
@@ -120,39 +123,43 @@ public class Textfield {
 					this.hatCarry = true;
 					break;
 				}
-				if (key.equals("¨") && !this.twoPointsCarry) {
+				if (key.equals("Â¨") && !this.twoPointsCarry) {
 					this.twoPointsCarry = true;
 					break;
 				}
 				if (this.hatCarry) {
 					if (key.equals("e")) {
-						key = "ê";
+						key = "Ãª";
 					} else if (key.equals("o")) {
-						key = "ô";
+						key = "Ã´";
 					} else if (key.equals("E")) {
-						key = "Ê";
+						key = "ÃŠ";
 					} else if (key.equals("O")) {
-						key = "Ô";
+						key = "Ã”";
 					} else if (key.equals("u")) {
-						key = "û";
+						key = "Ã»";
 					} else if (key.equals("U")) {
-						key = "Û";
+						key = "Ã›";
+					} else if (key.equals("a")) {
+						key = "Ã¢";
+					} else if (key.equals("A")) {
+						key = "Ã‚";
 					}
 					this.hatCarry = false;
 				}
 				if (this.twoPointsCarry) {
 					if (key.equals("e")) {
-						key = "ë";
+						key = "Ã«";
 					} else if (key.equals("o")) {
-						key = "ö";
+						key = "Ã¶";
 					} else if (key.equals("E")) {
-						key = "Ë";
+						key = "Ã‹";
 					} else if (key.equals("O")) {
-						key = "Ö";
+						key = "Ã–";
 					} else if (key.equals("u")) {
-						key = "ü";
+						key = "Ã¼";
 					} else if (key.equals("U")) {
-						key = "Ü";
+						key = "Ãœ";
 					}
 					this.twoPointsCarry = false;
 				}
@@ -207,12 +214,49 @@ public class Textfield {
 		FontMetrics fontMetrics = graphics.getFontMetrics();
 		this.lineCounter = 0;
 		int cursorX = 0, cursorY = 0, cursorWidth = 0, cursorHeight = 0;
+		if ((fontMetrics.stringWidth(this.currentString) + this.x + 10) > this.width) {
+			if (this.multiline) {
+				if (this.canAddLines) {
+					if (this.currentString.split("\\s+").length == 1) {
+						String subHyphen = this.currentString.substring(0, this.currentString.length() - 1) + "-";
+						this.text.add(subHyphen);
+						this.currentString = this.currentString.substring(this.currentString.length() - 1, this.currentString.length());
+						this.cursor = 1;
+					} else {
+						String sub = new String();
+						String[] parts = this.currentString.split("\\s+");
+						for (int i = 0; i < (parts.length - 1); i += 1) {
+							sub += parts[i] + (i == (parts.length - 2) ? "" : " ");
+						}
+						this.text.add(sub);
+						this.currentString = parts[parts.length - 1];
+						this.cursor = this.currentString.length();
+					}
+				} else {
+					int maxSize = 0;
+					while ((fontMetrics.stringWidth(this.currentString.substring(0, maxSize)) + this.x + 10) < this.width) {
+						maxSize += 1;
+					}
+					this.currentString = this.currentString.substring(0, maxSize);
+					if (this.cursor >= this.currentString.length()) {
+						this.cursor = this.currentString.length();
+					}
+				}
+			}
+		}
 		if (this.multiline) {
 			for (String line : this.text) {
-				graphics.drawString(line, this.x + 10, (this.y - (fontMetrics.getHeight() / 10)) + (fontMetrics.getHeight() * (this.lineCounter + 1)));
-				this.lineCounter += 1;
+				if (((this.lineCounter + 2) * fontMetrics.getHeight()) < this.height) {
+					graphics.drawString(line, this.x + 10, (this.y - (fontMetrics.getHeight() / 10)) + (fontMetrics.getHeight() * (this.lineCounter + 1)));
+					this.lineCounter += 1;
+				}
 			}
-			graphics.drawString(this.currentString, this.x + 10, (this.y - (fontMetrics.getHeight() / 10)) + (fontMetrics.getHeight() * (this.lineCounter + 1)));
+			if (((this.lineCounter + 2) * fontMetrics.getHeight()) > this.height) {
+				this.canAddLines = false;
+			}
+			if (((this.lineCounter + 1) * fontMetrics.getHeight()) < this.height) {
+				graphics.drawString(this.currentString, this.x + 10, (this.y - (fontMetrics.getHeight() / 10)) + (fontMetrics.getHeight() * (this.lineCounter + 1)));
+			}
 			cursorY = (this.y - (fontMetrics.getHeight() / 7)) + (((fontMetrics.getHeight() * this.lineCounter) + (fontMetrics.getHeight() / 2)) - (fontMetrics.getDescent() / 2));
 			cursorX = this.x + this.stringWidth(fontMetrics, this.currentString, this.cursor) + 9;
 			cursorWidth = 2;

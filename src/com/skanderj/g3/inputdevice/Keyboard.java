@@ -401,9 +401,9 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 			} else if (shiftDown) {
 				return "0";
 			} else if (capsLocked) {
-				return "À";
+				return "Ã€";
 			} else {
-				return "à";
+				return "Ã ";
 			}
 		case Keyboard.KEY_1:
 			if (shiftDown ^ capsLocked) {
@@ -419,9 +419,9 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 			} else if (shiftDown) {
 				return "2";
 			} else if (capsLocked) {
-				return "É";
+				return "Ã‰";
 			} else {
-				return "é";
+				return "Ã©";
 			}
 		case Keyboard.KEY_3:
 			if (altGrDown) {
@@ -463,9 +463,9 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 			} else if (shiftDown) {
 				return "7";
 			} else if (capsLocked) {
-				return "È";
+				return "Ãˆ";
 			} else {
-				return "è";
+				return "Ã¨";
 			}
 		case Keyboard.KEY_8:
 			if (altGrDown) {
@@ -481,15 +481,15 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 			} else if (shiftDown) {
 				return "9";
 			} else if (capsLocked) {
-				return "Ç";
+				return "Ã‡";
 			} else {
-				return "ç";
+				return "Ã§";
 			}
 		case Keyboard.KEY_RIGHT_PARENTHESIS:
 			if (altGrDown) {
 				return "]";
 			} else if (shiftDown ^ capsLocked) {
-				return "°";
+				return "Â°";
 			} else {
 				return ")";
 			}
@@ -503,7 +503,7 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 			}
 		case Keyboard.KEY_EXCLAMATION_MARK:
 			if (shiftDown ^ capsLocked) {
-				return "§";
+				return "Â§";
 			} else {
 				return "!";
 			}
@@ -707,23 +707,23 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 			if (shiftDown ^ capsLocked) {
 				return "%";
 			} else {
-				return "ù";
+				return "Ã¹";
 			}
 		case Keyboard.KEY_DOLLAR:
 			if (shiftDown ^ capsLocked) {
-				return "£";
+				return "Â£";
 			} else {
 				return "$";
 			}
 		case Keyboard.KEY_ASTERISK:
 			if (shiftDown ^ capsLocked) {
-				return "µ";
+				return "Âµ";
 			} else {
 				return "*";
 			}
 		case 130:
 			if (shiftDown ^ capsLocked) {
-				return "¨";
+				return "Â¨";
 			} else {
 				return "^";
 			}

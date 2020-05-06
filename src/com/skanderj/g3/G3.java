@@ -34,8 +34,8 @@ public final class G3 {
 		window.registerInput(keyboard);
 		window.registerInput(mouse);
 		window.show();
-		G3.smallArea = new Textfield(50, 50, window.getWidth() - 100, 50, Color.PINK, Color.BLACK, FontManager.getFont("roboto", 48), false);
-		G3.largeArea = new Textfield(50, 125, window.getWidth() - 100, 200, Color.PINK, Color.BLACK, FontManager.getFont("roboto", 48), true);
+		G3.smallArea = new Textfield(50, 50, window.getWidth() - 100, 50, Color.PINK, Color.WHITE, FontManager.getFont("roboto", 48), false);
+		G3.largeArea = new Textfield(50, 125, window.getWidth() - 100, 200, Color.PINK, Color.WHITE, FontManager.getFont("roboto", 14), true);
 		G3.button = new Button.RoundEdge(100, 400, 100, 60, "Pause", FontManager.getFont("roboto", 24), Color.GRAY, Color.BLACK, Color.WHITE, Color.GRAY, 16) {
 			@Override
 			public void update(double delta, Keyboard keyboard, Mouse mouse) {
@@ -73,12 +73,12 @@ public final class G3 {
 		}
 		if (mouse.isButtonDownInFrame(Mouse.BUTTON_LEFT)) {
 			if (G3.smallArea.containsMouse(mouse)) {
-				G3.smallArea.giveFocus();
+				G3.smallArea.grantFocus();
 			} else {
 				G3.smallArea.removeFocus();
 			}
 			if (G3.largeArea.containsMouse(mouse)) {
-				G3.largeArea.giveFocus();
+				G3.largeArea.grantFocus();
 			} else {
 				G3.largeArea.removeFocus();
 			}
