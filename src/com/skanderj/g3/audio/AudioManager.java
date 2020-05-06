@@ -38,7 +38,7 @@ public final class AudioManager {
 		try {
 			reusableAudioInputStream = AudioManager.createReusableAudioInputStream(soundFile);
 			AudioManager.audioMap.put(identifier, reusableAudioInputStream);
-			Logger.log(AudioManager.class, LogLevel.DEBUG, "Succesfully registered audio with identifier %s!", identifier);
+			Logger.log(AudioManager.class, LogLevel.INFO, "Succesfully registered audio with identifier \"%s\"!", identifier);
 			return true;
 		} catch (IOException | UnsupportedAudioFileException exception) {
 			Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while loading audio from %s: %s", path, exception.getMessage());
@@ -49,7 +49,7 @@ public final class AudioManager {
 	public static final boolean playAudio(String identifier) {
 		AudioInputStream stream = AudioManager.audioMap.get(identifier);
 		if (stream == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio with identifier %s!", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio with identifier \"%s\"!", identifier);
 			return false;
 		} else {
 			try {
@@ -128,7 +128,7 @@ public final class AudioManager {
 	public static final float getVolume(String identifier) {
 		Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier %s!", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier \"%s\"!", identifier);
 			return -1;
 		} else {
 			FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -139,7 +139,7 @@ public final class AudioManager {
 	public static final void setVolume(String identifier, float volume) {
 		Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier %s!", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier \"%s\"!", identifier);
 		} else {
 			if ((volume < 0f) || (volume > 1f)) {
 				throw new IllegalArgumentException("Volume not valid: " + volume);
@@ -152,7 +152,7 @@ public final class AudioManager {
 	public static final boolean pauseAudio(String identifier) {
 		Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier %s!", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier \"%s\"!", identifier);
 			return false;
 		} else {
 			clip.stop();
@@ -164,7 +164,7 @@ public final class AudioManager {
 	public static final boolean resumeAudio(String identifier) {
 		Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier %s!", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier \"%s\"!", identifier);
 			return false;
 		} else {
 			clip.start();
@@ -176,7 +176,7 @@ public final class AudioManager {
 	public static final boolean stopAudio(String identifier) {
 		Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier %s!", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier \"%s\"!", identifier);
 			return false;
 		} else {
 			clip.stop();
@@ -207,7 +207,7 @@ public final class AudioManager {
 	public static final boolean loopAudio(String identifier, int count) {
 		AudioInputStream stream = AudioManager.audioMap.get(identifier);
 		if (stream == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio with identifier %s!", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio with identifier \"%s\"!", identifier);
 			return false;
 		} else {
 			try {

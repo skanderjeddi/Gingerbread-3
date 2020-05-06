@@ -2,6 +2,7 @@ package com.skanderj.g3.window;
 
 import java.awt.Canvas;
 import java.awt.Dimension;
+import java.awt.DisplayMode;
 import java.awt.Frame;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -20,6 +21,7 @@ import com.skanderj.g3.log.Logger.LogLevel;
 
 public abstract class Window {
 	public static GraphicsDevice[] DEFAULT_DEVICES = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+	private static DisplayMode cacheDisplayMode = null;
 
 	protected String title;
 	protected int width, height;
@@ -55,7 +57,7 @@ public abstract class Window {
 	public abstract void resize();
 
 	public void registerInput(InputDevice device) {
-		Logger.log(Window.class, LogLevel.DEBUG, "Registering input device (type=%s)", device.getType().name());
+		Logger.log(Window.class, LogLevel.DEV_DEBUG, "Registering input device (type=%s)", device.getType().name());
 		switch (device.getType()) {
 		case KEYBOARD:
 			this.canvas.addKeyListener((KeyListener) device);
@@ -180,16 +182,54 @@ public abstract class Window {
 		}
 	}
 
+	private static final boolean isValid(int deviceId) {
+		try {
+			Window.DEFAULT_DEVICES[deviceId].hashCode();
+			return true;
+		} catch (Exception exception) {
+			return false;
+		}
+	}
+
+	private static final DisplayMode getDisplayMode(int device, int fallback) {
+		if (Window.cacheDisplayMode != null) {
+			return Window.cacheDisplayMode;
+		}
+		try {
+			Window.cacheDisplayMode = Window.DEFAULT_DEVICES[device].getDisplayMode();
+			return Window.cacheDisplayMode;
+		} catch (Exception exception) {
+			Logger.log(Window.class, LogLevel.SEVERE, "Unable to retrieve the display mode for device %d, falling back on device %d...", device, fallback);
+			try {
+				Window.cacheDisplayMode = Window.DEFAULT_DEVICES[fallback].getDisplayMode();
+				return Window.cacheDisplayMode;
+			} catch (Exception exception2) {
+				Logger.log(Window.class, LogLevel.FATAL, "Unable to retrieve the display mode for fallback device %d!", fallback);
+				return null;
+			}
+		}
+	}
+
 	public static class Fullscreen extends Window {
+		public static final int DEFAULT_FALLBACK_DEVICE_ID = 0;
+
 		private int deviceId;
 
 		public Fullscreen(Game game, String title, int buffers) {
 			this(game, title, buffers, 0);
 		}
 
-		public Fullscreen(Game game, String title, int buffers, int device) {
-			super(game, title, Window.DEFAULT_DEVICES[device].getDisplayMode().getWidth(), Window.DEFAULT_DEVICES[device].getDisplayMode().getHeight(), buffers);
-			this.deviceId = device;
+		public Fullscreen(Game game, String title, int buffers, int deviceId) {
+			this(game, title, buffers, deviceId, Fullscreen.DEFAULT_FALLBACK_DEVICE_ID);
+		}
+
+		public Fullscreen(Game game, String title, int buffers, int deviceId, int fallback) {
+			super(game, title, Window.getDisplayMode(deviceId, fallback).getWidth(), Window.getDisplayMode(deviceId, fallback).getHeight(), buffers);
+			if (Window.isValid(deviceId)) {
+				this.deviceId = deviceId;
+			} else {
+				this.deviceId = fallback;
+			}
 		}
 
 		@Override

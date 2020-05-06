@@ -6,9 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import com.skanderj.g3.G3;
-
 public final class Logger {
+	private static boolean DEBUG = false, DEV_DEBUG = false;
 	private final static PrintStream defaultSystemOutput = System.out;
 	private final static PrintStream defaultSystemErrorOutput = System.err;
 
@@ -27,7 +26,7 @@ public final class Logger {
 			System.setOut(new Logger.LoggerPrintStream(Logger.defaultSystemOutput, Logger.defaultSystemErrorOutput));
 			System.setErr(new Logger.LoggerPrintStream(Logger.defaultSystemErrorOutput, Logger.defaultSystemErrorOutput));
 			Logger.outputRedirected = true;
-			Logger.log(Logger.class, LogLevel.INFO, "Successfully redirected default output streams");
+			Logger.log(Logger.class, LogLevel.DEBUG, "Successfully redirected default output streams");
 		}
 	}
 
@@ -36,7 +35,11 @@ public final class Logger {
 			Logger.defaultSystemErrorOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + clazz.getSimpleName() + " / " + logLevel.name() + "]: " + message + "\n", args);
 		} else {
 			if (logLevel == LogLevel.DEBUG) {
-				if (G3.DEBUG) {
+				if (Logger.DEBUG) {
+					Logger.defaultSystemOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + clazz.getSimpleName() + " / " + logLevel.name() + "]: " + message + "\n", args);
+				}
+			} else if (logLevel == LogLevel.DEV_DEBUG) {
+				if (Logger.DEV_DEBUG) {
 					Logger.defaultSystemOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + clazz.getSimpleName() + " / " + logLevel.name() + "]: " + message + "\n", args);
 				}
 			} else {
@@ -49,8 +52,24 @@ public final class Logger {
 		}
 	}
 
+	public static final void enableDebug() {
+		Logger.DEBUG = true;
+	}
+
+	public static final void disableDebug() {
+		Logger.DEBUG = false;
+	}
+
+	public static final void enableDevDebug() {
+		Logger.DEV_DEBUG = true;
+	}
+
+	public static final void disbleDevDebug() {
+		Logger.DEV_DEBUG = false;
+	}
+
 	public static enum LogLevel {
-		INFO, DEBUG, SEVERE, ERROR, FATAL;
+		INFO, DEBUG, DEV_DEBUG, SEVERE, ERROR, FATAL;
 	}
 
 	private static class LoggerPrintStream extends PrintStream {

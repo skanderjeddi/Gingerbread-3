@@ -393,7 +393,7 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 	}
 
 	public static final String getKeyRepresentation(int keycode, boolean shiftDown, boolean capsLocked, boolean altGrDown) {
-		Logger.log(Keyboard.class, LogLevel.DEBUG, "Key %d has been pressed..", keycode);
+		Logger.log(Keyboard.class, LogLevel.DEV_DEBUG, "Key %d has been pressed..", keycode);
 		switch (keycode) {
 		case Keyboard.KEY_0:
 			if (altGrDown) {

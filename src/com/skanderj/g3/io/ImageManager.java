@@ -24,7 +24,7 @@ public final class ImageManager {
 		try {
 			image = ImageIO.read(new File(path));
 			ImageManager.imagesMap.put(identifier, image);
-			Logger.log(ImageManager.class, LogLevel.DEBUG, "Succesfully registered image with identifier %s!", identifier);
+			Logger.log(ImageManager.class, LogLevel.INFO, "Succesfully registered image with identifier \"%s\"!", identifier);
 			return true;
 		} catch (IOException exception) {
 			Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while loading image from %s: %s", path, exception.getMessage());
@@ -35,7 +35,7 @@ public final class ImageManager {
 	public static final BufferedImage retrieveImage(String identifier) {
 		BufferedImage image = ImageManager.imagesMap.get(identifier);
 		if (image == null) {
-			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find image with identifier %s!", identifier);
+			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find image with identifier \"%s\"!", identifier);
 			return null;
 		}
 		return image;

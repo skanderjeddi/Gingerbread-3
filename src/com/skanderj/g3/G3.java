@@ -23,7 +23,6 @@ import com.skanderj.g3.window.Window;
 
 public final class G3 {
 	private static final String VERSION = "A.01";
-	public static boolean DEBUG = true;
 
 	private static Textfield smallArea, largeArea;
 	private static Button button;
@@ -32,18 +31,20 @@ public final class G3 {
 	public static void main(String[] args) {
 		Logger.redirectSystemOutput();
 		TranslationManager.loadLanguage(Language.ENGLISH);
+		Logger.enableDebug();
+		Logger.enableDevDebug();
 		Logger.log(G3.class, LogLevel.INFO, "Gingerbread3 version %s - by SkanderJ", G3.VERSION);
 		FontManager.registerFont("roboto", "res/fonts/roboto.ttf");
 		AudioManager.registerAudio("theme", "res/audios/silhouette.wav");
-		Window window = new Window.Fullscreen(null, "G3", 3, 0);
+		Window window = new Window.Fullscreen(null, "G3", 3, 2, 1);
 		Keyboard keyboard = new Keyboard();
 		Mouse mouse = new Mouse();
 		window.create();
 		window.registerInput(keyboard);
 		window.registerInput(mouse);
 		window.show();
-		G3.smallArea = new Textfield(50, 50, window.getWidth() - 100, 50, Color.PINK, Color.WHITE, FontManager.getFont("roboto", 48), false);
-		G3.largeArea = new Textfield(50, 125, window.getWidth() - 100, 200, Color.PINK, Color.WHITE, FontManager.getFont("roboto", 48), true);
+		G3.smallArea = new Textfield(50, 50, window.getWidth() - 100, 50, Color.PINK, Color.BLACK, FontManager.getFont("roboto", 48), false);
+		G3.largeArea = new Textfield(50, 125, window.getWidth() - 100, 200, Color.PINK, Color.BLACK, FontManager.getFont("roboto", 48), true);
 		G3.button = new Button.RoundEdge(50, 400, 150, 60, "Pause", FontManager.getFont("roboto", 24), Color.WHITE, Color.BLACK, Color.BLACK, Color.LIGHT_GRAY, 16);
 		G3.button.setButtonAction(ButtonState.IDLE, new ButtonAction() {
 			@Override

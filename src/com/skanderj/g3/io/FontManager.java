@@ -26,7 +26,7 @@ public final class FontManager {
 			fileInputStream = new FileInputStream(fontFile);
 			Font font = Font.createFont(Font.TRUETYPE_FONT, fileInputStream);
 			FontManager.fontsMap.put(identifier, font);
-			Logger.log(FontManager.class, LogLevel.DEBUG, "Succesfully registered font with identifier %s!", identifier);
+			Logger.log(FontManager.class, LogLevel.INFO, "Succesfully registered font with identifier \"%s\"!", identifier);
 			return true;
 		} catch (FontFormatException | IOException exception) {
 			Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while loading font from %s: %s", path, exception.getMessage());
@@ -37,7 +37,7 @@ public final class FontManager {
 	public static final Font getFont(String identifier) {
 		Font font = FontManager.fontsMap.get(identifier);
 		if (font == null) {
-			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier %s!", identifier);
+			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier \"%s\"!", identifier);
 			return null;
 		}
 		return font;
@@ -46,7 +46,7 @@ public final class FontManager {
 	public static final Font getFont(String identifier, int size) {
 		Font font = FontManager.fontsMap.get(identifier);
 		if (font == null) {
-			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier %s!", identifier);
+			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier \"%s\"!", identifier);
 			return null;
 		}
 		return font.deriveFont((float) size);

@@ -29,6 +29,7 @@ public final class TranslationManager {
 					TranslationManager.languageMap.put(line.split("=")[0], line.split("=")[1]);
 				}
 				bufferedReader.close();
+				Logger.log(TranslationManager.class, LogLevel.INFO, "Successfully loaded translations for language id \"%s\"...", language.identifier);
 				return true;
 			} catch (IOException exception) {
 				Logger.log(TranslationManager.class, LogLevel.SEVERE, "An exception occurred while loading translations from file for language id \"%s\": %s", language.identifier, exception.getMessage());

@@ -38,7 +38,7 @@ public class Slider implements Component {
 
 	@Override
 	public synchronized final void update(double delta, Keyboard keyboard, Mouse mouse, Object... args) {
-		if ((new Rectangle(this.x, this.y, this.width, this.height).contains(mouse.getX(), mouse.getY()) || this.hasFocus) && globalFocus) {
+		if ((new Rectangle(this.x, this.y, this.width, this.height).contains(mouse.getX(), mouse.getY()) || this.hasFocus) && this.globalFocus) {
 			if (mouse.isButtonDown(Mouse.BUTTON_LEFT)) {
 				this.sliderX = (int) Utilities.map(mouse.getX(), this.x, this.x + this.width, this.x, this.x + this.width, true);
 				this.hasFocus = true;

@@ -35,8 +35,8 @@ public final class ComponentManager {
 	}
 
 	public static final synchronized void render(Window window, Graphics2D graphics) {
-		for (Component c : ComponentManager.componentsMap.values()) {
-			c.render(window, graphics);
+		for (Component component : ComponentManager.componentsMap.values()) {
+			component.render(window, graphics);
 		}
 	}
 
@@ -46,12 +46,16 @@ public final class ComponentManager {
 
 	public static final synchronized void giveFocus(String identifier) {
 		Component component = ComponentManager.componentsMap.get(identifier);
+		if (component == null) {
+			ComponentManager.inFocus = null;
+			return;
+		}
 		if (ComponentManager.inFocus == null) {
 			component.grantFocus();
-			inFocus = component;
+			ComponentManager.inFocus = component;
 		} else {
 			if (ComponentManager.inFocus.canChangeFocus()) {
-				inFocus.revokeFocus();
+				ComponentManager.inFocus.revokeFocus();
 				component.grantFocus();
 				ComponentManager.inFocus = component;
 			}

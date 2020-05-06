@@ -263,13 +263,13 @@ public class Textfield implements Component {
 				graphics.drawString(this.currentString, this.x + 10, (this.y - (fontMetrics.getHeight() / 10)) + (fontMetrics.getHeight() * (this.lineCounter + 1)));
 			}
 			cursorY = (this.y - (fontMetrics.getHeight() / 7)) + (((fontMetrics.getHeight() * this.lineCounter) + (fontMetrics.getHeight() / 2)) - (fontMetrics.getDescent() / 2));
-			cursorX = this.x + this.stringWidth(fontMetrics, this.currentString, this.cursor) + 9;
+			cursorX = this.x + this.stringWidth(fontMetrics, this.currentString, this.cursor) + 12;
 			cursorWidth = 2;
 			cursorHeight = fontMetrics.getAscent() - (fontMetrics.getDescent() / 2);
 		} else {
 			this.drawCenteredString(graphics, this.currentString, this.x + 10, this.y, this.height, this.font, this.foregroundColor);
 			cursorY = this.height + (this.height / 10);
-			cursorX = this.x + this.stringWidth(fontMetrics, this.currentString, this.cursor) + 9;
+			cursorX = this.x + this.stringWidth(fontMetrics, this.currentString, this.cursor) + 12;
 			cursorWidth = 2;
 			cursorHeight = this.height - (2 * (this.height / 10));
 		}
@@ -284,16 +284,7 @@ public class Textfield implements Component {
 	}
 
 	private final int stringWidth(FontMetrics metrics, String string, int cursor) {
-		int finalWidth = 0;
-		int counter = 0;
-		for (char character : string.toCharArray()) {
-			if (counter >= cursor) {
-				break;
-			}
-			finalWidth += metrics.charWidth(character);
-			counter += 1;
-		}
-		return finalWidth;
+		return metrics.stringWidth(string.substring(0, cursor));
 	}
 
 	public final int drawCenteredString(Graphics2D graphics, String string, int x0, int y0, int height, Font font, Color color) {
