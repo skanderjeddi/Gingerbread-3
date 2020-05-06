@@ -7,17 +7,21 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
+import com.skanderj.g3.component.action.ButtonAction;
 import com.skanderj.g3.inputdevice.Keyboard;
 import com.skanderj.g3.inputdevice.Mouse;
 import com.skanderj.g3.window.Window;
 
-public abstract class Button {
+public abstract class Button implements Component {
 	public static final Color TRANSPARENT_SHADE = new Color(0f, 0f, 0f, 0f);
 
 	protected int x, y, width, height;
 	protected String string;
 	protected Font font;
 	protected Color backgroundColor, borderColor, textColor, shadeColor;
+	protected ButtonState previousState, state;
+	protected ButtonAction[] actions;
+	protected boolean hasFocus, mouseWasIn;
 
 	public Button(int x, int y, int width, int height, String string, Font font, Color backgroundColor, Color borderColor, Color textColor, Color shadeColor) {
 		this.x = x;
@@ -30,11 +34,44 @@ public abstract class Button {
 		this.borderColor = borderColor;
 		this.textColor = textColor;
 		this.shadeColor = shadeColor;
+		this.previousState = ButtonState.IDLE;
+		this.state = ButtonState.IDLE;
+		this.actions = new ButtonAction[4];
+		for (int index = 0; index < this.actions.length; index += 1) {
+			this.actions[index] = new ButtonAction.DefaultButtonAction();
+		}
+		this.hasFocus = false;
 	}
 
-	public abstract void update(double delta, Keyboard keyboard, Mouse mouse);
+	@Override
+	public void update(double delta, Keyboard keyboard, Mouse mouse, Object... args) {
+		this.previousState = this.state;
+		int mouseX = mouse.getX(), mouseY = mouse.getY();
+		boolean mouseIn = new Rectangle(this.x, this.y, this.width, this.height).contains(mouseX, mouseY), mouseClicked = mouse.isButtonDown(Mouse.BUTTON_LEFT);
+		if (mouseIn && mouseClicked && !this.hasFocus) {
+			this.hasFocus = true;
+		}
+		if (mouseClicked && this.hasFocus && this.mouseWasIn) {
+			this.state = ButtonState.CLICKED;
+			this.mouseWasIn = true;
+		} else if (mouseIn && !mouseClicked) {
+			this.state = ButtonState.HOVERED;
+			this.hasFocus = false;
+			this.mouseWasIn = true;
+		} else {
+			this.state = ButtonState.IDLE;
+			this.hasFocus = false;
+			this.mouseWasIn = false;
+		}
+		if ((this.previousState == ButtonState.CLICKED) && ((this.state == ButtonState.IDLE) || (this.state == ButtonState.HOVERED)) && mouseIn) {
+			this.state = ButtonState.CLICK_FRAME;
+		}
+		this.actions[this.state.getIdentifier()].execute(delta, keyboard, mouse);
+	}
 
-	public abstract void render(Window window, Graphics2D graphics);
+	public final void setButtonAction(ButtonState state, ButtonAction action) {
+		this.actions[state.getIdentifier()] = action;
+	}
 
 	public final int getX() {
 		return this.x;
@@ -116,6 +153,21 @@ public abstract class Button {
 		this.shadeColor = shadeColor;
 	}
 
+	@Override
+	public boolean canChangeFocus() {
+		return this.state == ButtonState.IDLE;
+	}
+
+	@Override
+	public void grantFocus() {
+		return;
+	}
+
+	@Override
+	public void revokeFocus() {
+		return;
+	}
+
 	public boolean containsMouse(Mouse mouse) {
 		return new Rectangle(this.x, this.y, this.width, this.height).contains(mouse.getX(), mouse.getY());
 	}
@@ -141,17 +193,21 @@ public abstract class Button {
 		graphics.drawString(string, x0 + x + 1, y0 + y + 1);
 		graphics.setColor(color);
 		graphics.drawString(string, (x0 + x) - 1, (y0 + y) - 1);
-
 	}
 
-	public static abstract class StraightEdge extends Button {
+	@Override
+	public boolean containsMouse(int x, int y) {
+		return new Rectangle(this.x, this.y, this.width, this.height).contains(x, y);
+	}
+
+	public static class StraightEdge extends Button {
 
 		public StraightEdge(int x, int y, int width, int height, String string, Font font, Color backgroundColor, Color borderColor, Color textColor, Color shadeColor) {
 			super(x, y, width, height, string, font, backgroundColor, borderColor, textColor, shadeColor);
 		}
 
 		@Override
-		public void render(Window window, Graphics2D graphics) {
+		public void render(Window window, Graphics2D graphics, Object... args) {
 			graphics.setColor(this.backgroundColor);
 			graphics.fillRect(this.x, this.y, this.width, this.height);
 			this.drawShadedCenteredString(graphics, this.string, this.x, this.y, this.width, this.height, this.font, this.textColor, this.shadeColor);
@@ -160,7 +216,7 @@ public abstract class Button {
 		}
 	}
 
-	public static abstract class RoundEdge extends Button {
+	public static class RoundEdge extends Button {
 		private int borderIncline;
 
 		public RoundEdge(int x, int y, int width, int height, String string, Font font, Color backgroundColor, Color borderColor, Color textColor, Color shadeColor, int borderIncline) {
@@ -169,7 +225,7 @@ public abstract class Button {
 		}
 
 		@Override
-		public void render(Window window, Graphics2D graphics) {
+		public void render(Window window, Graphics2D graphics, Object... args) {
 			graphics.setColor(this.backgroundColor);
 			graphics.fillRoundRect(this.x, this.y, this.width, this.height, this.borderIncline, this.borderIncline);
 			this.drawShadedCenteredString(graphics, this.string, this.x, this.y, this.width, this.height, this.font, this.textColor, this.shadeColor);

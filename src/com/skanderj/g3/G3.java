@@ -7,12 +7,18 @@ import java.awt.image.BufferStrategy;
 
 import com.skanderj.g3.audio.AudioManager;
 import com.skanderj.g3.component.Button;
+import com.skanderj.g3.component.ButtonState;
+import com.skanderj.g3.component.ComponentManager;
+import com.skanderj.g3.component.Slider;
 import com.skanderj.g3.component.Textfield;
+import com.skanderj.g3.component.action.ButtonAction;
 import com.skanderj.g3.inputdevice.Keyboard;
 import com.skanderj.g3.inputdevice.Mouse;
 import com.skanderj.g3.io.FontManager;
 import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
+import com.skanderj.g3.translation.TranslationManager;
+import com.skanderj.g3.translation.TranslationManager.Language;
 import com.skanderj.g3.window.Window;
 
 public final class G3 {
@@ -21,9 +27,11 @@ public final class G3 {
 
 	private static Textfield smallArea, largeArea;
 	private static Button button;
+	private static Slider slider;
 
 	public static void main(String[] args) {
 		Logger.redirectSystemOutput();
+		TranslationManager.loadLanguage(Language.ENGLISH);
 		Logger.log(G3.class, LogLevel.INFO, "Gingerbread3 version %s - by SkanderJ", G3.VERSION);
 		FontManager.registerFont("roboto", "res/fonts/roboto.ttf");
 		AudioManager.registerAudio("theme", "res/audios/silhouette.wav");
@@ -35,23 +43,43 @@ public final class G3 {
 		window.registerInput(mouse);
 		window.show();
 		G3.smallArea = new Textfield(50, 50, window.getWidth() - 100, 50, Color.PINK, Color.WHITE, FontManager.getFont("roboto", 48), false);
-		G3.largeArea = new Textfield(50, 125, window.getWidth() - 100, 200, Color.PINK, Color.WHITE, FontManager.getFont("roboto", 14), true);
-		G3.button = new Button.RoundEdge(100, 400, 100, 60, "Pause", FontManager.getFont("roboto", 24), Color.GRAY, Color.BLACK, Color.WHITE, Color.GRAY, 16) {
+		G3.largeArea = new Textfield(50, 125, window.getWidth() - 100, 200, Color.PINK, Color.WHITE, FontManager.getFont("roboto", 48), true);
+		G3.button = new Button.RoundEdge(50, 400, 150, 60, "Pause", FontManager.getFont("roboto", 24), Color.WHITE, Color.BLACK, Color.BLACK, Color.LIGHT_GRAY, 16);
+		G3.button.setButtonAction(ButtonState.IDLE, new ButtonAction() {
 			@Override
-			public void update(double delta, Keyboard keyboard, Mouse mouse) {
-				if (this.containsMouse(mouse)) {
-					if (mouse.isButtonDownInFrame(Mouse.BUTTON_LEFT)) {
-						if (AudioManager.isAudioPaused("theme")) {
-							AudioManager.resumeAudio("theme");
-							this.setString("Pause");
-						} else {
-							AudioManager.pauseAudio("theme");
-							this.setString("Resume");
-						}
-					}
+			public void execute(Object... args) {
+				G3.button.setTextColor(Color.YELLOW);
+			}
+		});
+		G3.button.setButtonAction(ButtonState.HOVERED, new ButtonAction() {
+			@Override
+			public void execute(Object... args) {
+				G3.button.setTextColor(Color.CYAN);
+			}
+		});
+		G3.button.setButtonAction(ButtonState.CLICKED, new ButtonAction() {
+			@Override
+			public void execute(Object... args) {
+				G3.button.setTextColor(Color.RED);
+			}
+		});
+		G3.button.setButtonAction(ButtonState.CLICK_FRAME, new ButtonAction() {
+			@Override
+			public void execute(Object... args) {
+				if (G3.button.getString().equals("Pause")) {
+					AudioManager.pauseAudio("theme");
+					G3.button.setString("Resume");
+				} else {
+					AudioManager.resumeAudio("theme");
+					G3.button.setString("Pause");
 				}
 			}
-		};
+		});
+		G3.slider = new Slider(225, 525, 150, 15, 4, 46, 0f, 1f, 0.5f, Color.WHITE, "Volume");
+		ComponentManager.addComponent("top-text-bar", G3.smallArea);
+		ComponentManager.addComponent("bottom-text-area", G3.largeArea);
+		ComponentManager.addComponent("pause-resume-button", G3.button);
+		ComponentManager.addComponent("volume-slider", G3.slider);
 		window.requestFocus();
 		AudioManager.loopAudio("theme", -1);
 		while (!window.isCloseRequested()) {
@@ -71,24 +99,11 @@ public final class G3 {
 		if (keyboard.isKeyDownInFrame(Keyboard.KEY_ESCAPE)) {
 			window.requestClosing();
 		}
-		if (mouse.isButtonDownInFrame(Mouse.BUTTON_LEFT)) {
-			if (G3.smallArea.containsMouse(mouse)) {
-				G3.smallArea.grantFocus();
-			} else {
-				G3.smallArea.removeFocus();
-			}
-			if (G3.largeArea.containsMouse(mouse)) {
-				G3.largeArea.grantFocus();
-			} else {
-				G3.largeArea.removeFocus();
-			}
+		ComponentManager.update(0, keyboard, mouse);
+		if (mouse.isButtonDown(Mouse.BUTTON_LEFT)) {
+			Logger.log(ComponentManager.class, LogLevel.DEBUG, "Current in focus component: %s", ComponentManager.getInFocus());
 		}
-		// float volume = Utilities.map(mouse.getX(), 0, window.getWidth(), 0, 1.0f,
-		// true);
-		// AudioManager.setVolume("theme", volume);
-		G3.smallArea.update(window, keyboard, mouse);
-		G3.largeArea.update(window, keyboard, mouse);
-		G3.button.update(0, keyboard, mouse);
+		AudioManager.setVolume("theme", G3.slider.getValue());
 		keyboard.update();
 		mouse.update();
 	}
@@ -106,11 +121,9 @@ public final class G3 {
 		graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 		graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
-		G3.smallArea.render(window, graphics);
-		G3.largeArea.render(window, graphics);
-		G3.button.render(window, graphics);
-//		graphics.setColor(Color.WHITE);
-//		graphics.drawString(String.format("Volume: %.2f", AudioManager.getVolume("theme") * 100) + "%", window.getWidth() - 350, window.getHeight() - 40);
+		ComponentManager.render(window, graphics);
+		graphics.setColor(Color.WHITE);
+		graphics.drawString(String.format("Volume: %.2f", AudioManager.getVolume("theme") * 100) + "%", window.getWidth() - 350, window.getHeight() - 40);
 		graphics.dispose();
 		bufferStrategy.show();
 	}

@@ -14,7 +14,7 @@ import com.skanderj.g3.inputdevice.Keyboard.KeyState;
 import com.skanderj.g3.inputdevice.Mouse;
 import com.skanderj.g3.window.Window;
 
-public class Textfield {
+public class Textfield implements Component {
 	private int x, y, width, height;
 	private Color backgroundColor, foregroundColor;
 	private Font font;
@@ -48,19 +48,23 @@ public class Textfield {
 
 	}
 
+	@Override
 	public final void grantFocus() {
 		this.hasFocus = true;
 	}
 
-	public final void removeFocus() {
+	@Override
+	public final void revokeFocus() {
 		this.hasFocus = false;
 	}
 
-	public boolean containsMouse(Mouse mouse) {
-		return new Rectangle(this.x, this.y, this.width, this.height).contains(mouse.getX(), mouse.getY());
+	@Override
+	public boolean containsMouse(int x, int y) {
+		return new Rectangle(this.x, this.y, this.width, this.height).contains(x, y);
 	}
 
-	public synchronized void update(Window window, Keyboard keyboard, Mouse mouse) {
+	@Override
+	public synchronized void update(double delta, Keyboard keyboard, Mouse mouse, Object... args) {
 		if (this.hasFocus) {
 			for (int keyCode : keyboard.getKeysByState(KeyState.DOWN_IN_FRAME)) {
 				if (keyCode == Keyboard.KEY_LEFT) {
@@ -204,7 +208,8 @@ public class Textfield {
 		}
 	}
 
-	public synchronized final void render(Window window, Graphics2D graphics) {
+	@Override
+	public synchronized final void render(Window window, Graphics2D graphics, Object... args) {
 		graphics.setColor(this.backgroundColor);
 		graphics.fillRect(this.x, this.y, this.width, this.height);
 		graphics.setColor(this.backgroundColor.darker().darker());
@@ -299,5 +304,10 @@ public class Textfield {
 		final int y = ((height - (int) rectangle2d.getHeight()) / 2) + fontMetrics.getAscent();
 		graphics.drawString(string, x0, y0 + y);
 		return y0 + y;
+	}
+
+	@Override
+	public boolean canChangeFocus() {
+		return true;
 	}
 }
