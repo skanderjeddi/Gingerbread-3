@@ -19,7 +19,7 @@ You'll need Java 13.
 
 ## Authors
 
-* **Skander Jeddi** - [iddej](https://github.com/skanderjeddi)
+* **Skander Jeddi** - [skanderjeddi](https://github.com/skanderjeddi)
 
 ## License
 
