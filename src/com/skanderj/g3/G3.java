@@ -5,13 +5,11 @@ import com.skanderj.g3.log.Logger.DebuggingType;
 import com.skanderj.g3.log.Logger.LogLevel;
 import com.skanderj.g3.testing.G3Testing;
 import com.skanderj.g3.translation.TranslationManager;
-import com.skanderj.g3.translation.TranslationManager.Language;
 
 public final class G3 {
 	private static final String VERSION = "A.01";
 
 	public static void main(String[] args) {
-		TranslationManager.loadLanguage(Language.FRENCH);
 		Logger.redirectSystemOutput();
 		Logger.setDebuggingState(DebuggingType.CLASSIC, true);
 		Logger.setDebuggingState(DebuggingType.DEVELOPMENT, true);

@@ -11,7 +11,7 @@ import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
 
 public final class TranslationManager {
-	public static final Language DEFAULT_LANGUAGE = Language.FRENCH;
+	public static final Language DEFAULT_LANGUAGE = Language.ENGLISH;
 
 	private static final Map<String, String> languageMap = new HashMap<String, String>();
 
