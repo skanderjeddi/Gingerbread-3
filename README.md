@@ -7,7 +7,7 @@ The third and latest version of my Gingerbread engine for Java 2D games
 
 ### Prerequisites
 
-You'll only need Java 8 or higher.
+You'll need Java 13.
 
 ### Installing
 
