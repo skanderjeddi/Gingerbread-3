@@ -4,8 +4,10 @@ import java.awt.Graphics2D;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.skanderj.g3.audio.AudioManager;
 import com.skanderj.g3.inputdevice.Keyboard;
 import com.skanderj.g3.inputdevice.Mouse;
+import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.window.Window;
 
 public final class ComponentManager {
@@ -18,6 +20,15 @@ public final class ComponentManager {
 
 	public static final void addComponent(String identifier, Component component) {
 		ComponentManager.componentsMap.put(identifier, component);
+	}
+
+	public static final Component getComponent(String identifier) {
+		Component component = componentsMap.get(identifier);
+		if (component == null) {
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio with identifier \"%s\"!", identifier);
+			return null;
+		}
+		return component;
 	}
 
 	public static final synchronized void update(double delta, Keyboard keyboard, Mouse mouse) {

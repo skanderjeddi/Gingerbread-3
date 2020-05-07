@@ -46,6 +46,24 @@ public final class AudioManager {
 		}
 	}
 
+	public static final boolean registerAll(String identifier, String path) {
+		File directory = new File(path);
+		if (directory.isDirectory()) {
+			int counter = 0;
+			boolean success = true;
+			for (File file : directory.listFiles()) {
+				if (!registerAudio(String.format(identifier, counter), file.getPath())) {
+					success = false;
+				}
+				counter += 1;
+			}
+			return success;
+		} else {
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Provided path doesn't point to a directory!");
+			return false;
+		}
+	}
+
 	public static final boolean playAudio(String identifier) {
 		AudioInputStream stream = AudioManager.audioMap.get(identifier);
 		if (stream == null) {
