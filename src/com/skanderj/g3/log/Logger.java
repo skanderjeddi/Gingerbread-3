@@ -6,7 +6,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import com.skanderj.g3.translation.TranslationManager;
+
 public final class Logger {
+	private static final String KEY_LOGGER_REDIRECT_SUCCESS = "key.logger.redirect_success";
+	private static final String KEY_LOGGER_FATAL_QUITTING = "key.logger.fatal.quitting";
+
 	private static boolean DEBUG = false, DEV_DEBUG = false;
 	private final static PrintStream defaultSystemOutput = System.out;
 	private final static PrintStream defaultSystemErrorOutput = System.err;
@@ -26,50 +31,53 @@ public final class Logger {
 			System.setOut(new Logger.LoggerPrintStream(Logger.defaultSystemOutput, Logger.defaultSystemErrorOutput));
 			System.setErr(new Logger.LoggerPrintStream(Logger.defaultSystemErrorOutput, Logger.defaultSystemErrorOutput));
 			Logger.outputRedirected = true;
-			Logger.log(Logger.class, LogLevel.DEBUG, "Successfully redirected default output streams");
+			Logger.log(Logger.class, LogLevel.DEBUG, TranslationManager.getKey(Logger.KEY_LOGGER_REDIRECT_SUCCESS));
 		}
 	}
 
 	public static void log(Class<?> clazz, LogLevel logLevel, String message, Object... args) {
+		String origin = new String();
+		if (clazz.getEnclosingClass() != null) {
+			origin = clazz.getEnclosingClass().getSimpleName() + "#" + clazz.getSimpleName();
+		} else {
+			origin = clazz.getSimpleName();
+		}
 		if ((logLevel == LogLevel.SEVERE) || (logLevel == LogLevel.ERROR) || (logLevel == LogLevel.FATAL)) {
-			Logger.defaultSystemErrorOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + clazz.getSimpleName() + " / " + logLevel.name() + "]: " + message + "\n", args);
+			Logger.defaultSystemErrorOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + origin + " / " + logLevel.name() + "]: " + message + "\n", args);
 		} else {
 			if (logLevel == LogLevel.DEBUG) {
 				if (Logger.DEBUG) {
-					Logger.defaultSystemOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + clazz.getSimpleName() + " / " + logLevel.name() + "]: " + message + "\n", args);
+					Logger.defaultSystemOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + origin + " / " + logLevel.name() + "]: " + message + "\n", args);
 				}
 			} else if (logLevel == LogLevel.DEV_DEBUG) {
 				if (Logger.DEV_DEBUG) {
-					Logger.defaultSystemOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + clazz.getSimpleName() + " / " + logLevel.name() + "]: " + message + "\n", args);
+					Logger.defaultSystemOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + origin + " / " + logLevel.name() + "]: " + message + "\n", args);
 				}
 			} else {
-				Logger.defaultSystemOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + clazz.getSimpleName() + " / " + logLevel.name() + "]: " + message + "\n", args);
+				Logger.defaultSystemOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + origin + " / " + logLevel.name() + "]: " + message + "\n", args);
 			}
 		}
 		if (logLevel == LogLevel.FATAL) {
-			Logger.defaultSystemErrorOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + Logger.class.getSimpleName() + " / " + LogLevel.FATAL.name() + "]: A fatal log has been submitted from %s.class, exiting all processes.." + "\n", clazz.getSimpleName());
+			Logger.defaultSystemErrorOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + Logger.class.getSimpleName() + " / " + LogLevel.FATAL.name() + "]: " + TranslationManager.getKey(Logger.KEY_LOGGER_FATAL_QUITTING) + "\n", clazz.getSimpleName());
 			System.exit(-1);
 		}
 	}
 
-	public static final void enableDebug() {
-		Logger.DEBUG = true;
-	}
-
-	public static final void disableDebug() {
-		Logger.DEBUG = false;
-	}
-
-	public static final void enableDevDebug() {
-		Logger.DEV_DEBUG = true;
-	}
-
-	public static final void disbleDevDebug() {
-		Logger.DEV_DEBUG = false;
+	public static final void setDebuggingState(DebuggingType type, boolean status) {
+		switch (type) {
+		case CLASSIC:
+			Logger.DEBUG = status;
+		case DEVELOPMENT:
+			Logger.DEV_DEBUG = status;
+		}
 	}
 
 	public static enum LogLevel {
 		INFO, DEBUG, DEV_DEBUG, SEVERE, ERROR, FATAL;
+	}
+
+	public static enum DebuggingType {
+		CLASSIC, DEVELOPMENT;
 	}
 
 	private static class LoggerPrintStream extends PrintStream {

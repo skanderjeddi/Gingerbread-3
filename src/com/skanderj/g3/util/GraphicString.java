@@ -79,7 +79,7 @@ public final class GraphicString {
 			graphics.setColor(string.shadeColor);
 			graphics.drawString(string.content, x0 + x + 1, y0 + y + 1);
 			graphics.setColor(string.color);
-			graphics.drawString(string.content, x0 + x - 1, y0 + y - 1);
+			graphics.drawString(string.content, (x0 + x) - 1, (y0 + y) - 1);
 		}
 	}
 
@@ -95,25 +95,25 @@ public final class GraphicString {
 			graphics.setColor(string.shadeColor);
 			graphics.drawString(string.content, x0 + 1, y0 + y + 1);
 			graphics.setColor(string.color);
-			graphics.drawString(string.content, x0 - 1, y0 + y - 1);
+			graphics.drawString(string.content, x0 - 1, (y0 + y) - 1);
 		}
 		return y0 + y;
 	}
 
 	public final String getContent() {
-		return content;
+		return this.content;
 	}
 
 	public final Color getColor() {
-		return color;
+		return this.color;
 	}
 
 	public final Color getShadeColor() {
-		return shadeColor;
+		return this.shadeColor;
 	}
 
 	public final Font getFont() {
-		return font;
+		return this.font;
 	}
 
 	public final void setContent(String content) {

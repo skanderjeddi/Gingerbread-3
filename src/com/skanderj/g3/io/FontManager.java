@@ -11,8 +11,13 @@ import java.util.Map;
 import com.skanderj.g3.audio.AudioManager;
 import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
+import com.skanderj.g3.translation.TranslationManager;
 
 public final class FontManager {
+	private static final String KEY_FONT_MANAGER_SUCCESS = "key.fontmanager.success";
+	private static final String KEY_FONT_MANAGER_EXCEPTION_LOADING = "key.fontmanager.exception.loading";
+	private static final String KEY_FONT_MANAGER_MISSING_FONT = "key.fontmanager.missing_font";
+
 	private FontManager() {
 		return;
 	}
@@ -26,10 +31,10 @@ public final class FontManager {
 			fileInputStream = new FileInputStream(fontFile);
 			Font font = Font.createFont(Font.TRUETYPE_FONT, fileInputStream);
 			FontManager.fontsMap.put(identifier, font);
-			Logger.log(FontManager.class, LogLevel.INFO, "Succesfully registered font with identifier \"%s\"!", identifier);
+			Logger.log(FontManager.class, LogLevel.INFO, TranslationManager.getKey(FontManager.KEY_FONT_MANAGER_SUCCESS, identifier));
 			return true;
 		} catch (FontFormatException | IOException exception) {
-			Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while loading font from %s: %s", path, exception.getMessage());
+			Logger.log(AudioManager.class, LogLevel.SEVERE, TranslationManager.getKey(FontManager.KEY_FONT_MANAGER_EXCEPTION_LOADING, path, exception.getMessage()));
 			return false;
 		}
 	}
@@ -37,7 +42,7 @@ public final class FontManager {
 	public static final Font getFont(String identifier) {
 		Font font = FontManager.fontsMap.get(identifier);
 		if (font == null) {
-			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier \"%s\"!", identifier);
+			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, TranslationManager.getKey(FontManager.KEY_FONT_MANAGER_MISSING_FONT, identifier));
 			return null;
 		}
 		return font;
@@ -46,7 +51,7 @@ public final class FontManager {
 	public static final Font getFont(String identifier, int size) {
 		Font font = FontManager.fontsMap.get(identifier);
 		if (font == null) {
-			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier \"%s\"!", identifier);
+			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, TranslationManager.getKey(FontManager.KEY_FONT_MANAGER_MISSING_FONT, identifier));
 			return null;
 		}
 		return font.deriveFont((float) size);

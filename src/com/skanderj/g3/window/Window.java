@@ -18,10 +18,19 @@ import com.skanderj.g3.core.Game;
 import com.skanderj.g3.inputdevice.InputDevice;
 import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
+import com.skanderj.g3.translation.TranslationManager;
 
 public abstract class Window {
-	public static GraphicsDevice[] DEFAULT_DEVICES = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+	private static final String KEY_WINDOW_INPUT_REGISTER = "key.window.input.register";
+	private static final String KEY_WINDOW_CREATE_NO_CALL = "key.window.create_no_call";
+	private static final String KEY_WINDOW_DEVICE_ID_NOT_AVAILABLE = "key.window.devid_id_not_available";
+	private static final String KEY_WINDOW_NO_DISPLAY_MODE = "key.window.no_display_mode";
+	private static final String KEY_WINDOW_NO_DISPLAY_MODE_FALLBACK = "key.window.no_display_mode.fallback";
+
+	private static GraphicsDevice[] DEFAULT_DEVICES = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
 	private static DisplayMode cacheDisplayMode = null;
+
+	public static final int DOUBLE_BUFFERING = 2, TRIPLE_BUFFERING = 3;
 
 	protected String title;
 	protected int width, height;
@@ -57,7 +66,7 @@ public abstract class Window {
 	public abstract void resize();
 
 	public void registerInput(InputDevice device) {
-		Logger.log(Window.class, LogLevel.DEV_DEBUG, "Registering input device (type=%s)", device.getType().name());
+		Logger.log(Window.class, LogLevel.DEV_DEBUG, TranslationManager.getKey(Window.KEY_WINDOW_INPUT_REGISTER, device.getType().name()));
 		switch (device.getType()) {
 		case KEYBOARD:
 			this.canvas.addKeyListener((KeyListener) device);
@@ -163,7 +172,7 @@ public abstract class Window {
 			if (this.created) {
 				this.frame.setVisible(true);
 			} else {
-				Logger.log(Window.class, LogLevel.FATAL, "You need to call create() before show() on any window instance!");
+				Logger.log(Window.class, LogLevel.FATAL, TranslationManager.getKey(Window.KEY_WINDOW_CREATE_NO_CALL));
 			}
 		}
 
@@ -182,36 +191,49 @@ public abstract class Window {
 		}
 	}
 
-	private static final boolean isValid(int deviceId) {
-		try {
-			Window.DEFAULT_DEVICES[deviceId].hashCode();
-			return true;
-		} catch (Exception exception) {
-			return false;
-		}
-	}
+	public static class Fullscreen extends Window {
+		public static final int DEFAULT_FALLBACK_DEVICE_ID = 0, DEFAULT_DEVICE_ID = 0;
 
-	private static final DisplayMode getDisplayMode(int device, int fallback) {
-		if (Window.cacheDisplayMode != null) {
-			return Window.cacheDisplayMode;
+		public static final int getDisplayDevicesCount() {
+			return Window.DEFAULT_DEVICES.length;
 		}
-		try {
-			Window.cacheDisplayMode = Window.DEFAULT_DEVICES[device].getDisplayMode();
-			return Window.cacheDisplayMode;
-		} catch (Exception exception) {
-			Logger.log(Window.class, LogLevel.SEVERE, "Unable to retrieve the display mode for device %d, falling back on device %d...", device, fallback);
-			try {
-				Window.cacheDisplayMode = Window.DEFAULT_DEVICES[fallback].getDisplayMode();
-				return Window.cacheDisplayMode;
-			} catch (Exception exception2) {
-				Logger.log(Window.class, LogLevel.FATAL, "Unable to retrieve the display mode for fallback device %d!", fallback);
-				return null;
+
+		public static final int isDeviceIDAvailable(int deviceId) {
+			if (deviceId >= Window.DEFAULT_DEVICES.length) {
+				Logger.log(Window.Fullscreen.class, LogLevel.SEVERE, TranslationManager.getKey(Window.KEY_WINDOW_DEVICE_ID_NOT_AVAILABLE, deviceId));
+				return -1;
+			} else {
+				return deviceId;
 			}
 		}
-	}
 
-	public static class Fullscreen extends Window {
-		public static final int DEFAULT_FALLBACK_DEVICE_ID = 0;
+		private static final boolean isValid(int deviceId) {
+			try {
+				Window.DEFAULT_DEVICES[deviceId].hashCode();
+				return true;
+			} catch (Exception exception) {
+				return false;
+			}
+		}
+
+		private static final DisplayMode getDisplayMode(int device, int fallback) {
+			if (Window.cacheDisplayMode != null) {
+				return Window.cacheDisplayMode;
+			}
+			try {
+				Window.cacheDisplayMode = Window.DEFAULT_DEVICES[device].getDisplayMode();
+				return Window.cacheDisplayMode;
+			} catch (Exception exception) {
+				Logger.log(Window.class, LogLevel.SEVERE, TranslationManager.getKey(Window.KEY_WINDOW_NO_DISPLAY_MODE, device, fallback));
+				try {
+					Window.cacheDisplayMode = Window.DEFAULT_DEVICES[fallback].getDisplayMode();
+					return Window.cacheDisplayMode;
+				} catch (Exception exception2) {
+					Logger.log(Window.class, LogLevel.FATAL, TranslationManager.getKey(Window.KEY_WINDOW_NO_DISPLAY_MODE_FALLBACK, fallback));
+					return null;
+				}
+			}
+		}
 
 		private int deviceId;
 
@@ -224,8 +246,8 @@ public abstract class Window {
 		}
 
 		public Fullscreen(Game game, String title, int buffers, int deviceId, int fallback) {
-			super(game, title, Window.getDisplayMode(deviceId, fallback).getWidth(), Window.getDisplayMode(deviceId, fallback).getHeight(), buffers);
-			if (Window.isValid(deviceId)) {
+			super(game, title, Fullscreen.getDisplayMode(deviceId, fallback).getWidth(), Fullscreen.getDisplayMode(deviceId, fallback).getHeight(), buffers);
+			if (Fullscreen.isValid(deviceId)) {
 				this.deviceId = deviceId;
 			} else {
 				this.deviceId = fallback;
@@ -261,7 +283,7 @@ public abstract class Window {
 			if (this.created) {
 				Window.DEFAULT_DEVICES[this.deviceId].setFullScreenWindow(this.frame);
 			} else {
-				Logger.log(Window.class, LogLevel.FATAL, "You need to call create() before show() on any window instance!");
+				Logger.log(Window.class, LogLevel.FATAL, TranslationManager.getKey(Window.KEY_WINDOW_CREATE_NO_CALL));
 			}
 		}
 

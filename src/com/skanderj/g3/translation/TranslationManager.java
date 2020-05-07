@@ -26,6 +26,9 @@ public final class TranslationManager {
 				BufferedReader bufferedReader = new BufferedReader(new FileReader(languageFile));
 				String line = new String();
 				while ((line = bufferedReader.readLine()) != null) {
+					if (line.startsWith("#") || line.isBlank()) {
+						continue;
+					}
 					TranslationManager.languageMap.put(line.split("=")[0], line.split("=")[1]);
 				}
 				bufferedReader.close();
@@ -46,7 +49,7 @@ public final class TranslationManager {
 		TranslationManager.loadLanguage(TranslationManager.DEFAULT_LANGUAGE);
 	}
 
-	public static final String getTranslation(String key, Object... args) {
+	public static final String getKey(String key, Object... args) {
 		if (TranslationManager.languageMap.isEmpty()) {
 			TranslationManager.loadDefaultLanguage();
 		}

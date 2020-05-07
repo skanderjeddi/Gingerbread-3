@@ -8,9 +8,12 @@ import com.skanderj.g3.audio.AudioManager;
 import com.skanderj.g3.inputdevice.Keyboard;
 import com.skanderj.g3.inputdevice.Mouse;
 import com.skanderj.g3.log.Logger;
+import com.skanderj.g3.translation.TranslationManager;
 import com.skanderj.g3.window.Window;
 
 public final class ComponentManager {
+	private static final String KEY_COMPONENT_MANAGER_MISSING_COMPONENT = "key.componentmanager.missing_component";
+
 	private static final Map<String, Component> componentsMap = new HashMap<String, Component>();
 	private static Component inFocus = null;
 
@@ -23,9 +26,9 @@ public final class ComponentManager {
 	}
 
 	public static final Component getComponent(String identifier) {
-		Component component = componentsMap.get(identifier);
+		Component component = ComponentManager.componentsMap.get(identifier);
 		if (component == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio with identifier \"%s\"!", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, TranslationManager.getKey(ComponentManager.KEY_COMPONENT_MANAGER_MISSING_COMPONENT, identifier));
 			return null;
 		}
 		return component;

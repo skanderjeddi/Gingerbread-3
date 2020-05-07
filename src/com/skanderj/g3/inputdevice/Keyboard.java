@@ -8,8 +8,11 @@ import java.util.List;
 
 import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
+import com.skanderj.g3.translation.TranslationManager;
 
 public class Keyboard extends KeyAdapter implements InputDevice {
+	private static final String KEY_KEYBOARD_KEY_PRESSED = "key.keyboard.key_pressed";
+
 	private static final int KEY_COUNT = 65536;
 
 	public static final int KEY_ENTER = KeyEvent.VK_ENTER;
@@ -393,7 +396,7 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 	}
 
 	public static final String getKeyRepresentation(int keycode, boolean shiftDown, boolean capsLocked, boolean altGrDown) {
-		Logger.log(Keyboard.class, LogLevel.DEV_DEBUG, "Key %d has been pressed..", keycode);
+		Logger.log(Keyboard.class, LogLevel.DEV_DEBUG, TranslationManager.getKey(Keyboard.KEY_KEYBOARD_KEY_PRESSED, keycode));
 		switch (keycode) {
 		case Keyboard.KEY_0:
 			if (altGrDown) {

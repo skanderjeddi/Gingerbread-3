@@ -222,7 +222,7 @@ public class Textfield implements Component {
 		if ((fontMetrics.stringWidth(this.currentString) + this.x + 10) > this.width) {
 			if (this.multiline) {
 				if (this.canAddLines) {
-					if (this.currentString.split("\\s+").length == 1) {
+					if (!this.currentString.isEmpty() && (this.currentString.split("\\s+").length == 1)) {
 						String subHyphen = this.currentString.substring(0, this.currentString.length() - 1) + "-";
 						this.text.add(subHyphen);
 						this.currentString = this.currentString.substring(this.currentString.length() - 1, this.currentString.length());

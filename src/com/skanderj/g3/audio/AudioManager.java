@@ -21,8 +21,19 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
+import com.skanderj.g3.translation.TranslationManager;
 
 public final class AudioManager {
+	private static final String KEY_AUDIO_MANAGER_SUCCESS = "key.audiomanager.success";
+	private static final String KEY_AUDIO_MANAGER_NOT_DIRECTORY = "key.audiomanager.not_directory";
+	private static final String KEY_AUDIO_MANAGER_EXCEPTION_LOADING = "key.audiomanager.exception.loading";
+	private static final String KEY_AUDIO_MANAGER_EXCEPTION_PLAYING = "key.audiomanager.exception.playing";
+	private static final String KEY_AUDIO_MANAGER_EXCEPTION_CLOSE = "key.audiomanager.exception.close";
+	private static final String KEY_AUDIO_MANAGER_EXCEPTION_CLOSE_MULTIPLE = "key.audiomanager.exception.close.multiple";
+	private static final String KEY_AUDIO_MANAGER_EXCEPTION_WAIT_FOR = "key.audiomanager.exception.wait_for";
+	private static final String KEY_AUDIO_MANAGER_MISSING_AUDIO = "key.audiomanager.missing_audio";
+	private static final String KEY_AUDIO_MANAGER_MISSING_AUDIO_STREAM = "key.audiomanager.missing_audio_stream";
+
 	private static final Map<String, AudioInputStream> audioMap = new HashMap<String, AudioInputStream>();
 	private static final Map<String, Clip> clipsMap = new HashMap<String, Clip>();
 	private static final Map<String, Thread> threadsMap = new HashMap<String, Thread>();
@@ -38,10 +49,10 @@ public final class AudioManager {
 		try {
 			reusableAudioInputStream = AudioManager.createReusableAudioInputStream(soundFile);
 			AudioManager.audioMap.put(identifier, reusableAudioInputStream);
-			Logger.log(AudioManager.class, LogLevel.INFO, "Succesfully registered audio with identifier \"%s\"!", identifier);
+			Logger.log(AudioManager.class, LogLevel.INFO, TranslationManager.getKey(AudioManager.KEY_AUDIO_MANAGER_SUCCESS, identifier));
 			return true;
 		} catch (IOException | UnsupportedAudioFileException exception) {
-			Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while loading audio from %s: %s", path, exception.getMessage());
+			Logger.log(AudioManager.class, LogLevel.SEVERE, TranslationManager.getKey(AudioManager.KEY_AUDIO_MANAGER_EXCEPTION_LOADING, path, exception.getMessage()));
 			return false;
 		}
 	}
@@ -52,14 +63,14 @@ public final class AudioManager {
 			int counter = 0;
 			boolean success = true;
 			for (File file : directory.listFiles()) {
-				if (!registerAudio(String.format(identifier, counter), file.getPath())) {
+				if (!AudioManager.registerAudio(String.format(identifier, counter), file.getPath())) {
 					success = false;
 				}
 				counter += 1;
 			}
 			return success;
 		} else {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Provided path doesn't point to a directory!");
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, TranslationManager.getKey(AudioManager.KEY_AUDIO_MANAGER_NOT_DIRECTORY));
 			return false;
 		}
 	}
@@ -67,14 +78,14 @@ public final class AudioManager {
 	public static final boolean playAudio(String identifier) {
 		AudioInputStream stream = AudioManager.audioMap.get(identifier);
 		if (stream == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio with identifier \"%s\"!", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, TranslationManager.getKey(AudioManager.KEY_AUDIO_MANAGER_MISSING_AUDIO, identifier));
 			return false;
 		} else {
 			try {
 				stream.reset();
 				return AudioManager.playAudio(identifier, stream);
 			} catch (IOException exception) {
-				Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to play audio \"%s\": %s", identifier, exception.getMessage());
+				Logger.log(AudioManager.class, LogLevel.SEVERE, TranslationManager.getKey(AudioManager.KEY_AUDIO_MANAGER_EXCEPTION_PLAYING, identifier, exception.getMessage()));
 				return false;
 			}
 		}
@@ -113,19 +124,19 @@ public final class AudioManager {
 						try {
 							listener.waitUntilDone();
 						} catch (InterruptedException exception) {
-							Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while waiting for audio \"%s\" to finish: %s", identifier, exception.getMessage());
+							Logger.log(AudioManager.class, LogLevel.SEVERE, TranslationManager.getKey(AudioManager.KEY_AUDIO_MANAGER_EXCEPTION_WAIT_FOR, identifier, exception.getMessage()));
 						}
 					} finally {
 						clip.close();
 						AudioManager.clipsMap.remove(identifier);
 					}
 				} catch (LineUnavailableException | IOException exception) {
-					Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to play audio \"%s\": %s", identifier, exception.getMessage());
+					Logger.log(AudioManager.class, LogLevel.SEVERE, TranslationManager.getKey(AudioManager.KEY_AUDIO_MANAGER_EXCEPTION_PLAYING, identifier, exception.getMessage()));
 				} finally {
 					try {
 						audioInputStream.close();
 					} catch (IOException ioException) {
-						Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to close audio stream \"%s\": %s", identifier, ioException.getMessage());
+						Logger.log(AudioManager.class, LogLevel.SEVERE, TranslationManager.getKey(AudioManager.KEY_AUDIO_MANAGER_EXCEPTION_CLOSE, identifier, ioException.getMessage()));
 					}
 				}
 			}
@@ -146,7 +157,7 @@ public final class AudioManager {
 	public static final float getVolume(String identifier) {
 		Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier \"%s\"!", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, TranslationManager.getKey(AudioManager.KEY_AUDIO_MANAGER_MISSING_AUDIO, identifier));
 			return -1;
 		} else {
 			FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -157,7 +168,7 @@ public final class AudioManager {
 	public static final void setVolume(String identifier, float volume) {
 		Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier \"%s\"!", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, TranslationManager.getKey(AudioManager.KEY_AUDIO_MANAGER_MISSING_AUDIO, identifier));
 		} else {
 			if ((volume < 0f) || (volume > 1f)) {
 				throw new IllegalArgumentException("Volume not valid: " + volume);
@@ -170,7 +181,7 @@ public final class AudioManager {
 	public static final boolean pauseAudio(String identifier) {
 		Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier \"%s\"!", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, TranslationManager.getKey(AudioManager.KEY_AUDIO_MANAGER_MISSING_AUDIO, identifier));
 			return false;
 		} else {
 			clip.stop();
@@ -182,7 +193,7 @@ public final class AudioManager {
 	public static final boolean resumeAudio(String identifier) {
 		Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier \"%s\"!", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, TranslationManager.getKey(AudioManager.KEY_AUDIO_MANAGER_MISSING_AUDIO, identifier));
 			return false;
 		} else {
 			clip.start();
@@ -194,7 +205,7 @@ public final class AudioManager {
 	public static final boolean stopAudio(String identifier) {
 		Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio clip with identifier \"%s\"!", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, TranslationManager.getKey(AudioManager.KEY_AUDIO_MANAGER_MISSING_AUDIO, identifier));
 			return false;
 		} else {
 			clip.stop();
@@ -209,7 +220,7 @@ public final class AudioManager {
 				audioInputStream.reset();
 				audioInputStream.close();
 			} catch (IOException ioException) {
-				Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to close audio streams \"%s\": %s", ioException.getMessage());
+				Logger.log(AudioManager.class, LogLevel.SEVERE, TranslationManager.getKey(AudioManager.KEY_AUDIO_MANAGER_EXCEPTION_CLOSE_MULTIPLE, ioException.getMessage()));
 				return false;
 			}
 		}
@@ -225,13 +236,13 @@ public final class AudioManager {
 	public static final boolean loopAudio(String identifier, int count) {
 		AudioInputStream stream = AudioManager.audioMap.get(identifier);
 		if (stream == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Cound not find audio with identifier \"%s\"!", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, TranslationManager.getKey(AudioManager.KEY_AUDIO_MANAGER_MISSING_AUDIO_STREAM, identifier));
 			return false;
 		} else {
 			try {
 				stream.reset();
 			} catch (IOException ioException) {
-				Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to loop audio \"%s\": %s", identifier, ioException.getMessage());
+				Logger.log(AudioManager.class, LogLevel.SEVERE, TranslationManager.getKey(AudioManager.KEY_AUDIO_MANAGER_EXCEPTION_PLAYING, identifier, ioException.getMessage()));
 				return false;
 			}
 			return AudioManager.loopAudio(identifier, count, stream);
@@ -270,18 +281,18 @@ public final class AudioManager {
 						AudioManager.clipsMap.put(identifier, clip);
 						listener.waitUntilDone();
 					} catch (InterruptedException exception) {
-						Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while waiting for audio \"%s\" to finish: %s", identifier, exception.getMessage());
+						Logger.log(AudioManager.class, LogLevel.SEVERE, TranslationManager.getKey(AudioManager.KEY_AUDIO_MANAGER_EXCEPTION_WAIT_FOR, identifier, exception.getMessage()));
 					} finally {
 						clip.close();
 						AudioManager.clipsMap.remove(identifier);
 					}
 				} catch (LineUnavailableException | IOException exception) {
-					Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to play audio \"%s\": %s", identifier, exception.getMessage());
+					Logger.log(AudioManager.class, LogLevel.SEVERE, TranslationManager.getKey(AudioManager.KEY_AUDIO_MANAGER_EXCEPTION_PLAYING, identifier, exception.getMessage()));
 				} finally {
 					try {
 						audioInputStream.close();
 					} catch (IOException ioException) {
-						Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to close audio stream \"%s\": %s", identifier, ioException.getMessage());
+						Logger.log(AudioManager.class, LogLevel.SEVERE, TranslationManager.getKey(AudioManager.KEY_AUDIO_MANAGER_EXCEPTION_CLOSE, identifier, ioException.getMessage()));
 					}
 				}
 			}
