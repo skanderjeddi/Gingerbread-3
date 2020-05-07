@@ -36,7 +36,7 @@ public final class G3 {
 		Logger.log(G3.class, LogLevel.INFO, "Gingerbread3 version %s - by SkanderJ", G3.VERSION);
 		FontManager.registerFont("roboto", "res/fonts/roboto.ttf");
 		AudioManager.registerAudio("theme", "res/audios/silhouette.wav");
-		Window window = new Window.Fullscreen(null, "G3", 3, 2, 1);
+		Window window = new Window.Fullscreen(null, "G3", 3, 1);
 		Keyboard keyboard = new Keyboard();
 		Mouse mouse = new Mouse();
 		window.create();

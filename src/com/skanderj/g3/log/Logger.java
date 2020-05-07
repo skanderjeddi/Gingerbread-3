@@ -47,7 +47,7 @@ public final class Logger {
 			}
 		}
 		if (logLevel == LogLevel.FATAL) {
-			Logger.defaultSystemErrorOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + Logger.class.getSimpleName() + " / " + LogLevel.FATAL.name() + "]: A fatal log level has been submitted from %s.class, exiting all processes.." + "\n", clazz.getSimpleName());
+			Logger.defaultSystemErrorOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + Logger.class.getSimpleName() + " / " + LogLevel.FATAL.name() + "]: A fatal log has been submitted from %s.class, exiting all processes.." + "\n", clazz.getSimpleName());
 			System.exit(-1);
 		}
 	}
