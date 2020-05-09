@@ -16,7 +16,7 @@ import com.skanderj.g3.util.Utilities;
 import com.skanderj.g3.window.Window;
 
 /**
- * Represents an abstract textbox, basic for other textbox classes which can
+ * Represents an abstract textbox, basis for other textbox classes which can
  * implement their rendering the way they please. See Textbox#Basic for a basic
  * but detailed example.
  * 

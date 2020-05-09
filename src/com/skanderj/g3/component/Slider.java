@@ -11,7 +11,7 @@ import com.skanderj.g3.util.Utilities;
 import com.skanderj.g3.window.Window;
 
 /**
- * Represents an abstract slider, basic for other slider classes which can
+ * Represents an abstract slider, basis for other slider classes which can
  * implements their rendering the way they please. See Slider#Basic for a basic
  * example.
  * 
