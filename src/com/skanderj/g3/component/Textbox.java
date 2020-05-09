@@ -24,14 +24,26 @@ import com.skanderj.g3.window.Window;
  *
  */
 public abstract class Textbox implements Component {
-	// Basic properties
+	// Position & size
 	protected int x, y, width, height;
+	// Can we write over multiple maximumLines?
 	protected boolean multiline;
+	// Global focus and local focus mixed in together because this is easy
 	protected boolean hasFocus;
+	// Collection of the previously typed maximumLines
 	protected List<String> text;
+	// The current working line
 	protected String currentLine;
-	protected boolean hatCarry, twoPointsCarry, cursorBlink, canAddLines;
-	protected int blinkRate, blinkTimer, cursorPosition, linesCounter;
+	// Accents handling
+	protected boolean hatCarry, twoPointsCarry;
+	// Does the cursor blink?
+	protected boolean cursorBlink;
+	// Have we hit the maximumLines limit yet?
+	protected boolean canAddLines;
+	// Cursor's blink related
+	protected int blinkRate, blinkTimer;
+	// Cursor position in line
+	protected int cursorPosition;
 
 	// Basic constructor: position and width
 	public Textbox(int x, int y, int width) {
@@ -39,16 +51,25 @@ public abstract class Textbox implements Component {
 		this.y = y;
 		this.width = width;
 		this.height = 0;
+		// In abstract implementation, it's always multiline
 		this.multiline = true;
+		// No by default
 		this.hasFocus = false;
+		// Was a ^ typed last frame
 		this.hatCarry = false;
+		// Was a ¨ typed last frame
 		this.twoPointsCarry = false;
+		// Cursor always blinks by default, I mean why not
 		this.cursorBlink = true;
+		// Yes by default, we haven't typed anything yet
 		this.canAddLines = true;
+		// Cursor will blink 60/15 times per second (=4)
 		this.blinkRate = 15;
+		// Timer, pretty basic
 		this.blinkTimer = 0;
+		// Default cursor position
 		this.cursorPosition = 0;
-		this.linesCounter = 0;
+		// Empty current line and lines collection
 		this.currentLine = new String();
 		this.text = new ArrayList<String>();
 	}
@@ -60,7 +81,7 @@ public abstract class Textbox implements Component {
 			// Go through every keyboard key and retain those which are pressed at the
 			// current frame
 			for (int keyCode : keyboard.getKeysByState(KeyState.DOWN_IN_FRAME)) {
-				// Left key handling
+				// Left key handling, moves cursor to the left once
 				if (keyCode == Keyboard.KEY_LEFT) {
 					this.cursorPosition -= 1;
 					if (this.cursorPosition < 0) {
@@ -68,7 +89,7 @@ public abstract class Textbox implements Component {
 					}
 					break;
 				}
-				// Right key handling
+				// Right key handling, moves cursor to the right once
 				if (keyCode == Keyboard.KEY_RIGHT) {
 					this.cursorPosition += 1;
 					if (this.cursorPosition >= this.currentLine.length()) {
@@ -80,6 +101,8 @@ public abstract class Textbox implements Component {
 				if (keyCode == Keyboard.KEY_ENTER) {
 					if (this.multiline) {
 						if (this.canAddLines) {
+							// If we can still add lines, register the one we currently have to the list,
+							// reset it and go to a newline visually (resetting the cursor)
 							this.text.add(this.currentLine);
 							this.currentLine = new String();
 							this.cursorPosition = 0;
@@ -90,15 +113,18 @@ public abstract class Textbox implements Component {
 				// Deleting (backspace)
 				if (keyCode == Keyboard.KEY_BACK_SPACE) {
 					if (!this.currentLine.isEmpty() && (this.cursorPosition != 0)) {
-						char[] newChar = new char[this.currentLine.length() - 1];
+						// If we actually have something to delete, delete the previous character
+						// adjacent to the cursor and move everything back
+						char[] newLine = new char[this.currentLine.length() - 1];
 						boolean hasSkipped = false;
 						for (int index = 0; index < (this.currentLine.length() - 1); index += 1) {
 							if (index == (this.cursorPosition - 1)) {
 								hasSkipped = true;
 							}
-							newChar[index] = this.currentLine.toCharArray()[hasSkipped ? index + 1 : index];
+							newLine[index] = this.currentLine.toCharArray()[hasSkipped ? index + 1 : index];
 						}
-						this.currentLine = new String(newChar);
+						this.currentLine = new String(newLine);
+						// Don't forget to move the cursor back once!
 						this.cursorPosition -= 1;
 						break;
 					}
@@ -106,17 +132,20 @@ public abstract class Textbox implements Component {
 				// Deleting (delete)
 				if (keyCode == Keyboard.KEY_DELETE) {
 					if (this.cursorPosition == this.currentLine.length()) {
+						// We don't have anything to delete
 						break;
 					} else {
-						char[] newChar = new char[this.currentLine.length() - 1];
+						// If we actually have something to delete, delete the next character
+						// adjacent to the cursor and move everything back starting from the cursor
+						char[] newLine = new char[this.currentLine.length() - 1];
 						boolean hasSkipped = false;
 						for (int index = 0; index < (this.currentLine.length() - 1); index += 1) {
 							if (index == this.cursorPosition) {
 								hasSkipped = true;
 							}
-							newChar[index] = this.currentLine.toCharArray()[hasSkipped ? index + 1 : index];
+							newLine[index] = this.currentLine.toCharArray()[hasSkipped ? index + 1 : index];
 						}
-						this.currentLine = new String(newChar);
+						this.currentLine = new String(newLine);
 						break;
 					}
 				}
@@ -124,14 +153,17 @@ public abstract class Textbox implements Component {
 				String key = Keyboard.getKeyRepresentation(keyCode, keyboard.isShiftDown(), keyboard.isCapsLocked(), keyboard.isAltGrDown());
 				{
 					if (key.equals("^") && !this.hatCarry) {
+						// A ^ was pressed to carry it to the next character
 						this.hatCarry = true;
 						break;
 					}
 					if (key.equals("¨") && !this.twoPointsCarry) {
+						// A ¨ was pressed to carry it to the next character
 						this.twoPointsCarry = true;
 						break;
 					}
 					if (this.hatCarry) {
+						// Handle accents
 						if (key.equals("e")) {
 							key = "ê";
 						} else if (key.equals("o")) {
@@ -149,9 +181,11 @@ public abstract class Textbox implements Component {
 						} else if (key.equals("A")) {
 							key = "Â";
 						}
+						// Reset the carry
 						this.hatCarry = false;
 					}
 					if (this.twoPointsCarry) {
+						// Handle accents
 						if (key.equals("e")) {
 							key = "ë";
 						} else if (key.equals("o")) {
@@ -165,42 +199,53 @@ public abstract class Textbox implements Component {
 						} else if (key.equals("U")) {
 							key = "Ü";
 						}
+						// Reset the carry
 						this.twoPointsCarry = false;
 					}
 				}
 				// new char to add
-				char[] newChar = null;
+				char[] newLine = null;
 				// Handles TAB in particular, adds any other key
 				{
 					if (key.equals("    ")) {
-						newChar = new char[this.currentLine.toCharArray().length + 4];
-						newChar[this.cursorPosition] = key.charAt(0);
-						newChar[this.cursorPosition + 1] = key.charAt(0);
-						newChar[this.cursorPosition + 2] = key.charAt(0);
-						newChar[this.cursorPosition + 3] = key.charAt(0);
+						// This is TAB so add 4 spaces
+						newLine = new char[this.currentLine.toCharArray().length + 4];
+						newLine[this.cursorPosition] = key.charAt(0);
+						newLine[this.cursorPosition + 1] = key.charAt(0);
+						newLine[this.cursorPosition + 2] = key.charAt(0);
+						newLine[this.cursorPosition + 3] = key.charAt(0);
+						// Copy the beginning of the string to the new string (represented as a char
+						// array for easy handling)
 						for (int index = 0; index < this.cursorPosition; index += 1) {
-							newChar[index] = this.currentLine.toCharArray()[index];
+							newLine[index] = this.currentLine.toCharArray()[index];
 						}
-						for (int index = this.cursorPosition + 4; index < newChar.length; index += 1) {
-							newChar[index] = this.currentLine.toCharArray()[index - 4];
+						// Copy the rest of the string after having inserted the 4 spaces
+						for (int index = this.cursorPosition + 4; index < newLine.length; index += 1) {
+							newLine[index] = this.currentLine.toCharArray()[index - 4];
 						}
 					} else {
-						if (!key.isEmpty()) {
-							newChar = new char[this.currentLine.toCharArray().length + 1];
-							newChar[this.cursorPosition] = key.charAt(0);
+						// If it's not TAB
+						if (!key.isEmpty()) { // If it's a visual key and not ENTER, BACKSPACE, etc..
+							// Create a char array of size length of current string + 1 (so we can insert a
+							// character)
+							newLine = new char[this.currentLine.toCharArray().length + 1];
+							// Add the character at the cursor position and copy the rest around it in the 2
+							// for loops
+							newLine[this.cursorPosition] = key.charAt(0);
 							for (int index = 0; index < this.cursorPosition; index += 1) {
-								newChar[index] = this.currentLine.toCharArray()[index];
+								newLine[index] = this.currentLine.toCharArray()[index];
 							}
-							for (int index = this.cursorPosition + 1; index < newChar.length; index += 1) {
-								newChar[index] = this.currentLine.toCharArray()[index - 1];
+							for (int index = this.cursorPosition + 1; index < newLine.length; index += 1) {
+								newLine[index] = this.currentLine.toCharArray()[index - 1];
 							}
 						}
 					}
 				}
-				// I don't know anymore but it works
+				// If we added a TAB increase the cursor position by 4 otherwise by only 1 if
+				// the key was a "visual key"
 				{
-					if (newChar != null) {
-						this.currentLine = new String(newChar);
+					if (newLine != null) {
+						this.currentLine = new String(newLine);
 						if (key.equals("    ")) {
 							this.cursorPosition += 4;
 						} else {
@@ -357,8 +402,9 @@ public abstract class Textbox implements Component {
 	 */
 	public static class Basic extends Textbox {
 		private Color backgroundColor;
-		private TextProperties textProperties;
-		private int lines;
+		private final TextProperties textProperties;
+		private final int maximumLines;
+		private int linesCounter;
 
 		/**
 		 * Background color for rendering a simple box and text properties for the font
@@ -370,14 +416,15 @@ public abstract class Textbox implements Component {
 
 		/**
 		 * Background color for rendering a simple box, text properties for the font and
-		 * color, and amount lines to display.
+		 * color, and amount maximumLines to display.
 		 */
 		public Basic(int x, int y, int width, Color backgroundColor, TextProperties textProperties, int lines) {
 			super(x, y, width);
 			this.backgroundColor = backgroundColor;
 			this.textProperties = textProperties;
-			this.lines = lines;
+			this.maximumLines = lines;
 			this.multiline = !(lines == 1);
+			this.linesCounter = 0;
 		}
 
 		/**
@@ -391,7 +438,7 @@ public abstract class Textbox implements Component {
 			// Determine height if not done before (= 0)
 			{
 				if (this.height == 0) {
-					this.height = (metrics.getHeight() * this.lines) + (metrics.getHeight() / 2);
+					this.height = (metrics.getHeight() * this.maximumLines) + (metrics.getHeight() / 2);
 				}
 			}
 			// Background
@@ -415,7 +462,7 @@ public abstract class Textbox implements Component {
 			int cursorX = 0, cursorY = 0, cursorWidth = 0, cursorHeight = 0;
 			// Check if width of current line exceeds box width
 			if ((metrics.stringWidth(this.currentLine) + this.x + 10) > this.width) {
-				// Check if we can spread on multiple lines
+				// Check if we can spread on multiple maximumLines
 				if (this.multiline) {
 					// Check if we still have more line space
 					if (this.canAddLines) {
@@ -423,7 +470,7 @@ public abstract class Textbox implements Component {
 						if (!this.currentLine.isEmpty() && (this.currentLine.split("\\s+").length == 1)) {
 							// Split text until before last character and add hyphen
 							String subHyphen = this.currentLine.substring(0, this.currentLine.length() - 1) + "-";
-							// Add the first part of the cut text to the lines
+							// Add the first part of the cut text to the maximumLines
 							this.text.add(subHyphen);
 							// Make a new line with the last character of the previous full string
 							this.currentLine = this.currentLine.substring(this.currentLine.length() - 1, this.currentLine.length());
@@ -445,7 +492,7 @@ public abstract class Textbox implements Component {
 							this.cursorPosition = this.currentLine.length();
 						}
 					} else {
-						// If we can't add more lines
+						// If we can't add more maximumLines
 						int maxSize = 0;
 						// Count how many characters we need to exceed the width
 						while ((metrics.stringWidth(this.currentLine.substring(0, maxSize)) + this.x + 10) < this.width) {
@@ -459,7 +506,7 @@ public abstract class Textbox implements Component {
 						}
 					}
 				} else {
-					// If we can't add more lines
+					// If we can't add more maximumLines
 					int maxSize = 0;
 					// Count how many characters we need to exceed the width
 					while ((metrics.stringWidth(this.currentLine.substring(0, maxSize)) + this.x + 10) < this.width) {
@@ -477,16 +524,17 @@ public abstract class Textbox implements Component {
 			if (this.multiline) {
 				// Loop through each line
 				for (String lineOfText : this.text) {
-					// Check that we still have enough lines empty - DON'T KNOW WHY IT WORKS BUT IT
+					// Check that we still have enough maximumLines empty - DON'T KNOW WHY IT WORKS
+					// BUT IT
 					// DOES
 					if (((this.linesCounter + 2) * fontHeight) < this.height) {
 						// Should give a perfectly spaced text
 						graphics.drawString(lineOfText, this.x + 10, this.y + (fontHeight * (this.linesCounter + 1)));
-						// Increase lines counter
+						// Increase maximumLines counter
 						this.linesCounter += 1;
 					}
 				}
-				// We exceeded the height limit so we can't add lines anymore
+				// We exceeded the height limit so we can't add maximumLines anymore
 				if (((this.linesCounter + 2) * fontHeight) > this.height) {
 					this.canAddLines = false;
 				}
@@ -537,6 +585,34 @@ public abstract class Textbox implements Component {
 		 */
 		private final int stringWidth(FontMetrics metrics, String string, int cursor) {
 			return metrics.stringWidth(string.substring(0, cursor));
+		}
+
+		/**
+		 * Self explanatory.
+		 */
+		public final Color getBackgroundColor() {
+			return backgroundColor;
+		}
+
+		/**
+		 * Self explanatory.
+		 */
+		public final TextProperties getTextProperties() {
+			return textProperties;
+		}
+
+		/**
+		 * Self explanatory.
+		 */
+		public final int getMaximumLines() {
+			return maximumLines;
+		}
+
+		/**
+		 * Self explanatory.
+		 */
+		public final void setBackgroundColor(Color backgroundColor) {
+			this.backgroundColor = backgroundColor;
 		}
 	}
 }
