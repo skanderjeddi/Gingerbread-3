@@ -27,7 +27,7 @@ import com.skanderj.g3.translation.TranslationManager;
  * A class used for handling all audio purposes. Can't be instantiated, only
  * static methods. Can handle as much audio as you throw at it. Files must be
  * .WAV.
- * 
+ *
  * @author Skander
  *
  */

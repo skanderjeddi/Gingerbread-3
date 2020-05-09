@@ -5,7 +5,7 @@ import java.awt.Font;
 
 /**
  * Helper class - very easy to understand.
- * 
+ *
  * @author Skander
  *
  */

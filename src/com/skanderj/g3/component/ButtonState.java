@@ -8,7 +8,7 @@ package com.skanderj.g3.component;
  * the button area to cancel your click. ON_ACTUAL_CLICK: On the transition
  * between CLICKED and IDLE or between CLICKED and HOVERED, where you should
  * assign the actual action to your button.
- * 
+ *
  * @author Skander
  *
  */

@@ -14,7 +14,7 @@ import com.skanderj.g3.window.Window;
  * Represents an abstract button, basis for other button classes which can
  * implement their rendering the way they please. See Button#StraightEdge and
  * Button#RoundEdge for basic examples.
- * 
+ *
  * @author Skander
  *
  */
@@ -40,7 +40,7 @@ public abstract class Button implements Component {
 		this.previousState = ButtonState.IDLE;
 		this.state = ButtonState.IDLE;
 		this.actions = new ButtonAction[4];
-		// Set default action (do nothing) for every state
+		// Set default action (do nothing) for every currentState
 		for (int index = 0; index < this.actions.length; index += 1) {
 			this.actions[index] = new ButtonAction.DefaultButtonAction();
 		}
@@ -49,8 +49,8 @@ public abstract class Button implements Component {
 
 	/**
 	 * This is where all the logic of the button happens. We check the mouse
-	 * position and the mouse left click, and we deduce the state of the button then
-	 * run the appropriate button action accordingly.
+	 * position and the mouse left click, and we deduce the currentState of the
+	 * button then run the appropriate button action accordingly.
 	 */
 	@Override
 	public void update(double delta, Keyboard keyboard, Mouse mouse, Object... args) {
@@ -79,8 +79,8 @@ public abstract class Button implements Component {
 	}
 
 	/**
-	 * Sets the button action that will be executed when the provided state is the
-	 * current state.
+	 * Sets the button action that will be executed when the provided currentState
+	 * is the current currentState.
 	 */
 	public final void setButtonAction(ButtonState state, ButtonAction action) {
 		this.actions[state.getIdentifier()] = action;
@@ -235,7 +235,7 @@ public abstract class Button implements Component {
 
 	/**
 	 * A straight edges version of the button. Very basic.
-	 * 
+	 *
 	 * @author Skander
 	 *
 	 */
@@ -260,7 +260,7 @@ public abstract class Button implements Component {
 
 	/**
 	 * A round edges version of the button. Still very basic.
-	 * 
+	 *
 	 * @author Skander
 	 *
 	 */

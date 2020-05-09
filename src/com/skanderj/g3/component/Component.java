@@ -9,7 +9,7 @@ import com.skanderj.g3.window.Window;
 /**
  * Represents a custom graphic component. Placeholder interface for batch
  * updating and rendering.
- * 
+ *
  * @author Skander
  *
  */

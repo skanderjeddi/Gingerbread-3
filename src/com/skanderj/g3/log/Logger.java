@@ -12,7 +12,7 @@ import com.skanderj.g3.translation.TranslationManager;
  * A class used for custom logging purposes. Features: system streams
  * redirection, (TODO) custom severity levels, process exiting when hitting a
  * fatal error (TODO make it toggleable), and much more.
- * 
+ *
  * @author Skander
  *
  */
@@ -31,7 +31,7 @@ public final class Logger {
 	// Date and time format, #TODO make it customizable
 	private final static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("[hh:mm:ss]");
 
-	// Redirection state
+	// Redirection currentState
 	private static boolean outputRedirected = false;
 
 	private Logger() {
@@ -97,7 +97,7 @@ public final class Logger {
 	}
 
 	/**
-	 * 
+	 *
 	 * @author Skander
 	 *
 	 */
@@ -106,7 +106,7 @@ public final class Logger {
 	}
 
 	/**
-	 * 
+	 *
 	 * @author Skander
 	 *
 	 */
@@ -116,7 +116,7 @@ public final class Logger {
 
 	/**
 	 * Custom print streams for when redirection hasn't happened yet.
-	 * 
+	 *
 	 * @author Skander
 	 *
 	 */

@@ -16,7 +16,7 @@ import com.skanderj.g3.translation.TranslationManager;
 /**
  * A class used for handling all images purposes. Can't be instantiated, only
  * static methods. No specific format is required.
- * 
+ *
  * @author Skander
  *
  */

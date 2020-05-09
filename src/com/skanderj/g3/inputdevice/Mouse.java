@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 
 /**
  * A class representing a basic mouse.
- * 
+ *
  * @author Skander
  *
  */
@@ -137,7 +137,7 @@ public class Mouse extends MouseAdapter implements InputDevice {
 
 	/**
 	 * The 3 states a button can be in.
-	 * 
+	 *
 	 * @author Skander
 	 *
 	 */

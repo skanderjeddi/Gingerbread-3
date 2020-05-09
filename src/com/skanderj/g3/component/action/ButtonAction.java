@@ -2,8 +2,8 @@ package com.skanderj.g3.component.action;
 
 /**
  * Represents an action that will be executed when a button is in the adequate
- * state.
- * 
+ * currentState.
+ *
  * @author Skander
  *
  */

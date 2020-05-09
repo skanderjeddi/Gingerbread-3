@@ -16,7 +16,7 @@ import com.skanderj.g3.translation.TranslationManager;
 /**
  * A class used for handling all fonts purposes. Can't be instantiated, only
  * static methods. Fonts have to be in .TTF (for now!) #TODO
- * 
+ *
  * @author Skander
  *
  */

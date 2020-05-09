@@ -13,7 +13,7 @@ import com.skanderj.g3.log.Logger.LogLevel;
 /**
  * A class used to load and retrieve translations from .lang files - a more
  * basic copy of the Minecraft translation system.
- * 
+ *
  * @author Skander
  *
  */
@@ -78,7 +78,7 @@ public final class TranslationManager {
 
 	/**
 	 * Language represenation with id for reference.
-	 * 
+	 *
 	 * @author Skander
 	 *
 	 */

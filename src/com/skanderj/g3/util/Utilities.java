@@ -5,7 +5,7 @@ import java.util.Random;
 
 /**
  * Helper class for basically anything that doesn't fit somewhere else.
- * 
+ *
  * @author Skander
  *
  */

@@ -23,7 +23,7 @@ import com.skanderj.g3.translation.TranslationManager;
 /**
  * A class representing an abstract window. Subclasses Regular and Fullscreen
  * are pretty self explanatory.
- * 
+ *
  * @author Skander
  *
  */
@@ -195,7 +195,7 @@ public abstract class Window {
 
 	/**
 	 * A windowed.. window. Pretty basic.
-	 * 
+	 *
 	 * @author Skander
 	 *
 	 */
@@ -254,7 +254,7 @@ public abstract class Window {
 
 	/**
 	 * A fullscreen window. Very basic.
-	 * 
+	 *
 	 * @author Skander
 	 *
 	 */

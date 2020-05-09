@@ -8,7 +8,7 @@ import com.skanderj.g3.translation.TranslationManager;
 
 /**
  * Main class, will be much more essential in the future.
- * 
+ *
  * @author Skander
  *
  */

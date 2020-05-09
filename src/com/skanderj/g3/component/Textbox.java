@@ -19,7 +19,7 @@ import com.skanderj.g3.window.Window;
  * Represents an abstract textbox, basis for other textbox classes which can
  * implement their rendering the way they please. See Textbox#Basic for a basic
  * but detailed example.
- * 
+ *
  * @author Skander
  *
  */
@@ -300,63 +300,63 @@ public abstract class Textbox implements Component {
 	 * Self explanatory.
 	 */
 	public final int getX() {
-		return x;
+		return this.x;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public final int getY() {
-		return y;
+		return this.y;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public final int getWidth() {
-		return width;
+		return this.width;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public final int getHeight() {
-		return height;
+		return this.height;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public final boolean isMultiline() {
-		return multiline;
+		return this.multiline;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public final List<String> getText() {
-		return text;
+		return this.text;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public final String getCurrentLine() {
-		return currentLine;
+		return this.currentLine;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public final int getBlinkRate() {
-		return blinkRate;
+		return this.blinkRate;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public final int getCursorPosition() {
-		return cursorPosition;
+		return this.cursorPosition;
 	}
 
 	/**
@@ -396,7 +396,7 @@ public abstract class Textbox implements Component {
 
 	/**
 	 * A very basic textbox.
-	 * 
+	 *
 	 * @author Skander
 	 *
 	 */
@@ -438,7 +438,7 @@ public abstract class Textbox implements Component {
 			// Determine height if not done before (= 0)
 			{
 				if (this.height == 0) {
-					this.height = (metrics.getHeight() * this.maximumLines) + (metrics.getHeight() / 2);
+					this.height = (metrics.getHeight() * this.maximumLines) + (metrics.getHeight() / 3);
 				}
 			}
 			// Background
@@ -591,21 +591,21 @@ public abstract class Textbox implements Component {
 		 * Self explanatory.
 		 */
 		public final Color getBackgroundColor() {
-			return backgroundColor;
+			return this.backgroundColor;
 		}
 
 		/**
 		 * Self explanatory.
 		 */
 		public final TextProperties getTextProperties() {
-			return textProperties;
+			return this.textProperties;
 		}
 
 		/**
 		 * Self explanatory.
 		 */
 		public final int getMaximumLines() {
-			return maximumLines;
+			return this.maximumLines;
 		}
 
 		/**

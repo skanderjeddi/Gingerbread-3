@@ -15,7 +15,7 @@ import com.skanderj.g3.translation.TranslationManager;
  * any type of keyboards if you exclude the
  * {@link Keyboard#getKeyRepresentation(int, boolean, boolean, boolean)}
  * function.
- * 
+ *
  * @author Skander
  *
  */
@@ -311,7 +311,7 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 
 	/**
 	 * The 3 states a key can be in.
-	 * 
+	 *
 	 * @author Skander
 	 *
 	 */

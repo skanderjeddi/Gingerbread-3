@@ -14,7 +14,7 @@ import com.skanderj.g3.window.Window;
  * Represents an abstract slider, basis for other slider classes which can
  * implements their rendering the way they please. See Slider#Basic for a basic
  * example.
- * 
+ *
  * @author Skander
  *
  */
@@ -42,8 +42,8 @@ public abstract class Slider implements Component {
 
 	/**
 	 * This is where all the logic of the slider happens. We check the mouse
-	 * position and the mouse left click, and we deduce the state of the slider then
-	 * move the slider accordingly.
+	 * position and the mouse left click, and we deduce the currentState of the
+	 * slider then move the slider accordingly.
 	 */
 	@Override
 	public synchronized final void update(double delta, Keyboard keyboard, Mouse mouse, Object... args) {
@@ -226,7 +226,7 @@ public abstract class Slider implements Component {
 
 	/**
 	 * Represents a very basic slider with a label on on side.
-	 * 
+	 *
 	 * @author Skander
 	 *
 	 */
@@ -249,35 +249,78 @@ public abstract class Slider implements Component {
 		@Override
 		public synchronized final void render(Window window, Graphics2D graphics, Object... args) {
 			graphics.setColor(this.color);
-			graphics.fillRect(this.x, this.y, this.width, this.height);
+			graphics.drawRect(this.x, this.y, this.width, this.height);
 			graphics.setColor(this.color.darker());
-			graphics.fillRect(this.sliderX, this.y - (this.sliderHeight / 4), this.sliderWidth, this.height + (this.sliderHeight / 2));
+			graphics.fillRect(this.sliderX - (this.sliderWidth / 2), this.y - (this.sliderHeight / 4), this.sliderWidth, this.height + (this.sliderHeight / 2));
 			if (!this.label.isEmpty()) {
 				switch (this.labelPosition) {
 				case TOP:
-					this.label.draw(graphics, this.x, this.y - this.label.getHeight(graphics));
+					this.label.draw(graphics, this.x, this.y - this.label.getHeight(graphics), this.getValue());
 					break;
 				case BOTTOM:
-					this.label.draw(graphics, this.x, this.y + this.height + this.label.getAugmentedHeight(graphics));
+					this.label.draw(graphics, this.x, this.y + this.height + this.label.getAugmentedHeight(graphics), this.getValue());
 					break;
 				case LEFT:
-					this.label.drawCenteredWidthless(graphics, this.x - 10 - this.label.getWidth(graphics), this.y - (this.sliderHeight / 2), this.height + this.sliderHeight);
+					this.label.drawCenteredWidthless(graphics, this.x - 10 - this.label.getWidth(graphics), this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.getValue());
 					break;
 				case RIGHT:
-					this.label.drawCenteredWidthless(graphics, this.x + this.width + 10, this.y - (this.sliderHeight / 2), this.height + this.sliderHeight);
+					this.label.drawCenteredWidthless(graphics, this.x + this.width + 10, this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.getValue());
 					break;
 				}
 			}
 		}
 
 		/**
+		 * Self explanatory.
+		 */
+		public final GraphicString getLabel() {
+			return this.label;
+		}
+
+		/**
+		 * Self explanatory.
+		 */
+		public final SliderLabelPosition getLabelPosition() {
+			return this.labelPosition;
+		}
+
+		/**
+		 * Self explanatory.
+		 */
+		public final Color getColor() {
+			return this.color;
+		}
+
+		/**
+		 * Self explanatory.
+		 */
+		public final void setLabel(GraphicString label) {
+			this.label = label;
+		}
+
+		/**
+		 * Self explanatory.
+		 */
+		public final void setLabelPosition(SliderLabelPosition labelPosition) {
+			this.labelPosition = labelPosition;
+		}
+
+		/**
+		 * Self explanatory.
+		 */
+		public final void setColor(Color color) {
+			this.color = color;
+		}
+
+		/**
 		 * Possible sides for a slider's label.
-		 * 
+		 *
 		 * @author Skander
 		 *
 		 */
 		public static enum SliderLabelPosition {
 			TOP, BOTTOM, LEFT, RIGHT;
 		}
+
 	}
 }
