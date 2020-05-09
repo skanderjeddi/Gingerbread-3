@@ -9,6 +9,7 @@ import java.util.List;
 import com.skanderj.g3.component.action.ButtonAction;
 import com.skanderj.g3.inputdevice.Keyboard;
 import com.skanderj.g3.inputdevice.Mouse;
+import com.skanderj.g3.io.FontManager;
 import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
 import com.skanderj.g3.translation.TranslationManager;
@@ -212,12 +213,12 @@ public abstract class Selector implements Component {
 	}
 
 	/**
-	 * Graphic implementation dependant.
+	 * Graphic implementation dependent.
 	 */
 	public abstract boolean leftArrowContainsMouse(int x, int y);
 
 	/**
-	 * Graphic implementation dependant.
+	 * Graphic implementation dependent.
 	 */
 	public abstract boolean rightArrowContainsMouse(int x, int y);
 
@@ -374,8 +375,10 @@ public abstract class Selector implements Component {
 			new GraphicString(this.currentOption, this.properties, this.properties.getColor().darker().darker()).drawCentered(graphics, this.x, this.y, this.width, this.height);
 			graphics.setColor(Color.WHITE);
 			graphics.fillRect(this.x - 10 - this.arrowSize, this.y, this.arrowSize, this.height);
+			new GraphicString("<", Color.BLACK, FontManager.getFont("lunchtime", 24)).drawCentered(graphics, this.x - 10 - this.arrowSize, this.y, this.arrowSize, this.height);
 			graphics.setColor(Color.WHITE);
 			graphics.fillRect(this.x + this.width + 10, this.y, this.arrowSize, this.height);
+			new GraphicString(">", Color.BLACK, FontManager.getFont("lunchtime", 24)).drawCentered(graphics, this.x + this.width + 10, this.y, this.arrowSize, this.height);
 		}
 
 		/**
