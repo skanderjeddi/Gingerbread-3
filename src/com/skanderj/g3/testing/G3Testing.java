@@ -1,6 +1,7 @@
 package com.skanderj.g3.testing;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferStrategy;
@@ -10,8 +11,7 @@ import com.skanderj.g3.component.Button;
 import com.skanderj.g3.component.ButtonState;
 import com.skanderj.g3.component.ComponentManager;
 import com.skanderj.g3.component.Slider;
-import com.skanderj.g3.component.Slider.SliderLabelPosition;
-import com.skanderj.g3.component.Textfield;
+import com.skanderj.g3.component.Textbox;
 import com.skanderj.g3.component.action.ButtonAction;
 import com.skanderj.g3.inputdevice.Keyboard;
 import com.skanderj.g3.inputdevice.Mouse;
@@ -20,6 +20,7 @@ import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
 import com.skanderj.g3.translation.TranslationManager;
 import com.skanderj.g3.util.GraphicString;
+import com.skanderj.g3.util.TextProperties;
 import com.skanderj.g3.util.Utilities;
 import com.skanderj.g3.window.Window;
 
@@ -34,7 +35,7 @@ public final class G3Testing {
 	private Keyboard keyboard;
 	private Mouse mouse;
 
-	private Textfield topArea, middleArea;
+	private Textbox textbox;
 	private Button playbackButton, randomFartButton;
 	private Slider volumeSlider;
 
@@ -60,10 +61,9 @@ public final class G3Testing {
 	}
 
 	private synchronized void registerComponents() {
-		this.topArea = new Textfield(50, 50, this.window.getWidth() - 100, 50, Color.PINK, Color.BLACK, FontManager.getFont("roboto", 48), false);
-		this.middleArea = new Textfield(50, 125, this.window.getWidth() - 100, 200, Color.PINK, Color.BLACK, FontManager.getFont("roboto", 48), true);
-		this.playbackButton = new Button.RoundEdge(50, 400, 150, 60, new GraphicString(TranslationManager.getKey("key.playbackbutton.pause"), Color.WHITE, FontManager.getFont("roboto", 24), Color.DARK_GRAY), Color.WHITE, Color.BLACK, 16);
-		this.randomFartButton = new Button.StraightEdge(250, 400, 250, 60, new GraphicString(TranslationManager.getKey("key.fartbutton.label"), Color.WHITE, FontManager.getFont("roboto", 24), Color.DARK_GRAY), Color.BLACK, Color.LIGHT_GRAY);
+		this.textbox = new Textbox.Basic(50, 50, this.window.getWidth() - 100, Color.PINK, new TextProperties(FontManager.getFont("roboto", 48, Font.BOLD), Color.BLACK), 4);
+		this.playbackButton = new Button.RoundEdge(50, 400, 150, 60, new GraphicString(TranslationManager.getKey("key.playbackbutton.pause"), Color.WHITE, FontManager.getFont("lunchtime", 24), Color.DARK_GRAY), Color.WHITE, Color.BLACK, 16);
+		this.randomFartButton = new Button.StraightEdge(250, 400, 250, 60, new GraphicString(TranslationManager.getKey("key.fartbutton.label"), Color.WHITE, FontManager.getFont("lunchtime", 24), Color.DARK_GRAY), Color.BLACK, Color.LIGHT_GRAY);
 		this.playbackButton.setButtonAction(ButtonState.IDLE, new ButtonAction() {
 			@Override
 			public void execute(Object... args) {
@@ -82,7 +82,7 @@ public final class G3Testing {
 				G3Testing.this.playbackButton.getLabel().setColor(Color.RED);
 			}
 		});
-		this.playbackButton.setButtonAction(ButtonState.CLICK_FRAME, new ButtonAction() {
+		this.playbackButton.setButtonAction(ButtonState.ON_ACTUAL_CLICK, new ButtonAction() {
 			@Override
 			public void execute(Object... args) {
 				if (G3Testing.this.playbackButton.getLabel().getContent().equals((TranslationManager.getKey("key.playbackbutton.pause")))) {
@@ -94,21 +94,21 @@ public final class G3Testing {
 				}
 			}
 		});
-		this.randomFartButton.setButtonAction(ButtonState.CLICK_FRAME, new ButtonAction() {
+		this.randomFartButton.setButtonAction(ButtonState.ON_ACTUAL_CLICK, new ButtonAction() {
 			@Override
 			public void execute(Object... args) {
 				AudioManager.playAudio(String.format("fart_%d", Utilities.randomInteger(0, 4)));
 			}
 		});
-		this.volumeSlider = new Slider(225, 525, 150, 15, 4, 46, 0f, 1f, 0.5f, Color.WHITE, new GraphicString((TranslationManager.getKey("key.volumeslider.label")), Color.WHITE, FontManager.getFont("roboto", 24)), SliderLabelPosition.RIGHT);
-		ComponentManager.addComponent("top-text-bar", this.topArea);
-		ComponentManager.addComponent("bottom-text-area", this.middleArea);
+		this.volumeSlider = new Slider.Basic(225, 525, 150, 15, 4, 46, 0f, 1f, 0.5f, Color.WHITE, new GraphicString((TranslationManager.getKey("key.volumeslider.label")), Color.WHITE, FontManager.getFont("lunchtime", 24)), Slider.Basic.SliderLabelPosition.RIGHT);
+		ComponentManager.addComponent("text-box-test", this.textbox);
 		ComponentManager.addComponent("pause-resume-playbackButton", this.playbackButton);
 		ComponentManager.addComponent("random-fart-button", this.randomFartButton);
 		ComponentManager.addComponent("volume-volumeSlider", this.volumeSlider);
 	}
 
 	private synchronized void loadResources() {
+		FontManager.registerFont("lunchtime", "res/font/lunchds.ttf");
 		FontManager.registerFont("roboto", "res/font/roboto.ttf");
 		AudioManager.registerAudio("theme", "res/audio/silhouette.wav");
 		AudioManager.registerAll("fart_%d", "res/audio/fart/");
@@ -161,7 +161,7 @@ public final class G3Testing {
 		graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 		ComponentManager.render(this.window, graphics);
 		graphics.setColor(Color.WHITE);
-		graphics.setFont(FontManager.getFont("roboto", 32));
+		graphics.setFont(FontManager.getFont("lunchtime", 32));
 		graphics.drawString(String.format((TranslationManager.getKey("key.volumeslider.label")) + ": %.2f", AudioManager.getVolume("theme") * 100) + "%", this.window.getWidth() - 350, this.window.getHeight() - 40);
 		graphics.dispose();
 		bufferStrategy.show();

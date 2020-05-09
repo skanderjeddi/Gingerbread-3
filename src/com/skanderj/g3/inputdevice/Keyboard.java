@@ -10,11 +10,23 @@ import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
 import com.skanderj.g3.translation.TranslationManager;
 
+/**
+ * A class representing an AZERTY (!!!) keyboard, although it can be used for
+ * any type of keyboards if you exclude the
+ * {@link Keyboard#getKeyRepresentation(int, boolean, boolean, boolean)}
+ * function.
+ * 
+ * @author Skander
+ *
+ */
 public class Keyboard extends KeyAdapter implements InputDevice {
+	// Translation keys
 	private static final String KEY_KEYBOARD_KEY_PRESSED = "key.keyboard.key_pressed";
 
+	// Trying to hit absolutely every key - otherwise things crash
 	private static final int KEY_COUNT = 65536;
 
+	// Shortcuts to the KeyEvent.VK_XXX fields
 	public static final int KEY_ENTER = KeyEvent.VK_ENTER;
 	public static final int KEY_BACK_SPACE = KeyEvent.VK_BACK_SPACE;
 	public static final int KEY_TAB = KeyEvent.VK_TAB;
@@ -205,9 +217,14 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 	public static final int KEY_BEGIN = KeyEvent.VK_BEGIN;
 	public static final int KEY_UNDEFINED = KeyEvent.VK_UNDEFINED;
 
+	// Previous keys' states
 	private final boolean[] cache;
+	// Current keys' states
 	private final KeyState[] keysStates;
 
+	/**
+	 * Initializes everything with the default values.
+	 */
 	public Keyboard() {
 		this.cache = new boolean[Keyboard.KEY_COUNT];
 		this.keysStates = new KeyState[Keyboard.KEY_COUNT];
@@ -216,6 +233,11 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 		}
 	}
 
+	/**
+	 * Logic happens here. Detects which keys are down just this frame and beyond,
+	 * which keys have been down before the current frame and which keys are not
+	 * pressed.
+	 */
 	public synchronized void update() {
 		for (int index = 0; index < Keyboard.KEY_COUNT; index++) {
 			if (this.cache[index] == true) {
@@ -230,14 +252,23 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public boolean isKeyDown(final int keyCode) {
 		return (this.keysStates[keyCode] == KeyState.DOWN_IN_FRAME) || (this.keysStates[keyCode] == KeyState.DOWN);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public boolean isKeyDownInFrame(final int keyCode) {
 		return this.keysStates[keyCode] == KeyState.DOWN_IN_FRAME;
 	}
 
+	/**
+	 * KeyListener methods, logic also happens here.
+	 */
 	@Override
 	public synchronized void keyPressed(final KeyEvent keyEvent) {
 		final int keyCode = keyEvent.getKeyCode();
@@ -246,6 +277,9 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 		}
 	}
 
+	/**
+	 * KeyListener methods, logic also happens here.
+	 */
 	@Override
 	public synchronized void keyReleased(final KeyEvent keyEvent) {
 		final int keyCode = keyEvent.getKeyCode();
@@ -254,22 +288,40 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 		}
 	}
 
+	/**
+	 * Self explanatory, used for keystates.
+	 */
 	public synchronized boolean isShiftDown() {
 		return this.isKeyDown(Keyboard.KEY_SHIFT);
 	}
 
+	/**
+	 * PEOPLE SAY THIS DOESN'T WORK, it obviously does.
+	 */
 	public synchronized boolean isCapsLocked() {
 		return Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK);
 	}
 
+	/**
+	 * Don't ask me why, I wouldn't know, Java is weird.
+	 */
 	public synchronized boolean isAltGrDown() {
 		return this.isKeyDown(17) && this.isKeyDown(18);
 	}
 
+	/**
+	 * The 3 states a key can be in.
+	 * 
+	 * @author Skander
+	 *
+	 */
 	public static enum KeyState {
 		UP, DOWN, DOWN_IN_FRAME;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public synchronized final Integer[] getKeysByState(KeyState state) {
 		List<Integer> keys = new ArrayList<Integer>();
 		switch (state) {
@@ -298,6 +350,14 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 		return new Integer[0];
 	}
 
+	/**
+	 * Quick method to get the key name out of a keycode. Doesn't take modifiers
+	 * into account. You're better using
+	 * {@link Keyboard#getKeyRepresentation(int, boolean, boolean, boolean)} for a
+	 * more accurate response. Deprecated but can still be used, although
+	 * incomplete.
+	 */
+	@Deprecated
 	public static final String getKeyName(int keycode) {
 		switch (keycode) {
 		case Keyboard.KEY_0:
@@ -395,6 +455,13 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 		}
 	}
 
+	/**
+	 * The meat of the keyboard class. Returns the representation associated with
+	 * the key code while taking the modifiers into account. Very long to code but
+	 * pretty complete. !!!! BASED ON MY AZERTY KEYBOARD !!!!, will probably make
+	 * this an abstract class in the future and move this to an "AZERTYKeyboard"
+	 * class. TODO. (the ^ operator is the XOR operator in Java).
+	 */
 	public static final String getKeyRepresentation(int keycode, boolean shiftDown, boolean capsLocked, boolean altGrDown) {
 		Logger.log(Keyboard.class, LogLevel.DEV_DEBUG, TranslationManager.getKey(Keyboard.KEY_KEYBOARD_KEY_PRESSED, keycode));
 		switch (keycode) {
@@ -558,7 +625,7 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 			}
 		case Keyboard.KEY_Z:
 			if (shiftDown ^ capsLocked) {
-				return "z";
+				return "Z";
 			} else {
 				return "z";
 			}
@@ -737,6 +804,9 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public InputDeviceType getType() {
 		return InputDeviceType.KEYBOARD;

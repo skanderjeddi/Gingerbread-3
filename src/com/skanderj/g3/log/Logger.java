@@ -8,23 +8,40 @@ import java.util.Locale;
 
 import com.skanderj.g3.translation.TranslationManager;
 
+/**
+ * A class used for custom logging purposes. Features: system streams
+ * redirection, (TODO) custom severity levels, process exiting when hitting a
+ * fatal error (TODO make it toggleable), and much more.
+ * 
+ * @author Skander
+ *
+ */
 public final class Logger {
+	// Translation keys
 	private static final String KEY_LOGGER_REDIRECT_SUCCESS = "key.logger.redirect_success";
 	private static final String KEY_LOGGER_FATAL_QUITTING = "key.logger.fatal.quitting";
 
+	// Debuggings' states
 	private static boolean DEBUG = false, DEV_DEBUG = false;
+
+	// References to the default system streams
 	private final static PrintStream defaultSystemOutput = System.out;
 	private final static PrintStream defaultSystemErrorOutput = System.err;
 
+	// Date and time format, #TODO make it customizable
 	private final static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("[hh:mm:ss]");
 
+	// Redirection state
 	private static boolean outputRedirected = false;
 
 	private Logger() {
 		return;
 	}
 
-	public static void redirectSystemOutput() {
+	/**
+	 * Self explanatory.
+	 */
+	public static final void redirectSystemOutput() {
 		if (Logger.outputRedirected) {
 			return;
 		} else {
@@ -35,6 +52,10 @@ public final class Logger {
 		}
 	}
 
+	/**
+	 * Self explanatory. A FATAL log level will exit all processes. The "message"
+	 * string will be formatted with the "args" parameter.
+	 */
 	public static void log(Class<?> clazz, LogLevel logLevel, String message, Object... args) {
 		String origin = new String();
 		if (clazz.getEnclosingClass() != null) {
@@ -63,6 +84,9 @@ public final class Logger {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public static final void setDebuggingState(DebuggingType type, boolean status) {
 		switch (type) {
 		case CLASSIC:
@@ -72,14 +96,30 @@ public final class Logger {
 		}
 	}
 
+	/**
+	 * 
+	 * @author Skander
+	 *
+	 */
 	public static enum LogLevel {
 		INFO, DEBUG, DEV_DEBUG, SEVERE, ERROR, FATAL;
 	}
 
+	/**
+	 * 
+	 * @author Skander
+	 *
+	 */
 	public static enum DebuggingType {
 		CLASSIC, DEVELOPMENT;
 	}
 
+	/**
+	 * Custom print streams for when redirection hasn't happened yet.
+	 * 
+	 * @author Skander
+	 *
+	 */
 	private static class LoggerPrintStream extends PrintStream {
 		private PrintStream printStream;
 

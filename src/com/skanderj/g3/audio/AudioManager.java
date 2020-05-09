@@ -23,7 +23,16 @@ import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
 import com.skanderj.g3.translation.TranslationManager;
 
+/**
+ * A class used for handling all audio purposes. Can't be instantiated, only
+ * static methods. Can handle as much audio as you throw at it. Files must be
+ * .WAV.
+ * 
+ * @author Skander
+ *
+ */
 public final class AudioManager {
+	// Translations keys
 	private static final String KEY_AUDIO_MANAGER_SUCCESS = "key.audiomanager.success";
 	private static final String KEY_AUDIO_MANAGER_NOT_DIRECTORY = "key.audiomanager.not_directory";
 	private static final String KEY_AUDIO_MANAGER_EXCEPTION_LOADING = "key.audiomanager.exception.loading";
@@ -34,15 +43,24 @@ public final class AudioManager {
 	private static final String KEY_AUDIO_MANAGER_MISSING_AUDIO = "key.audiomanager.missing_audio";
 	private static final String KEY_AUDIO_MANAGER_MISSING_AUDIO_STREAM = "key.audiomanager.missing_audio_stream";
 
+	// Reusable audio streams map - how we can play multiple sounds at once over and
+	// over
 	private static final Map<String, AudioInputStream> audioMap = new HashMap<String, AudioInputStream>();
+	// Clips map to handle pausing, playing, resuming...
 	private static final Map<String, Clip> clipsMap = new HashMap<String, Clip>();
+	// Threads map, wrappers for each individual clip
 	private static final Map<String, Thread> threadsMap = new HashMap<String, Thread>();
+	// Keep track of which clips are paused
 	private static final Set<String> pausesMap = new HashSet<String>();
 
 	private AudioManager() {
 		return;
 	}
 
+	/**
+	 * Loads an audio from the provided path. File must be .WAV format. Returns true
+	 * if the audio was successfully registered, false otherwise.
+	 */
 	public static final boolean registerAudio(String identifier, String path) {
 		File soundFile = new File(path);
 		AudioInputStream reusableAudioInputStream;
@@ -57,6 +75,10 @@ public final class AudioManager {
 		}
 	}
 
+	/**
+	 * Loads all the audio files in the provided directory while adding "_0, _1, _2"
+	 * to the identifier. Returns true if successful, false otherwise.
+	 */
 	public static final boolean registerAll(String identifier, String path) {
 		File directory = new File(path);
 		if (directory.isDirectory()) {
@@ -75,6 +97,9 @@ public final class AudioManager {
 		}
 	}
 
+	/**
+	 * Self explanatory. Returns true if successful, false otherwise.
+	 */
 	public static final boolean playAudio(String identifier) {
 		AudioInputStream stream = AudioManager.audioMap.get(identifier);
 		if (stream == null) {
@@ -91,6 +116,11 @@ public final class AudioManager {
 		}
 	}
 
+	/**
+	 * Self explanatory. Uses the stream to create a clip and then wrap the clip in
+	 * a thread and start it. Registering everything in the corresponding maps.
+	 * Returns true if successful, false otherwise.
+	 */
 	private static final boolean playAudio(String identifier, AudioInputStream audioInputStream) {
 		class AudioListener implements LineListener {
 			private boolean isDone = false;
@@ -146,6 +176,9 @@ public final class AudioManager {
 		return true;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public static final boolean isAudioPaused(String identifier) {
 		if (AudioManager.pausesMap.contains(identifier)) {
 			return true;
@@ -154,6 +187,9 @@ public final class AudioManager {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public static final float getVolume(String identifier) {
 		Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
@@ -165,6 +201,9 @@ public final class AudioManager {
 		}
 	}
 
+	/**
+	 * Sets the volume for a running clip. Volume must be between 0f and 1f.
+	 */
 	public static final void setVolume(String identifier, float volume) {
 		Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
@@ -178,6 +217,9 @@ public final class AudioManager {
 		}
 	}
 
+	/**
+	 * Self explanatory. Returns true if successful, false otherwise.
+	 */
 	public static final boolean pauseAudio(String identifier) {
 		Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
@@ -190,6 +232,9 @@ public final class AudioManager {
 		}
 	}
 
+	/**
+	 * Self explanatory. Returns true if successful, false otherwise.
+	 */
 	public static final boolean resumeAudio(String identifier) {
 		Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
@@ -202,6 +247,9 @@ public final class AudioManager {
 		}
 	}
 
+	/**
+	 * Self explanatory. Returns true if successful, false otherwise.
+	 */
 	public static final boolean stopAudio(String identifier) {
 		Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
@@ -214,6 +262,9 @@ public final class AudioManager {
 		}
 	}
 
+	/**
+	 * Self explanatory. Returns true if successful, false otherwise.
+	 */
 	public static final boolean stopAllAudio() {
 		for (AudioInputStream audioInputStream : AudioManager.audioMap.values()) {
 			try {
@@ -233,6 +284,9 @@ public final class AudioManager {
 		return true;
 	}
 
+	/**
+	 * Self explanatory. Returns true if successful, false otherwise.
+	 */
 	public static final boolean loopAudio(String identifier, int count) {
 		AudioInputStream stream = AudioManager.audioMap.get(identifier);
 		if (stream == null) {
@@ -249,6 +303,11 @@ public final class AudioManager {
 		}
 	}
 
+	/**
+	 * Self explanatory. Uses the stream to create a clip and then wrap the clip in
+	 * a thread and loop it. Registering everything in the corresponding maps.
+	 * Returns true if successful, false otherwise.
+	 */
 	private static final boolean loopAudio(String identifier, int count, AudioInputStream audioInputStream) {
 		class AudioListener implements LineListener {
 			private boolean isDone = false;
@@ -302,6 +361,9 @@ public final class AudioManager {
 		return true;
 	}
 
+	/**
+	 * This is where the magic - and the reusable audio streams creation happens.
+	 */
 	private static final AudioInputStream createReusableAudioInputStream(File file) throws IOException, UnsupportedAudioFileException {
 		AudioInputStream audioInputStream = null;
 		try {

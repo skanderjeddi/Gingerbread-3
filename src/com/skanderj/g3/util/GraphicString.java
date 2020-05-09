@@ -6,6 +6,12 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * Helper class - very easy to understand.
+ * 
+ * @author Skander
+ *
+ */
 public final class GraphicString {
 	private String content;
 	private Color color, shadeColor;
@@ -53,6 +59,10 @@ public final class GraphicString {
 		GraphicString.drawCenteredStringWidthless(graphics, x0, y0, height, this);
 	}
 
+	public final int drawCenteredAbsolute(Graphics2D graphics, int x0, int y0, int height) {
+		return GraphicString.drawCenteredStringAbsolute(graphics, x0, y0, height, this);
+	}
+
 	private static final void drawString(Graphics2D graphics, int x0, int y0, GraphicString string) {
 		if (string.shadeColor == null) {
 			graphics.setColor(string.color);
@@ -98,6 +108,17 @@ public final class GraphicString {
 			graphics.drawString(string.content, x0 - 1, (y0 + y) - 1);
 		}
 		return y0 + y;
+	}
+
+	private static final int drawCenteredStringAbsolute(Graphics2D graphics, int x0, int y0, int height, GraphicString string) {
+		graphics.setFont(string.font);
+		graphics.setColor(string.color);
+		FontMetrics metrics = graphics.getFontMetrics();
+		int y = (height - metrics.getHeight()) / 2;
+		graphics.setColor(Color.BLACK);
+		y = ((height - metrics.getHeight()) / 2) + metrics.getAscent();
+		graphics.drawString(string.content, x0, y + y0);
+		return y0;
 	}
 
 	public final String getContent() {

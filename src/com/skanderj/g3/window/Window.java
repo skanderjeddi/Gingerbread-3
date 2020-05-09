@@ -20,16 +20,27 @@ import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
 import com.skanderj.g3.translation.TranslationManager;
 
+/**
+ * A class representing an abstract window. Subclasses Regular and Fullscreen
+ * are pretty self explanatory.
+ * 
+ * @author Skander
+ *
+ */
 public abstract class Window {
+	// Translation keys
 	private static final String KEY_WINDOW_INPUT_REGISTER = "key.window.input.register";
 	private static final String KEY_WINDOW_CREATE_NO_CALL = "key.window.create_no_call";
 	private static final String KEY_WINDOW_DEVICE_ID_NOT_AVAILABLE = "key.window.devid_id_not_available";
 	private static final String KEY_WINDOW_NO_DISPLAY_MODE = "key.window.no_display_mode";
 	private static final String KEY_WINDOW_NO_DISPLAY_MODE_FALLBACK = "key.window.no_display_mode.fallback";
 
+	// Computer graphic devices
 	private static GraphicsDevice[] DEFAULT_DEVICES = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+	// Used when using a fullscreen window
 	private static DisplayMode cacheDisplayMode = null;
 
+	// triple buffering is better, double buffering is faster
 	public static final int DOUBLE_BUFFERING = 2, TRIPLE_BUFFERING = 3;
 
 	protected String title;
@@ -43,6 +54,9 @@ public abstract class Window {
 
 	protected boolean closeRequested, created;
 
+	/**
+	 * Self explanatory.
+	 */
 	public Window(Game game, String title, int width, int height, int buffers) {
 		this.game = game;
 		this.title = title;
@@ -65,6 +79,9 @@ public abstract class Window {
 
 	public abstract void resize();
 
+	/**
+	 * Self explanatory.
+	 */
 	public void registerInput(InputDevice device) {
 		Logger.log(Window.class, LogLevel.DEV_DEBUG, TranslationManager.getKey(Window.KEY_WINDOW_INPUT_REGISTER, device.getType().name()));
 		switch (device.getType()) {
@@ -82,14 +99,25 @@ public abstract class Window {
 		}
 	}
 
+	/**
+	 * Asks the window to close (maybe on a keypress?).
+	 */
 	public void requestClosing() {
 		this.closeRequested = true;
 	}
 
+	/**
+	 * Used to allow mouse and keyboard input to actually go to the canvas and then
+	 * the different components.
+	 */
 	public void requestFocus() {
 		this.canvas.requestFocus();
 	}
 
+	/**
+	 * #TODO explain this and implement it properly (it works but I want it wrapped
+	 * in something clearer).
+	 */
 	public BufferStrategy getBufferStrategy() {
 		BufferStrategy bufferStrategy = this.canvas.getBufferStrategy();
 		if (bufferStrategy == null) {
@@ -99,45 +127,78 @@ public abstract class Window {
 		return bufferStrategy;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public String getTitle() {
 		return this.title;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public void setTitle(String title) {
 		this.title = title;
 		this.frame.setTitle(title);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public int getWidth() {
 		return this.canvas.getWidth();
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public void setWidth(int width) {
 		this.width = width;
 		this.resize();
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public int getHeight() {
 		return this.canvas.getHeight();
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public void setHeight(int height) {
 		this.height = height;
 		this.resize();
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public int getBuffers() {
 		return this.buffers;
 	}
 
+	/**
+	 * Useless for now
+	 */
 	public Game getGame() {
 		return this.game;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public boolean isCloseRequested() {
 		return this.closeRequested;
 	}
 
+	/**
+	 * A windowed.. window. Pretty basic.
+	 * 
+	 * @author Skander
+	 *
+	 */
 	public static class Regular extends Window {
 		public Regular(Game game, String title, int width, int height, int buffers) {
 			super(game, title, width, height, buffers);
@@ -191,6 +252,12 @@ public abstract class Window {
 		}
 	}
 
+	/**
+	 * A fullscreen window. Very basic.
+	 * 
+	 * @author Skander
+	 *
+	 */
 	public static class Fullscreen extends Window {
 		public static final int DEFAULT_FALLBACK_DEVICE_ID = 0, DEFAULT_DEVICE_ID = 0;
 

@@ -10,15 +10,28 @@ import java.util.Map;
 import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
 
+/**
+ * A class used to load and retrieve translations from .lang files - a more
+ * basic copy of the Minecraft translation system.
+ * 
+ * @author Skander
+ *
+ */
 public final class TranslationManager {
+	// Default language will always be ENGLISH because ENGLISH >>>>
 	public static final Language DEFAULT_LANGUAGE = Language.ENGLISH;
 
+	// Translations map, only 1 language at a time (#TODO maybe change that?)
 	private static final Map<String, String> languageMap = new HashMap<String, String>();
 
 	private TranslationManager() {
 		return;
 	}
 
+	/**
+	 * Self explanatory. Returns true if successful, false otherwise. #TODO
+	 * customize loading path.
+	 */
 	public static final boolean loadLanguage(Language language) {
 		File languageFile = new File("res/" + language.identifier + ".lang");
 		if (languageFile.exists()) {
@@ -44,11 +57,18 @@ public final class TranslationManager {
 		}
 	}
 
+	/**
+	 * Gets called if a translation is pulled before any language is properly
+	 * loaded.
+	 */
 	private static final void loadDefaultLanguage() {
 		Logger.log(TranslationManager.class, LogLevel.INFO, "Loading default translations for default language (%s)...", TranslationManager.DEFAULT_LANGUAGE.identifier);
 		TranslationManager.loadLanguage(TranslationManager.DEFAULT_LANGUAGE);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public static final String getKey(String key, Object... args) {
 		if (TranslationManager.languageMap.isEmpty()) {
 			TranslationManager.loadDefaultLanguage();
@@ -56,6 +76,12 @@ public final class TranslationManager {
 		return TranslationManager.languageMap.get(key) == null ? "(null)" : String.format(TranslationManager.languageMap.get(key), args);
 	}
 
+	/**
+	 * Language represenation with id for reference.
+	 * 
+	 * @author Skander
+	 *
+	 */
 	public static enum Language {
 		FRENCH("fr"), ENGLISH("en");
 
