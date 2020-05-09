@@ -7,7 +7,7 @@ The third and latest version of my Gingerbread engine for Java 2D games
 
 ### Prerequisites
 
-You'll only need Java 8 or higher.
+You'll need Java 13.
 
 ### Installing
 
@@ -19,8 +19,8 @@ You'll only need Java 8 or higher.
 
 ## Authors
 
-* **Skander Jeddi** - [iddej](https://github.com/skanderjeddi)
+* **Skander Jeddi** - [skanderjeddi](https://github.com/skanderjeddi)
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
