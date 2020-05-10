@@ -7,12 +7,12 @@ import java.util.Map;
 import java.util.Set;
 
 import com.skanderj.g3.audio.AudioManager;
-import com.skanderj.g3.inputdevice.Keyboard;
-import com.skanderj.g3.inputdevice.Mouse;
 import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
 import com.skanderj.g3.translation.TranslationManager;
 import com.skanderj.g3.window.Window;
+import com.skanderj.g3.window.inputdevice.Keyboard;
+import com.skanderj.g3.window.inputdevice.Mouse;
 
 /**
  * A class used for registering, handling, updating and rendering all the
@@ -26,6 +26,9 @@ public final class ComponentManager {
 	// Translations keys
 	private static final String KEY_COMPONENT_MANAGER_MISSING_COMPONENT = "key.componentmanager.missing_component";
 	private static final String KEY_COMPONENT_MANAGER_SIZE_MISMATCH_IDENTIFIERS_COMPONENTS = "key.componentmanager.size.mismatch.identifiers.components";
+
+	// Graphical debug - mostly drawing components' bounds
+	public static final boolean GRAPHICAL_DEBUG = true;
 
 	// Components map, for easily finding any component from any class
 	// Makes it possible to not instantiate any actual component
@@ -182,7 +185,7 @@ public final class ComponentManager {
 	 *
 	 * @return
 	 */
-	public static Component getInFocus() {
+	public static final Component getInFocus() {
 		return ComponentManager.inFocus;
 	}
 }

@@ -15,10 +15,10 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 
 import com.skanderj.g3.core.Game;
-import com.skanderj.g3.inputdevice.InputDevice;
 import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
 import com.skanderj.g3.translation.TranslationManager;
+import com.skanderj.g3.window.inputdevice.InputDevice;
 
 /**
  * A class representing an abstract window. Subclasses Regular and Fullscreen
@@ -191,6 +191,20 @@ public abstract class Window {
 	 */
 	public boolean isCloseRequested() {
 		return this.closeRequested;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public final int getWP(float proportion) {
+		return (int) Math.floor(this.width * proportion);
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public final int getHP(float proportion) {
+		return (int) Math.floor(this.height * proportion);
 	}
 
 	/**

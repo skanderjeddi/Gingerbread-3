@@ -1,4 +1,4 @@
-package com.skanderj.g3.inputdevice;
+package com.skanderj.g3.window.inputdevice;
 
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;

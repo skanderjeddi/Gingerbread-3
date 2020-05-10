@@ -1,42 +1,26 @@
 package com.skanderj.g3.component;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-
 import com.skanderj.g3.component.action.ButtonAction;
-import com.skanderj.g3.inputdevice.Keyboard;
-import com.skanderj.g3.inputdevice.Mouse;
-import com.skanderj.g3.util.GraphicString;
-import com.skanderj.g3.window.Window;
+import com.skanderj.g3.window.inputdevice.Keyboard;
+import com.skanderj.g3.window.inputdevice.Mouse;
 
 /**
  * Represents an abstract button, basis for other button classes which can
- * implement their rendering the way they please. See Button#StraightEdge and
- * Button#RoundEdge for basic examples.
+ * implement their rendering the way they please. See G3SEButton and G3REButton
+ * for basic, ready-to-be-used examples.
  *
  * @author Skander
  *
  */
 public abstract class Button implements Component {
-	protected int x, y, width, height;
-	protected GraphicString label;
-	protected Color backgroundColor, borderColor;
 	protected ButtonState previousState, state;
 	protected ButtonAction[] actions;
 	protected boolean hasFocus, mouseWasIn;
 
 	/**
-	 * Basic constructor: position, size, label, color and border color.
+	 * Basic constructor: position.
 	 */
-	public Button(int x, int y, int width, int height, GraphicString label, Color backgroundColor, Color borderColor) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
-		this.label = label;
-		this.backgroundColor = backgroundColor;
-		this.borderColor = borderColor;
+	public Button() {
 		this.previousState = ButtonState.IDLE;
 		this.state = ButtonState.IDLE;
 		this.actions = new ButtonAction[4];
@@ -56,7 +40,7 @@ public abstract class Button implements Component {
 	public void update(double delta, Keyboard keyboard, Mouse mouse, Object... args) {
 		this.previousState = this.state;
 		int mouseX = mouse.getX(), mouseY = mouse.getY();
-		boolean mouseIn = new Rectangle(this.x, this.y, this.width, this.height).contains(mouseX, mouseY), mouseClicked = mouse.isButtonDown(Mouse.BUTTON_LEFT);
+		boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = mouse.isButtonDown(Mouse.BUTTON_LEFT);
 		if (mouseIn && mouseClicked && !this.hasFocus) {
 			this.hasFocus = true;
 		}
@@ -82,7 +66,7 @@ public abstract class Button implements Component {
 	 * Sets the button action that will be executed when the provided currentState
 	 * is the current currentState.
 	 */
-	public final void setButtonAction(ButtonState state, ButtonAction action) {
+	public void setButtonAction(ButtonState state, ButtonAction action) {
 		this.actions[state.getIdentifier()] = action;
 	}
 
@@ -91,7 +75,7 @@ public abstract class Button implements Component {
 	 * button if it's completely idle.
 	 */
 	@Override
-	public boolean canChangeFocus() {
+	public final boolean canChangeFocus() {
 		return this.state == ButtonState.IDLE;
 	}
 
@@ -100,7 +84,7 @@ public abstract class Button implements Component {
 	 * buttons so these do nothing.
 	 */
 	@Override
-	public void grantFocus() {
+	public final void grantFocus() {
 		return;
 	}
 
@@ -109,189 +93,48 @@ public abstract class Button implements Component {
 	 * buttons so these do nothing.
 	 */
 	@Override
-	public void revokeFocus() {
+	public final void revokeFocus() {
 		return;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	@Override
-	public boolean containsMouse(int x, int y) {
-		return new Rectangle(this.x, this.y, this.width, this.height).contains(x, y);
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public final int getX() {
-		return this.x;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public final int getY() {
-		return this.y;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public final int getWidth() {
-		return this.width;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public final int getHeight() {
-		return this.height;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public final GraphicString getLabel() {
-		return this.label;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public final Color getBackgroundColor() {
-		return this.backgroundColor;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public final Color getBorderColor() {
-		return this.borderColor;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public final ButtonAction[] getActions() {
+	public ButtonAction[] getActions() {
 		return this.actions;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public final void setX(int x) {
-		this.x = x;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public final void setY(int y) {
-		this.y = y;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public final void setWidth(int width) {
-		this.width = width;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public final void setHeight(int height) {
-		this.height = height;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public final void setLabel(GraphicString label) {
-		this.label = label;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public final void setBackgroundColor(Color backgroundColor) {
-		this.backgroundColor = backgroundColor;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public final void setBorderColor(Color borderColor) {
-		this.borderColor = borderColor;
 	}
 
 	/**
 	 * Self explanatory. Can be used to set multiple actions at once.
 	 */
-	public final void setActions(ButtonAction[] actions) {
+	public void setActions(ButtonAction[] actions) {
 		this.actions = actions;
 	}
 
 	/**
-	 * A straight edges version of the button. Very basic.
+	 * Represents all the possible states of a button. IDLE: mouse is out and the
+	 * button doesn't have focus. HOVERED: mouse is over the button, not clicked and
+	 * no focus yet. CLICKED: mouse is over the button and clicked or mouse is
+	 * clicked and focus is on the button. Basically means you can click and leave
+	 * the button area to cancel your click. ON_ACTUAL_CLICK: On the transition
+	 * between CLICKED and IDLE or between CLICKED and HOVERED, where you should
+	 * assign the actual action to your button.
 	 *
 	 * @author Skander
 	 *
 	 */
-	public static class StraightEdge extends Button {
+	public static enum ButtonState {
+		IDLE(0), HOVERED(1), CLICKED(2), ON_ACTUAL_CLICK(3);
 
-		public StraightEdge(int x, int y, int width, int height, GraphicString label, Color backgroundColor, Color borderColor) {
-			super(x, y, width, height, label, backgroundColor, borderColor);
+		// An identifier for easier access in other classes (#Button)
+		private final int identifier;
+
+		private ButtonState(int identifier) {
+			this.identifier = identifier;
 		}
 
-		/**
-		 * Draws a simple rectangle for the background, draws the border and the label.
-		 */
-		@Override
-		public void render(Window window, Graphics2D graphics, Object... args) {
-			graphics.setColor(this.backgroundColor);
-			graphics.fillRect(this.x, this.y, this.width, this.height);
-			this.label.drawCentered(graphics, this.x, this.y, this.width, this.height);
-			graphics.setColor(this.borderColor);
-			graphics.drawRect(this.x, this.y, this.width, this.height);
-		}
-	}
-
-	/**
-	 * A round edges version of the button. Still very basic.
-	 *
-	 * @author Skander
-	 *
-	 */
-	public static class RoundEdge extends Button {
-		// Border incline = how many pixels will be shaved off at each edge
-		private int borderIncline;
-
-		public RoundEdge(int x, int y, int width, int height, GraphicString label, Color backgroundColor, Color borderColor, int borderIncline) {
-			super(x, y, width, height, label, backgroundColor, borderColor);
-			this.borderIncline = borderIncline;
-		}
-
-		/**
-		 * Draws a simple round rectangle for the background, draws the border and the
-		 * label.
-		 */
-		@Override
-		public void render(Window window, Graphics2D graphics, Object... args) {
-			graphics.setColor(this.backgroundColor);
-			graphics.fillRoundRect(this.x, this.y, this.width, this.height, this.borderIncline, this.borderIncline);
-			this.label.drawCentered(graphics, this.x, this.y, this.width, this.height);
-			graphics.setColor(this.borderColor);
-			graphics.drawRoundRect(this.x, this.y, this.width, this.height, this.borderIncline, this.borderIncline);
-		}
-
-		public int getBorderIncline() {
-			return this.borderIncline;
-		}
-
-		public void setBorderIncline(int borderIncline) {
-			this.borderIncline = borderIncline;
+		public final int getIdentifier() {
+			return this.identifier;
 		}
 	}
 }

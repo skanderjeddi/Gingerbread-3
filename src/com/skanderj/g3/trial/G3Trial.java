@@ -1,4 +1,4 @@
-package com.skanderj.g3.testing;
+package com.skanderj.g3.trial;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -8,45 +8,53 @@ import java.awt.image.BufferStrategy;
 
 import com.skanderj.g3.audio.AudioManager;
 import com.skanderj.g3.component.Button;
-import com.skanderj.g3.component.ButtonState;
+import com.skanderj.g3.component.Button.ButtonState;
 import com.skanderj.g3.component.Component;
 import com.skanderj.g3.component.ComponentManager;
 import com.skanderj.g3.component.Label;
 import com.skanderj.g3.component.Selector;
 import com.skanderj.g3.component.Slider;
-import com.skanderj.g3.component.Slider.Basic.SliderLabelPosition;
-import com.skanderj.g3.component.Textbox;
+import com.skanderj.g3.component.Textfield;
 import com.skanderj.g3.component.action.ButtonAction;
-import com.skanderj.g3.inputdevice.Keyboard;
-import com.skanderj.g3.inputdevice.Mouse;
+import com.skanderj.g3.component.basic.G3Label;
+import com.skanderj.g3.component.basic.G3REButton;
+import com.skanderj.g3.component.basic.G3Selector;
+import com.skanderj.g3.component.basic.G3Slider;
+import com.skanderj.g3.component.basic.G3Slider.SliderLabelPosition;
+import com.skanderj.g3.component.basic.G3Textfield;
 import com.skanderj.g3.io.FontManager;
 import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
+import com.skanderj.g3.translation.Key;
 import com.skanderj.g3.translation.TranslationManager;
 import com.skanderj.g3.util.GraphicString;
 import com.skanderj.g3.util.TextProperties;
-import com.skanderj.g3.util.Utilities;
 import com.skanderj.g3.window.Window;
+import com.skanderj.g3.window.inputdevice.Keyboard;
+import com.skanderj.g3.window.inputdevice.Mouse;
 
-public final class G3Testing {
-	private static G3Testing instance;
+public final class G3Trial {
+	private static G3Trial instance;
 
-	public static final G3Testing getTestingInstance() {
-		return G3Testing.instance == null ? G3Testing.instance = new G3Testing() : G3Testing.instance;
+	public static final G3Trial getTrialInstance() {
+		return G3Trial.instance == null ? G3Trial.instance = new G3Trial() : G3Trial.instance;
 	}
 
 	private Window window;
 	private Keyboard keyboard;
 	private Mouse mouse;
 
-	private Textbox textbox;
-	private Button playbackButton, randomFartButton;
+	private Textfield textfield;
+	private Button playbackButton;
 	private Slider volumeSlider;
 	private Label volumeLabel;
 	private Selector selector;
 	private Slider redSlider, greenSlider, blueSlider;
 
-	private G3Testing() {
+	private TextProperties buttonTextStyle;
+	private int leftAlignment, middleAlignment;
+
+	private G3Trial() {
 		this.window = new Window.Fullscreen(null, "G3T", Window.TRIPLE_BUFFERING, Window.Fullscreen.isDeviceIDAvailable(0), Window.Fullscreen.DEFAULT_FALLBACK_DEVICE_ID);
 		this.keyboard = new Keyboard();
 		this.mouse = new Mouse();
@@ -62,59 +70,57 @@ public final class G3Testing {
 		this.window.registerInput(this.keyboard);
 		this.window.registerInput(this.mouse);
 		this.window.show();
+		{
+			this.buttonTextStyle = new TextProperties(FontManager.getFont("lunchtime", 24), Color.WHITE);
+			this.leftAlignment = this.window.getWP(1f / 44f);
+			this.middleAlignment = this.window.getWP(1f / 2f);
+		}
 		this.registerComponents();
 		this.window.requestFocus();
 		this.enterLoop();
 	}
 
 	private synchronized void registerComponents() {
-		this.textbox = new Textbox.Basic(50, 50, this.window.getWidth() - 100, Color.PINK, new TextProperties(FontManager.getFont("lunchtime", 48, Font.BOLD), Color.BLACK), 4);
-		this.playbackButton = new Button.RoundEdge(50, 400, 150, 60, new GraphicString(TranslationManager.getKey("key.playbackbutton.pause"), Color.WHITE, FontManager.getFont("lunchtime", 24), Color.DARK_GRAY), Color.WHITE, Color.BLACK, 16);
-		this.randomFartButton = new Button.StraightEdge(250, 400, 250, 60, new GraphicString(TranslationManager.getKey("key.fartbutton.label"), Color.WHITE, FontManager.getFont("lunchtime", 24), Color.DARK_GRAY), Color.BLACK, Color.LIGHT_GRAY);
+		this.textfield = new G3Textfield(this.leftAlignment, this.window.getHP((float) 1 / 30), this.window.getWP((float) 42 / 44), Color.PINK, new TextProperties(FontManager.getFont("lunchtime", 36, Font.BOLD), Color.BLACK), 4);
+		this.playbackButton = new G3REButton(this.leftAlignment, this.window.getHP(1f / 4.8f), this.window.getWP(1f / 20f), this.window.getHP(1f / 20f), new GraphicString(Key.getKey("key.playbackbutton.pause"), this.buttonTextStyle, Color.DARK_GRAY), new Color(100, 100, 100), Color.BLACK, 16);
 		this.playbackButton.setButtonAction(ButtonState.IDLE, new ButtonAction() {
 			@Override
 			public void execute(Object... args) {
-				G3Testing.this.playbackButton.getLabel().setColor(Color.YELLOW);
+				((G3REButton) G3Trial.this.playbackButton).getLabel().setColor(Color.YELLOW);
 			}
 		});
 		this.playbackButton.setButtonAction(ButtonState.HOVERED, new ButtonAction() {
 			@Override
 			public void execute(Object... args) {
-				G3Testing.this.playbackButton.getLabel().setColor(Color.CYAN);
+				((G3REButton) G3Trial.this.playbackButton).getLabel().setColor(Color.CYAN);
 			}
 		});
 		this.playbackButton.setButtonAction(ButtonState.CLICKED, new ButtonAction() {
 			@Override
 			public void execute(Object... args) {
-				G3Testing.this.playbackButton.getLabel().setColor(Color.RED);
+				((G3REButton) G3Trial.this.playbackButton).getLabel().setColor(Color.RED);
 			}
 		});
 		this.playbackButton.setButtonAction(ButtonState.ON_ACTUAL_CLICK, new ButtonAction() {
 			@Override
 			public void execute(Object... args) {
-				if (G3Testing.this.playbackButton.getLabel().getContent().equals((TranslationManager.getKey("key.playbackbutton.pause")))) {
+				if (((G3REButton) G3Trial.this.playbackButton).getLabel().getContent().equals((TranslationManager.getKey("key.playbackbutton.pause")))) {
 					AudioManager.pauseAudio("theme");
-					G3Testing.this.playbackButton.getLabel().setContent((TranslationManager.getKey("key.playbackbutton.resume")));
+					((G3REButton) G3Trial.this.playbackButton).getLabel().setContent((TranslationManager.getKey("key.playbackbutton.resume")));
 				} else {
 					AudioManager.resumeAudio("theme");
-					G3Testing.this.playbackButton.getLabel().setContent((TranslationManager.getKey("key.playbackbutton.pause")));
+					((G3REButton) G3Trial.this.playbackButton).getLabel().setContent((TranslationManager.getKey("key.playbackbutton.pause")));
 				}
 			}
 		});
-		this.randomFartButton.setButtonAction(ButtonState.ON_ACTUAL_CLICK, new ButtonAction() {
-			@Override
-			public void execute(Object... args) {
-				AudioManager.playAudio(String.format("fart_%d", Utilities.randomInteger(0, 4)));
-			}
-		});
-		this.volumeSlider = new Slider.Basic(225, 525, 150, 15, 4, 46, 0f, 1f, 0.5f, Color.WHITE, new GraphicString((TranslationManager.getKey("key.volumeslider.label")), Color.WHITE, FontManager.getFont("lunchtime", 24)), Slider.Basic.SliderLabelPosition.RIGHT);
-		this.volumeLabel = new Label.Basic(50, 800, 200, 60, new GraphicString(TranslationManager.getKey("key.volume.label", 0f), Color.YELLOW, FontManager.getFont("lunchtime", 24)));
-		this.selector = new Selector.Basic(150, 900, 100, 70, 50, new TextProperties(FontManager.getFont("lunchtime", 24), Color.DARK_GRAY), new String[] { "Black", "White", "Pink", "Yellow", "Blue", "Red", "Green", "Custom" }, "Black");
-		this.redSlider = new Slider.Basic(600, 600, 255, 20, 4, 24, 0f, 255f, 128f, Color.BLACK, new GraphicString("RED (%.0f)", Color.RED, FontManager.getFont("lunchtime", 24)), SliderLabelPosition.RIGHT);
-		this.greenSlider = new Slider.Basic(600, 640, 255, 20, 4, 24, 0f, 255f, 128f, Color.BLACK, new GraphicString("GREEN (%.0f)", Color.GREEN, FontManager.getFont("lunchtime", 24)), SliderLabelPosition.RIGHT);
-		this.blueSlider = new Slider.Basic(600, 680, 255, 20, 4, 24, 0f, 255f, 128f, Color.BLACK, new GraphicString("BLUE (%.0f)", Color.BLUE, FontManager.getFont("lunchtime", 24)), SliderLabelPosition.RIGHT);
-		String[] identifiers = { "text-box-test", "pause-resume-playbackButton", "random-fart-button", "volume-volumeSlider", "volume-label", "color-selector", "red-slider", "green-slider", "blue-slider" };
-		Component[] components = { this.textbox, this.playbackButton, this.randomFartButton, this.volumeSlider, this.volumeLabel, this.selector, this.redSlider, this.greenSlider, this.blueSlider };
+		this.volumeSlider = new G3Slider(this.leftAlignment, this.window.getHP(1f / 3.5f), 150, 15, 4, 46, 0f, 1f, 0.5f, Color.WHITE, new GraphicString((TranslationManager.getKey("key.volumeslider.label")), Color.WHITE, FontManager.getFont("lunchtime", 24)), G3Slider.SliderLabelPosition.RIGHT);
+		this.volumeLabel = new G3Label(this.leftAlignment, this.window.getHP(1f / 3f), 250, 60, new GraphicString(TranslationManager.getKey("key.volume.label", 0f), Color.YELLOW, FontManager.getFont("lunchtime", 24)));
+		this.selector = new G3Selector(this.leftAlignment, this.window.getHP(1f / 2.4f), 100, 70, 50, new TextProperties(FontManager.getFont("lunchtime", 24), Color.DARK_GRAY), new String[] { "Black", "White", "Pink", "Yellow", "Blue", "Red", "Green", "Custom" }, "Black");
+		this.redSlider = new G3Slider(this.middleAlignment, this.window.getHP(1f / 4f), 255, 20, 4, 24, 0f, 255f, 128f, Color.BLACK, new GraphicString("RED (%.0f)", Color.RED, FontManager.getFont("lunchtime", 24)), SliderLabelPosition.RIGHT);
+		this.greenSlider = new G3Slider(this.middleAlignment, this.window.getHP(1f / 3.4f), 255, 20, 4, 24, 0f, 255f, 128f, Color.BLACK, new GraphicString("GREEN (%.0f)", Color.GREEN, FontManager.getFont("lunchtime", 24)), SliderLabelPosition.RIGHT);
+		this.blueSlider = new G3Slider(this.middleAlignment, this.window.getHP(1f / 2.8f), 255, 20, 4, 24, 0f, 255f, 128f, Color.BLACK, new GraphicString("BLUE (%.0f)", Color.BLUE, FontManager.getFont("lunchtime", 24)), SliderLabelPosition.RIGHT);
+		String[] identifiers = { "text-box-test", "playback-button", "volume-volumeSlider", "volume-label", "color-selector", "red-slider", "green-slider", "blue-slider" };
+		Component[] components = { this.textfield, this.playbackButton, this.volumeSlider, this.volumeLabel, this.selector, this.redSlider, this.greenSlider, this.blueSlider };
 		ComponentManager.addComponents(identifiers, components);
 		ComponentManager.skipComponents("red-slider", "green-slider", "blue-slider");
 	}
