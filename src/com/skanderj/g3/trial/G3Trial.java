@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferStrategy;
 
+import com.skanderj.g3.animation.character.CharacterAnimation;
 import com.skanderj.g3.audio.AudioManager;
 import com.skanderj.g3.component.Button;
 import com.skanderj.g3.component.Button.ButtonState;
@@ -23,8 +24,10 @@ import com.skanderj.g3.component.basic.G3Slider;
 import com.skanderj.g3.component.basic.G3Slider.SliderLabelPosition;
 import com.skanderj.g3.component.basic.G3Textfield;
 import com.skanderj.g3.io.FontManager;
+import com.skanderj.g3.io.ImageManager;
 import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
+import com.skanderj.g3.sprite.Sprite;
 import com.skanderj.g3.translation.Key;
 import com.skanderj.g3.translation.TranslationManager;
 import com.skanderj.g3.util.GraphicString;
@@ -53,6 +56,8 @@ public final class G3Trial {
 
 	private TextProperties buttonTextStyle;
 	private int leftAlignment, middleAlignment;
+
+	private CharacterAnimation robertIdleAnimation, jessicaIdleAnimation;
 
 	private G3Trial() {
 		this.window = new Window.Fullscreen(null, "G3T", Window.TRIPLE_BUFFERING, Window.Fullscreen.isDeviceIDAvailable(0), Window.Fullscreen.DEFAULT_FALLBACK_DEVICE_ID);
@@ -123,6 +128,10 @@ public final class G3Trial {
 		Component[] components = { this.textfield, this.playbackButton, this.volumeSlider, this.volumeLabel, this.selector, this.redSlider, this.greenSlider, this.blueSlider };
 		ComponentManager.addComponents(identifiers, components);
 		ComponentManager.skipComponents("red-slider", "green-slider", "blue-slider");
+		Sprite[] robertSprites = new Sprite[] { new Sprite("idle_0", ImageManager.retrieveImage("idle_0"), 256, 256), new Sprite("idle_0", ImageManager.retrieveImage("idle_1"), 256, 256) };
+		Sprite[] jessicaSprites = new Sprite[] { new Sprite("jessica_idle_0", ImageManager.retrieveImage("jessica_idle_0"), 256, 256), new Sprite("jessica_idle_1", ImageManager.retrieveImage("jessica_idle_1"), 256, 256) };
+		this.robertIdleAnimation = new CharacterAnimation(this.leftAlignment, this.window.getHeight() - 292, robertSprites, new int[] { 60, 60 });
+		this.jessicaIdleAnimation = new CharacterAnimation(this.leftAlignment + 256 + 64, this.window.getHeight() - 292, jessicaSprites, new int[] { 30, 30 });
 	}
 
 	private synchronized void loadResources() {
@@ -130,6 +139,10 @@ public final class G3Trial {
 		FontManager.registerFont("roboto", "res/font/roboto.ttf");
 		AudioManager.registerAudio("theme", "res/audio/silhouette.wav");
 		AudioManager.registerAll("fart_%d", "res/audio/fart/");
+		ImageManager.registerImage("idle_0", "res/sprite/main/idle_0.png");
+		ImageManager.registerImage("idle_1", "res/sprite/main/idle_1.png");
+		ImageManager.registerImage("jessica_idle_0", "res/sprite/main/jessica_idle_0.png");
+		ImageManager.registerImage("jessica_idle_1", "res/sprite/main/jessica_idle_1.png");
 	}
 
 	private synchronized final void enterLoop() {
@@ -166,6 +179,8 @@ public final class G3Trial {
 		} else {
 			ComponentManager.skipComponents("red-slider", "green-slider", "blue-slider");
 		}
+		this.robertIdleAnimation.update(0, keyboard, mouse);
+		this.jessicaIdleAnimation.update(0, keyboard, mouse);
 		this.keyboard.update();
 		this.mouse.update();
 	}
@@ -217,6 +232,8 @@ public final class G3Trial {
 		graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 		ComponentManager.render(this.window, graphics);
+		this.robertIdleAnimation.render(window, graphics);
+		this.jessicaIdleAnimation.render(window, graphics);
 		graphics.dispose();
 		bufferStrategy.show();
 	}
