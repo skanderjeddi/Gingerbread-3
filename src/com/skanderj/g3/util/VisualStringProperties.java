@@ -9,28 +9,28 @@ import java.awt.Font;
  * @author Skander
  *
  */
-public final class TextProperties {
+public final class VisualStringProperties {
 	private Font font;
 	private Color color;
 
-	public TextProperties(Font font, Color color) {
+	public VisualStringProperties(Font font, Color color) {
 		this.font = font;
 		this.color = color;
 	}
 
-	public final Font getFont() {
+	public Font getFont() {
 		return this.font;
 	}
 
-	public final Color getColor() {
+	public Color getColor() {
 		return this.color;
 	}
 
-	public final void setFont(Font font) {
+	public void setFont(Font font) {
 		this.font = font;
 	}
 
-	public final void setColor(Color color) {
+	public void setColor(Color color) {
 		this.color = color;
 	}
 }

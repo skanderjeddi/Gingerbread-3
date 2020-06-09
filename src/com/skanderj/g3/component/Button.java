@@ -1,8 +1,8 @@
 package com.skanderj.g3.component;
 
 import com.skanderj.g3.component.action.ButtonAction;
-import com.skanderj.g3.window.inputdevice.Keyboard;
-import com.skanderj.g3.window.inputdevice.Mouse;
+import com.skanderj.g3.input.Keyboard;
+import com.skanderj.g3.input.Mouse;
 
 /**
  * Represents an abstract button, basis for other button classes which can
@@ -39,8 +39,8 @@ public abstract class Button implements Component {
 	@Override
 	public void update(double delta, Keyboard keyboard, Mouse mouse, Object... args) {
 		this.previousState = this.state;
-		int mouseX = mouse.getX(), mouseY = mouse.getY();
-		boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = mouse.isButtonDown(Mouse.BUTTON_LEFT);
+		final int mouseX = mouse.getX(), mouseY = mouse.getY();
+		final boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = mouse.isButtonDown(Mouse.BUTTON_LEFT);
 		if (mouseIn && mouseClicked && !this.hasFocus) {
 			this.hasFocus = true;
 		}
@@ -56,7 +56,7 @@ public abstract class Button implements Component {
 			this.hasFocus = false;
 			this.mouseWasIn = false;
 		}
-		if ((this.previousState == ButtonState.CLICKED) && ((this.state == ButtonState.IDLE) || (this.state == ButtonState.HOVERED)) && mouseIn) {
+		if (this.previousState == ButtonState.CLICKED && (this.state == ButtonState.IDLE || this.state == ButtonState.HOVERED) && mouseIn) {
 			this.state = ButtonState.ON_ACTUAL_CLICK;
 		}
 		this.actions[this.state.getIdentifier()].execute(delta, keyboard, mouse);
@@ -123,7 +123,7 @@ public abstract class Button implements Component {
 	 * @author Skander
 	 *
 	 */
-	public static enum ButtonState {
+	public enum ButtonState {
 		IDLE(0), HOVERED(1), CLICKED(2), ON_ACTUAL_CLICK(3);
 
 		// An identifier for easier access in other classes (#Button)

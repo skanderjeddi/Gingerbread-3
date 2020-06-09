@@ -1,7 +1,7 @@
 package com.skanderj.g3.component;
 
-import com.skanderj.g3.window.inputdevice.Keyboard;
-import com.skanderj.g3.window.inputdevice.Mouse;
+import com.skanderj.g3.input.Keyboard;
+import com.skanderj.g3.input.Mouse;
 
 /**
  * Represents an abstract slider, basis for other slider classes which can

@@ -1,4 +1,4 @@
-package com.skanderj.g3.window.inputdevice;
+package com.skanderj.g3.input;
 
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
-import com.skanderj.g3.translation.TranslationManager;
 
 /**
  * A class representing an AZERTY (!!!) keyboard, although it can be used for
@@ -20,9 +19,6 @@ import com.skanderj.g3.translation.TranslationManager;
  *
  */
 public class Keyboard extends KeyAdapter implements InputDevice {
-	// Translation keys
-	private static final String KEY_KEYBOARD_KEY_PRESSED = "key.keyboard.key_pressed";
-
 	// Trying to hit absolutely every key - otherwise things crash
 	private static final int KEY_COUNT = 65536;
 
@@ -256,7 +252,7 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 	 * Self explanatory.
 	 */
 	public boolean isKeyDown(final int keyCode) {
-		return (this.keysStates[keyCode] == KeyState.DOWN_IN_FRAME) || (this.keysStates[keyCode] == KeyState.DOWN);
+		return this.keysStates[keyCode] == KeyState.DOWN_IN_FRAME || this.keysStates[keyCode] == KeyState.DOWN;
 	}
 
 	/**
@@ -272,7 +268,7 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 	@Override
 	public synchronized void keyPressed(final KeyEvent keyEvent) {
 		final int keyCode = keyEvent.getKeyCode();
-		if ((keyCode >= 0) && (keyCode < Keyboard.KEY_COUNT)) {
+		if (keyCode >= 0 && keyCode < Keyboard.KEY_COUNT) {
 			this.cache[keyCode] = true;
 		}
 	}
@@ -283,7 +279,7 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 	@Override
 	public synchronized void keyReleased(final KeyEvent keyEvent) {
 		final int keyCode = keyEvent.getKeyCode();
-		if ((keyCode >= 0) && (keyCode < Keyboard.KEY_COUNT)) {
+		if (keyCode >= 0 && keyCode < Keyboard.KEY_COUNT) {
 			this.cache[keyCode] = false;
 		}
 	}
@@ -315,7 +311,7 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 	 * @author Skander
 	 *
 	 */
-	public static enum KeyState {
+	public enum KeyState {
 		UP, DOWN, DOWN_IN_FRAME;
 	}
 
@@ -323,7 +319,7 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 	 * Self explanatory.
 	 */
 	public synchronized final Integer[] getKeysByState(KeyState state) {
-		List<Integer> keys = new ArrayList<Integer>();
+		final List<Integer> keys = new ArrayList<Integer>();
 		switch (state) {
 		case DOWN:
 			for (int keycode = 0; keycode < Keyboard.KEY_COUNT; keycode += 1) {
@@ -463,7 +459,7 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 	 * class. TODO. (the ^ operator is the XOR operator in Java).
 	 */
 	public static final String getKeyRepresentation(int keycode, boolean shiftDown, boolean capsLocked, boolean altGrDown) {
-		Logger.log(Keyboard.class, LogLevel.DEV_DEBUG, TranslationManager.getKey(Keyboard.KEY_KEYBOARD_KEY_PRESSED, keycode));
+		Logger.log(Keyboard.class, LogLevel.DEV_DEBUG, "Key %d has been pressed", keycode);
 		switch (keycode) {
 		case Keyboard.KEY_0:
 			if (altGrDown) {

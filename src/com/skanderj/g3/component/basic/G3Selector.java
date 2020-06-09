@@ -6,10 +6,10 @@ import java.awt.Rectangle;
 
 import com.skanderj.g3.component.ComponentManager;
 import com.skanderj.g3.component.Selector;
+import com.skanderj.g3.display.Window;
 import com.skanderj.g3.io.FontManager;
-import com.skanderj.g3.util.GraphicString;
-import com.skanderj.g3.util.TextProperties;
-import com.skanderj.g3.window.Window;
+import com.skanderj.g3.util.VisualString;
+import com.skanderj.g3.util.VisualStringProperties;
 
 /**
  * A basic selector with rectangle arrows.
@@ -19,20 +19,20 @@ import com.skanderj.g3.window.Window;
  */
 public final class G3Selector extends Selector {
 	private int x, y, width, height;
-	private TextProperties properties;
+	private VisualStringProperties properties;
 	private int arrowSize;
 
 	/**
 	 * Self explanatory.
 	 */
-	public G3Selector(int x, int y, int width, int height, int arrowSize, TextProperties properties, String[] optionsArray) {
+	public G3Selector(int x, int y, int width, int height, int arrowSize, VisualStringProperties properties, String[] optionsArray) {
 		this(x, y, width, height, arrowSize, properties, optionsArray, optionsArray[0]);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public G3Selector(int x, int y, int width, int height, int arrowSize, TextProperties properties, String[] optionsArray, String defaultOption) {
+	public G3Selector(int x, int y, int width, int height, int arrowSize, VisualStringProperties properties, String[] optionsArray, String defaultOption) {
 		super(optionsArray, defaultOption);
 		this.x = x;
 		this.y = y;
@@ -49,21 +49,21 @@ public final class G3Selector extends Selector {
 	public void render(Window window, Graphics2D graphics, Object... args) {
 		graphics.setColor(Color.WHITE);
 		graphics.fillRect(this.x + 10 + this.arrowSize, this.y, this.width, this.height);
-		new GraphicString(this.currentOption, this.properties, this.properties.getColor().darker().darker()).drawCentered(graphics, this.x + 10 + this.arrowSize, this.y, this.width, this.height);
+		new VisualString(this.currentOption, this.properties, this.properties.getColor().darker().darker()).drawCentered(graphics, this.x + 10 + this.arrowSize, this.y, this.width, this.height);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
 			graphics.setColor(Color.RED);
 			graphics.drawRect(this.x + 10 + this.arrowSize, this.y, this.width, this.height);
 		}
 		graphics.setColor(Color.WHITE);
 		graphics.fillRect(this.x, this.y, this.arrowSize, this.height);
-		new GraphicString("<", Color.BLACK, FontManager.getFont("lunchtime", 24)).drawCentered(graphics, this.x, this.y, this.arrowSize, this.height);
+		new VisualString("<", Color.BLACK, FontManager.getFont("lunchtime", 24)).drawCentered(graphics, this.x, this.y, this.arrowSize, this.height);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
 			graphics.setColor(Color.RED);
 			graphics.drawRect(this.x, this.y, this.arrowSize, this.height);
 		}
 		graphics.setColor(Color.WHITE);
 		graphics.fillRect(this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height);
-		new GraphicString(">", Color.BLACK, FontManager.getFont("lunchtime", 24)).drawCentered(graphics, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height);
+		new VisualString(">", Color.BLACK, FontManager.getFont("lunchtime", 24)).drawCentered(graphics, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
 			graphics.setColor(Color.RED);
 			graphics.drawRect(this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height);
@@ -90,7 +90,7 @@ public final class G3Selector extends Selector {
 	 * Self explanatory.
 	 */
 	@Override
-	public final int getX() {
+	public int getX() {
 		return this.x;
 	}
 
@@ -98,14 +98,14 @@ public final class G3Selector extends Selector {
 	 * Self explanatory.
 	 */
 	@Override
-	public final int getY() {
+	public int getY() {
 		return this.y;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final TextProperties getProperties() {
+	public VisualStringProperties getProperties() {
 		return this.properties;
 	}
 
@@ -113,7 +113,7 @@ public final class G3Selector extends Selector {
 	 * Self explanatory.
 	 */
 	@Override
-	public final int getWidth() {
+	public int getWidth() {
 		return this.width;
 	}
 
@@ -121,14 +121,14 @@ public final class G3Selector extends Selector {
 	 * Self explanatory.
 	 */
 	@Override
-	public final int getHeight() {
+	public int getHeight() {
 		return this.height;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final int getArrowSize() {
+	public int getArrowSize() {
 		return this.arrowSize;
 	}
 
@@ -136,7 +136,7 @@ public final class G3Selector extends Selector {
 	 * Self explanatory.
 	 */
 	@Override
-	public final void setX(int x) {
+	public void setX(int x) {
 		this.x = x;
 	}
 
@@ -144,7 +144,7 @@ public final class G3Selector extends Selector {
 	 * Self explanatory.
 	 */
 	@Override
-	public final void setY(int y) {
+	public void setY(int y) {
 		this.y = y;
 	}
 
@@ -152,7 +152,7 @@ public final class G3Selector extends Selector {
 	 * Self explanatory.
 	 */
 	@Override
-	public final void setWidth(int width) {
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
@@ -160,21 +160,21 @@ public final class G3Selector extends Selector {
 	 * Self explanatory.
 	 */
 	@Override
-	public final void setHeight(int height) {
+	public void setHeight(int height) {
 		this.height = height;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final void setProperties(TextProperties properties) {
+	public void setProperties(VisualStringProperties properties) {
 		this.properties = properties;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final void setArrowSize(int arrowSize) {
+	public void setArrowSize(int arrowSize) {
 		this.arrowSize = arrowSize;
 	}
 }

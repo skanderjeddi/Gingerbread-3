@@ -3,9 +3,9 @@ package com.skanderj.g3.sprite;
 import java.awt.image.BufferedImage;
 
 public class Sprite {
-	private String identifier;
-	private BufferedImage image;
-	private int width, height;
+	private final String identifier;
+	private final BufferedImage image;
+	private final int width, height;
 
 	public Sprite(String identifier, BufferedImage image, int width, int height) {
 		this.identifier = identifier;

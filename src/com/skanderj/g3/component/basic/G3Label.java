@@ -5,10 +5,10 @@ import java.awt.Graphics2D;
 
 import com.skanderj.g3.component.ComponentManager;
 import com.skanderj.g3.component.Label;
-import com.skanderj.g3.util.GraphicString;
-import com.skanderj.g3.window.Window;
-import com.skanderj.g3.window.inputdevice.Keyboard;
-import com.skanderj.g3.window.inputdevice.Mouse;
+import com.skanderj.g3.display.Window;
+import com.skanderj.g3.input.Keyboard;
+import com.skanderj.g3.input.Mouse;
+import com.skanderj.g3.util.VisualString;
 
 /**
  * Represents a simple label centered inside a rectangle.
@@ -19,7 +19,7 @@ import com.skanderj.g3.window.inputdevice.Mouse;
 public final class G3Label extends Label {
 	private int x, y, width, height;
 
-	public G3Label(int x, int y, int width, int height, GraphicString graphicString) {
+	public G3Label(int x, int y, int width, int height, VisualString graphicString) {
 		super(graphicString);
 		this.x = x;
 		this.y = y;
@@ -51,7 +51,7 @@ public final class G3Label extends Label {
 	 * Self explanatory.
 	 */
 	@Override
-	public final int getX() {
+	public int getX() {
 		return this.x;
 	}
 
@@ -59,7 +59,7 @@ public final class G3Label extends Label {
 	 * Self explanatory.
 	 */
 	@Override
-	public final int getY() {
+	public int getY() {
 		return this.y;
 	}
 
@@ -67,7 +67,7 @@ public final class G3Label extends Label {
 	 * Self explanatory.
 	 */
 	@Override
-	public final int getWidth() {
+	public int getWidth() {
 		return this.width;
 	}
 
@@ -75,7 +75,7 @@ public final class G3Label extends Label {
 	 * Self explanatory.
 	 */
 	@Override
-	public final int getHeight() {
+	public int getHeight() {
 		return this.height;
 	}
 
@@ -83,7 +83,7 @@ public final class G3Label extends Label {
 	 * Self explanatory.
 	 */
 	@Override
-	public final void setX(int x) {
+	public void setX(int x) {
 		this.x = x;
 	}
 
@@ -91,7 +91,7 @@ public final class G3Label extends Label {
 	 * Self explanatory.
 	 */
 	@Override
-	public final void setY(int y) {
+	public void setY(int y) {
 		this.y = y;
 	}
 
@@ -99,7 +99,7 @@ public final class G3Label extends Label {
 	 * Self explanatory.
 	 */
 	@Override
-	public final void setWidth(int width) {
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
@@ -107,7 +107,7 @@ public final class G3Label extends Label {
 	 * Self explanatory.
 	 */
 	@Override
-	public final void setHeight(int height) {
+	public void setHeight(int height) {
 		this.height = height;
 	}
 

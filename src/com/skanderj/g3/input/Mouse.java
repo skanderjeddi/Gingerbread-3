@@ -1,4 +1,4 @@
-package com.skanderj.g3.window.inputdevice;
+package com.skanderj.g3.input;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -76,14 +76,14 @@ public class Mouse extends MouseAdapter implements InputDevice {
 	 * Self explanatory.
 	 */
 	public boolean isButtonDownInFrame(final int button) {
-		return this.buttonsStates[(button - 1)] == MouseState.DOWN_IN_FRAME;
+		return this.buttonsStates[button - 1] == MouseState.DOWN_IN_FRAME;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public boolean isButtonDown(final int button) {
-		return (this.buttonsStates[(button - 1)] == MouseState.DOWN_IN_FRAME) || (this.buttonsStates[(button - 1)] == MouseState.DOWN);
+		return this.buttonsStates[button - 1] == MouseState.DOWN_IN_FRAME || this.buttonsStates[button - 1] == MouseState.DOWN;
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class Mouse extends MouseAdapter implements InputDevice {
 	 */
 	@Override
 	public synchronized void mousePressed(final MouseEvent mouseEvent) {
-		this.cache[(mouseEvent.getButton() - 1)] = true;
+		this.cache[mouseEvent.getButton() - 1] = true;
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class Mouse extends MouseAdapter implements InputDevice {
 	 */
 	@Override
 	public synchronized void mouseReleased(final MouseEvent mouseEvent) {
-		this.cache[(mouseEvent.getButton() - 1)] = false;
+		this.cache[mouseEvent.getButton() - 1] = false;
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class Mouse extends MouseAdapter implements InputDevice {
 	 * @author Skander
 	 *
 	 */
-	private static enum MouseState {
+	private enum MouseState {
 		UP, DOWN, DOWN_IN_FRAME;
 	}
 

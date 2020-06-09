@@ -1,6 +1,6 @@
 package com.skanderj.g3.component;
 
-import com.skanderj.g3.util.GraphicString;
+import com.skanderj.g3.util.VisualString;
 
 /**
  * Represents an abstract label, basis for other button classes which can
@@ -11,12 +11,12 @@ import com.skanderj.g3.util.GraphicString;
  *
  */
 public abstract class Label implements Component {
-	protected GraphicString graphicString;
+	protected VisualString graphicString;
 
 	/**
 	 * Very basic constructor.
 	 */
-	public Label(GraphicString graphicString) {
+	public Label(VisualString graphicString) {
 		this.graphicString = graphicString;
 	}
 
@@ -47,14 +47,14 @@ public abstract class Label implements Component {
 	/**
 	 * Self explanatory.
 	 */
-	public GraphicString getGraphicString() {
+	public VisualString getGraphicString() {
 		return this.graphicString;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setGraphicString(GraphicString graphicString) {
+	public void setGraphicString(VisualString graphicString) {
 		this.graphicString = graphicString;
 	}
 }

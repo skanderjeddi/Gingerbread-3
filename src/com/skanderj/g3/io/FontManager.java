@@ -11,7 +11,6 @@ import java.util.Map;
 import com.skanderj.g3.audio.AudioManager;
 import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
-import com.skanderj.g3.translation.TranslationManager;
 
 /**
  * A class used for handling all fonts purposes. Can't be instantiated, only
@@ -21,11 +20,6 @@ import com.skanderj.g3.translation.TranslationManager;
  *
  */
 public final class FontManager {
-	// Translations keys
-	private static final String KEY_FONT_MANAGER_SUCCESS = "key.fontmanager.success";
-	private static final String KEY_FONT_MANAGER_EXCEPTION_LOADING = "key.fontmanager.exception.loading";
-	private static final String KEY_FONT_MANAGER_MISSING_FONT = "key.fontmanager.missing_font";
-
 	private FontManager() {
 		return;
 	}
@@ -37,17 +31,17 @@ public final class FontManager {
 	 * Loads a font from the provided path. File must be .TTF format (for now).
 	 * Returns true if the font was successfully registered, false otherwise.
 	 */
-	public static final boolean registerFont(String identifier, String path) {
-		File fontFile = new File(path);
+	public static boolean registerFont(String identifier, String path) {
+		final File fontFile = new File(path);
 		FileInputStream fileInputStream;
 		try {
 			fileInputStream = new FileInputStream(fontFile);
-			Font font = Font.createFont(Font.TRUETYPE_FONT, fileInputStream);
+			final Font font = Font.createFont(Font.TRUETYPE_FONT, fileInputStream);
 			FontManager.fontsMap.put(identifier, font);
-			Logger.log(FontManager.class, LogLevel.INFO, TranslationManager.getKey(FontManager.KEY_FONT_MANAGER_SUCCESS, identifier));
+			Logger.log(FontManager.class, LogLevel.INFO, "Successfully registered font with identifier \"%s\"", identifier);
 			return true;
 		} catch (FontFormatException | IOException exception) {
-			Logger.log(AudioManager.class, LogLevel.SEVERE, TranslationManager.getKey(FontManager.KEY_FONT_MANAGER_EXCEPTION_LOADING, path, exception.getMessage()));
+			Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while loading font from %s: %s", path, exception.getMessage());
 			return false;
 		}
 	}
@@ -55,10 +49,10 @@ public final class FontManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static final Font getFont(String identifier) {
-		Font font = FontManager.fontsMap.get(identifier);
+	public static Font getFont(String identifier) {
+		final Font font = FontManager.fontsMap.get(identifier);
 		if (font == null) {
-			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, TranslationManager.getKey(FontManager.KEY_FONT_MANAGER_MISSING_FONT, identifier));
+			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier \"%s\"", identifier);
 			return null;
 		}
 		return font;
@@ -67,10 +61,10 @@ public final class FontManager {
 	/**
 	 * Self explanatory. Returns the corresponding font with a specific size.
 	 */
-	public static final Font getFont(String identifier, int size) {
-		Font font = FontManager.fontsMap.get(identifier);
+	public static Font getFont(String identifier, int size) {
+		final Font font = FontManager.fontsMap.get(identifier);
 		if (font == null) {
-			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, TranslationManager.getKey(FontManager.KEY_FONT_MANAGER_MISSING_FONT, identifier));
+			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier \"%s\"", identifier);
 			return null;
 		}
 		return font.deriveFont((float) size);
@@ -80,10 +74,10 @@ public final class FontManager {
 	 * Self explanatory. Returns the corresponding font with a specific size and
 	 * style.
 	 */
-	public static final Font getFont(String identifier, int size, int style) {
-		Font font = FontManager.fontsMap.get(identifier);
+	public static Font getFont(String identifier, int size, int style) {
+		final Font font = FontManager.fontsMap.get(identifier);
 		if (font == null) {
-			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, TranslationManager.getKey(FontManager.KEY_FONT_MANAGER_MISSING_FONT, identifier));
+			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier \"%s\"", identifier);
 			return null;
 		}
 		return font.deriveFont((float) size).deriveFont(style);

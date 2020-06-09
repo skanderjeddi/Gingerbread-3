@@ -6,11 +6,11 @@ import java.awt.Rectangle;
 
 import com.skanderj.g3.component.ComponentManager;
 import com.skanderj.g3.component.Slider;
-import com.skanderj.g3.util.GraphicString;
+import com.skanderj.g3.display.Window;
+import com.skanderj.g3.input.Keyboard;
+import com.skanderj.g3.input.Mouse;
 import com.skanderj.g3.util.Utilities;
-import com.skanderj.g3.window.Window;
-import com.skanderj.g3.window.inputdevice.Keyboard;
-import com.skanderj.g3.window.inputdevice.Mouse;
+import com.skanderj.g3.util.VisualString;
 
 /**
  * Represents a very basic slider with a label on on side.
@@ -21,11 +21,11 @@ import com.skanderj.g3.window.inputdevice.Mouse;
 public final class G3Slider extends Slider {
 	private int x, y, width, height;
 	private int sliderX, sliderWidth, sliderHeight;
-	private GraphicString label;
+	private VisualString label;
 	private SliderLabelPosition labelPosition;
 	private Color color;
 
-	public G3Slider(int x, int y, int width, int height, int sliderWidth, int sliderHeight, float min, float max, float defaultValue, Color color, GraphicString label, SliderLabelPosition position) {
+	public G3Slider(int x, int y, int width, int height, int sliderWidth, int sliderHeight, float min, float max, float defaultValue, Color color, VisualString label, SliderLabelPosition position) {
 		super(min, max, defaultValue);
 		this.x = x;
 		this.y = y;
@@ -56,7 +56,7 @@ public final class G3Slider extends Slider {
 		graphics.setColor(this.color);
 		graphics.drawRect(this.x, this.y, this.width, this.height);
 		graphics.setColor(this.color.darker());
-		graphics.fillRect(this.sliderX - (this.sliderWidth / 2), this.y - (this.sliderHeight / 4), this.sliderWidth, this.height + (this.sliderHeight / 2));
+		graphics.fillRect(this.sliderX - this.sliderWidth / 2, this.y - this.sliderHeight / 4, this.sliderWidth, this.height + this.sliderHeight / 2);
 		if (!this.label.isEmpty()) {
 			switch (this.labelPosition) {
 			case TOP:
@@ -66,10 +66,10 @@ public final class G3Slider extends Slider {
 				this.label.draw(graphics, this.x, this.y + this.height + this.label.getAugmentedHeight(graphics), this.getValue());
 				break;
 			case LEFT:
-				this.label.drawCenteredWidthless(graphics, this.x - 10 - this.label.getWidth(graphics), this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.getValue());
+				this.label.drawCenteredWidthless(graphics, this.x - 10 - this.label.getWidth(graphics), this.y - this.sliderHeight / 2, this.height + this.sliderHeight, this.getValue());
 				break;
 			case RIGHT:
-				this.label.drawCenteredWidthless(graphics, this.x + this.width + 10, this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.getValue());
+				this.label.drawCenteredWidthless(graphics, this.x + this.width + 10, this.y - this.sliderHeight / 2, this.height + this.sliderHeight, this.getValue());
 				break;
 			}
 		}
@@ -83,7 +83,7 @@ public final class G3Slider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public final boolean containsMouse(int x, int y) {
+	public boolean containsMouse(int x, int y) {
 		return new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight()).contains(x, y);
 	}
 
@@ -91,7 +91,7 @@ public final class G3Slider extends Slider {
 	 * Boxes the current value between the minimum and maximum and returns it.
 	 */
 	@Override
-	public final float getValue() {
+	public float getValue() {
 		return Utilities.map(this.sliderX, this.x, this.x + this.getWidth(), this.minimumValue, this.maximumValue, true);
 	}
 
@@ -99,7 +99,7 @@ public final class G3Slider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public final int getX() {
+	public int getX() {
 		return this.x;
 	}
 
@@ -107,7 +107,7 @@ public final class G3Slider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public final int getY() {
+	public int getY() {
 		return this.y;
 	}
 
@@ -130,42 +130,42 @@ public final class G3Slider extends Slider {
 	/**
 	 * Self explanatory.
 	 */
-	public final int getSliderX() {
+	public int getSliderX() {
 		return this.sliderX;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final int getSliderWidth() {
+	public int getSliderWidth() {
 		return this.sliderWidth;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final int getSliderHeight() {
+	public int getSliderHeight() {
 		return this.sliderHeight;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final GraphicString getLabel() {
+	public VisualString getLabel() {
 		return this.label;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final SliderLabelPosition getLabelPosition() {
+	public SliderLabelPosition getLabelPosition() {
 		return this.labelPosition;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final Color getColor() {
+	public Color getColor() {
 		return this.color;
 	}
 
@@ -173,7 +173,7 @@ public final class G3Slider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public final void setX(int x) {
+	public void setX(int x) {
 		this.x = x;
 	}
 
@@ -181,7 +181,7 @@ public final class G3Slider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public final void setY(int y) {
+	public void setY(int y) {
 		this.y = y;
 	}
 
@@ -189,7 +189,7 @@ public final class G3Slider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public final void setWidth(int width) {
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
@@ -197,42 +197,42 @@ public final class G3Slider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public final void setHeight(int height) {
+	public void setHeight(int height) {
 		this.height = height;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final void setSliderWidth(int sliderWidth) {
+	public void setSliderWidth(int sliderWidth) {
 		this.sliderWidth = sliderWidth;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final void setSliderHeight(int sliderHeight) {
+	public void setSliderHeight(int sliderHeight) {
 		this.sliderHeight = sliderHeight;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final void setLabel(GraphicString label) {
+	public void setLabel(VisualString label) {
 		this.label = label;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final void setLabelPosition(SliderLabelPosition labelPosition) {
+	public void setLabelPosition(SliderLabelPosition labelPosition) {
 		this.labelPosition = labelPosition;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final void setColor(Color color) {
+	public void setColor(Color color) {
 		this.color = color;
 	}
 
@@ -242,7 +242,7 @@ public final class G3Slider extends Slider {
 	 * @author Skander
 	 *
 	 */
-	public static enum SliderLabelPosition {
+	public enum SliderLabelPosition {
 		TOP, BOTTOM, LEFT, RIGHT;
 	}
 }

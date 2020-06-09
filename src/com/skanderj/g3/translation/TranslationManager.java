@@ -32,11 +32,11 @@ public final class TranslationManager {
 	 * Self explanatory. Returns true if successful, false otherwise. #TODO
 	 * customize loading path.
 	 */
-	public static final boolean loadLanguage(Language language) {
-		File languageFile = new File("res/" + language.identifier + ".lang");
+	public static boolean loadLanguage(Language language) {
+		final File languageFile = new File("res/" + language.identifier + ".lang");
 		if (languageFile.exists()) {
 			try {
-				BufferedReader bufferedReader = new BufferedReader(new FileReader(languageFile));
+				final BufferedReader bufferedReader = new BufferedReader(new FileReader(languageFile));
 				String line = new String();
 				while ((line = bufferedReader.readLine()) != null) {
 					if (line.startsWith("#") || line.isBlank()) {
@@ -47,7 +47,7 @@ public final class TranslationManager {
 				bufferedReader.close();
 				Logger.log(TranslationManager.class, LogLevel.INFO, "Successfully loaded translations for language id \"%s\"...", language.identifier);
 				return true;
-			} catch (IOException exception) {
+			} catch (final IOException exception) {
 				Logger.log(TranslationManager.class, LogLevel.SEVERE, "An exception occurred while loading translations from file for language id \"%s\": %s", language.identifier, exception.getMessage());
 				return false;
 			}
@@ -61,7 +61,7 @@ public final class TranslationManager {
 	 * Gets called if a translation is pulled before any language is properly
 	 * loaded.
 	 */
-	private static final void loadDefaultLanguage() {
+	private static void loadDefaultLanguage() {
 		Logger.log(TranslationManager.class, LogLevel.INFO, "Loading default translations for default language (%s)...", TranslationManager.DEFAULT_LANGUAGE.identifier);
 		TranslationManager.loadLanguage(TranslationManager.DEFAULT_LANGUAGE);
 	}
@@ -82,7 +82,7 @@ public final class TranslationManager {
 	 * @author Skander
 	 *
 	 */
-	public static enum Language {
+	public enum Language {
 		FRENCH("fr"), ENGLISH("en");
 
 		private String identifier;

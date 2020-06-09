@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 import com.skanderj.g3.audio.AudioManager;
 import com.skanderj.g3.log.Logger;
 import com.skanderj.g3.log.Logger.LogLevel;
-import com.skanderj.g3.translation.TranslationManager;
 
 /**
  * A class used for handling all images purposes. Can't be instantiated, only
@@ -21,11 +20,6 @@ import com.skanderj.g3.translation.TranslationManager;
  *
  */
 public final class ImageManager {
-	// Translations keys
-	private static final String KEY_IMAGE_MANAGER_SUCCESS = "key.imagemanager.success";
-	private static final String KEY_IMAGE_MANAGER_EXCEPTION_LOADING = "key.imagemanager.exception.loading";
-	private static final String KEY_IMAGE_MANAGER_MISSING_IMAGE = "key.imagemanager.missing_image";
-
 	private ImageManager() {
 		return;
 	}
@@ -37,15 +31,15 @@ public final class ImageManager {
 	 * Loads an image from the provided path. Returns true if the font was
 	 * successfully registered, false otherwise.
 	 */
-	public static final boolean registerImage(String identifier, String path) {
+	public static boolean registerImage(String identifier, String path) {
 		BufferedImage image;
 		try {
 			image = ImageIO.read(new File(path));
 			ImageManager.imagesMap.put(identifier, image);
-			Logger.log(ImageManager.class, LogLevel.INFO, TranslationManager.getKey(ImageManager.KEY_IMAGE_MANAGER_SUCCESS, identifier));
+			Logger.log(ImageManager.class, LogLevel.INFO, "Successfully registered image with identifier \"%s\"", identifier);
 			return true;
-		} catch (IOException exception) {
-			Logger.log(AudioManager.class, LogLevel.SEVERE, TranslationManager.getKey(ImageManager.KEY_IMAGE_MANAGER_EXCEPTION_LOADING, path, exception.getMessage()));
+		} catch (final IOException exception) {
+			Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while loading image from %s: %s", path, exception.getMessage());
 			return false;
 		}
 	}
@@ -53,10 +47,10 @@ public final class ImageManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static final BufferedImage retrieveImage(String identifier) {
-		BufferedImage image = ImageManager.imagesMap.get(identifier);
+	public static BufferedImage retrieveImage(String identifier) {
+		final BufferedImage image = ImageManager.imagesMap.get(identifier);
 		if (image == null) {
-			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, TranslationManager.getKey(ImageManager.KEY_IMAGE_MANAGER_MISSING_IMAGE, identifier));
+			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find image with identifier \"%s\"", identifier);
 			return null;
 		}
 		return image;

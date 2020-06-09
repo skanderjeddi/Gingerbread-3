@@ -6,8 +6,8 @@ import java.awt.Rectangle;
 
 import com.skanderj.g3.component.Button;
 import com.skanderj.g3.component.ComponentManager;
-import com.skanderj.g3.util.GraphicString;
-import com.skanderj.g3.window.Window;
+import com.skanderj.g3.display.Window;
+import com.skanderj.g3.util.VisualString;
 
 /**
  * A round edges version of the button. Still very basic.
@@ -17,12 +17,12 @@ import com.skanderj.g3.window.Window;
  */
 public final class G3REButton extends Button {
 	private int x, y, width, height;
-	private GraphicString label;
+	private VisualString label;
 	private Color backgroundColor, borderColor;
 	// Border incline = how many pixels will be shaved off at each edge
 	private int borderIncline;
 
-	public G3REButton(int x, int y, int width, int height, GraphicString label, Color backgroundColor, Color borderColor, int borderIncline) {
+	public G3REButton(int x, int y, int width, int height, VisualString label, Color backgroundColor, Color borderColor, int borderIncline) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -63,7 +63,7 @@ public final class G3REButton extends Button {
 	 * Self explanatory.
 	 */
 	@Override
-	public final int getX() {
+	public int getX() {
 		return this.x;
 	}
 
@@ -71,7 +71,7 @@ public final class G3REButton extends Button {
 	 * Self explanatory.
 	 */
 	@Override
-	public final int getY() {
+	public int getY() {
 		return this.y;
 	}
 
@@ -94,21 +94,21 @@ public final class G3REButton extends Button {
 	/**
 	 * Self explanatory.
 	 */
-	public final GraphicString getLabel() {
+	public VisualString getLabel() {
 		return this.label;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final Color getBackgroundColor() {
+	public Color getBackgroundColor() {
 		return this.backgroundColor;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final Color getBorderColor() {
+	public Color getBorderColor() {
 		return this.borderColor;
 	}
 
@@ -123,7 +123,7 @@ public final class G3REButton extends Button {
 	 * Self explanatory.
 	 */
 	@Override
-	public final void setX(int x) {
+	public void setX(int x) {
 		this.x = x;
 	}
 
@@ -131,7 +131,7 @@ public final class G3REButton extends Button {
 	 * Self explanatory.
 	 */
 	@Override
-	public final void setY(int y) {
+	public void setY(int y) {
 		this.y = y;
 	}
 
@@ -139,7 +139,7 @@ public final class G3REButton extends Button {
 	 * Self explanatory.
 	 */
 	@Override
-	public final void setWidth(int width) {
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
@@ -147,28 +147,28 @@ public final class G3REButton extends Button {
 	 * Self explanatory.
 	 */
 	@Override
-	public final void setHeight(int height) {
+	public void setHeight(int height) {
 		this.height = height;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final void setLabel(GraphicString label) {
+	public void setLabel(VisualString label) {
 		this.label = label;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final void setBackgroundColor(Color backgroundColor) {
+	public void setBackgroundColor(Color backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final void setBorderColor(Color borderColor) {
+	public void setBorderColor(Color borderColor) {
 		this.borderColor = borderColor;
 	}
 

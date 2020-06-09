@@ -3,15 +3,15 @@ package com.skanderj.g3.animation.character;
 import java.awt.Graphics2D;
 
 import com.skanderj.g3.animation.Animation;
+import com.skanderj.g3.display.Window;
+import com.skanderj.g3.input.Keyboard;
+import com.skanderj.g3.input.Mouse;
 import com.skanderj.g3.sprite.Sprite;
-import com.skanderj.g3.window.Window;
-import com.skanderj.g3.window.inputdevice.Keyboard;
-import com.skanderj.g3.window.inputdevice.Mouse;
 
 public class CharacterAnimation implements Animation {
-	private int x, y;
-	private Sprite[] sprites;
-	private int[] timers;
+	private final int x, y;
+	private final Sprite[] sprites;
+	private final int[] timers;
 	private int currentSpriteIndex, currentSpriteTimer;
 
 	public CharacterAnimation(int x, int y, Sprite[] sprites, int[] timers) {
@@ -35,6 +35,6 @@ public class CharacterAnimation implements Animation {
 
 	@Override
 	public void render(Window window, Graphics2D graphics, Object... args) {
-		graphics.drawImage(this.sprites[this.currentSpriteIndex].getImage(), x, y, this.sprites[this.currentSpriteIndex].getWidth(), this.sprites[this.currentSpriteIndex].getHeight(), null);
+		graphics.drawImage(this.sprites[this.currentSpriteIndex].getImage(), this.x, this.y, this.sprites[this.currentSpriteIndex].getWidth(), this.sprites[this.currentSpriteIndex].getHeight(), null);
 	}
 }

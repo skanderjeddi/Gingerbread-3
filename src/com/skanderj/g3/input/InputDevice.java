@@ -1,4 +1,4 @@
-package com.skanderj.g3.window.inputdevice;
+package com.skanderj.g3.input;
 
 /**
  * Represents an input device for the window. For now, it's either a keyboard or
@@ -8,9 +8,9 @@ package com.skanderj.g3.window.inputdevice;
  *
  */
 public interface InputDevice {
-	public InputDeviceType getType();
+	InputDeviceType getType();
 
-	static enum InputDeviceType {
+	enum InputDeviceType {
 		KEYBOARD, MOUSE;
 	}
 }

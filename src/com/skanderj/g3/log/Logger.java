@@ -6,8 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import com.skanderj.g3.translation.TranslationManager;
-
 /**
  * A class used for custom logging purposes. Features: system streams
  * redirection, (TODO) custom severity levels, process exiting when hitting a
@@ -17,10 +15,6 @@ import com.skanderj.g3.translation.TranslationManager;
  *
  */
 public final class Logger {
-	// Translation keys
-	private static final String KEY_LOGGER_REDIRECT_SUCCESS = "key.logger.redirect_success";
-	private static final String KEY_LOGGER_FATAL_QUITTING = "key.logger.fatal.quitting";
-
 	// Debuggings' states
 	private static boolean DEBUG = false, DEV_DEBUG = false;
 
@@ -41,14 +35,14 @@ public final class Logger {
 	/**
 	 * Self explanatory.
 	 */
-	public static final void redirectSystemOutput() {
+	public static void redirectSystemOutput() {
 		if (Logger.outputRedirected) {
 			return;
 		} else {
 			System.setOut(new Logger.LoggerPrintStream(Logger.defaultSystemOutput, Logger.defaultSystemErrorOutput));
 			System.setErr(new Logger.LoggerPrintStream(Logger.defaultSystemErrorOutput, Logger.defaultSystemErrorOutput));
 			Logger.outputRedirected = true;
-			Logger.log(Logger.class, LogLevel.DEBUG, TranslationManager.getKey(Logger.KEY_LOGGER_REDIRECT_SUCCESS));
+			Logger.log(Logger.class, LogLevel.DEBUG, "Successfully redirected default output streams");
 		}
 	}
 
@@ -63,7 +57,7 @@ public final class Logger {
 		} else {
 			origin = clazz.getSimpleName();
 		}
-		if ((logLevel == LogLevel.SEVERE) || (logLevel == LogLevel.ERROR) || (logLevel == LogLevel.FATAL)) {
+		if (logLevel == LogLevel.SEVERE || logLevel == LogLevel.ERROR || logLevel == LogLevel.FATAL) {
 			Logger.defaultSystemErrorOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + origin + " / " + logLevel.name() + "]: " + message + "\n", args);
 		} else {
 			if (logLevel == LogLevel.DEBUG) {
@@ -79,7 +73,7 @@ public final class Logger {
 			}
 		}
 		if (logLevel == LogLevel.FATAL) {
-			Logger.defaultSystemErrorOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + Logger.class.getSimpleName() + " / " + LogLevel.FATAL.name() + "]: " + TranslationManager.getKey(Logger.KEY_LOGGER_FATAL_QUITTING) + "\n", clazz.getSimpleName());
+			Logger.defaultSystemErrorOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + Logger.class.getSimpleName() + " / " + LogLevel.FATAL.name() + "]: A fatal log has been submitted from %s.class, exiting all processes \n", clazz.getSimpleName());
 			System.exit(-1);
 		}
 	}
@@ -87,7 +81,7 @@ public final class Logger {
 	/**
 	 * Self explanatory.
 	 */
-	public static final void setDebuggingState(DebuggingType type, boolean status) {
+	public static void setDebuggingState(DebuggingType type, boolean status) {
 		switch (type) {
 		case CLASSIC:
 			Logger.DEBUG = status;
@@ -101,7 +95,7 @@ public final class Logger {
 	 * @author Skander
 	 *
 	 */
-	public static enum LogLevel {
+	public enum LogLevel {
 		INFO, DEBUG, DEV_DEBUG, SEVERE, ERROR, FATAL;
 	}
 
@@ -110,7 +104,7 @@ public final class Logger {
 	 * @author Skander
 	 *
 	 */
-	public static enum DebuggingType {
+	public enum DebuggingType {
 		CLASSIC, DEVELOPMENT;
 	}
 
@@ -121,7 +115,7 @@ public final class Logger {
 	 *
 	 */
 	private static class LoggerPrintStream extends PrintStream {
-		private PrintStream printStream;
+		private final PrintStream printStream;
 
 		public LoggerPrintStream(OutputStream out, PrintStream printStream) {
 			super(out);

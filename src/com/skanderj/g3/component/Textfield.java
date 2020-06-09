@@ -3,9 +3,9 @@ package com.skanderj.g3.component;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.skanderj.g3.window.inputdevice.Keyboard;
-import com.skanderj.g3.window.inputdevice.Keyboard.KeyState;
-import com.skanderj.g3.window.inputdevice.Mouse;
+import com.skanderj.g3.input.Keyboard;
+import com.skanderj.g3.input.Keyboard.KeyState;
+import com.skanderj.g3.input.Mouse;
 
 /**
  * Represents an abstract textbox, basis for other textbox classes which can
@@ -54,7 +54,7 @@ public abstract class Textfield implements Component {
 		if (this.hasFocus) {
 			// Go through every keyboard key and retain those which are pressed at the
 			// current frame
-			for (int keyCode : keyboard.getKeysByState(KeyState.DOWN_IN_FRAME)) {
+			for (final int keyCode : keyboard.getKeysByState(KeyState.DOWN_IN_FRAME)) {
 				// Left key handling, moves cursor to the left once
 				if (keyCode == Keyboard.KEY_LEFT) {
 					this.cursorPosition -= 1;
@@ -86,13 +86,13 @@ public abstract class Textfield implements Component {
 				}
 				// Deleting (backspace)
 				if (keyCode == Keyboard.KEY_BACK_SPACE) {
-					if (!this.currentLine.isEmpty() && (this.cursorPosition != 0)) {
+					if (!this.currentLine.isEmpty() && this.cursorPosition != 0) {
 						// If we actually have something to delete, delete the previous character
 						// adjacent to the cursor and move everything back
-						char[] newLine = new char[this.currentLine.length() - 1];
+						final char[] newLine = new char[this.currentLine.length() - 1];
 						boolean hasSkipped = false;
-						for (int index = 0; index < (this.currentLine.length() - 1); index += 1) {
-							if (index == (this.cursorPosition - 1)) {
+						for (int index = 0; index < this.currentLine.length() - 1; index += 1) {
+							if (index == this.cursorPosition - 1) {
 								hasSkipped = true;
 							}
 							newLine[index] = this.currentLine.toCharArray()[hasSkipped ? index + 1 : index];
@@ -111,9 +111,9 @@ public abstract class Textfield implements Component {
 					} else {
 						// If we actually have something to delete, delete the next character
 						// adjacent to the cursor and move everything back starting from the cursor
-						char[] newLine = new char[this.currentLine.length() - 1];
+						final char[] newLine = new char[this.currentLine.length() - 1];
 						boolean hasSkipped = false;
-						for (int index = 0; index < (this.currentLine.length() - 1); index += 1) {
+						for (int index = 0; index < this.currentLine.length() - 1; index += 1) {
 							if (index == this.cursorPosition) {
 								hasSkipped = true;
 							}
