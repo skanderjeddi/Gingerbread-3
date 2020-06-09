@@ -10,17 +10,19 @@ import com.skanderj.gingerbead3.display.Window;
 import com.skanderj.gingerbead3.util.VisualString;
 
 /**
- * A straight edges version of the button. Very basic.
+ * A round edges version of the button. Still very basic.
  *
  * @author Skander
  *
  */
-public final class G3SEButton extends Button {
+public final class G3RoundEdgesButton extends Button {
 	private int x, y, width, height;
 	private VisualString label;
 	private Color backgroundColor, borderColor;
+	// Border incline = how many pixels will be shaved off at each edge
+	private int borderIncline;
 
-	public G3SEButton(int x, int y, int width, int height, VisualString label, Color backgroundColor, Color borderColor) {
+	public G3RoundEdgesButton(int x, int y, int width, int height, VisualString label, Color backgroundColor, Color borderColor, int borderIncline) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -29,21 +31,23 @@ public final class G3SEButton extends Button {
 		this.label = label;
 		this.backgroundColor = backgroundColor;
 		this.borderColor = borderColor;
+		this.borderIncline = borderIncline;
 	}
 
 	/**
-	 * Draws a simple rectangle for the background, draws the border and the label.
+	 * Draws a simple round rectangle for the background, draws the border and the
+	 * label.
 	 */
 	@Override
 	public void render(Window window, Graphics2D graphics, Object... args) {
 		graphics.setColor(this.backgroundColor);
-		graphics.fillRect(this.x, this.y, this.width, this.height);
+		graphics.fillRoundRect(this.x, this.y, this.width, this.height, this.borderIncline, this.borderIncline);
 		this.label.drawCentered(graphics, this.x, this.y, this.width, this.height);
 		graphics.setColor(this.borderColor);
-		graphics.drawRect(this.x, this.y, this.width, this.height);
+		graphics.drawRoundRect(this.x, this.y, this.width, this.height, this.borderIncline, this.borderIncline);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
 			graphics.setColor(Color.RED);
-			graphics.drawRect(this.x, this.y, this.width, this.height);
+			graphics.drawRoundRect(this.x, this.y, this.width, this.height, this.borderIncline, this.borderIncline);
 		}
 	}
 
@@ -111,6 +115,13 @@ public final class G3SEButton extends Button {
 	/**
 	 * Self explanatory.
 	 */
+	public int getBorderIncline() {
+		return this.borderIncline;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public void setX(int x) {
 		this.x = x;
@@ -159,5 +170,12 @@ public final class G3SEButton extends Button {
 	 */
 	public void setBorderColor(Color borderColor) {
 		this.borderColor = borderColor;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public void setBorderIncline(int borderIncline) {
+		this.borderIncline = borderIncline;
 	}
 }

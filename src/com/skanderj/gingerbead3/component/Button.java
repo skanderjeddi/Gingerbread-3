@@ -6,8 +6,8 @@ import com.skanderj.gingerbead3.input.Mouse;
 
 /**
  * Represents an abstract button, basis for other button classes which can
- * implement their rendering the way they please. See G3SEButton and G3REButton
- * for basic, ready-to-be-used examples.
+ * implement their rendering the way they please. See G3StraightEdgesButton and
+ * G3RoundEdgesButton for basic, ready-to-be-used examples.
  *
  * @author Skander
  *
@@ -45,7 +45,7 @@ public abstract class Button implements Component {
 			this.hasFocus = true;
 		}
 		if (mouseClicked && this.hasFocus && this.mouseWasIn) {
-			this.state = ButtonState.CLICKED;
+			this.state = ButtonState.HELD;
 			this.mouseWasIn = true;
 		} else if (mouseIn && !mouseClicked) {
 			this.state = ButtonState.HOVERED;
@@ -56,8 +56,8 @@ public abstract class Button implements Component {
 			this.hasFocus = false;
 			this.mouseWasIn = false;
 		}
-		if (this.previousState == ButtonState.CLICKED && (this.state == ButtonState.IDLE || this.state == ButtonState.HOVERED) && mouseIn) {
-			this.state = ButtonState.ON_ACTUAL_CLICK;
+		if (this.previousState == ButtonState.HELD && (this.state == ButtonState.IDLE || this.state == ButtonState.HOVERED) && mouseIn) {
+			this.state = ButtonState.ON_CLICK;
 		}
 		this.actions[this.state.getIdentifier()].execute(delta, keyboard, mouse);
 	}
@@ -114,17 +114,17 @@ public abstract class Button implements Component {
 	/**
 	 * Represents all the possible states of a button. IDLE: mouse is out and the
 	 * button doesn't have focus. HOVERED: mouse is over the button, not clicked and
-	 * no focus yet. CLICKED: mouse is over the button and clicked or mouse is
-	 * clicked and focus is on the button. Basically means you can click and leave
-	 * the button area to cancel your click. ON_ACTUAL_CLICK: On the transition
-	 * between CLICKED and IDLE or between CLICKED and HOVERED, where you should
-	 * assign the actual action to your button.
+	 * no focus yet. HELD: mouse is over the button and clicked or mouse is clicked
+	 * and focus is on the button. Basically means you can click and leave the
+	 * button area to cancel your click. ON_CLICK: On the transition between HELD
+	 * and IDLE or between HELD and HOVERED, where you should assign the actual
+	 * action to your button.
 	 *
 	 * @author Skander
 	 *
 	 */
 	public enum ButtonState {
-		IDLE(0), HOVERED(1), CLICKED(2), ON_ACTUAL_CLICK(3);
+		IDLE(0), HOVERED(1), HELD(2), ON_CLICK(3);
 
 		// An identifier for easier access in other classes (#Button)
 		private final int identifier;

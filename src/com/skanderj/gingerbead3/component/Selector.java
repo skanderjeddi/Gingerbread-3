@@ -44,7 +44,7 @@ public abstract class Selector implements Component {
 		}
 
 		public final void setAction(ButtonState state, ButtonAction action) {
-			if (state == ButtonState.ON_ACTUAL_CLICK) {
+			if (state == ButtonState.ON_CLICK) {
 				Logger.log(Selector.SelectorArrow.class, LogLevel.ERROR, "Can't change the on click behavior of a selector arrow");
 			} else {
 				this.actions[state.getIdentifier()] = action;
@@ -84,13 +84,13 @@ public abstract class Selector implements Component {
 		this.currentOptionIndex = this.options.lastIndexOf(defaultOption);
 		this.leftArrow = new SelectorArrow();
 		this.rightArrow = new SelectorArrow();
-		this.leftArrow.actions[ButtonState.ON_ACTUAL_CLICK.getIdentifier()] = args -> {
+		this.leftArrow.actions[ButtonState.ON_CLICK.getIdentifier()] = args -> {
 			Selector.this.currentOptionIndex -= 1;
 			if (Selector.this.currentOptionIndex < 0) {
 				Selector.this.currentOptionIndex = Selector.this.options.size() - 1;
 			}
 		};
-		this.rightArrow.actions[ButtonState.ON_ACTUAL_CLICK.getIdentifier()] = args -> {
+		this.rightArrow.actions[ButtonState.ON_CLICK.getIdentifier()] = args -> {
 			Selector.this.currentOptionIndex += 1;
 			Selector.this.currentOptionIndex %= Selector.this.options.size();
 		};
@@ -116,7 +116,7 @@ public abstract class Selector implements Component {
 				this.leftArrow.hasFocus = true;
 			}
 			if (mouseClicked && this.leftArrow.hasFocus && this.leftArrow.mouseWasIn) {
-				this.leftArrow.currentState = ButtonState.CLICKED;
+				this.leftArrow.currentState = ButtonState.HELD;
 				this.leftArrow.mouseWasIn = true;
 			} else if (mouseInLeft && !mouseClicked) {
 				this.leftArrow.currentState = ButtonState.HOVERED;
@@ -127,8 +127,8 @@ public abstract class Selector implements Component {
 				this.leftArrow.hasFocus = false;
 				this.leftArrow.mouseWasIn = false;
 			}
-			if (this.leftArrow.previousState == ButtonState.CLICKED && (this.leftArrow.currentState == ButtonState.IDLE || this.leftArrow.currentState == ButtonState.HOVERED) && mouseInLeft) {
-				this.leftArrow.currentState = ButtonState.ON_ACTUAL_CLICK;
+			if (this.leftArrow.previousState == ButtonState.HELD && (this.leftArrow.currentState == ButtonState.IDLE || this.leftArrow.currentState == ButtonState.HOVERED) && mouseInLeft) {
+				this.leftArrow.currentState = ButtonState.ON_CLICK;
 			}
 		}
 		// Right arrow handling, this block magically works and it took me a lot of time
@@ -139,7 +139,7 @@ public abstract class Selector implements Component {
 				this.rightArrow.hasFocus = true;
 			}
 			if (mouseClicked && this.rightArrow.hasFocus && this.rightArrow.mouseWasIn) {
-				this.rightArrow.currentState = ButtonState.CLICKED;
+				this.rightArrow.currentState = ButtonState.HELD;
 				this.rightArrow.mouseWasIn = true;
 			} else if (mouseInRight && !mouseClicked) {
 				this.rightArrow.currentState = ButtonState.HOVERED;
@@ -150,8 +150,8 @@ public abstract class Selector implements Component {
 				this.rightArrow.hasFocus = false;
 				this.rightArrow.mouseWasIn = false;
 			}
-			if (this.rightArrow.previousState == ButtonState.CLICKED && (this.rightArrow.currentState == ButtonState.IDLE || this.rightArrow.currentState == ButtonState.HOVERED) && mouseInRight) {
-				this.rightArrow.currentState = ButtonState.ON_ACTUAL_CLICK;
+			if (this.rightArrow.previousState == ButtonState.HELD && (this.rightArrow.currentState == ButtonState.IDLE || this.rightArrow.currentState == ButtonState.HOVERED) && mouseInRight) {
+				this.rightArrow.currentState = ButtonState.ON_CLICK;
 			}
 		}
 		this.leftArrow.actions[this.leftArrow.currentState.getIdentifier()].execute(delta, keyboard, mouse);

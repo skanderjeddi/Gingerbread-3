@@ -4,18 +4,17 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 
-import com.skanderj.gingerbead3.Gingerbread3;
 import com.skanderj.gingerbead3.display.Window;
 import com.skanderj.gingerbead3.input.Keyboard;
 import com.skanderj.gingerbead3.input.Mouse;
 import com.skanderj.gingerbead3.log.Logger;
-import com.skanderj.gingerbead3.log.Logger.DebuggingType;
 import com.skanderj.gingerbead3.log.Logger.LogLevel;
 
 public abstract class Game extends ThreadWrapper {
 	public static final int DEFAULT_SIZE = 400, DEFAULT_BUFFERS = 2;
 
 	private final double refreshRate;
+	protected boolean displayRefreshRate;
 	protected final Window window;
 	protected Keyboard keyboard;
 	protected Mouse mouse;
@@ -28,12 +27,8 @@ public abstract class Game extends ThreadWrapper {
 	}
 
 	private final void initializeEngine() {
+		this.displayRefreshRate = false;
 		Logger.redirectSystemOutput();
-		// Disable both plain and dev debugging
-		Logger.setDebuggingState(DebuggingType.CLASSIC, false);
-		Logger.setDebuggingState(DebuggingType.DEVELOPMENT, false);
-		// Display the Gingerbread version message
-		Logger.log(Gingerbread3.class, LogLevel.INFO, "Gingerbread-3 release %s - by SkanderJ", Gingerbread3.RELEASE);
 	}
 
 	public Game(String identifier, double refreshRate, String title, int width, int height, int buffers) {
@@ -45,9 +40,16 @@ public abstract class Game extends ThreadWrapper {
 
 	public abstract void loadResources();
 
-	public abstract void registerInputDevices();
+	public final void registerInputDevices() {
+		if (this.keyboard != null) {
+			this.window.registerInput(this.keyboard);
+		}
+		if (this.mouse != null) {
+			this.window.registerInput(this.mouse);
+		}
+	}
 
-	public abstract void initializeComponents();
+	public abstract void registerComponents();
 
 	@Override
 	protected void create() {
@@ -55,7 +57,11 @@ public abstract class Game extends ThreadWrapper {
 		this.window.create();
 		this.registerInputDevices();
 		this.window.show();
-		this.initializeComponents();
+		this.postCreate();
+	}
+
+	public void postCreate() {
+		this.registerComponents();
 		this.window.requestFocus();
 	}
 
@@ -98,7 +104,9 @@ public abstract class Game extends ThreadWrapper {
 			}
 			if (System.currentTimeMillis() - resetTime >= 1000) {
 				resetTime += 1000;
-				Logger.log(this.getClass(), LogLevel.DEBUG, "Last second frames: %d, last second updates: %d", frames, updates);
+				if (this.displayRefreshRate) {
+					Logger.log(this.getClass(), LogLevel.DEBUG, "Last second frames: %d, last second updates: %d", frames, updates);
+				}
 				frames = 0;
 				updates = 0;
 			}

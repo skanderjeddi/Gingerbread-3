@@ -15,13 +15,12 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineEvent.Type;
-
-import com.skanderj.gingerbead3.log.Logger;
-import com.skanderj.gingerbead3.log.Logger.LogLevel;
-
 import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+
+import com.skanderj.gingerbead3.log.Logger;
+import com.skanderj.gingerbead3.log.Logger.LogLevel;
 
 /**
  * A class used for handling all audio purposes. Can't be instantiated, only
@@ -56,7 +55,7 @@ public final class AudioManager {
 		try {
 			reusableAudioInputStream = AudioManager.createReusableAudioInputStream(soundFile);
 			AudioManager.audioMap.put(identifier, reusableAudioInputStream);
-			Logger.log(AudioManager.class, LogLevel.INFO, "Successfully registered audio with identifier \"%s\"");
+			Logger.log(AudioManager.class, LogLevel.INFO, "Successfully registered audio with identifier \"%s\"", identifier);
 			return true;
 		} catch (IOException | UnsupportedAudioFileException exception) {
 			Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while loading audio from %s: %s", path, exception.getMessage());
@@ -271,7 +270,8 @@ public final class AudioManager {
 	}
 
 	/**
-	 * Self explanatory. Returns true if successful, false otherwise.
+	 * Self explanatory. Returns true if successful, false otherwise. -1 to loop
+	 * indefinitely.
 	 */
 	public static boolean loopAudio(String identifier, int count) {
 		final AudioInputStream stream = AudioManager.audioMap.get(identifier);

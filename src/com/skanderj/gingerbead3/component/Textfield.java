@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.skanderj.gingerbead3.input.Keyboard;
-import com.skanderj.gingerbead3.input.Mouse;
 import com.skanderj.gingerbead3.input.Keyboard.KeyState;
+import com.skanderj.gingerbead3.input.Mouse;
 
 /**
  * Represents an abstract textbox, basis for other textbox classes which can

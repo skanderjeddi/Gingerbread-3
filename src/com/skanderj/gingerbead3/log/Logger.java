@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import com.skanderj.gingerbead3.Gingerbread3;
+
 /**
  * A class used for custom logging purposes. Features: system streams
  * redirection, (TODO) custom severity levels, process exiting when hitting a
@@ -16,7 +18,7 @@ import java.util.Locale;
  */
 public final class Logger {
 	// Debuggings' states
-	private static boolean DEBUG = false, DEV_DEBUG = false;
+	private static boolean DEBUG = true, DEV_DEBUG = false;
 
 	// References to the default system streams
 	private final static PrintStream defaultSystemOutput = System.out;
@@ -39,10 +41,15 @@ public final class Logger {
 		if (Logger.outputRedirected) {
 			return;
 		} else {
+			// Display the Gingerbread version message
+			Logger.log(Gingerbread3.class, LogLevel.INFO, "Gingerbread-3 release %s - by SkanderJ", Gingerbread3.RELEASE);
 			System.setOut(new Logger.LoggerPrintStream(Logger.defaultSystemOutput, Logger.defaultSystemErrorOutput));
 			System.setErr(new Logger.LoggerPrintStream(Logger.defaultSystemErrorOutput, Logger.defaultSystemErrorOutput));
 			Logger.outputRedirected = true;
 			Logger.log(Logger.class, LogLevel.DEBUG, "Successfully redirected default output streams");
+			Logger.DEBUG = false;
+			Logger.DEV_DEBUG = false;
+			Logger.log(Logger.class, LogLevel.INFO, "Disabled all debug messages");
 		}
 	}
 
@@ -82,10 +89,14 @@ public final class Logger {
 	 * Self explanatory.
 	 */
 	public static void setDebuggingState(DebuggingType type, boolean status) {
+		Logger.redirectSystemOutput();
 		switch (type) {
 		case CLASSIC:
 			Logger.DEBUG = status;
+			Logger.log(Logger.class, LogLevel.INFO, "Enabled regular debugging messages");
+			break;
 		case DEVELOPMENT:
+			Logger.log(Logger.class, LogLevel.INFO, "Enabled development debugging messages");
 			Logger.DEV_DEBUG = status;
 		}
 	}
