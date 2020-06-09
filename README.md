@@ -1,4 +1,4 @@
-# G3
+# Gingerbead-3
 The third and latest version of my Gingerbread engine for Java 2D games
 
 ## Getting Started
