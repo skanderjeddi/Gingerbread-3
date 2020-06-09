@@ -1,0 +1,59 @@
+# Kernel
+version.message=Gingerbread3 version %s - by SkanderJ
+
+# Audio Manager
+key.audiomanager.success=Successfully registered audio with identifier "%s"
+key.audiomanager.not_directory=Provided path doesn't point to a directory
+key.audiomanager.missing_audio=Could not find audio with identifier "%s"
+key.audiomanager.missing_audio_stream=Could not find audio stream with identifier "%s"
+
+# Audio Manager Exceptions
+key.audiomanager.exception.loading=An exception occurred while loading audio from %s: %s
+key.audiomanager.exception.playing=An exception occurred while trying to play audio "%s": %s
+key.audiomanager.exception.looping=An exception occurred while trying to loop audio "%s": %s
+key.audiomanager.exception.wait_for=An exception occurred while waiting for audio "%s" to finish: %s
+key.audiomanager.exception.close=An exception occurred while trying to close audio stream "%s": %s
+key.audiomanager.exception.close.multiple=An exception occurred while trying to close audio streams "%s": %s
+
+# Font Manager
+key.fontmanager.success=Successfully registered font with identifier "%s"
+key.fontmanager.missing_font=Could not find font with identifier "%s"
+
+# Font Manager Exceptions
+key.fontmanager.exception.loading=An exception occurred while loading font from %s: %s
+
+# Image Manager
+key.imagemanager.success=Successfully registered image with identifier "%s"
+key.imagemanager.missing_image=Could not find image with identifier "%s"
+
+# Image Manager Exceptions
+key.imagemanager.exception.loading=An exception occurred while loading image from %s: %s
+
+# Component Manager
+key.componentmanager.missing_component=Could not find a component with identifier "%s"
+key.componentmanager.size.mismatch.identifiers.components=Size mismatch between the identifiers and the components lists (%d vs %d)
+
+# Logger
+key.logger.redirect_success=Successfully redirected default output streams
+key.logger.fatal.quit=A fatal log has been submitted from %s.class, exiting all processes
+
+# Keyboard
+key.keyboard.key_pressed=Key %d has been pressed
+
+# Window
+key.window.input.register=Registering input device (type:%s)
+key.window.create_no_call=You need to call create() before show() on any window instance
+key.window.devid_id_not_available=Requested device id %d is not available, returning -1
+key.window.no_display_mode=Unable to retrieve the display mode for device %d, falling back on device %d
+key.window.no_display_mode.fallback=Unable to retrieve the display mode for fallback device %d
+
+# Selector
+selector.arrow.no.change.behavior=Can't change the on click behavior of a selector arrow
+
+# TESTING
+key.playbackbutton.pause=Pause
+key.playbackbutton.resume=Resume
+key.volumeslider.label=Volume
+key.fartbutton.label=Random Fart
+key.component.infocus=Current in-focus component: %s
+key.volume.label=Volume: %.2f%%%%

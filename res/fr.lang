@@ -1,0 +1,55 @@
+# Kernel
+version.message=Gingerbread3 version %s - par SkanderJ
+
+# Audio Manager
+key.audiomanager.success=L'audio id "%s" a été enregistré avec succès
+key.audiomanager.not_directory=Le chemin indiqué ne pointe pas vers un dossier
+key.audiomanager.missing_audio=Impossible de trouver un audio d'identifiant "%s"
+key.audiomanager.missing_audio_stream=Impossible de trouver un flux audio d'identifiant "%s"
+
+# Audio Manager Exceptions
+key.audiomanager.exception.loading=Une exception a été levée en essayant de charger l'audio d'identifiant "%s": %s
+key.audiomanager.exception.playing=Une exception a été levée en essayant de jouer l'audio d'identifiant "%s": %s
+key.audiomanager.exception.looping=Une exception a été levée en essayant de boucler l'audio d'identifiant "%s": %s
+key.audiomanager.exception.wait_for=Une exception a été levée durant l'attente de la fin l'audio d'identifiant "%s": %s
+key.audiomanager.exception.close=Une exception a été levée en essayant de femrmer le flux audio d'identifiant "%s": %s
+key.audiomanager.exception.close.multiple=Une exception a été levée en essayant de fermer les flux audios: %s
+
+# Font Manager
+key.fontmanager.success=La police id "%s" a été enregistrée avec succès
+key.fontmanager.missing_font=Impossible de trouver une police d'identifiant "%s"
+
+# Font Manager Exceptions
+key.fontmanager.exception.loading=Une exception a été levée en essayant de charger une police à partir de %s: %s
+
+# Image Manager
+key.imagemanager.success=L'image id "%s" a été enregistrée avec succès
+key.imagemanager.missing_image=Impossible de trouver une image d'identifiant "%s"
+
+# Image Manager Exceptions
+key.imagemanager.exception.loading=Une exception a été levée en essayant de charger une image à partir de %s: %s
+
+# Component Manager
+key.componentmanager.missing_component=Impossible de trouver un composant graphique d'identifiant "%s"
+
+# Logger
+key.logger.redirect_success=Les flux systèmes par défaut ont été redirigés avec succès
+key.logger.fatal.quit=Un enregistrement fatal a été envoyé par %s.class, tous les processus vont être interrompus
+
+# Keyboard
+key.keyboard.key_pressed=La touche %d a été pressée
+
+# Window
+key.window.input.register=Le périphérique d'entrée (type:%s) a été enregistré
+key.window.create_no_call=La fonction create() de la classe Window doit toujours être appelée avant la fonction show()
+key.window.devid_id_not_available=Le périphérique d'identifiant %d n'est pas disponible, la valeur retournée sera -1
+key.window.no_display_mode=Impossible de retrouver le mode d'affichage pour le périphérique d'identifiant %d, utilisation du périphérique de secours d'identifiant %d
+key.window.no_display_mode.fallback=Impossible de retrouver le mode d'affichage pour le périphérique de secours d'identifiant %d
+
+# Components
+key.playbackbutton.pause=Pause
+key.playbackbutton.resume=Reprendre
+key.volumeslider.label=Volume
+key.fartbutton.label=Prout Aléatoire
+key.component.infocus=Composant graphique actuellement en focus: %s
+key.volume.label=Volume: %.2f
