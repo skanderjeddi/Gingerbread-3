@@ -6,6 +6,12 @@ import com.skanderj.gingerbead3.display.Window;
 import com.skanderj.gingerbead3.input.Keyboard;
 import com.skanderj.gingerbead3.input.Mouse;
 
+/**
+ * Animation interace, basis for all other animation classes.
+ * 
+ * @author Skander
+ *
+ */
 public interface Animation {
 	// Logic happens here
 	void update(double delta, Keyboard keyboard, Mouse mouse, Object... args);

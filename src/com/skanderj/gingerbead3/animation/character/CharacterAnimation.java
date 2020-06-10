@@ -8,6 +8,12 @@ import com.skanderj.gingerbead3.input.Keyboard;
 import com.skanderj.gingerbead3.input.Mouse;
 import com.skanderj.gingerbead3.sprite.Sprite;
 
+/**
+ * A (very) basic character animation.
+ * 
+ * @author Skander
+ *
+ */
 public class CharacterAnimation implements Animation {
 	private final int x, y;
 	private final Sprite[] sprites;
