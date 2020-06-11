@@ -134,14 +134,14 @@ public class G3Demo extends Game {
 	@Override
 	public void update(double delta) {
 		SceneManager.updateScene(this, delta);
-		// Scene-independant updating --- not recommanded, but flexibility
+		// Scene-independent updating --- not recommended, but flexibility
 	}
 
 	@Override
 	public void render(Graphics2D graphics) {
 		GraphicsUtilities.clear(this.window, graphics, Color.BLACK);
 		SceneManager.renderScene(this, graphics);
-		// Scene-independant rendering --- not recommanded, but flexibility
+		// Scene-independent rendering --- not recommended, but flexibility
 	}
 
 	public static void main(String[] args) {
