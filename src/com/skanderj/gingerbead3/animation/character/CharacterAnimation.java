@@ -10,7 +10,7 @@ import com.skanderj.gingerbead3.sprite.Sprite;
 
 /**
  * A (very) basic character animation.
- * 
+ *
  * @author Skander
  *
  */

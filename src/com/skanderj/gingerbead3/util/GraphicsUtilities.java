@@ -7,9 +7,9 @@ import java.awt.RenderingHints;
 import com.skanderj.gingerbead3.display.Window;
 
 /**
- * 
+ *
  * @author Skander
- * 
+ *
  */
 public final class GraphicsUtilities {
 	public static final int DEFAULT_ORIGIN_X = 0, DEFAULT_ORIGIN_Y = GraphicsUtilities.DEFAULT_ORIGIN_X;

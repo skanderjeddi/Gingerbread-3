@@ -8,7 +8,7 @@ import com.skanderj.gingerbead3.input.Mouse;
 
 /**
  * Animation interace, basis for all other animation classes.
- * 
+ *
  * @author Skander
  *
  */

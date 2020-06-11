@@ -13,44 +13,52 @@ import com.skanderj.gingerbead3.input.Mouse;
  * @author Skander
  *
  */
-public interface Component {
+public abstract class Component implements Comparable<Component> {
+	public abstract ComponentPriority priority();
+
 	// Logic happens here
-	void update(double delta, Keyboard keyboard, Mouse mouse, Object... args);
+	public abstract void update(double delta, Keyboard keyboard, Mouse mouse, Object... args);
 
 	// Rendering happens here
-	void render(Window window, Graphics2D graphics, Object... args);
+	public abstract void render(Window window, Graphics2D graphics, Object... args);
 
 	// Focus related methods
-	boolean canChangeFocus();
+	public abstract boolean canChangeFocus();
 
-	void grantFocus();
+	public abstract void grantFocus();
 
-	void revokeFocus();
-
-	// Self explanatory, implementation is child-component dependent
-	boolean containsMouse(int x, int y);
+	public abstract void revokeFocus();
 
 	// Self explanatory, implementation is child-component dependent
-	int getX();
+	public abstract boolean containsMouse(int x, int y);
 
 	// Self explanatory, implementation is child-component dependent
-	int getY();
+	public abstract int getX();
 
 	// Self explanatory, implementation is child-component dependent
-	void setX(int x);
+	public abstract int getY();
 
 	// Self explanatory, implementation is child-component dependent
-	void setY(int y);
+	public abstract void setX(int x);
 
 	// Self explanatory, implementation is child-component dependent
-	int getWidth();
+	public abstract void setY(int y);
 
 	// Self explanatory, implementation is child-component dependent
-	int getHeight();
+	public abstract int getWidth();
 
 	// Self explanatory, implementation is child-component dependent
-	void setWidth(int width);
+	public abstract int getHeight();
 
 	// Self explanatory, implementation is child-component dependent
-	void setHeight(int height);
+	public abstract void setWidth(int width);
+
+	// Self explanatory, implementation is child-component dependent
+	public abstract void setHeight(int height);
+
+	// Priority comparison, could be nicer but flemme
+	@Override
+	public int compareTo(Component o) {
+		return -(this.priority().priorityIndex - o.priority().priorityIndex);
+	}
 }

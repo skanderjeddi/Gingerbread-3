@@ -11,7 +11,7 @@ import com.skanderj.gingerbead3.input.Mouse;
  * @author Skander
  *
  */
-public abstract class Slider implements Component {
+public abstract class Slider extends Component {
 	protected float minimumValue, maximumValue;
 	protected boolean hasFocus, globalFocus;
 

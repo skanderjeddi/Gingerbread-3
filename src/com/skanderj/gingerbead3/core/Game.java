@@ -10,6 +10,13 @@ import com.skanderj.gingerbead3.input.Mouse;
 import com.skanderj.gingerbead3.log.Logger;
 import com.skanderj.gingerbead3.log.Logger.LogLevel;
 
+/**
+ * Most important class, all G3-based games must extend this class. Pretty self
+ * explanatory.
+ * 
+ * @author Skander
+ *
+ */
 public abstract class Game extends ThreadWrapper {
 	public static final int DEFAULT_SIZE = 400, DEFAULT_BUFFERS = 2;
 
@@ -134,5 +141,33 @@ public abstract class Game extends ThreadWrapper {
 		if (this.mouse != null) {
 			this.mouse.update();
 		}
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public Keyboard getKeyboard() {
+		return this.keyboard;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public Mouse getMouse() {
+		return this.mouse;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public double getRefreshRate() {
+		return this.refreshRate;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public Window getWindow() {
+		return this.window;
 	}
 }

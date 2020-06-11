@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import com.skanderj.gingerbead3.component.ComponentManager;
+import com.skanderj.gingerbead3.component.ComponentPriority;
 import com.skanderj.gingerbead3.component.Label;
 import com.skanderj.gingerbead3.display.Window;
 import com.skanderj.gingerbead3.input.Keyboard;
@@ -117,5 +118,13 @@ public final class G3Label extends Label {
 	@Override
 	public boolean containsMouse(int x, int y) {
 		return false;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	@Override
+	public ComponentPriority priority() {
+		return ComponentPriority.LOW;
 	}
 }

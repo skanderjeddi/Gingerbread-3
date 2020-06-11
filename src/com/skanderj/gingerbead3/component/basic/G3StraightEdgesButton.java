@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 
 import com.skanderj.gingerbead3.component.Button;
 import com.skanderj.gingerbead3.component.ComponentManager;
+import com.skanderj.gingerbead3.component.ComponentPriority;
 import com.skanderj.gingerbead3.display.Window;
 import com.skanderj.gingerbead3.util.VisualString;
 
@@ -159,5 +160,13 @@ public final class G3StraightEdgesButton extends Button {
 	 */
 	public void setBorderColor(Color borderColor) {
 		this.borderColor = borderColor;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	@Override
+	public ComponentPriority priority() {
+		return ComponentPriority.LOW;
 	}
 }

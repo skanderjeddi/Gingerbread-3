@@ -15,7 +15,7 @@ import com.skanderj.gingerbead3.input.Mouse;
  * @author Skander
  *
  */
-public abstract class Textfield implements Component {
+public abstract class Textfield extends Component {
 	// Global focus and local focus mixed in together because this is easy
 	protected boolean hasFocus;
 	// Collection of the previously typed maximumLines

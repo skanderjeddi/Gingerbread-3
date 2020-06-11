@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import com.skanderj.gingerbead3.component.ComponentManager;
+import com.skanderj.gingerbead3.component.ComponentPriority;
 import com.skanderj.gingerbead3.component.Selector;
 import com.skanderj.gingerbead3.display.Window;
 import com.skanderj.gingerbead3.io.FontManager;
@@ -176,5 +177,13 @@ public final class G3Selector extends Selector {
 	 */
 	public void setArrowSize(int arrowSize) {
 		this.arrowSize = arrowSize;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	@Override
+	public ComponentPriority priority() {
+		return ComponentPriority.LOW;
 	}
 }

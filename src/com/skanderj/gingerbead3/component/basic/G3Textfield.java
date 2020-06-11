@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import com.skanderj.gingerbead3.component.ComponentManager;
+import com.skanderj.gingerbead3.component.ComponentPriority;
 import com.skanderj.gingerbead3.component.Textfield;
 import com.skanderj.gingerbead3.display.Window;
 import com.skanderj.gingerbead3.input.Keyboard;
@@ -340,5 +341,13 @@ public final class G3Textfield extends Textfield {
 	 */
 	public void setBackgroundColor(Color backgroundColor) {
 		this.backgroundColor = backgroundColor;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	@Override
+	public ComponentPriority priority() {
+		return ComponentPriority.LOW;
 	}
 }

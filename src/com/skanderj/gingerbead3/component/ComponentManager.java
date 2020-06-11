@@ -1,8 +1,11 @@
 package com.skanderj.gingerbead3.component;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -89,6 +92,17 @@ public final class ComponentManager {
 		}
 	}
 
+	public static void onlyConsider(List<String> identifiers) {
+		ComponentManager.skippedComponents.clear();
+		for (final String identifier : ComponentManager.componentsMap.keySet()) {
+			if (identifiers.contains(identifier)) {
+				continue;
+			} else {
+				ComponentManager.skipComponent(identifier);
+			}
+		}
+	}
+
 	/**
 	 * Self explanatory.
 	 */
@@ -105,13 +119,18 @@ public final class ComponentManager {
 	 * Updates every component.
 	 */
 	public static final synchronized void update(double delta, Keyboard keyboard, Mouse mouse, Object... args) {
+		final List<Component> toUpdate = new ArrayList<Component>();
 		for (final String identifier : ComponentManager.componentsMap.keySet()) {
 			if (ComponentManager.skippedComponents.contains(identifier)) {
 				continue;
 			}
 			final Component component = ComponentManager.componentsMap.get(identifier);
+			toUpdate.add(component);
+		}
+		Collections.sort(toUpdate);
+		for (final Component component : toUpdate) {
 			if (component.containsMouse(mouse.getX(), mouse.getY()) && mouse.isButtonDown(Mouse.BUTTON_LEFT)) {
-				ComponentManager.giveFocus(identifier);
+				ComponentManager.giveFocus(component);
 			}
 			component.update(delta, keyboard, mouse, args);
 		}
@@ -129,13 +148,19 @@ public final class ComponentManager {
 	 * Draws every component.
 	 */
 	public static synchronized void render(Window window, Graphics2D graphics) {
+		final List<Component> toRender = new ArrayList<Component>();
 		for (final String identifier : ComponentManager.componentsMap.keySet()) {
 			if (ComponentManager.skippedComponents.contains(identifier)) {
 				continue;
 			}
 			final Component component = ComponentManager.componentsMap.get(identifier);
+			toRender.add(component);
+		}
+		Collections.sort(toRender);
+		for (final Component component : toRender) {
 			component.render(window, graphics);
 		}
+
 	}
 
 	// TODO: not finished
@@ -152,6 +177,27 @@ public final class ComponentManager {
 	 */
 	public static synchronized void giveFocus(String identifier) {
 		final Component component = ComponentManager.componentsMap.get(identifier);
+		if (component == null) {
+			ComponentManager.inFocus = null;
+			return;
+		}
+		if (ComponentManager.inFocus == null) {
+			component.grantFocus();
+			ComponentManager.inFocus = component;
+		} else {
+			if (ComponentManager.inFocus.canChangeFocus()) {
+				ComponentManager.inFocus.revokeFocus();
+				component.grantFocus();
+				ComponentManager.inFocus = component;
+			}
+		}
+	}
+
+	/**
+	 * Gives focus the provided component if focus can be revoked from the currently
+	 * focused component.
+	 */
+	public static synchronized void giveFocus(Component component) {
 		if (component == null) {
 			ComponentManager.inFocus = null;
 			return;

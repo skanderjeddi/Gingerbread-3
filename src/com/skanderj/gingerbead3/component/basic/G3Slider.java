@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import com.skanderj.gingerbead3.component.ComponentManager;
+import com.skanderj.gingerbead3.component.ComponentPriority;
 import com.skanderj.gingerbead3.component.Slider;
 import com.skanderj.gingerbead3.display.Window;
 import com.skanderj.gingerbead3.input.Keyboard;
@@ -234,6 +235,14 @@ public final class G3Slider extends Slider {
 	 */
 	public void setColor(Color color) {
 		this.color = color;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	@Override
+	public ComponentPriority priority() {
+		return ComponentPriority.LOW;
 	}
 
 	/**

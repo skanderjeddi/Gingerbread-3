@@ -1,6 +1,6 @@
 package com.skanderj.gingerbead3.component;
 
-public abstract class Background implements Component {
+public abstract class Background extends Component {
 	/**
 	 * Always can change focus out of background.
 	 */

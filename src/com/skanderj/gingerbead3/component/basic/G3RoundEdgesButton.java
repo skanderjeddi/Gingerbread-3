@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 
 import com.skanderj.gingerbead3.component.Button;
 import com.skanderj.gingerbead3.component.ComponentManager;
+import com.skanderj.gingerbead3.component.ComponentPriority;
 import com.skanderj.gingerbead3.display.Window;
 import com.skanderj.gingerbead3.util.VisualString;
 
@@ -177,5 +178,13 @@ public final class G3RoundEdgesButton extends Button {
 	 */
 	public void setBorderIncline(int borderIncline) {
 		this.borderIncline = borderIncline;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	@Override
+	public ComponentPriority priority() {
+		return ComponentPriority.LOW;
 	}
 }

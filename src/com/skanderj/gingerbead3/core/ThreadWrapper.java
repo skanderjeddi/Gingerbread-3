@@ -1,5 +1,11 @@
 package com.skanderj.gingerbead3.core;
 
+/**
+ * Ripped off of the older Gingerbread versions.
+ * 
+ * @author Skander
+ *
+ */
 public abstract class ThreadWrapper {
 	public static final int EXIT_SUCCESS = 0, EXIT_FAILURE = -1;
 

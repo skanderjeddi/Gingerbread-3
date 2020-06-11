@@ -18,7 +18,7 @@ import com.skanderj.gingerbead3.log.Logger.LogLevel;
  * @author Skander
  *
  */
-public abstract class Selector implements Component {
+public abstract class Selector extends Component {
 	/**
 	 * A class representing each selector arrow.
 	 *

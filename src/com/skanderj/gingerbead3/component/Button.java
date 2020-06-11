@@ -12,7 +12,7 @@ import com.skanderj.gingerbead3.input.Mouse;
  * @author Skander
  *
  */
-public abstract class Button implements Component {
+public abstract class Button extends Component {
 	protected ButtonState previousState, state;
 	protected ButtonAction[] actions;
 	protected boolean hasFocus, mouseWasIn;

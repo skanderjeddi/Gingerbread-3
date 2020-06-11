@@ -10,7 +10,7 @@ import com.skanderj.gingerbead3.util.VisualString;
  * @author Skander
  *
  */
-public abstract class Label implements Component {
+public abstract class Label extends Component {
 	protected VisualString graphicString;
 
 	/**
