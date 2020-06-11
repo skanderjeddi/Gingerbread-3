@@ -86,9 +86,17 @@ public final class AudioManager {
 	}
 
 	/**
-	 * Self explanatory. Returns true if successful, false otherwise.
+	 * Self explanatory. Returns true if successful, false otherwise. Plays audio at
+	 * full volume.
 	 */
 	public static boolean playAudio(final String identifier) {
+		return AudioManager.playAudio(identifier, 1.0F);
+	}
+
+	/**
+	 * Self explanatory. Returns true if successful, false otherwise.
+	 */
+	public static boolean playAudio(final String identifier, final float volume) {
 		final AudioInputStream stream = AudioManager.audioMap.get(identifier);
 		if (stream == null) {
 			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find audio with identifier \"%s\"", identifier);
@@ -96,7 +104,7 @@ public final class AudioManager {
 		} else {
 			try {
 				stream.reset();
-				return AudioManager.playAudio(identifier, stream);
+				return AudioManager.playAudio(identifier, stream, volume);
 			} catch (final IOException exception) {
 				Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to play audio \"%s\": %s", identifier, exception.getMessage());
 				return false;
@@ -109,7 +117,7 @@ public final class AudioManager {
 	 * a thread and start it. Registering everything in the corresponding maps.
 	 * Returns true if successful, false otherwise.
 	 */
-	private static boolean playAudio(final String identifier, final AudioInputStream audioInputStream) {
+	private static boolean playAudio(final String identifier, final AudioInputStream audioInputStream, final float volume) {
 		class AudioListener implements LineListener {
 			private boolean isDone = false;
 
@@ -135,6 +143,8 @@ public final class AudioManager {
 				clip.addLineListener(listener);
 				clip.open(audioInputStream);
 				try {
+					final FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+					gainControl.setValue(20f * (float) Math.log10(volume));
 					clip.start();
 					AudioManager.clipsMap.put(identifier, clip);
 					try {
@@ -271,9 +281,17 @@ public final class AudioManager {
 
 	/**
 	 * Self explanatory. Returns true if successful, false otherwise. -1 to loop
-	 * indefinitely.
+	 * indefinitely. Plays audio at full volume.
 	 */
 	public static boolean loopAudio(final String identifier, final int count) {
+		return AudioManager.loopAudio(identifier, count, 1.0F);
+	}
+
+	/**
+	 * Self explanatory. Returns true if successful, false otherwise. -1 to loop
+	 * indefinitely.
+	 */
+	public static boolean loopAudio(final String identifier, final int count, final float volume) {
 		final AudioInputStream stream = AudioManager.audioMap.get(identifier);
 		if (stream == null) {
 			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find audio stream with identifier \"%s\"", identifier);
@@ -285,7 +303,7 @@ public final class AudioManager {
 				Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to play audio \"%s\": %s", identifier, ioException.getMessage());
 				return false;
 			}
-			return AudioManager.loopAudio(identifier, count, stream);
+			return AudioManager.loopAudio(identifier, count, stream, volume);
 		}
 	}
 
@@ -294,7 +312,7 @@ public final class AudioManager {
 	 * a thread and loop it. Registering everything in the corresponding maps.
 	 * Returns true if successful, false otherwise.
 	 */
-	private static boolean loopAudio(final String identifier, final int count, final AudioInputStream audioInputStream) {
+	private static boolean loopAudio(final String identifier, final int count, final AudioInputStream audioInputStream, final float volume) {
 		class AudioListener implements LineListener {
 			private boolean isDone = false;
 
@@ -320,6 +338,8 @@ public final class AudioManager {
 				clip.addLineListener(listener);
 				clip.open(audioInputStream);
 				try {
+					final FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+					gainControl.setValue(20f * (float) Math.log10(volume));
 					clip.loop(count == -1 ? -1 : count - 1);
 					AudioManager.clipsMap.put(identifier, clip);
 					listener.waitUntilDone();

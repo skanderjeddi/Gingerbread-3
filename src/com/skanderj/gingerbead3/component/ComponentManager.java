@@ -26,7 +26,7 @@ import com.skanderj.gingerbead3.log.Logger.LogLevel;
  */
 public final class ComponentManager {
 	// Graphical debug - mostly drawing components' bounds
-	public static final boolean GRAPHICAL_DEBUG = true;
+	public static final boolean GRAPHICAL_DEBUG = false;
 
 	// Components map, for easily finding any component from any class
 	// Makes it possible to not instantiate any actual component
@@ -93,6 +93,7 @@ public final class ComponentManager {
 	}
 
 	public static void onlyConsider(final List<String> identifiers) {
+		ComponentManager.inFocus = null;
 		ComponentManager.skippedComponents.clear();
 		for (final String identifier : ComponentManager.componentsMap.keySet()) {
 			if (identifiers.contains(identifier)) {

@@ -19,12 +19,12 @@ public abstract class Scene {
 	public abstract List<String> sceneComponents();
 
 	// Logic happens here
-	public void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
-		ComponentManager.update(delta, keyboard, mouse, args);
+	public synchronized void update(final double delta, final Keyboard keyboard, final Mouse mouse) {
+		ComponentManager.update(delta, keyboard, mouse);
 	}
 
 	// Rendering happens here
-	public void render(final Window window, final Graphics2D graphics, final Object... args) {
+	public synchronized void render(final Window window, final Graphics2D graphics) {
 		ComponentManager.render(window, graphics);
 	}
 
