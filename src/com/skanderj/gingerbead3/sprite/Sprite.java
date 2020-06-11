@@ -7,7 +7,7 @@ public class Sprite {
 	private final BufferedImage image;
 	private final int width, height;
 
-	public Sprite(String identifier, BufferedImage image, int width, int height) {
+	public Sprite(final String identifier, final BufferedImage image, final int width, final int height) {
 		this.identifier = identifier;
 		this.image = image;
 		this.width = width;

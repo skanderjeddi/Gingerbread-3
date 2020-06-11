@@ -37,7 +37,7 @@ public abstract class Button extends Component {
 	 * button then run the appropriate button action accordingly.
 	 */
 	@Override
-	public void update(double delta, Keyboard keyboard, Mouse mouse, Object... args) {
+	public void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
 		this.previousState = this.state;
 		final int mouseX = mouse.getX(), mouseY = mouse.getY();
 		final boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = mouse.isButtonDown(Mouse.BUTTON_LEFT);
@@ -56,7 +56,7 @@ public abstract class Button extends Component {
 			this.hasFocus = false;
 			this.mouseWasIn = false;
 		}
-		if (this.previousState == ButtonState.HELD && (this.state == ButtonState.IDLE || this.state == ButtonState.HOVERED) && mouseIn) {
+		if ((this.previousState == ButtonState.HELD) && ((this.state == ButtonState.IDLE) || (this.state == ButtonState.HOVERED)) && mouseIn) {
 			this.state = ButtonState.ON_CLICK;
 		}
 		this.actions[this.state.getIdentifier()].execute(delta, keyboard, mouse);
@@ -66,7 +66,7 @@ public abstract class Button extends Component {
 	 * Sets the button action that will be executed when the provided currentState
 	 * is the current currentState.
 	 */
-	public void setButtonAction(ButtonState state, ButtonAction action) {
+	public void setButtonAction(final ButtonState state, final ButtonAction action) {
 		this.actions[state.getIdentifier()] = action;
 	}
 
@@ -107,7 +107,7 @@ public abstract class Button extends Component {
 	/**
 	 * Self explanatory. Can be used to set multiple actions at once.
 	 */
-	public void setActions(ButtonAction[] actions) {
+	public void setActions(final ButtonAction[] actions) {
 		this.actions = actions;
 	}
 
@@ -129,7 +129,7 @@ public abstract class Button extends Component {
 		// An identifier for easier access in other classes (#Button)
 		private final int identifier;
 
-		private ButtonState(int identifier) {
+		private ButtonState(final int identifier) {
 			this.identifier = identifier;
 		}
 

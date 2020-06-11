@@ -13,7 +13,7 @@ public final class VisualStringProperties {
 	private Font font;
 	private Color color;
 
-	public VisualStringProperties(Font font, Color color) {
+	public VisualStringProperties(final Font font, final Color color) {
 		this.font = font;
 		this.color = color;
 	}
@@ -26,11 +26,11 @@ public final class VisualStringProperties {
 		return this.color;
 	}
 
-	public void setFont(Font font) {
+	public void setFont(final Font font) {
 		this.font = font;
 	}
 
-	public void setColor(Color color) {
+	public void setColor(final Color color) {
 		this.color = color;
 	}
 }

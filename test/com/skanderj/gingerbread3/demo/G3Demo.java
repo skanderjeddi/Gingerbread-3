@@ -37,11 +37,11 @@ public class G3Demo extends Game {
 	 */
 	public static final String IDENTIFIER = "g3-d", TITLE = "Gingerbread-3 [DEMO]";
 	public static final double REFRESH_RATE = 60.0D;
-	public static final int WIDTH = 1200, HEIGHT = G3Demo.WIDTH / 16 * 9, BUFFERS = 3;
+	public static final int WIDTH = 1200, HEIGHT = (G3Demo.WIDTH / 16) * 9, BUFFERS = 3;
 
 	// Constants for button sizes until I implements a better system (how? I don't
 	// fucking have a clue)
-	public static final int B_WIDTH = 100, B_HEIGHT = 100 / 16 * 9;
+	public static final int B_WIDTH = 100, B_HEIGHT = (100 / 16) * 9;
 
 	// Main menu scene - first scene of the game
 	public static final Scene mainMenuScene = new Scene() {
@@ -67,7 +67,7 @@ public class G3Demo extends Game {
 
 	public static final Scene mainGameScene = new Scene() {
 		@Override
-		public void update(double delta, Keyboard keyboard, Mouse mouse, Object... args) {
+		public void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
 			super.update(delta, keyboard, mouse, args);
 			// Scene specific keyboard/mouse handling
 			if (keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
@@ -123,23 +123,23 @@ public class G3Demo extends Game {
 		// Register all the components here once and for all then manage them through
 		// scenes switching
 		ComponentManager.addComponent("main-menu-background", new G3SolidBackground(GraphicsUtilities.DEFAULT_ORIGIN_X, GraphicsUtilities.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.BLACK));
-		ComponentManager.addComponent("play-button", new G3StraightEdgesButton(G3Demo.WIDTH / 2 - G3Demo.B_WIDTH / 2, G3Demo.HEIGHT / 2 - 150, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Play!", Color.RED, FontManager.getFont("lunchds", 14)), Color.BLACK, Color.DARK_GRAY));
-		ComponentManager.addComponent("settings-button", new G3StraightEdgesButton(G3Demo.WIDTH / 2 - G3Demo.B_WIDTH / 2, G3Demo.HEIGHT / 2 - 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Settings", Color.RED, FontManager.getFont("lunchds", 14)), Color.BLACK, Color.DARK_GRAY));
-		ComponentManager.addComponent("exit-button", new G3StraightEdgesButton(G3Demo.WIDTH / 2 - G3Demo.B_WIDTH / 2, G3Demo.HEIGHT / 2 + 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Exit...", Color.RED, FontManager.getFont("lunchds", 14)), Color.BLACK, Color.DARK_GRAY));
+		ComponentManager.addComponent("play-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 150, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Play!", Color.RED, FontManager.getFont("lunchds", 14)), Color.BLACK, Color.DARK_GRAY));
+		ComponentManager.addComponent("settings-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Settings", Color.RED, FontManager.getFont("lunchds", 14)), Color.BLACK, Color.DARK_GRAY));
+		ComponentManager.addComponent("exit-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Exit...", Color.RED, FontManager.getFont("lunchds", 14)), Color.BLACK, Color.DARK_GRAY));
 		((Button) ComponentManager.getComponent("play-button")).setButtonAction(ButtonState.ON_CLICK, args -> SceneManager.setCurrentScene("main-game"));
 		ComponentManager.addComponent("main-game-background", new G3SolidBackground(GraphicsUtilities.DEFAULT_ORIGIN_X, GraphicsUtilities.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.PINK));
-		ComponentManager.addComponent("instructions-label", new G3Label(GraphicsUtilities.DEFAULT_ORIGIN_X, G3Demo.HEIGHT / 2 - 50, G3Demo.WIDTH - 1, 100, new VisualString("Press escape to return to the main menu", new VisualStringProperties(FontManager.getFont("lunchds", 28), Color.BLACK))));
+		ComponentManager.addComponent("instructions-label", new G3Label(GraphicsUtilities.DEFAULT_ORIGIN_X, (G3Demo.HEIGHT / 2) - 50, G3Demo.WIDTH - 1, 100, new VisualString("Press escape to return to the main menu", new VisualStringProperties(FontManager.getFont("lunchds", 28), Color.BLACK))));
 	}
 
 	@Override
-	public void update(double delta) {
+	public void update(final double delta) {
 		// VERY IMPORTANT TO CALL
 		super.update(delta);
 		// Scene-independent updating --- not recommended, but flexibility
 	}
 
 	@Override
-	public void render(Graphics2D graphics) {
+	public void render(final Graphics2D graphics) {
 		// Clear the screen here -- ideally done through a black background component
 		GraphicsUtilities.clear(this.window, graphics, Color.BLACK);
 		// VERY IMPORTANT TO CALL
@@ -147,7 +147,7 @@ public class G3Demo extends Game {
 		// Scene-independent rendering --- not recommended, but flexibility
 	}
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		// Set debugging messages
 		Logger.setDebuggingState(DebuggingType.CLASSIC, true);
 		Logger.setDebuggingState(DebuggingType.DEVELOPMENT, true);

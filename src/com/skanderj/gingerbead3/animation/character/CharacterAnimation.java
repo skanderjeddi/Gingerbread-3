@@ -20,7 +20,7 @@ public class CharacterAnimation implements Animation {
 	private final int[] timers;
 	private int currentSpriteIndex, currentSpriteTimer;
 
-	public CharacterAnimation(int x, int y, Sprite[] sprites, int[] timers) {
+	public CharacterAnimation(final int x, final int y, final Sprite[] sprites, final int[] timers) {
 		this.x = x;
 		this.y = y;
 		this.sprites = sprites;
@@ -30,7 +30,7 @@ public class CharacterAnimation implements Animation {
 	}
 
 	@Override
-	public void update(double delta, Keyboard keyboard, Mouse mouse, Object... args) {
+	public void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
 		this.currentSpriteTimer += 1;
 		if (this.currentSpriteTimer >= this.timers[this.currentSpriteIndex]) {
 			this.currentSpriteIndex += 1;
@@ -40,7 +40,7 @@ public class CharacterAnimation implements Animation {
 	}
 
 	@Override
-	public void render(Window window, Graphics2D graphics, Object... args) {
+	public void render(final Window window, final Graphics2D graphics, final Object... args) {
 		graphics.drawImage(this.sprites[this.currentSpriteIndex].getImage(), this.x, this.y, this.sprites[this.currentSpriteIndex].getWidth(), this.sprites[this.currentSpriteIndex].getHeight(), null);
 	}
 }

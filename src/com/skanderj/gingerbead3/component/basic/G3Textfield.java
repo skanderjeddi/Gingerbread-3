@@ -36,7 +36,7 @@ public final class G3Textfield extends Textfield {
 	 * Background color for rendering a simple box and text properties for the font
 	 * and color, by default can only display 1 line.
 	 */
-	public G3Textfield(int x, int y, int width, Color backgroundColor, VisualStringProperties textProperties) {
+	public G3Textfield(final int x, final int y, final int width, final Color backgroundColor, final VisualStringProperties textProperties) {
 		this(x, y, width, backgroundColor, textProperties, 0);
 	}
 
@@ -44,7 +44,7 @@ public final class G3Textfield extends Textfield {
 	 * Background color for rendering a simple box, text properties for the font and
 	 * color, and amount maximumLines to display.
 	 */
-	public G3Textfield(int x, int y, int width, Color backgroundColor, VisualStringProperties textProperties, int lines) {
+	public G3Textfield(final int x, final int y, final int width, final Color backgroundColor, final VisualStringProperties textProperties, final int lines) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -64,12 +64,12 @@ public final class G3Textfield extends Textfield {
 	}
 
 	@Override
-	public void update(double delta, Keyboard keyboard, Mouse mouse, Object... args) {
+	public void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
 		super.update(delta, keyboard, mouse, args);
 		// Cursor blinking timer
 		{
 			this.blinkTimer += 1;
-			if (this.blinkTimer % this.blinkRate == 0) {
+			if ((this.blinkTimer % this.blinkRate) == 0) {
 				this.cursorBlink = !this.cursorBlink;
 			}
 		}
@@ -79,14 +79,14 @@ public final class G3Textfield extends Textfield {
 	 * The rendering routine.
 	 */
 	@Override
-	public void render(Window window, Graphics2D graphics, Object... args) {
+	public void render(final Window window, final Graphics2D graphics, final Object... args) {
 		graphics.setFont(this.textProperties.getFont());
 		final FontMetrics metrics = graphics.getFontMetrics();
 		final int fontHeight = metrics.getHeight();
 		// Determine height if not done before (= 0)
 		{
 			if (this.height == 0) {
-				this.height = metrics.getHeight() * this.maximumLines + metrics.getHeight() / 3;
+				this.height = (metrics.getHeight() * this.maximumLines) + (metrics.getHeight() / 3);
 			}
 		}
 		// Background
@@ -109,13 +109,13 @@ public final class G3Textfield extends Textfield {
 		// Cursor tracking variables
 		int cursorX = 0, cursorY = 0, cursorWidth = 0, cursorHeight = 0;
 		// Check if width of current line exceeds box width
-		if (metrics.stringWidth(this.currentLine) + this.x + 10 > this.width) {
+		if ((metrics.stringWidth(this.currentLine) + this.x + 10) > this.width) {
 			// Check if we can spread on multiple maximumLines
 			if (this.multiline) {
 				// Check if we still have more line space
 				if (this.canAddLines) {
 					// Case where there's 1 word per line
-					if (!this.currentLine.isEmpty() && this.currentLine.split("\\s+").length == 1) {
+					if (!this.currentLine.isEmpty() && (this.currentLine.split("\\s+").length == 1)) {
 						// Split text until before last character and add hyphen
 						final String subHyphen = this.currentLine.substring(0, this.currentLine.length() - 1) + "-";
 						// Add the first part of the cut text to the maximumLines
@@ -129,8 +129,8 @@ public final class G3Textfield extends Textfield {
 						// Separate the string at each space
 						final String[] parts = this.currentLine.split("\\s+");
 						// Append the parts to a new string adding spaces accordingly
-						for (int i = 0; i < parts.length - 1; i += 1) {
-							sub += parts[i] + (i == parts.length - 2 ? "" : " ");
+						for (int i = 0; i < (parts.length - 1); i += 1) {
+							sub += parts[i] + (i == (parts.length - 2) ? "" : " ");
 						}
 						// Add the new string to the text
 						this.text.add(sub);
@@ -143,7 +143,7 @@ public final class G3Textfield extends Textfield {
 					// If we can't add more maximumLines
 					int maxSize = 0;
 					// Count how many characters we need to exceed the width
-					while (metrics.stringWidth(this.currentLine.substring(0, maxSize)) + this.x + 10 < this.width) {
+					while ((metrics.stringWidth(this.currentLine.substring(0, maxSize)) + this.x + 10) < this.width) {
 						maxSize += 1;
 					}
 					// Take that amount of characters to display
@@ -157,7 +157,7 @@ public final class G3Textfield extends Textfield {
 				// If we can't add more maximumLines
 				int maxSize = 0;
 				// Count how many characters we need to exceed the width
-				while (metrics.stringWidth(this.currentLine.substring(0, maxSize)) + this.x + 10 < this.width) {
+				while ((metrics.stringWidth(this.currentLine.substring(0, maxSize)) + this.x + 10) < this.width) {
 					maxSize += 1;
 				}
 				// Take that amount of characters to display
@@ -175,25 +175,25 @@ public final class G3Textfield extends Textfield {
 				// Check that we still have enough maximumLines empty - DON'T KNOW WHY IT WORKS
 				// BUT IT
 				// DOES
-				if ((this.linesCounter + 2) * fontHeight < this.height) {
+				if (((this.linesCounter + 2) * fontHeight) < this.height) {
 					// Should give a perfectly spaced text
-					graphics.drawString(lineOfText, this.x + 10, this.y + fontHeight * (this.linesCounter + 1));
+					graphics.drawString(lineOfText, this.x + 10, this.y + (fontHeight * (this.linesCounter + 1)));
 					// Increase maximumLines counter
 					this.linesCounter += 1;
 				}
 			}
 			// We exceeded the height limit so we can't add maximumLines anymore
-			if ((this.linesCounter + 2) * fontHeight > this.height) {
+			if (((this.linesCounter + 2) * fontHeight) > this.height) {
 				this.canAddLines = false;
 			}
 			// Draw current line if we have the space
-			if ((this.linesCounter + 1) * fontHeight < this.height) {
-				graphics.drawString(this.currentLine, this.x + 10, this.y + fontHeight * (this.linesCounter + 1));
+			if (((this.linesCounter + 1) * fontHeight) < this.height) {
+				graphics.drawString(this.currentLine, this.x + 10, this.y + (fontHeight * (this.linesCounter + 1)));
 			}
 			// Compute cursor position
-			cursorY = this.y + fontHeight * this.linesCounter + metrics.getAscent() / 2 + metrics.getDescent() / 2;
+			cursorY = this.y + (fontHeight * this.linesCounter) + (metrics.getAscent() / 2) + (metrics.getDescent() / 2);
 			// Here is a fixed x-offset - need to change that to scale with the font
-			cursorX = this.x + this.stringWidth(metrics, this.currentLine, this.cursorPosition) + this.textProperties.getFont().getSize() / 5;
+			cursorX = this.x + this.stringWidth(metrics, this.currentLine, this.cursorPosition) + (this.textProperties.getFont().getSize() / 5);
 			// Constant width, 2/4 looks good IMO
 			if (this.textProperties.getFont().isBold()) {
 				cursorWidth = 6;
@@ -201,14 +201,14 @@ public final class G3Textfield extends Textfield {
 				cursorWidth = 2;
 			}
 			// Cursor height - again, don't know why it works but it does
-			cursorHeight = (int) (metrics.getDescent() / 2 + metrics.getAscent() / 2 + Utilities.map(this.textProperties.getFont().getSize(), 0, 144, 0, 4, true));
+			cursorHeight = (int) ((metrics.getDescent() / 2) + (metrics.getAscent() / 2) + Utilities.map(this.textProperties.getFont().getSize(), 0, 144, 0, 4, true));
 		} else {
 			// easy - maybe too memory heavy? might need a cache
 			new VisualString(this.currentLine, this.textProperties.getColor(), this.textProperties.getFont()).drawCenteredAbsolute(graphics, this.x + 10, this.y, this.height);
 			// FIXED!
 			cursorY = this.y + 5;
 			// Here is a fixed x-offset - need to change that to scale with the font
-			cursorX = this.x + this.stringWidth(metrics, this.currentLine, this.cursorPosition) + this.textProperties.getFont().getSize() / 5;
+			cursorX = this.x + this.stringWidth(metrics, this.currentLine, this.cursorPosition) + (this.textProperties.getFont().getSize() / 5);
 			// Constant width, 2/4 looks good IMO
 			if (this.textProperties.getFont().isBold()) {
 				cursorWidth = 6;
@@ -233,14 +233,14 @@ public final class G3Textfield extends Textfield {
 	}
 
 	@Override
-	public boolean containsMouse(int x, int y) {
+	public boolean containsMouse(final int x, final int y) {
 		return new Rectangle(this.x, this.y, this.width, this.height).contains(x, y);
 	}
 
 	/**
 	 * Returns a string width up to cursor-characters.
 	 */
-	private int stringWidth(FontMetrics metrics, String string, int cursor) {
+	private int stringWidth(final FontMetrics metrics, final String string, final int cursor) {
 		return metrics.stringWidth(string.substring(0, cursor));
 	}
 
@@ -308,7 +308,7 @@ public final class G3Textfield extends Textfield {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setX(int x) {
+	public void setX(final int x) {
 		this.x = x;
 	}
 
@@ -316,7 +316,7 @@ public final class G3Textfield extends Textfield {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setY(int y) {
+	public void setY(final int y) {
 		this.y = y;
 	}
 
@@ -324,7 +324,7 @@ public final class G3Textfield extends Textfield {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setWidth(int width) {
+	public void setWidth(final int width) {
 		this.width = width;
 	}
 
@@ -332,14 +332,14 @@ public final class G3Textfield extends Textfield {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setHeight(int height) {
+	public void setHeight(final int height) {
 		this.height = height;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setBackgroundColor(Color backgroundColor) {
+	public void setBackgroundColor(final Color backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}
 

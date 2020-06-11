@@ -26,14 +26,14 @@ public final class G3Selector extends Selector {
 	/**
 	 * Self explanatory.
 	 */
-	public G3Selector(int x, int y, int width, int height, int arrowSize, VisualStringProperties properties, String[] optionsArray) {
+	public G3Selector(final int x, final int y, final int width, final int height, final int arrowSize, final VisualStringProperties properties, final String[] optionsArray) {
 		this(x, y, width, height, arrowSize, properties, optionsArray, optionsArray[0]);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public G3Selector(int x, int y, int width, int height, int arrowSize, VisualStringProperties properties, String[] optionsArray, String defaultOption) {
+	public G3Selector(final int x, final int y, final int width, final int height, final int arrowSize, final VisualStringProperties properties, final String[] optionsArray, final String defaultOption) {
 		super(optionsArray, defaultOption);
 		this.x = x;
 		this.y = y;
@@ -47,7 +47,7 @@ public final class G3Selector extends Selector {
 	/**
 	 * Very basic rendering, 2 rectangles for the arrows.
 	 */
-	public void render(Window window, Graphics2D graphics, Object... args) {
+	public void render(final Window window, final Graphics2D graphics, final Object... args) {
 		graphics.setColor(Color.WHITE);
 		graphics.fillRect(this.x + 10 + this.arrowSize, this.y, this.width, this.height);
 		new VisualString(this.currentOption, this.properties, this.properties.getColor().darker().darker()).drawCentered(graphics, this.x + 10 + this.arrowSize, this.y, this.width, this.height);
@@ -75,7 +75,7 @@ public final class G3Selector extends Selector {
 	 * Self explanatory.
 	 */
 	@Override
-	public boolean leftArrowContainsMouse(int x, int y) {
+	public boolean leftArrowContainsMouse(final int x, final int y) {
 		return new Rectangle(this.x, this.y, this.arrowSize, this.height).contains(x, y);
 	}
 
@@ -83,7 +83,7 @@ public final class G3Selector extends Selector {
 	 * Self explanatory.
 	 */
 	@Override
-	public boolean rightArrowContainsMouse(int x, int y) {
+	public boolean rightArrowContainsMouse(final int x, final int y) {
 		return new Rectangle(this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height).contains(x, y);
 	}
 
@@ -137,7 +137,7 @@ public final class G3Selector extends Selector {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setX(int x) {
+	public void setX(final int x) {
 		this.x = x;
 	}
 
@@ -145,7 +145,7 @@ public final class G3Selector extends Selector {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setY(int y) {
+	public void setY(final int y) {
 		this.y = y;
 	}
 
@@ -153,7 +153,7 @@ public final class G3Selector extends Selector {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setWidth(int width) {
+	public void setWidth(final int width) {
 		this.width = width;
 	}
 
@@ -161,21 +161,21 @@ public final class G3Selector extends Selector {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setHeight(int height) {
+	public void setHeight(final int height) {
 		this.height = height;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setProperties(VisualStringProperties properties) {
+	public void setProperties(final VisualStringProperties properties) {
 		this.properties = properties;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setArrowSize(int arrowSize) {
+	public void setArrowSize(final int arrowSize) {
 		this.arrowSize = arrowSize;
 	}
 

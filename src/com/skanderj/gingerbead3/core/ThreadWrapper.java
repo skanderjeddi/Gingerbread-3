@@ -2,7 +2,7 @@ package com.skanderj.gingerbead3.core;
 
 /**
  * Ripped off of the older Gingerbread versions.
- * 
+ *
  * @author Skander
  *
  */
@@ -12,7 +12,7 @@ public abstract class ThreadWrapper {
 	private final Thread thread;
 	protected boolean isRunning;
 
-	public ThreadWrapper(String identifier) {
+	public ThreadWrapper(final String identifier) {
 		this.thread = new Thread((Runnable) ThreadWrapper.this::run, String.format("%s", identifier));
 		this.isRunning = false;
 	}

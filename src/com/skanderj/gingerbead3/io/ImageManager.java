@@ -31,7 +31,7 @@ public final class ImageManager {
 	 * Loads an image from the provided path. Returns true if the font was
 	 * successfully registered, false otherwise.
 	 */
-	public static boolean registerImage(String identifier, String path) {
+	public static boolean registerImage(final String identifier, final String path) {
 		BufferedImage image;
 		try {
 			image = ImageIO.read(new File(path));
@@ -47,7 +47,7 @@ public final class ImageManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static BufferedImage retrieveImage(String identifier) {
+	public static BufferedImage retrieveImage(final String identifier) {
 		final BufferedImage image = ImageManager.imagesMap.get(identifier);
 		if (image == null) {
 			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find image with identifier \"%s\"", identifier);

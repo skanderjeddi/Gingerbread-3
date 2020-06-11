@@ -23,7 +23,7 @@ public final class G3RoundEdgesButton extends Button {
 	// Border incline = how many pixels will be shaved off at each edge
 	private int borderIncline;
 
-	public G3RoundEdgesButton(int x, int y, int width, int height, VisualString label, Color backgroundColor, Color borderColor, int borderIncline) {
+	public G3RoundEdgesButton(final int x, final int y, final int width, final int height, final VisualString label, final Color backgroundColor, final Color borderColor, final int borderIncline) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -40,7 +40,7 @@ public final class G3RoundEdgesButton extends Button {
 	 * label.
 	 */
 	@Override
-	public void render(Window window, Graphics2D graphics, Object... args) {
+	public void render(final Window window, final Graphics2D graphics, final Object... args) {
 		graphics.setColor(this.backgroundColor);
 		graphics.fillRoundRect(this.x, this.y, this.width, this.height, this.borderIncline, this.borderIncline);
 		this.label.drawCentered(graphics, this.x, this.y, this.width, this.height);
@@ -56,7 +56,7 @@ public final class G3RoundEdgesButton extends Button {
 	 * Self explanatory.
 	 */
 	@Override
-	public boolean containsMouse(int x, int y) {
+	public boolean containsMouse(final int x, final int y) {
 		return new Rectangle(this.x, this.y, this.width, this.height).contains(x, y);
 	}
 
@@ -124,7 +124,7 @@ public final class G3RoundEdgesButton extends Button {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setX(int x) {
+	public void setX(final int x) {
 		this.x = x;
 	}
 
@@ -132,7 +132,7 @@ public final class G3RoundEdgesButton extends Button {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setY(int y) {
+	public void setY(final int y) {
 		this.y = y;
 	}
 
@@ -140,7 +140,7 @@ public final class G3RoundEdgesButton extends Button {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setWidth(int width) {
+	public void setWidth(final int width) {
 		this.width = width;
 	}
 
@@ -148,35 +148,35 @@ public final class G3RoundEdgesButton extends Button {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setHeight(int height) {
+	public void setHeight(final int height) {
 		this.height = height;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setLabel(VisualString label) {
+	public void setLabel(final VisualString label) {
 		this.label = label;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setBackgroundColor(Color backgroundColor) {
+	public void setBackgroundColor(final Color backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setBorderColor(Color borderColor) {
+	public void setBorderColor(final Color borderColor) {
 		this.borderColor = borderColor;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setBorderIncline(int borderIncline) {
+	public void setBorderIncline(final int borderIncline) {
 		this.borderIncline = borderIncline;
 	}
 

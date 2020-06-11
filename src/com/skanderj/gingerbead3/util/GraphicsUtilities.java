@@ -18,12 +18,12 @@ public final class GraphicsUtilities {
 		return;
 	}
 
-	public static void clear(Window window, Graphics2D graphics, Color color) {
+	public static void clear(final Window window, final Graphics2D graphics, final Color color) {
 		graphics.setColor(color);
 		graphics.fillRect(0, 0, window.getWidth(), window.getHeight());
 	}
 
-	public static void rectangle(Graphics2D graphics, Color color, int x, int y, int width, int height, boolean fill, int arcWidth, int arcHeight) {
+	public static void rectangle(final Graphics2D graphics, final Color color, final int x, final int y, final int width, final int height, final boolean fill, final int arcWidth, final int arcHeight) {
 		final Color tempColor = graphics.getColor();
 		{
 			graphics.setColor(color);
@@ -36,7 +36,7 @@ public final class GraphicsUtilities {
 		graphics.setColor(tempColor);
 	}
 
-	public static void oval(Graphics2D graphics, Color color, int centerX, int centerY, int width, int height, boolean fill) {
+	public static void oval(final Graphics2D graphics, final Color color, final int centerX, final int centerY, final int width, final int height, final boolean fill) {
 		final Color tempColor = graphics.getColor();
 		{
 			graphics.setColor(color);
@@ -53,7 +53,7 @@ public final class GraphicsUtilities {
 	 * Lowers the rendering quality of the graphics object as much as possible - no
 	 * noticeable performance gain.
 	 */
-	public static void speed(Graphics2D graphics) {
+	public static void speed(final Graphics2D graphics) {
 		graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 		graphics.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
 		graphics.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
@@ -64,7 +64,7 @@ public final class GraphicsUtilities {
 	 * Increases the rendering quality of the graphics object as much as possible -
 	 * no noticeable performance loss.
 	 */
-	public static void quality(Graphics2D graphics) {
+	public static void quality(final Graphics2D graphics) {
 		graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		graphics.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
 		graphics.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);

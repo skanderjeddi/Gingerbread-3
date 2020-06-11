@@ -3,7 +3,7 @@ package com.skanderj.gingerbead3.component;
 /**
  * Represents a component priority, or what order do the components get
  * updated/drawn in.
- * 
+ *
  * @author Skander
  *
  */
@@ -12,7 +12,7 @@ public enum ComponentPriority {
 
 	int priorityIndex;
 
-	private ComponentPriority(int index) {
+	private ComponentPriority(final int index) {
 		this.priorityIndex = index;
 	}
 

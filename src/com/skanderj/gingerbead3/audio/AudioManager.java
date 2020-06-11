@@ -49,7 +49,7 @@ public final class AudioManager {
 	 * Loads an audio from the provided path. File must be .WAV format. Returns true
 	 * if the audio was successfully registered, false otherwise.
 	 */
-	public static boolean registerAudio(String identifier, String path) {
+	public static boolean registerAudio(final String identifier, final String path) {
 		final File soundFile = new File(path);
 		AudioInputStream reusableAudioInputStream;
 		try {
@@ -67,7 +67,7 @@ public final class AudioManager {
 	 * Loads all the audio files in the provided directory while adding "_0, _1, _2"
 	 * to the identifier. Returns true if successful, false otherwise.
 	 */
-	public static boolean registerAll(String identifier, String path) {
+	public static boolean registerAll(final String identifier, final String path) {
 		final File directory = new File(path);
 		if (directory.isDirectory()) {
 			int counter = 0;
@@ -88,7 +88,7 @@ public final class AudioManager {
 	/**
 	 * Self explanatory. Returns true if successful, false otherwise.
 	 */
-	public static boolean playAudio(String identifier) {
+	public static boolean playAudio(final String identifier) {
 		final AudioInputStream stream = AudioManager.audioMap.get(identifier);
 		if (stream == null) {
 			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find audio with identifier \"%s\"", identifier);
@@ -109,12 +109,12 @@ public final class AudioManager {
 	 * a thread and start it. Registering everything in the corresponding maps.
 	 * Returns true if successful, false otherwise.
 	 */
-	private static boolean playAudio(String identifier, AudioInputStream audioInputStream) {
+	private static boolean playAudio(final String identifier, final AudioInputStream audioInputStream) {
 		class AudioListener implements LineListener {
 			private boolean isDone = false;
 
 			@Override
-			public synchronized void update(LineEvent event) {
+			public synchronized void update(final LineEvent event) {
 				final Type eventType = event.getType();
 				if (eventType == Type.CLOSE) {
 					this.isDone = true;
@@ -140,7 +140,7 @@ public final class AudioManager {
 					try {
 						listener.waitUntilDone();
 					} catch (final InterruptedException exception1) {
-						Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while waiting for audio \"%s\" to finish: %s", identifier, exception1.getMessage());
+						Logger.log(AudioManager.class, LogLevel.IGNORE, "An exception occurred while waiting for audio \"%s\" to finish: %s", identifier, exception1.getMessage());
 					}
 				} finally {
 					clip.close();
@@ -164,7 +164,7 @@ public final class AudioManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static boolean isAudioPaused(String identifier) {
+	public static boolean isAudioPaused(final String identifier) {
 		if (AudioManager.pausesMap.contains(identifier)) {
 			return true;
 		} else {
@@ -175,7 +175,7 @@ public final class AudioManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static float getVolume(String identifier) {
+	public static float getVolume(final String identifier) {
 		final Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
 			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find audio with identifier \"%s\"", identifier);
@@ -189,12 +189,12 @@ public final class AudioManager {
 	/**
 	 * Sets the volume for a running clip. Volume must be between 0f and 1f.
 	 */
-	public static void setVolume(String identifier, float volume) {
+	public static void setVolume(final String identifier, final float volume) {
 		final Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
 			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find audio with identifier \"%s\"", identifier);
 		} else {
-			if (volume < 0f || volume > 1f) {
+			if ((volume < 0f) || (volume > 1f)) {
 				throw new IllegalArgumentException("Volume not valid: " + volume);
 			}
 			final FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -205,7 +205,7 @@ public final class AudioManager {
 	/**
 	 * Self explanatory. Returns true if successful, false otherwise.
 	 */
-	public static boolean pauseAudio(String identifier) {
+	public static boolean pauseAudio(final String identifier) {
 		final Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
 			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find audio with identifier \"%s\"", identifier);
@@ -220,7 +220,7 @@ public final class AudioManager {
 	/**
 	 * Self explanatory. Returns true if successful, false otherwise.
 	 */
-	public static boolean resumeAudio(String identifier) {
+	public static boolean resumeAudio(final String identifier) {
 		final Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
 			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find audio with identifier \"%s\"", identifier);
@@ -235,7 +235,7 @@ public final class AudioManager {
 	/**
 	 * Self explanatory. Returns true if successful, false otherwise.
 	 */
-	public static boolean stopAudio(String identifier) {
+	public static boolean stopAudio(final String identifier) {
 		final Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
 			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find audio with identifier \"%s\"", identifier);
@@ -273,7 +273,7 @@ public final class AudioManager {
 	 * Self explanatory. Returns true if successful, false otherwise. -1 to loop
 	 * indefinitely.
 	 */
-	public static boolean loopAudio(String identifier, int count) {
+	public static boolean loopAudio(final String identifier, final int count) {
 		final AudioInputStream stream = AudioManager.audioMap.get(identifier);
 		if (stream == null) {
 			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find audio stream with identifier \"%s\"", identifier);
@@ -294,12 +294,12 @@ public final class AudioManager {
 	 * a thread and loop it. Registering everything in the corresponding maps.
 	 * Returns true if successful, false otherwise.
 	 */
-	private static boolean loopAudio(String identifier, int count, AudioInputStream audioInputStream) {
+	private static boolean loopAudio(final String identifier, final int count, final AudioInputStream audioInputStream) {
 		class AudioListener implements LineListener {
 			private boolean isDone = false;
 
 			@Override
-			public synchronized void update(LineEvent event) {
+			public synchronized void update(final LineEvent event) {
 				final Type eventType = event.getType();
 				if (eventType == Type.CLOSE) {
 					this.isDone = true;
@@ -324,7 +324,7 @@ public final class AudioManager {
 					AudioManager.clipsMap.put(identifier, clip);
 					listener.waitUntilDone();
 				} catch (final InterruptedException exception1) {
-					Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while waiting for audio \"%s\" to finish: %s", identifier, exception1.getMessage());
+					Logger.log(AudioManager.class, LogLevel.IGNORE, "An exception occurred while waiting for audio \"%s\" to finish: %s", identifier, exception1.getMessage());
 				} finally {
 					clip.close();
 					AudioManager.clipsMap.remove(identifier);
@@ -347,7 +347,7 @@ public final class AudioManager {
 	/**
 	 * This is where the magic - and the reusable audio streams creation happens.
 	 */
-	private static AudioInputStream createReusableAudioInputStream(File file) throws IOException, UnsupportedAudioFileException {
+	private static AudioInputStream createReusableAudioInputStream(final File file) throws IOException, UnsupportedAudioFileException {
 		AudioInputStream audioInputStream = null;
 		try {
 			audioInputStream = AudioSystem.getAudioInputStream(file);

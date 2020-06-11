@@ -14,7 +14,7 @@ import com.skanderj.gingerbead3.scene.SceneManager;
 /**
  * Most important class, all G3-based games must extend this class. Pretty self
  * explanatory.
- * 
+ *
  * @author Skander
  *
  */
@@ -27,23 +27,29 @@ public abstract class Game extends ThreadWrapper {
 	protected Keyboard keyboard;
 	protected Mouse mouse;
 
-	public Game(String identifier, double refreshRate, String title, int buffers, int deviceId) {
+	/**
+	 * Creates a fullscreen window on the requested screen (deviceId).
+	 */
+	public Game(final String identifier, final double refreshRate, final String title, final int buffers, final int deviceId) {
 		super(identifier);
 		this.initializeEngine();
 		this.refreshRate = refreshRate;
 		this.window = new Window.Fullscreen(this, title, buffers, deviceId);
 	}
 
-	private final void initializeEngine() {
-		this.displayRefreshRate = false;
-		Logger.redirectSystemOutput();
-	}
-
-	public Game(String identifier, double refreshRate, String title, int width, int height, int buffers) {
+	/**
+	 * Creates a regular window.
+	 */
+	public Game(final String identifier, final double refreshRate, final String title, final int width, final int height, final int buffers) {
 		super(identifier);
 		this.initializeEngine();
 		this.refreshRate = refreshRate;
 		this.window = new Window.Regular(this, title, width, height, buffers);
+	}
+
+	private final void initializeEngine() {
+		this.displayRefreshRate = false;
+		Logger.redirectSystemOutput();
 	}
 
 	public abstract void loadResources();
@@ -110,7 +116,7 @@ public abstract class Game extends ThreadWrapper {
 				graphics.dispose();
 				bufferStrategy.show();
 			}
-			if (System.currentTimeMillis() - resetTime >= 1000) {
+			if ((System.currentTimeMillis() - resetTime) >= 1000) {
 				resetTime += 1000;
 				if (this.displayRefreshRate) {
 					Logger.log(this.getClass(), LogLevel.DEBUG, "Last second frames: %d, last second updates: %d", frames, updates);
@@ -126,7 +132,7 @@ public abstract class Game extends ThreadWrapper {
 	 *
 	 * @param delta the delaya between the current update and last update
 	 */
-	public synchronized void update(double delta) {
+	public synchronized void update(final double delta) {
 		SceneManager.updateScene(this, delta);
 	}
 
@@ -135,7 +141,7 @@ public abstract class Game extends ThreadWrapper {
 	 *
 	 * @param graphics used to draw the screen
 	 */
-	public synchronized void render(Graphics2D graphics) {
+	public synchronized void render(final Graphics2D graphics) {
 		SceneManager.renderScene(this, graphics);
 	}
 

@@ -49,7 +49,7 @@ public abstract class Textfield extends Component {
 	}
 
 	@Override
-	public synchronized void update(double delta, Keyboard keyboard, Mouse mouse, Object... args) {
+	public synchronized void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
 		// Check if the component has global focus
 		if (this.hasFocus) {
 			// Go through every keyboard key and retain those which are pressed at the
@@ -86,13 +86,13 @@ public abstract class Textfield extends Component {
 				}
 				// Deleting (backspace)
 				if (keyCode == Keyboard.KEY_BACK_SPACE) {
-					if (!this.currentLine.isEmpty() && this.cursorPosition != 0) {
+					if (!this.currentLine.isEmpty() && (this.cursorPosition != 0)) {
 						// If we actually have something to delete, delete the previous character
 						// adjacent to the cursor and move everything back
 						final char[] newLine = new char[this.currentLine.length() - 1];
 						boolean hasSkipped = false;
-						for (int index = 0; index < this.currentLine.length() - 1; index += 1) {
-							if (index == this.cursorPosition - 1) {
+						for (int index = 0; index < (this.currentLine.length() - 1); index += 1) {
+							if (index == (this.cursorPosition - 1)) {
 								hasSkipped = true;
 							}
 							newLine[index] = this.currentLine.toCharArray()[hasSkipped ? index + 1 : index];
@@ -113,7 +113,7 @@ public abstract class Textfield extends Component {
 						// adjacent to the cursor and move everything back starting from the cursor
 						final char[] newLine = new char[this.currentLine.length() - 1];
 						boolean hasSkipped = false;
-						for (int index = 0; index < this.currentLine.length() - 1; index += 1) {
+						for (int index = 0; index < (this.currentLine.length() - 1); index += 1) {
 							if (index == this.cursorPosition) {
 								hasSkipped = true;
 							}
@@ -286,7 +286,7 @@ public abstract class Textfield extends Component {
 	/**
 	 * Self explanatory.
 	 */
-	public void setCursorPosition(int cursorPosition) {
+	public void setCursorPosition(final int cursorPosition) {
 		this.cursorPosition = cursorPosition;
 	}
 }

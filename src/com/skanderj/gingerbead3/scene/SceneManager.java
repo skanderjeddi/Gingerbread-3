@@ -27,34 +27,34 @@ public class SceneManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static void registerScene(String identifier, Scene scene) {
+	public static void registerScene(final String identifier, final Scene scene) {
 		SceneManager.scenesMap.put(identifier, scene);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public static Scene retrieveScene(String identifier) {
+	public static Scene retrieveScene(final String identifier) {
 		return SceneManager.scenesMap.get(identifier);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public static void setCurrentScene(String identifier) {
-		if (currentScene != null) {
-			currentScene.remove();
+	public static void setCurrentScene(final String identifier) {
+		if (SceneManager.currentScene != null) {
+			SceneManager.currentScene.remove();
 		}
 		SceneManager.currentScene = SceneManager.retrieveScene(identifier);
 		final List<String> components = SceneManager.currentScene.sceneComponents();
 		ComponentManager.onlyConsider(components);
-		currentScene.present();
+		SceneManager.currentScene.present();
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public static void updateScene(Game game, double delta) {
+	public static void updateScene(final Game game, final double delta) {
 		if (SceneManager.currentScene != null) {
 			SceneManager.currentScene.update(delta, game.getKeyboard(), game.getMouse());
 		}
@@ -63,7 +63,7 @@ public class SceneManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static void renderScene(Game game, Graphics2D graphics) {
+	public static void renderScene(final Game game, final Graphics2D graphics) {
 		if (SceneManager.currentScene != null) {
 			SceneManager.currentScene.render(game.getWindow(), graphics);
 		}

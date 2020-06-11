@@ -58,7 +58,7 @@ public abstract class Component implements Comparable<Component> {
 
 	// Priority comparison, could be nicer but flemme
 	@Override
-	public int compareTo(Component o) {
+	public int compareTo(final Component o) {
 		return -(this.priority().priorityIndex - o.priority().priorityIndex);
 	}
 }

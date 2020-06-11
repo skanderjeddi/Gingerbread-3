@@ -43,7 +43,7 @@ public abstract class Selector extends Component {
 			}
 		}
 
-		public final void setAction(ButtonState state, ButtonAction action) {
+		public final void setAction(final ButtonState state, final ButtonAction action) {
 			if (state == ButtonState.ON_CLICK) {
 				Logger.log(Selector.SelectorArrow.class, LogLevel.ERROR, "Can't change the on click behavior of a selector arrow");
 			} else {
@@ -65,14 +65,14 @@ public abstract class Selector extends Component {
 	 * Nothing to say, calls the 2nd constructor with the first element of the
 	 * options array as the default options.
 	 */
-	public Selector(String[] optionsArray) {
+	public Selector(final String[] optionsArray) {
 		this(optionsArray, optionsArray[0]);
 	}
 
 	/**
 	 * Pretty self explanatory.
 	 */
-	public Selector(String[] optionsArray, String defaultOption) {
+	public Selector(final String[] optionsArray, final String defaultOption) {
 		this.options = new ArrayList<String>();
 		for (final String option : optionsArray) {
 			this.options.add(option);
@@ -102,7 +102,7 @@ public abstract class Selector extends Component {
 	 * selector arrows then run the appropriate action accordingly.
 	 */
 	@Override
-	public synchronized void update(double delta, Keyboard keyboard, Mouse mouse, Object... args) {
+	public synchronized void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
 		// Set the previous state for each individual arrow on the last update
 		this.leftArrow.previousState = this.leftArrow.currentState;
 		this.rightArrow.previousState = this.rightArrow.currentState;
@@ -127,7 +127,7 @@ public abstract class Selector extends Component {
 				this.leftArrow.hasFocus = false;
 				this.leftArrow.mouseWasIn = false;
 			}
-			if (this.leftArrow.previousState == ButtonState.HELD && (this.leftArrow.currentState == ButtonState.IDLE || this.leftArrow.currentState == ButtonState.HOVERED) && mouseInLeft) {
+			if ((this.leftArrow.previousState == ButtonState.HELD) && ((this.leftArrow.currentState == ButtonState.IDLE) || (this.leftArrow.currentState == ButtonState.HOVERED)) && mouseInLeft) {
 				this.leftArrow.currentState = ButtonState.ON_CLICK;
 			}
 		}
@@ -150,7 +150,7 @@ public abstract class Selector extends Component {
 				this.rightArrow.hasFocus = false;
 				this.rightArrow.mouseWasIn = false;
 			}
-			if (this.rightArrow.previousState == ButtonState.HELD && (this.rightArrow.currentState == ButtonState.IDLE || this.rightArrow.currentState == ButtonState.HOVERED) && mouseInRight) {
+			if ((this.rightArrow.previousState == ButtonState.HELD) && ((this.rightArrow.currentState == ButtonState.IDLE) || (this.rightArrow.currentState == ButtonState.HOVERED)) && mouseInRight) {
 				this.rightArrow.currentState = ButtonState.ON_CLICK;
 			}
 		}
@@ -161,7 +161,7 @@ public abstract class Selector extends Component {
 
 	@Override
 	public final boolean canChangeFocus() {
-		return this.leftArrow.currentState == ButtonState.IDLE && this.rightArrow.currentState == ButtonState.IDLE;
+		return (this.leftArrow.currentState == ButtonState.IDLE) && (this.rightArrow.currentState == ButtonState.IDLE);
 	}
 
 	/**
@@ -186,7 +186,7 @@ public abstract class Selector extends Component {
 	 * Dealt with differently.
 	 */
 	@Override
-	public boolean containsMouse(int x, int y) {
+	public boolean containsMouse(final int x, final int y) {
 		return this.leftArrowContainsMouse(x, y) || this.rightArrowContainsMouse(x, y);
 	}
 
@@ -245,7 +245,7 @@ public abstract class Selector extends Component {
 	/**
 	 * Self explanatory.
 	 */
-	public void setOptions(List<String> options) {
+	public void setOptions(final List<String> options) {
 		this.options = options;
 	}
 }

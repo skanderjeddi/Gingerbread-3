@@ -49,7 +49,7 @@ public abstract class Window {
 	/**
 	 * Self explanatory.
 	 */
-	public Window(Game game, String title, int width, int height, int buffers) {
+	public Window(final Game game, final String title, final int width, final int height, final int buffers) {
 		this.game = game;
 		this.title = title;
 		this.width = width;
@@ -74,7 +74,7 @@ public abstract class Window {
 	/**
 	 * Self explanatory.
 	 */
-	public void registerInput(InputDevice device) {
+	public void registerInput(final InputDevice device) {
 		Logger.log(Window.class, LogLevel.DEV_DEBUG, "Registering input device (type:%s)", device.getType().name());
 		switch (device.getType()) {
 		case KEYBOARD:
@@ -129,7 +129,7 @@ public abstract class Window {
 	/**
 	 * Self explanatory.
 	 */
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 		this.frame.setTitle(title);
 	}
@@ -144,7 +144,7 @@ public abstract class Window {
 	/**
 	 * Self explanatory.
 	 */
-	public void setWidth(int width) {
+	public void setWidth(final int width) {
 		this.width = width;
 		this.resize();
 	}
@@ -159,7 +159,7 @@ public abstract class Window {
 	/**
 	 * Self explanatory.
 	 */
-	public void setHeight(int height) {
+	public void setHeight(final int height) {
 		this.height = height;
 		this.resize();
 	}
@@ -188,14 +188,14 @@ public abstract class Window {
 	/**
 	 * Self explanatory.
 	 */
-	public final int getWP(float proportion) {
+	public final int getWP(final float proportion) {
 		return (int) Math.floor(this.width * proportion);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final int getHP(float proportion) {
+	public final int getHP(final float proportion) {
 		return (int) Math.floor(this.height * proportion);
 	}
 
@@ -206,7 +206,7 @@ public abstract class Window {
 	 *
 	 */
 	public static class Regular extends Window {
-		public Regular(Game game, String title, int width, int height, int buffers) {
+		public Regular(final Game game, final String title, final int width, final int height, final int buffers) {
 			super(game, title, width, height, buffers);
 		}
 
@@ -222,7 +222,7 @@ public abstract class Window {
 			this.frame.setLocationRelativeTo(null);
 			this.frame.addWindowListener(new WindowAdapter() {
 				@Override
-				public void windowClosing(WindowEvent event) {
+				public void windowClosing(final WindowEvent event) {
 					Regular.this.requestClosing();
 				}
 			});
@@ -271,7 +271,7 @@ public abstract class Window {
 			return Window.DEFAULT_DEVICES.length;
 		}
 
-		public static final int isDeviceIDAvailable(int deviceId) {
+		public static final int isDeviceIDAvailable(final int deviceId) {
 			if (deviceId >= Window.DEFAULT_DEVICES.length) {
 				Logger.log(Window.Fullscreen.class, LogLevel.SEVERE, "Requested device id %d is not available, returning -1", deviceId);
 				return -1;
@@ -280,7 +280,7 @@ public abstract class Window {
 			}
 		}
 
-		private static final boolean isValid(int deviceId) {
+		private static final boolean isValid(final int deviceId) {
 			try {
 				Window.DEFAULT_DEVICES[deviceId].hashCode();
 				return true;
@@ -289,7 +289,7 @@ public abstract class Window {
 			}
 		}
 
-		private static final DisplayMode getDisplayMode(int device, int fallback) {
+		private static final DisplayMode getDisplayMode(final int device, final int fallback) {
 			if (Window.cacheDisplayMode != null) {
 				return Window.cacheDisplayMode;
 			}
@@ -310,15 +310,15 @@ public abstract class Window {
 
 		private int deviceId;
 
-		public Fullscreen(Game game, String title, int buffers) {
+		public Fullscreen(final Game game, final String title, final int buffers) {
 			this(game, title, buffers, 0);
 		}
 
-		public Fullscreen(Game game, String title, int buffers, int deviceId) {
+		public Fullscreen(final Game game, final String title, final int buffers, final int deviceId) {
 			this(game, title, buffers, deviceId, Fullscreen.DEFAULT_FALLBACK_DEVICE_ID);
 		}
 
-		public Fullscreen(Game game, String title, int buffers, int deviceId, int fallback) {
+		public Fullscreen(final Game game, final String title, final int buffers, final int deviceId, final int fallback) {
 			super(game, title, Fullscreen.getDisplayMode(deviceId, fallback).getWidth(), Fullscreen.getDisplayMode(deviceId, fallback).getHeight(), buffers);
 			if (Fullscreen.isValid(deviceId)) {
 				this.deviceId = deviceId;
@@ -338,7 +338,7 @@ public abstract class Window {
 			this.frame.setLocationRelativeTo(null);
 			this.frame.addWindowListener(new WindowAdapter() {
 				@Override
-				public void windowClosing(WindowEvent event) {
+				public void windowClosing(final WindowEvent event) {
 					Fullscreen.this.requestClosing();
 				}
 			});

@@ -18,7 +18,7 @@ public abstract class Slider extends Component {
 	/**
 	 * Basic constructor: position, size, minimum/maximum value, default value,
 	 */
-	public Slider(float min, float max, float defaultValue) {
+	public Slider(final float min, final float max, final float defaultValue) {
 		this.minimumValue = Math.min(min, max);
 		this.maximumValue = Math.max(min, max);
 		this.hasFocus = false;
@@ -31,7 +31,7 @@ public abstract class Slider extends Component {
 	 * slider then move the slider accordingly.
 	 */
 	@Override
-	public synchronized void update(double delta, Keyboard keyboard, Mouse mouse, Object... args) {
+	public synchronized void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
 		if ((this.containsMouse(mouse.getX(), mouse.getY()) || this.hasFocus) && this.globalFocus) {
 			if (mouse.isButtonDown(Mouse.BUTTON_LEFT)) {
 				this.hasFocus = true;
@@ -89,14 +89,14 @@ public abstract class Slider extends Component {
 	/**
 	 * Self explanatory.
 	 */
-	public void setMinimumValue(float minimumValue) {
+	public void setMinimumValue(final float minimumValue) {
 		this.minimumValue = minimumValue;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setMaximumValue(float maximumValue) {
+	public void setMaximumValue(final float maximumValue) {
 		this.maximumValue = maximumValue;
 	}
 }

@@ -83,7 +83,7 @@ public class Mouse extends MouseAdapter implements InputDevice {
 	 * Self explanatory.
 	 */
 	public boolean isButtonDown(final int button) {
-		return this.buttonsStates[button - 1] == MouseState.DOWN_IN_FRAME || this.buttonsStates[button - 1] == MouseState.DOWN;
+		return (this.buttonsStates[button - 1] == MouseState.DOWN_IN_FRAME) || (this.buttonsStates[button - 1] == MouseState.DOWN);
 	}
 
 	/**

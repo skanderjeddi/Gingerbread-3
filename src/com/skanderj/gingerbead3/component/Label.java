@@ -16,7 +16,7 @@ public abstract class Label extends Component {
 	/**
 	 * Very basic constructor.
 	 */
-	public Label(VisualString graphicString) {
+	public Label(final VisualString graphicString) {
 		this.graphicString = graphicString;
 	}
 
@@ -54,7 +54,7 @@ public abstract class Label extends Component {
 	/**
 	 * Self explanatory.
 	 */
-	public void setGraphicString(VisualString graphicString) {
+	public void setGraphicString(final VisualString graphicString) {
 		this.graphicString = graphicString;
 	}
 }

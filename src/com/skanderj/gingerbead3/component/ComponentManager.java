@@ -43,14 +43,14 @@ public final class ComponentManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static void addComponent(String identifier, Component component) {
+	public static void addComponent(final String identifier, final Component component) {
 		ComponentManager.componentsMap.put(identifier, component);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public static void addComponents(String[] identifiers, Component[] components) {
+	public static void addComponents(final String[] identifiers, final Component[] components) {
 		if (identifiers.length == components.length) {
 			for (int i = 0; i < identifiers.length; i += 1) {
 				ComponentManager.componentsMap.put(identifiers[i], components[i]);
@@ -63,14 +63,14 @@ public final class ComponentManager {
 	/**
 	 * Self explanatory. Skips the component and doesn't update/render it..
 	 */
-	public static void skipComponent(String identifier) {
+	public static void skipComponent(final String identifier) {
 		ComponentManager.skippedComponents.add(identifier);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public static final void skipComponents(String... identifiers) {
+	public static final void skipComponents(final String... identifiers) {
 		for (final String identifier : identifiers) {
 			ComponentManager.skipComponent(identifier);
 		}
@@ -79,20 +79,20 @@ public final class ComponentManager {
 	/**
 	 * Self explanatory. Unskips the component and updates/renders it..
 	 */
-	public static void unskipComponent(String identifier) {
+	public static void unskipComponent(final String identifier) {
 		ComponentManager.skippedComponents.remove(identifier);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public static final void unskipComponents(String... identifiers) {
+	public static final void unskipComponents(final String... identifiers) {
 		for (final String identifier : identifiers) {
 			ComponentManager.unskipComponent(identifier);
 		}
 	}
 
-	public static void onlyConsider(List<String> identifiers) {
+	public static void onlyConsider(final List<String> identifiers) {
 		ComponentManager.skippedComponents.clear();
 		for (final String identifier : ComponentManager.componentsMap.keySet()) {
 			if (identifiers.contains(identifier)) {
@@ -106,7 +106,7 @@ public final class ComponentManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static Component getComponent(String identifier) {
+	public static Component getComponent(final String identifier) {
 		final Component component = ComponentManager.componentsMap.get(identifier);
 		if (component == null) {
 			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find a component with identifier \"%s\"", identifier);
@@ -118,7 +118,7 @@ public final class ComponentManager {
 	/**
 	 * Updates every component.
 	 */
-	public static final synchronized void update(double delta, Keyboard keyboard, Mouse mouse, Object... args) {
+	public static final synchronized void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
 		final List<Component> toUpdate = new ArrayList<Component>();
 		for (final String identifier : ComponentManager.componentsMap.keySet()) {
 			if (ComponentManager.skippedComponents.contains(identifier)) {
@@ -140,14 +140,14 @@ public final class ComponentManager {
 	/**
 	 * Updates a specific component (for special cases).
 	 */
-	public static final synchronized void updateSpecific(String identifier, double delta, Keyboard keyboard, Mouse mouse, Object... args) {
+	public static final synchronized void updateSpecific(final String identifier, final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
 		ComponentManager.componentsMap.get(identifier).update(delta, keyboard, mouse, args);
 	}
 
 	/**
 	 * Draws every component.
 	 */
-	public static synchronized void render(Window window, Graphics2D graphics) {
+	public static synchronized void render(final Window window, final Graphics2D graphics) {
 		final List<Component> toRender = new ArrayList<Component>();
 		for (final String identifier : ComponentManager.componentsMap.keySet()) {
 			if (ComponentManager.skippedComponents.contains(identifier)) {
@@ -167,7 +167,7 @@ public final class ComponentManager {
 	/**
 	 * Draws a specific component (for special cases).
 	 */
-	public static final synchronized void updateSpecific(String identifier, Window window, Graphics2D graphics, Object... args) {
+	public static final synchronized void updateSpecific(final String identifier, final Window window, final Graphics2D graphics, final Object... args) {
 		ComponentManager.componentsMap.get(identifier).render(window, graphics, args);
 	}
 
@@ -175,7 +175,7 @@ public final class ComponentManager {
 	 * Gives focus the provided component if focus can be revoked from the currently
 	 * focused component.
 	 */
-	public static synchronized void giveFocus(String identifier) {
+	public static synchronized void giveFocus(final String identifier) {
 		final Component component = ComponentManager.componentsMap.get(identifier);
 		if (component == null) {
 			ComponentManager.inFocus = null;
@@ -197,7 +197,7 @@ public final class ComponentManager {
 	 * Gives focus the provided component if focus can be revoked from the currently
 	 * focused component.
 	 */
-	public static synchronized void giveFocus(Component component) {
+	public static synchronized void giveFocus(final Component component) {
 		if (component == null) {
 			ComponentManager.inFocus = null;
 			return;

@@ -26,7 +26,7 @@ public final class G3Slider extends Slider {
 	private SliderLabelPosition labelPosition;
 	private Color color;
 
-	public G3Slider(int x, int y, int width, int height, int sliderWidth, int sliderHeight, float min, float max, float defaultValue, Color color, VisualString label, SliderLabelPosition position) {
+	public G3Slider(final int x, final int y, final int width, final int height, final int sliderWidth, final int sliderHeight, final float min, final float max, final float defaultValue, final Color color, final VisualString label, final SliderLabelPosition position) {
 		super(min, max, defaultValue);
 		this.x = x;
 		this.y = y;
@@ -41,7 +41,7 @@ public final class G3Slider extends Slider {
 	}
 
 	@Override
-	public synchronized void update(double delta, Keyboard keyboard, Mouse mouse, Object... args) {
+	public synchronized void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
 		super.update(delta, keyboard, mouse, args);
 		if (this.hasFocus) {
 			this.sliderX = (int) Utilities.map(mouse.getX(), this.x, this.x + this.getWidth(), this.x, this.x + this.getWidth(), true);
@@ -53,11 +53,11 @@ public final class G3Slider extends Slider {
 	 * appropriate position.
 	 */
 	@Override
-	public synchronized final void render(Window window, Graphics2D graphics, Object... args) {
+	public synchronized final void render(final Window window, final Graphics2D graphics, final Object... args) {
 		graphics.setColor(this.color);
 		graphics.drawRect(this.x, this.y, this.width, this.height);
 		graphics.setColor(this.color.darker());
-		graphics.fillRect(this.sliderX - this.sliderWidth / 2, this.y - this.sliderHeight / 4, this.sliderWidth, this.height + this.sliderHeight / 2);
+		graphics.fillRect(this.sliderX - (this.sliderWidth / 2), this.y - (this.sliderHeight / 4), this.sliderWidth, this.height + (this.sliderHeight / 2));
 		if (!this.label.isEmpty()) {
 			switch (this.labelPosition) {
 			case TOP:
@@ -67,10 +67,10 @@ public final class G3Slider extends Slider {
 				this.label.draw(graphics, this.x, this.y + this.height + this.label.getAugmentedHeight(graphics), this.getValue());
 				break;
 			case LEFT:
-				this.label.drawCenteredWidthless(graphics, this.x - 10 - this.label.getWidth(graphics), this.y - this.sliderHeight / 2, this.height + this.sliderHeight, this.getValue());
+				this.label.drawCenteredWidthless(graphics, this.x - 10 - this.label.getWidth(graphics), this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.getValue());
 				break;
 			case RIGHT:
-				this.label.drawCenteredWidthless(graphics, this.x + this.width + 10, this.y - this.sliderHeight / 2, this.height + this.sliderHeight, this.getValue());
+				this.label.drawCenteredWidthless(graphics, this.x + this.width + 10, this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.getValue());
 				break;
 			}
 		}
@@ -84,7 +84,7 @@ public final class G3Slider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public boolean containsMouse(int x, int y) {
+	public boolean containsMouse(final int x, final int y) {
 		return new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight()).contains(x, y);
 	}
 
@@ -174,7 +174,7 @@ public final class G3Slider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setX(int x) {
+	public void setX(final int x) {
 		this.x = x;
 	}
 
@@ -182,7 +182,7 @@ public final class G3Slider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setY(int y) {
+	public void setY(final int y) {
 		this.y = y;
 	}
 
@@ -190,7 +190,7 @@ public final class G3Slider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setWidth(int width) {
+	public void setWidth(final int width) {
 		this.width = width;
 	}
 
@@ -198,42 +198,42 @@ public final class G3Slider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setHeight(int height) {
+	public void setHeight(final int height) {
 		this.height = height;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setSliderWidth(int sliderWidth) {
+	public void setSliderWidth(final int sliderWidth) {
 		this.sliderWidth = sliderWidth;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setSliderHeight(int sliderHeight) {
+	public void setSliderHeight(final int sliderHeight) {
 		this.sliderHeight = sliderHeight;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setLabel(VisualString label) {
+	public void setLabel(final VisualString label) {
 		this.label = label;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setLabelPosition(SliderLabelPosition labelPosition) {
+	public void setLabelPosition(final SliderLabelPosition labelPosition) {
 		this.labelPosition = labelPosition;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setColor(Color color) {
+	public void setColor(final Color color) {
 		this.color = color;
 	}
 

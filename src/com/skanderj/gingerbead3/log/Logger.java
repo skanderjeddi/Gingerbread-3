@@ -57,14 +57,14 @@ public final class Logger {
 	 * Self explanatory. A FATAL log level will exit all processes. The "message"
 	 * string will be formatted with the "args" parameter.
 	 */
-	public static void log(Class<?> clazz, LogLevel logLevel, String message, Object... args) {
+	public static void log(final Class<?> clazz, final LogLevel logLevel, final String message, final Object... args) {
 		String origin = new String();
 		if (clazz.getEnclosingClass() != null) {
 			origin = clazz.getEnclosingClass().getSimpleName() + "#" + clazz.getSimpleName();
 		} else {
 			origin = clazz.getSimpleName();
 		}
-		if (logLevel == LogLevel.SEVERE || logLevel == LogLevel.ERROR || logLevel == LogLevel.FATAL) {
+		if ((logLevel == LogLevel.SEVERE) || (logLevel == LogLevel.ERROR) || (logLevel == LogLevel.FATAL)) {
 			Logger.defaultSystemErrorOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + origin + " / " + logLevel.name() + "]: " + message + "\n", args);
 		} else {
 			if (logLevel == LogLevel.DEBUG) {
@@ -88,7 +88,7 @@ public final class Logger {
 	/**
 	 * Self explanatory.
 	 */
-	public static void setDebuggingState(DebuggingType type, boolean status) {
+	public static void setDebuggingState(final DebuggingType type, final boolean status) {
 		Logger.redirectSystemOutput();
 		switch (type) {
 		case CLASSIC:
@@ -107,7 +107,7 @@ public final class Logger {
 	 *
 	 */
 	public enum LogLevel {
-		INFO, DEBUG, DEV_DEBUG, SEVERE, ERROR, FATAL;
+		INFO, DEBUG, DEV_DEBUG, IGNORE, SEVERE, ERROR, FATAL;
 	}
 
 	/**
@@ -128,68 +128,68 @@ public final class Logger {
 	private static class LoggerPrintStream extends PrintStream {
 		private final PrintStream printStream;
 
-		public LoggerPrintStream(OutputStream out, PrintStream printStream) {
+		public LoggerPrintStream(final OutputStream out, final PrintStream printStream) {
 			super(out);
 			this.printStream = printStream;
 		}
 
 		@Override
-		public PrintStream printf(String format, Object... args) {
+		public PrintStream printf(final String format, final Object... args) {
 			return this.printStream.printf(Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + format, args);
 		}
 
 		@Override
-		public PrintStream printf(Locale l, String format, Object... args) {
+		public PrintStream printf(final Locale l, final String format, final Object... args) {
 			return this.printStream.printf(l, Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + format, args);
 		}
 
 		@Override
-		public void print(Object obj) {
+		public void print(final Object obj) {
 			this.printStream.print(Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + obj);
 		}
 
 		@Override
-		public void print(boolean b) {
+		public void print(final boolean b) {
 			this.print((Object) b);
 		}
 
 		@Override
-		public void print(char c) {
+		public void print(final char c) {
 			this.print((Object) c);
 		}
 
 		@Override
-		public void print(char[] s) {
+		public void print(final char[] s) {
 			this.print((Object) s);
 		}
 
 		@Override
-		public void print(double d) {
+		public void print(final double d) {
 			this.print((Object) d);
 		}
 
 		@Override
-		public void print(float f) {
+		public void print(final float f) {
 			this.print((Object) f);
 		}
 
 		@Override
-		public void print(int i) {
+		public void print(final int i) {
 			this.print((Object) i);
 		}
 
 		@Override
-		public void print(long l) {
+		public void print(final long l) {
 			this.print((Object) l);
 		}
 
 		@Override
-		public void print(String s) {
+		public void print(final String s) {
 			this.print((Object) s);
 		}
 
 		@Override
-		public void println(Object x) {
+		public void println(final Object x) {
 			this.printStream.println(Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + x);
 		}
 
@@ -199,42 +199,42 @@ public final class Logger {
 		}
 
 		@Override
-		public void println(boolean x) {
+		public void println(final boolean x) {
 			this.println((Object) x);
 		}
 
 		@Override
-		public void println(char x) {
+		public void println(final char x) {
 			this.println((Object) x);
 		}
 
 		@Override
-		public void println(char[] x) {
+		public void println(final char[] x) {
 			this.println((Object) x);
 		}
 
 		@Override
-		public void println(double x) {
+		public void println(final double x) {
 			this.println((Object) x);
 		}
 
 		@Override
-		public void println(float x) {
+		public void println(final float x) {
 			this.println((Object) x);
 		}
 
 		@Override
-		public void println(int x) {
+		public void println(final int x) {
 			this.println((Object) x);
 		}
 
 		@Override
-		public void println(long x) {
+		public void println(final long x) {
 			this.println((Object) x);
 		}
 
 		@Override
-		public void println(String x) {
+		public void println(final String x) {
 			this.println((Object) x);
 		}
 	}

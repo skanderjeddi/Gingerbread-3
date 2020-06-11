@@ -31,7 +31,7 @@ public final class FontManager {
 	 * Loads a font from the provided path. File must be .TTF format (for now).
 	 * Returns true if the font was successfully registered, false otherwise.
 	 */
-	public static boolean registerFont(String identifier, String path) {
+	public static boolean registerFont(final String identifier, final String path) {
 		final File fontFile = new File(path);
 		FileInputStream fileInputStream;
 		try {
@@ -49,7 +49,7 @@ public final class FontManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static Font getFont(String identifier) {
+	public static Font getFont(final String identifier) {
 		final Font font = FontManager.fontsMap.get(identifier);
 		if (font == null) {
 			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier \"%s\"", identifier);
@@ -61,7 +61,7 @@ public final class FontManager {
 	/**
 	 * Self explanatory. Returns the corresponding font with a specific size.
 	 */
-	public static Font getFont(String identifier, int size) {
+	public static Font getFont(final String identifier, final int size) {
 		final Font font = FontManager.fontsMap.get(identifier);
 		if (font == null) {
 			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier \"%s\"", identifier);
@@ -74,7 +74,7 @@ public final class FontManager {
 	 * Self explanatory. Returns the corresponding font with a specific size and
 	 * style.
 	 */
-	public static Font getFont(String identifier, int size, int style) {
+	public static Font getFont(final String identifier, final int size, final int style) {
 		final Font font = FontManager.fontsMap.get(identifier);
 		if (font == null) {
 			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier \"%s\"", identifier);

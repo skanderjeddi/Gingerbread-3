@@ -20,7 +20,7 @@ import com.skanderj.gingerbead3.util.VisualString;
 public final class G3Label extends Label {
 	private int x, y, width, height;
 
-	public G3Label(int x, int y, int width, int height, VisualString graphicString) {
+	public G3Label(final int x, final int y, final int width, final int height, final VisualString graphicString) {
 		super(graphicString);
 		this.x = x;
 		this.y = y;
@@ -32,7 +32,7 @@ public final class G3Label extends Label {
 	 * No need for logic.
 	 */
 	@Override
-	public void update(double delta, Keyboard keyboard, Mouse mouse, Object... args) {
+	public void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
 		return;
 	}
 
@@ -40,7 +40,7 @@ public final class G3Label extends Label {
 	 * Just draw the string.
 	 */
 	@Override
-	public void render(Window window, Graphics2D graphics, Object... args) {
+	public void render(final Window window, final Graphics2D graphics, final Object... args) {
 		this.graphicString.drawCentered(graphics, this.x, this.y, this.width, this.height);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
 			graphics.setColor(Color.RED);
@@ -84,7 +84,7 @@ public final class G3Label extends Label {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setX(int x) {
+	public void setX(final int x) {
 		this.x = x;
 	}
 
@@ -92,7 +92,7 @@ public final class G3Label extends Label {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setY(int y) {
+	public void setY(final int y) {
 		this.y = y;
 	}
 
@@ -100,7 +100,7 @@ public final class G3Label extends Label {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setWidth(int width) {
+	public void setWidth(final int width) {
 		this.width = width;
 	}
 
@@ -108,7 +108,7 @@ public final class G3Label extends Label {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setHeight(int height) {
+	public void setHeight(final int height) {
 		this.height = height;
 	}
 
@@ -116,7 +116,7 @@ public final class G3Label extends Label {
 	 * Self explanatory.
 	 */
 	@Override
-	public boolean containsMouse(int x, int y) {
+	public boolean containsMouse(final int x, final int y) {
 		return false;
 	}
 

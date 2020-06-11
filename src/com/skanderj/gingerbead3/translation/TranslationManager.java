@@ -32,7 +32,7 @@ public final class TranslationManager {
 	 * Self explanatory. Returns true if successful, false otherwise. #TODO
 	 * customize loading path.
 	 */
-	public static boolean loadLanguage(Language language) {
+	public static boolean loadLanguage(final Language language) {
 		final File languageFile = new File("res/" + language.identifier + ".lang");
 		if (languageFile.exists()) {
 			try {
@@ -69,7 +69,7 @@ public final class TranslationManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static final String getKey(String key, Object... args) {
+	public static final String getKey(final String key, final Object... args) {
 		if (TranslationManager.languageMap.isEmpty()) {
 			TranslationManager.loadDefaultLanguage();
 		}
@@ -87,7 +87,7 @@ public final class TranslationManager {
 
 		private String identifier;
 
-		private Language(String identifier) {
+		private Language(final String identifier) {
 			this.identifier = identifier;
 		}
 

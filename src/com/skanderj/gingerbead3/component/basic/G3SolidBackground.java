@@ -11,7 +11,7 @@ import com.skanderj.gingerbead3.input.Mouse;
 
 /**
  * Solid color background. Very basic.
- * 
+ *
  * @author Skander
  *
  */
@@ -19,7 +19,7 @@ public class G3SolidBackground extends Background {
 	private int x, y, width, height;
 	private Color color;
 
-	public G3SolidBackground(int x, int y, int width, int height, Color color) {
+	public G3SolidBackground(final int x, final int y, final int width, final int height, final Color color) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -31,7 +31,7 @@ public class G3SolidBackground extends Background {
 	 * No need for logic.
 	 */
 	@Override
-	public void update(double delta, Keyboard keyboard, Mouse mouse, Object... args) {
+	public void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
 		return;
 	}
 
@@ -39,7 +39,7 @@ public class G3SolidBackground extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public void render(Window window, Graphics2D graphics, Object... args) {
+	public void render(final Window window, final Graphics2D graphics, final Object... args) {
 		graphics.setColor(this.color);
 		graphics.fillRect(this.x, this.y, this.width, this.height);
 	}
@@ -48,7 +48,7 @@ public class G3SolidBackground extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public boolean containsMouse(int x, int y) {
+	public boolean containsMouse(final int x, final int y) {
 		return false;
 	}
 
@@ -72,7 +72,7 @@ public class G3SolidBackground extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setX(int x) {
+	public void setX(final int x) {
 		this.x = x;
 	}
 
@@ -80,7 +80,7 @@ public class G3SolidBackground extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setY(int y) {
+	public void setY(final int y) {
 		this.y = y;
 	}
 
@@ -104,7 +104,7 @@ public class G3SolidBackground extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setWidth(int width) {
+	public void setWidth(final int width) {
 		this.width = width;
 	}
 
@@ -112,7 +112,7 @@ public class G3SolidBackground extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setHeight(int height) {
+	public void setHeight(final int height) {
 		this.height = height;
 	}
 
@@ -126,7 +126,7 @@ public class G3SolidBackground extends Background {
 	/**
 	 * Self explanatory.
 	 */
-	public void setColor(Color color) {
+	public void setColor(final Color color) {
 		this.color = color;
 	}
 

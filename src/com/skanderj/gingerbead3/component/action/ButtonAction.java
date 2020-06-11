@@ -14,7 +14,7 @@ public interface ButtonAction {
 	// Default action - do nothing
 	public static class DefaultButtonAction implements ButtonAction {
 		@Override
-		public void execute(Object... args) {
+		public void execute(final Object... args) {
 			return;
 		}
 	}

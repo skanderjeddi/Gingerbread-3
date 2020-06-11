@@ -252,7 +252,7 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 	 * Self explanatory.
 	 */
 	public boolean isKeyDown(final int keyCode) {
-		return this.keysStates[keyCode] == KeyState.DOWN_IN_FRAME || this.keysStates[keyCode] == KeyState.DOWN;
+		return (this.keysStates[keyCode] == KeyState.DOWN_IN_FRAME) || (this.keysStates[keyCode] == KeyState.DOWN);
 	}
 
 	/**
@@ -268,7 +268,7 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 	@Override
 	public synchronized void keyPressed(final KeyEvent keyEvent) {
 		final int keyCode = keyEvent.getKeyCode();
-		if (keyCode >= 0 && keyCode < Keyboard.KEY_COUNT) {
+		if ((keyCode >= 0) && (keyCode < Keyboard.KEY_COUNT)) {
 			this.cache[keyCode] = true;
 		}
 	}
@@ -279,7 +279,7 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 	@Override
 	public synchronized void keyReleased(final KeyEvent keyEvent) {
 		final int keyCode = keyEvent.getKeyCode();
-		if (keyCode >= 0 && keyCode < Keyboard.KEY_COUNT) {
+		if ((keyCode >= 0) && (keyCode < Keyboard.KEY_COUNT)) {
 			this.cache[keyCode] = false;
 		}
 	}
@@ -318,7 +318,7 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 	/**
 	 * Self explanatory.
 	 */
-	public synchronized final Integer[] getKeysByState(KeyState state) {
+	public synchronized final Integer[] getKeysByState(final KeyState state) {
 		final List<Integer> keys = new ArrayList<Integer>();
 		switch (state) {
 		case DOWN:
@@ -354,7 +354,7 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 	 * incomplete.
 	 */
 	@Deprecated
-	public static final String getKeyName(int keycode) {
+	public static final String getKeyName(final int keycode) {
 		switch (keycode) {
 		case Keyboard.KEY_0:
 			return "0";
@@ -458,7 +458,7 @@ public class Keyboard extends KeyAdapter implements InputDevice {
 	 * this an abstract class in the future and move this to an "AZERTYKeyboard"
 	 * class. TODO. (the ^ operator is the XOR operator in Java).
 	 */
-	public static final String getKeyRepresentation(int keycode, boolean shiftDown, boolean capsLocked, boolean altGrDown) {
+	public static final String getKeyRepresentation(final int keycode, final boolean shiftDown, final boolean capsLocked, final boolean altGrDown) {
 		Logger.log(Keyboard.class, LogLevel.DEV_DEBUG, "Key %d has been pressed", keycode);
 		switch (keycode) {
 		case Keyboard.KEY_0:
