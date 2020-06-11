@@ -133,14 +133,17 @@ public class G3Demo extends Game {
 
 	@Override
 	public void update(double delta) {
-		SceneManager.updateScene(this, delta);
+		// VERY IMPORTANT TO CALL
+		super.update(delta);
 		// Scene-independent updating --- not recommended, but flexibility
 	}
 
 	@Override
 	public void render(Graphics2D graphics) {
+		// Clear the screen here -- ideally done through a black background component
 		GraphicsUtilities.clear(this.window, graphics, Color.BLACK);
-		SceneManager.renderScene(this, graphics);
+		// VERY IMPORTANT TO CALL
+		super.render(graphics);
 		// Scene-independent rendering --- not recommended, but flexibility
 	}
 

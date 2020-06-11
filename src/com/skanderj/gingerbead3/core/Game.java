@@ -9,6 +9,7 @@ import com.skanderj.gingerbead3.input.Keyboard;
 import com.skanderj.gingerbead3.input.Mouse;
 import com.skanderj.gingerbead3.log.Logger;
 import com.skanderj.gingerbead3.log.Logger.LogLevel;
+import com.skanderj.gingerbead3.scene.SceneManager;
 
 /**
  * Most important class, all G3-based games must extend this class. Pretty self
@@ -125,14 +126,18 @@ public abstract class Game extends ThreadWrapper {
 	 *
 	 * @param delta the delaya between the current update and last update
 	 */
-	public abstract void update(double delta);
+	public synchronized void update(double delta) {
+		SceneManager.updateScene(this, delta);
+	}
 
 	/**
 	 * Renders the game
 	 *
 	 * @param graphics used to draw the screen
 	 */
-	public abstract void render(Graphics2D graphics);
+	public synchronized void render(Graphics2D graphics) {
+		SceneManager.renderScene(this, graphics);
+	}
 
 	public final void updateInputDevices() {
 		if (this.keyboard != null) {
