@@ -27,4 +27,14 @@ public abstract class Scene {
 	public void render(Window window, Graphics2D graphics, Object... args) {
 		ComponentManager.render(window, graphics);
 	}
+
+	/**
+	 * What to do when the scene is first called into effect.
+	 */
+	public abstract void present();
+
+	/**
+	 * What to do when the scene is switched.
+	 */
+	public abstract void remove();
 }

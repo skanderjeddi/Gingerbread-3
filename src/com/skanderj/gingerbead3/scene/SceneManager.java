@@ -33,9 +33,13 @@ public class SceneManager {
 	}
 
 	public static void setCurrentScene(String identifier) {
+		if (currentScene != null) {
+			currentScene.remove();
+		}
 		SceneManager.currentScene = SceneManager.retrieveScene(identifier);
 		final List<String> components = SceneManager.currentScene.sceneComponents();
 		ComponentManager.onlyConsider(components);
+		currentScene.present();
 	}
 
 	public static void updateScene(Game game, double delta, Object... args) {
