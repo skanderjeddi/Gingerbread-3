@@ -1,12 +1,12 @@
-package com.skanderj.gingerbread3.component.basic;
+package com.skanderj.gingerbread3.component.premade;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
-import com.skanderj.gingerbread3.component.Button;
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.ComponentPriority;
+import com.skanderj.gingerbread3.component.unit.Button;
 import com.skanderj.gingerbread3.display.Window;
 import com.skanderj.gingerbread3.util.VisualString;
 

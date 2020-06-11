@@ -1,4 +1,4 @@
-package com.skanderj.gingerbread3.component.basic;
+package com.skanderj.gingerbread3.component.premade;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.ComponentPriority;
-import com.skanderj.gingerbread3.component.Textfield;
+import com.skanderj.gingerbread3.component.unit.Textfield;
 import com.skanderj.gingerbread3.display.Window;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.Mouse;

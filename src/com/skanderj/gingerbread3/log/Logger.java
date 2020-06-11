@@ -107,7 +107,7 @@ public final class Logger {
 	 *
 	 */
 	public enum LogLevel {
-		INFO, DEBUG, DEV_DEBUG, IGNORE, SEVERE, ERROR, FATAL;
+		INFO, DEBUG, DEV_DEBUG, IGNORE, IGNORE_UNLESS_REPEATED, SEVERE, ERROR, FATAL;
 	}
 
 	/**

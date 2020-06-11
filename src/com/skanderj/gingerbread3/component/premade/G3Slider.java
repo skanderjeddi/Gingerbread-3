@@ -1,12 +1,13 @@
-package com.skanderj.gingerbread3.component.basic;
+package com.skanderj.gingerbread3.component.premade;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
+import com.skanderj.gingerbread3.component.ComponentLabelPosition;
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.ComponentPriority;
-import com.skanderj.gingerbread3.component.Slider;
+import com.skanderj.gingerbread3.component.unit.Slider;
 import com.skanderj.gingerbread3.display.Window;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.Mouse;
@@ -23,10 +24,10 @@ public final class G3Slider extends Slider {
 	private int x, y, width, height;
 	private int sliderX, sliderWidth, sliderHeight;
 	private VisualString label;
-	private SliderLabelPosition labelPosition;
+	private ComponentLabelPosition labelPosition;
 	private Color color;
 
-	public G3Slider(final int x, final int y, final int width, final int height, final int sliderWidth, final int sliderHeight, final float min, final float max, final float defaultValue, final Color color, final VisualString label, final SliderLabelPosition position) {
+	public G3Slider(final int x, final int y, final int width, final int height, final int sliderWidth, final int sliderHeight, final float min, final float max, final float defaultValue, final Color color, final VisualString label, final ComponentLabelPosition position) {
 		super(min, max, defaultValue);
 		this.x = x;
 		this.y = y;
@@ -159,7 +160,7 @@ public final class G3Slider extends Slider {
 	/**
 	 * Self explanatory.
 	 */
-	public SliderLabelPosition getLabelPosition() {
+	public ComponentLabelPosition getLabelPosition() {
 		return this.labelPosition;
 	}
 
@@ -226,7 +227,7 @@ public final class G3Slider extends Slider {
 	/**
 	 * Self explanatory.
 	 */
-	public void setLabelPosition(final SliderLabelPosition labelPosition) {
+	public void setLabelPosition(final ComponentLabelPosition labelPosition) {
 		this.labelPosition = labelPosition;
 	}
 
@@ -243,15 +244,5 @@ public final class G3Slider extends Slider {
 	@Override
 	public ComponentPriority priority() {
 		return ComponentPriority.LOW;
-	}
-
-	/**
-	 * Possible sides for a slider's label.
-	 *
-	 * @author Skander
-	 *
-	 */
-	public enum SliderLabelPosition {
-		TOP, BOTTOM, LEFT, RIGHT;
 	}
 }

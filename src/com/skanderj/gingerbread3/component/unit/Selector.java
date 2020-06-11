@@ -1,10 +1,11 @@
-package com.skanderj.gingerbread3.component;
+package com.skanderj.gingerbread3.component.unit;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.skanderj.gingerbread3.component.Button.ButtonState;
-import com.skanderj.gingerbread3.component.action.ButtonAction;
+import com.skanderj.gingerbread3.component.Component;
+import com.skanderj.gingerbread3.component.ComponentState;
+import com.skanderj.gingerbread3.component.action.ComponentAction;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.Mouse;
 import com.skanderj.gingerbread3.log.Logger;
@@ -26,25 +27,25 @@ public abstract class Selector extends Component {
 	 *
 	 */
 	public static class SelectorArrow {
-		protected ButtonState currentState, previousState;
+		protected ComponentState currentState, previousState;
 		protected boolean hasFocus;
 		protected boolean mouseWasIn;
-		private final ButtonAction[] actions;
+		private final ComponentAction[] actions;
 
 		public SelectorArrow() {
-			this.currentState = ButtonState.IDLE;
-			this.previousState = ButtonState.IDLE;
+			this.currentState = ComponentState.IDLE;
+			this.previousState = ComponentState.IDLE;
 			this.hasFocus = false;
 			this.mouseWasIn = false;
-			this.actions = new ButtonAction[4];
+			this.actions = new ComponentAction[4];
 			// Set default action (do nothing) for every currentState
 			for (int index = 0; index < this.actions.length; index += 1) {
-				this.actions[index] = new ButtonAction.DefaultButtonAction();
+				this.actions[index] = new ComponentAction.DefaultComponentAction();
 			}
 		}
 
-		public final void setAction(final ButtonState state, final ButtonAction action) {
-			if (state == ButtonState.ON_CLICK) {
+		public final void setAction(final ComponentState state, final ComponentAction action) {
+			if (state == ComponentState.ON_CLICK) {
 				Logger.log(Selector.SelectorArrow.class, LogLevel.ERROR, "Can't change the on click behavior of a selector arrow");
 			} else {
 				this.actions[state.getIdentifier()] = action;
@@ -84,13 +85,13 @@ public abstract class Selector extends Component {
 		this.currentOptionIndex = this.options.lastIndexOf(defaultOption);
 		this.leftArrow = new SelectorArrow();
 		this.rightArrow = new SelectorArrow();
-		this.leftArrow.actions[ButtonState.ON_CLICK.getIdentifier()] = args -> {
+		this.leftArrow.actions[ComponentState.ON_CLICK.getIdentifier()] = args -> {
 			Selector.this.currentOptionIndex -= 1;
 			if (Selector.this.currentOptionIndex < 0) {
 				Selector.this.currentOptionIndex = Selector.this.options.size() - 1;
 			}
 		};
-		this.rightArrow.actions[ButtonState.ON_CLICK.getIdentifier()] = args -> {
+		this.rightArrow.actions[ComponentState.ON_CLICK.getIdentifier()] = args -> {
 			Selector.this.currentOptionIndex += 1;
 			Selector.this.currentOptionIndex %= Selector.this.options.size();
 		};
@@ -116,19 +117,19 @@ public abstract class Selector extends Component {
 				this.leftArrow.hasFocus = true;
 			}
 			if (mouseClicked && this.leftArrow.hasFocus && this.leftArrow.mouseWasIn) {
-				this.leftArrow.currentState = ButtonState.HELD;
+				this.leftArrow.currentState = ComponentState.HELD;
 				this.leftArrow.mouseWasIn = true;
 			} else if (mouseInLeft && !mouseClicked) {
-				this.leftArrow.currentState = ButtonState.HOVERED;
+				this.leftArrow.currentState = ComponentState.HOVERED;
 				this.leftArrow.hasFocus = false;
 				this.leftArrow.mouseWasIn = true;
 			} else {
-				this.leftArrow.currentState = ButtonState.IDLE;
+				this.leftArrow.currentState = ComponentState.IDLE;
 				this.leftArrow.hasFocus = false;
 				this.leftArrow.mouseWasIn = false;
 			}
-			if ((this.leftArrow.previousState == ButtonState.HELD) && ((this.leftArrow.currentState == ButtonState.IDLE) || (this.leftArrow.currentState == ButtonState.HOVERED)) && mouseInLeft) {
-				this.leftArrow.currentState = ButtonState.ON_CLICK;
+			if ((this.leftArrow.previousState == ComponentState.HELD) && ((this.leftArrow.currentState == ComponentState.IDLE) || (this.leftArrow.currentState == ComponentState.HOVERED)) && mouseInLeft) {
+				this.leftArrow.currentState = ComponentState.ON_CLICK;
 			}
 		}
 		// Right arrow handling, this block magically works and it took me a lot of time
@@ -139,19 +140,19 @@ public abstract class Selector extends Component {
 				this.rightArrow.hasFocus = true;
 			}
 			if (mouseClicked && this.rightArrow.hasFocus && this.rightArrow.mouseWasIn) {
-				this.rightArrow.currentState = ButtonState.HELD;
+				this.rightArrow.currentState = ComponentState.HELD;
 				this.rightArrow.mouseWasIn = true;
 			} else if (mouseInRight && !mouseClicked) {
-				this.rightArrow.currentState = ButtonState.HOVERED;
+				this.rightArrow.currentState = ComponentState.HOVERED;
 				this.rightArrow.hasFocus = false;
 				this.rightArrow.mouseWasIn = true;
 			} else {
-				this.rightArrow.currentState = ButtonState.IDLE;
+				this.rightArrow.currentState = ComponentState.IDLE;
 				this.rightArrow.hasFocus = false;
 				this.rightArrow.mouseWasIn = false;
 			}
-			if ((this.rightArrow.previousState == ButtonState.HELD) && ((this.rightArrow.currentState == ButtonState.IDLE) || (this.rightArrow.currentState == ButtonState.HOVERED)) && mouseInRight) {
-				this.rightArrow.currentState = ButtonState.ON_CLICK;
+			if ((this.rightArrow.previousState == ComponentState.HELD) && ((this.rightArrow.currentState == ComponentState.IDLE) || (this.rightArrow.currentState == ComponentState.HOVERED)) && mouseInRight) {
+				this.rightArrow.currentState = ComponentState.ON_CLICK;
 			}
 		}
 		this.leftArrow.actions[this.leftArrow.currentState.getIdentifier()].execute(delta, keyboard, mouse);
@@ -161,7 +162,7 @@ public abstract class Selector extends Component {
 
 	@Override
 	public final boolean canChangeFocus() {
-		return (this.leftArrow.currentState == ButtonState.IDLE) && (this.rightArrow.currentState == ButtonState.IDLE);
+		return (this.leftArrow.currentState == ComponentState.IDLE) && (this.rightArrow.currentState == ComponentState.IDLE);
 	}
 
 	/**

@@ -1,4 +1,6 @@
-package com.skanderj.gingerbread3.component;
+package com.skanderj.gingerbread3.component.unit;
+
+import com.skanderj.gingerbread3.component.Component;
 
 public abstract class Background extends Component {
 	/**

@@ -1,6 +1,8 @@
-package com.skanderj.gingerbread3.component;
+package com.skanderj.gingerbread3.component.unit;
 
-import com.skanderj.gingerbread3.component.action.ButtonAction;
+import com.skanderj.gingerbread3.component.Component;
+import com.skanderj.gingerbread3.component.ComponentState;
+import com.skanderj.gingerbread3.component.action.ComponentAction;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.Mouse;
 
@@ -13,20 +15,20 @@ import com.skanderj.gingerbread3.input.Mouse;
  *
  */
 public abstract class Button extends Component {
-	protected ButtonState previousState, state;
-	protected ButtonAction[] actions;
+	protected ComponentState previousState, state;
+	protected ComponentAction[] actions;
 	protected boolean hasFocus, mouseWasIn;
 
 	/**
 	 * Basic constructor: position.
 	 */
 	public Button() {
-		this.previousState = ButtonState.IDLE;
-		this.state = ButtonState.IDLE;
-		this.actions = new ButtonAction[4];
+		this.previousState = ComponentState.IDLE;
+		this.state = ComponentState.IDLE;
+		this.actions = new ComponentAction[4];
 		// Set default action (do nothing) for every currentState
 		for (int index = 0; index < this.actions.length; index += 1) {
-			this.actions[index] = new ButtonAction.DefaultButtonAction();
+			this.actions[index] = new ComponentAction.DefaultComponentAction();
 		}
 		this.hasFocus = false;
 	}
@@ -45,19 +47,19 @@ public abstract class Button extends Component {
 			this.hasFocus = true;
 		}
 		if (mouseClicked && this.hasFocus && this.mouseWasIn) {
-			this.state = ButtonState.HELD;
+			this.state = ComponentState.HELD;
 			this.mouseWasIn = true;
 		} else if (mouseIn && !mouseClicked) {
-			this.state = ButtonState.HOVERED;
+			this.state = ComponentState.HOVERED;
 			this.hasFocus = false;
 			this.mouseWasIn = true;
 		} else {
-			this.state = ButtonState.IDLE;
+			this.state = ComponentState.IDLE;
 			this.hasFocus = false;
 			this.mouseWasIn = false;
 		}
-		if ((this.previousState == ButtonState.HELD) && ((this.state == ButtonState.IDLE) || (this.state == ButtonState.HOVERED)) && mouseIn) {
-			this.state = ButtonState.ON_CLICK;
+		if ((this.previousState == ComponentState.HELD) && ((this.state == ComponentState.IDLE) || (this.state == ComponentState.HOVERED)) && mouseIn) {
+			this.state = ComponentState.ON_CLICK;
 		}
 		this.actions[this.state.getIdentifier()].execute(delta, keyboard, mouse);
 	}
@@ -66,7 +68,7 @@ public abstract class Button extends Component {
 	 * Sets the button action that will be executed when the provided currentState
 	 * is the current currentState.
 	 */
-	public void setButtonAction(final ButtonState state, final ButtonAction action) {
+	public void setActionForState(final ComponentState state, final ComponentAction action) {
 		this.actions[state.getIdentifier()] = action;
 	}
 
@@ -76,7 +78,7 @@ public abstract class Button extends Component {
 	 */
 	@Override
 	public final boolean canChangeFocus() {
-		return this.state == ButtonState.IDLE;
+		return this.state == ComponentState.IDLE;
 	}
 
 	/**
@@ -100,41 +102,14 @@ public abstract class Button extends Component {
 	/**
 	 * Self explanatory.
 	 */
-	public ButtonAction[] getActions() {
+	public ComponentAction[] getActions() {
 		return this.actions;
 	}
 
 	/**
 	 * Self explanatory. Can be used to set multiple actions at once.
 	 */
-	public void setActions(final ButtonAction[] actions) {
+	public void setActions(final ComponentAction[] actions) {
 		this.actions = actions;
-	}
-
-	/**
-	 * Represents all the possible states of a button. IDLE: mouse is out and the
-	 * button doesn't have focus. HOVERED: mouse is over the button, not clicked and
-	 * no focus yet. HELD: mouse is over the button and clicked or mouse is clicked
-	 * and focus is on the button. Basically means you can click and leave the
-	 * button area to cancel your click. ON_CLICK: On the transition between HELD
-	 * and IDLE or between HELD and HOVERED, where you should assign the actual
-	 * action to your button.
-	 *
-	 * @author Skander
-	 *
-	 */
-	public enum ButtonState {
-		IDLE(0), HOVERED(1), HELD(2), ON_CLICK(3);
-
-		// An identifier for easier access in other classes (#Button)
-		private final int identifier;
-
-		private ButtonState(final int identifier) {
-			this.identifier = identifier;
-		}
-
-		public final int getIdentifier() {
-			return this.identifier;
-		}
 	}
 }

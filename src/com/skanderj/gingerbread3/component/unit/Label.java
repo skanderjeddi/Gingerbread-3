@@ -1,5 +1,6 @@
-package com.skanderj.gingerbread3.component;
+package com.skanderj.gingerbread3.component.unit;
 
+import com.skanderj.gingerbread3.component.Component;
 import com.skanderj.gingerbread3.util.VisualString;
 
 /**

@@ -15,13 +15,12 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineEvent.Type;
-
-import com.skanderj.gingerbread3.log.Logger;
-import com.skanderj.gingerbread3.log.Logger.LogLevel;
-
 import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+
+import com.skanderj.gingerbread3.log.Logger;
+import com.skanderj.gingerbread3.log.Logger.LogLevel;
 
 /**
  * A class used for handling all audio purposes. Can't be instantiated, only
@@ -34,13 +33,13 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public final class AudioManager {
 	// Reusable audio streams map - how we can play multiple sounds at once over and
 	// over
-	private static final Map<String, AudioInputStream> audioMap = new HashMap<String, AudioInputStream>();
+	public static final Map<String, AudioInputStream> audioMap = new HashMap<String, AudioInputStream>();
 	// Clips map to handle pausing, playing, resuming...
-	private static final Map<String, Clip> clipsMap = new HashMap<String, Clip>();
+	public static final Map<String, Clip> clipsMap = new HashMap<String, Clip>();
 	// Threads map, wrappers for each individual clip
-	private static final Map<String, Thread> threadsMap = new HashMap<String, Thread>();
+	public static final Map<String, Thread> threadsMap = new HashMap<String, Thread>();
 	// Keep track of which clips are paused
-	private static final Set<String> pausesMap = new HashSet<String>();
+	public static final Set<String> pausesMap = new HashSet<String>();
 
 	private AudioManager() {
 		return;
@@ -100,7 +99,7 @@ public final class AudioManager {
 	public static boolean playAudio(final String identifier, final float volume) {
 		final AudioInputStream stream = AudioManager.audioMap.get(identifier);
 		if (stream == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find audio with identifier \"%s\"", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
 			return false;
 		} else {
 			try {
@@ -186,10 +185,17 @@ public final class AudioManager {
 	/**
 	 * Self explanatory.
 	 */
+	public static boolean isAudioPlaying(final String identifier) {
+		return AudioManager.clipsMap.containsKey(identifier) && AudioManager.threadsMap.containsKey(identifier) && !AudioManager.isAudioPaused(identifier);
+	}
+
+	/**
+	 * Self explanatory.
+	 */
 	public static float getVolume(final String identifier) {
 		final Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find audio with identifier \"%s\"", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
 			return -1;
 		} else {
 			final FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -203,7 +209,7 @@ public final class AudioManager {
 	public static void setVolume(final String identifier, final float volume) {
 		final Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find audio with identifier \"%s\"", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
 		} else {
 			if ((volume < 0f) || (volume > 1f)) {
 				throw new IllegalArgumentException("Volume not valid: " + volume);
@@ -219,7 +225,7 @@ public final class AudioManager {
 	public static boolean pauseAudio(final String identifier) {
 		final Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find audio with identifier \"%s\"", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
 			return false;
 		} else {
 			clip.stop();
@@ -234,7 +240,7 @@ public final class AudioManager {
 	public static boolean resumeAudio(final String identifier) {
 		final Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find audio with identifier \"%s\"", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
 			return false;
 		} else {
 			clip.start();
@@ -249,7 +255,7 @@ public final class AudioManager {
 	public static boolean stopAudio(final String identifier) {
 		final Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find audio with identifier \"%s\"", identifier);
+			Logger.log(AudioManager.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
 			return false;
 		} else {
 			clip.stop();

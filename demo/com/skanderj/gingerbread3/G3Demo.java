@@ -6,15 +6,17 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.skanderj.gingerbread3.audio.AudioManager;
-import com.skanderj.gingerbread3.component.Button;
+import com.skanderj.gingerbread3.component.ComponentLabelPosition;
 import com.skanderj.gingerbread3.component.ComponentManager;
-import com.skanderj.gingerbread3.component.Slider;
-import com.skanderj.gingerbread3.component.Button.ButtonState;
-import com.skanderj.gingerbread3.component.basic.G3Label;
-import com.skanderj.gingerbread3.component.basic.G3Slider;
-import com.skanderj.gingerbread3.component.basic.G3SolidBackground;
-import com.skanderj.gingerbread3.component.basic.G3StraightEdgesButton;
-import com.skanderj.gingerbread3.component.basic.G3Slider.SliderLabelPosition;
+import com.skanderj.gingerbread3.component.ComponentState;
+import com.skanderj.gingerbread3.component.premade.G3Checkbox;
+import com.skanderj.gingerbread3.component.premade.G3Label;
+import com.skanderj.gingerbread3.component.premade.G3Slider;
+import com.skanderj.gingerbread3.component.premade.G3SolidBackground;
+import com.skanderj.gingerbread3.component.premade.G3StraightEdgesButton;
+import com.skanderj.gingerbread3.component.unit.Button;
+import com.skanderj.gingerbread3.component.unit.Checkbox;
+import com.skanderj.gingerbread3.component.unit.Slider;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.Mouse;
@@ -52,13 +54,15 @@ public class G3Demo extends Game {
 		public List<String> sceneComponents() {
 			// Those are the only components which will be rendered/updated during this
 			// scene
-			return Arrays.asList("main-menu-background", "play-button", "settings-button", "exit-button");
+			return Arrays.asList("main-menu-background", "play-button", "settings-button", "exit-button", "music-checkbox");
 		}
 
 		@Override
 		public void present() {
 			// Play some audio
-			AudioManager.loopAudio("silhouette-kana_boon", -1, ((Slider) ComponentManager.getComponent("main-menu-music-volume")).getValue() / 100.0F);
+			if (((Checkbox) ComponentManager.getComponent("music-checkbox")).isChecked()) {
+				AudioManager.loopAudio("silhouette-kana_boon", -1, ((Slider) ComponentManager.getComponent("main-menu-music-volume")).getValue() / 100.0F);
+			}
 		}
 
 		@Override
@@ -149,13 +153,23 @@ public class G3Demo extends Game {
 		ComponentManager.addComponent("exit-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Exit...", Color.RED, FontManager.getFont("lunchds", 14)), Color.BLACK, Color.DARK_GRAY));
 		ComponentManager.addComponent("main-game-background", new G3SolidBackground(GraphicsUtilities.DEFAULT_ORIGIN_X, GraphicsUtilities.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.PINK));
 		ComponentManager.addComponent("instructions-label", new G3Label(GraphicsUtilities.DEFAULT_ORIGIN_X, (G3Demo.HEIGHT / 2) - 50, G3Demo.WIDTH - 1, 100, new VisualString("Press escape to return to the main menu", new VisualStringProperties(FontManager.getFont("lunchds", 28), Color.BLACK))));
-		ComponentManager.addComponent("main-menu-music-volume", new G3Slider((G3Demo.WIDTH / 2) - 150, (G3Demo.HEIGHT / 2) - 100, 150, 30, 6, 6, 0, 100, 50, Color.WHITE, new VisualString("Main menu music", Color.WHITE, FontManager.getFont("lunchds", 14)), SliderLabelPosition.RIGHT));
+		ComponentManager.addComponent("main-menu-music-volume", new G3Slider((G3Demo.WIDTH / 2) - 150, (G3Demo.HEIGHT / 2) - 100, 150, 30, 6, 6, 0, 100, 50, Color.WHITE, new VisualString("Main menu music", Color.WHITE, FontManager.getFont("lunchds", 14)), ComponentLabelPosition.RIGHT));
 		ComponentManager.addComponent("back-to-main-menu-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), G3Demo.HEIGHT - (2 * G3Demo.B_HEIGHT), G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Back", Color.WHITE, FontManager.getFont("lunchds", 14)), Color.BLACK, Color.DARK_GRAY));
+		ComponentManager.addComponent("music-checkbox", new G3Checkbox(G3Demo.WIDTH - 90, G3Demo.HEIGHT - 45, 20, 20, new VisualString("Music", Color.RED, FontManager.getFont("lunchds", 14)), Color.GRAY, Color.DARK_GRAY, Color.RED, ComponentLabelPosition.RIGHT));
 		// Button actions
-		((Button) ComponentManager.getComponent("play-button")).setButtonAction(ButtonState.ON_CLICK, args -> SceneManager.setCurrentScene("main-game"));
-		((Button) ComponentManager.getComponent("settings-button")).setButtonAction(ButtonState.ON_CLICK, args -> SceneManager.setCurrentScene("settings"));
-		((Button) ComponentManager.getComponent("back-to-main-menu-button")).setButtonAction(ButtonState.ON_CLICK, args -> SceneManager.setCurrentScene("main-menu"));
-		((Button) ComponentManager.getComponent("exit-button")).setButtonAction(ButtonState.ON_CLICK, args -> this.stop());
+		((Button) ComponentManager.getComponent("play-button")).setActionForState(ComponentState.ON_CLICK, args -> SceneManager.setCurrentScene("main-game"));
+		((Button) ComponentManager.getComponent("settings-button")).setActionForState(ComponentState.ON_CLICK, args -> SceneManager.setCurrentScene("settings"));
+		((Button) ComponentManager.getComponent("back-to-main-menu-button")).setActionForState(ComponentState.ON_CLICK, args -> SceneManager.setCurrentScene("main-menu"));
+		((Button) ComponentManager.getComponent("exit-button")).setActionForState(ComponentState.ON_CLICK, args -> this.stop());
+		((Checkbox) ComponentManager.getComponent("music-checkbox")).setOnSwitchAction(args -> {
+			final boolean state = (boolean) args[0];
+			if (state) {
+				AudioManager.stopAudio("silhouette-kana_boon");
+				AudioManager.loopAudio("silhouette-kana_boon", -1, ((Slider) ComponentManager.getComponent("main-menu-music-volume")).getValue() / 100.0F);
+			} else {
+				AudioManager.stopAudio("silhouette-kana_boon");
+			}
+		});
 	}
 
 	@Override

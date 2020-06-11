@@ -7,12 +7,12 @@ package com.skanderj.gingerbread3.component.action;
  * @author Skander
  *
  */
-public interface ButtonAction {
+public interface ComponentAction {
 	// Do what's here
 	void execute(Object... args);
 
 	// Default action - do nothing
-	public static class DefaultButtonAction implements ButtonAction {
+	public static class DefaultComponentAction implements ComponentAction {
 		@Override
 		public void execute(final Object... args) {
 			return;

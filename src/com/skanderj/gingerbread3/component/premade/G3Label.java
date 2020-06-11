@@ -1,11 +1,11 @@
-package com.skanderj.gingerbread3.component.basic;
+package com.skanderj.gingerbread3.component.premade;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.ComponentPriority;
-import com.skanderj.gingerbread3.component.Label;
+import com.skanderj.gingerbread3.component.unit.Label;
 import com.skanderj.gingerbread3.display.Window;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.Mouse;

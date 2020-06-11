@@ -1,11 +1,12 @@
-package com.skanderj.gingerbread3.component;
+package com.skanderj.gingerbread3.component.unit;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.skanderj.gingerbread3.component.Component;
 import com.skanderj.gingerbread3.input.Keyboard;
-import com.skanderj.gingerbread3.input.Mouse;
 import com.skanderj.gingerbread3.input.Keyboard.KeyState;
+import com.skanderj.gingerbread3.input.Mouse;
 
 /**
  * Represents an abstract textbox, basis for other textbox classes which can
