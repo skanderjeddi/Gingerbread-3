@@ -147,25 +147,26 @@ public class G3Demo extends Game {
 		ComponentManager.addComponent("play-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 150, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Play!", Color.RED, FontManager.getFont("lunchds", 14)), Color.BLACK, Color.DARK_GRAY));
 		ComponentManager.addComponent("settings-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Settings", Color.RED, FontManager.getFont("lunchds", 14)), Color.BLACK, Color.DARK_GRAY));
 		ComponentManager.addComponent("exit-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Exit...", Color.RED, FontManager.getFont("lunchds", 14)), Color.BLACK, Color.DARK_GRAY));
-		((Button) ComponentManager.getComponent("play-button")).setButtonAction(ButtonState.ON_CLICK, args -> SceneManager.setCurrentScene("main-game"));
 		ComponentManager.addComponent("main-game-background", new G3SolidBackground(GraphicsUtilities.DEFAULT_ORIGIN_X, GraphicsUtilities.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.PINK));
 		ComponentManager.addComponent("instructions-label", new G3Label(GraphicsUtilities.DEFAULT_ORIGIN_X, (G3Demo.HEIGHT / 2) - 50, G3Demo.WIDTH - 1, 100, new VisualString("Press escape to return to the main menu", new VisualStringProperties(FontManager.getFont("lunchds", 28), Color.BLACK))));
 		ComponentManager.addComponent("main-menu-music-volume", new G3Slider((G3Demo.WIDTH / 2) - 150, (G3Demo.HEIGHT / 2) - 100, 150, 30, 6, 6, 0, 100, 50, Color.WHITE, new VisualString("Main menu music", Color.WHITE, FontManager.getFont("lunchds", 14)), SliderLabelPosition.RIGHT));
-		((Button) ComponentManager.getComponent("settings-button")).setButtonAction(ButtonState.ON_CLICK, args -> SceneManager.setCurrentScene("settings"));
 		ComponentManager.addComponent("back-to-main-menu-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), G3Demo.HEIGHT - (2 * G3Demo.B_HEIGHT), G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Back", Color.WHITE, FontManager.getFont("lunchds", 14)), Color.BLACK, Color.DARK_GRAY));
+		// Button actions
+		((Button) ComponentManager.getComponent("play-button")).setButtonAction(ButtonState.ON_CLICK, args -> SceneManager.setCurrentScene("main-game"));
+		((Button) ComponentManager.getComponent("settings-button")).setButtonAction(ButtonState.ON_CLICK, args -> SceneManager.setCurrentScene("settings"));
 		((Button) ComponentManager.getComponent("back-to-main-menu-button")).setButtonAction(ButtonState.ON_CLICK, args -> SceneManager.setCurrentScene("main-menu"));
 		((Button) ComponentManager.getComponent("exit-button")).setButtonAction(ButtonState.ON_CLICK, args -> this.stop());
 	}
 
 	@Override
-	public void update(final double delta) {
+	public synchronized void update(final double delta) {
 		// VERY IMPORTANT TO CALL
 		super.update(delta);
 		// Scene-independent updating --- not recommended, but flexibility
 	}
 
 	@Override
-	public void render(final Graphics2D graphics) {
+	public synchronized void render(final Graphics2D graphics) {
 		// Clear the screen here -- ideally done through a black background component
 		GraphicsUtilities.clear(this.window, graphics, Color.BLACK);
 		// VERY IMPORTANT TO CALL
