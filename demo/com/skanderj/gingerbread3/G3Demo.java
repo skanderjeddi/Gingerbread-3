@@ -5,27 +5,27 @@ import java.awt.Graphics2D;
 import java.util.Arrays;
 import java.util.List;
 
-import com.skanderj.gingerbead3.audio.AudioManager;
-import com.skanderj.gingerbead3.component.Button;
-import com.skanderj.gingerbead3.component.Button.ButtonState;
-import com.skanderj.gingerbead3.component.ComponentManager;
-import com.skanderj.gingerbead3.component.Slider;
-import com.skanderj.gingerbead3.component.basic.G3Label;
-import com.skanderj.gingerbead3.component.basic.G3Slider;
-import com.skanderj.gingerbead3.component.basic.G3Slider.SliderLabelPosition;
-import com.skanderj.gingerbead3.component.basic.G3SolidBackground;
-import com.skanderj.gingerbead3.component.basic.G3StraightEdgesButton;
-import com.skanderj.gingerbead3.core.Game;
-import com.skanderj.gingerbead3.input.Keyboard;
-import com.skanderj.gingerbead3.input.Mouse;
-import com.skanderj.gingerbead3.io.FontManager;
-import com.skanderj.gingerbead3.log.Logger;
-import com.skanderj.gingerbead3.log.Logger.DebuggingType;
-import com.skanderj.gingerbead3.scene.Scene;
-import com.skanderj.gingerbead3.scene.SceneManager;
-import com.skanderj.gingerbead3.util.GraphicsUtilities;
-import com.skanderj.gingerbead3.util.VisualString;
-import com.skanderj.gingerbead3.util.VisualStringProperties;
+import com.skanderj.gingerbread3.audio.AudioManager;
+import com.skanderj.gingerbread3.component.Button;
+import com.skanderj.gingerbread3.component.ComponentManager;
+import com.skanderj.gingerbread3.component.Slider;
+import com.skanderj.gingerbread3.component.Button.ButtonState;
+import com.skanderj.gingerbread3.component.basic.G3Label;
+import com.skanderj.gingerbread3.component.basic.G3Slider;
+import com.skanderj.gingerbread3.component.basic.G3SolidBackground;
+import com.skanderj.gingerbread3.component.basic.G3StraightEdgesButton;
+import com.skanderj.gingerbread3.component.basic.G3Slider.SliderLabelPosition;
+import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.input.Keyboard;
+import com.skanderj.gingerbread3.input.Mouse;
+import com.skanderj.gingerbread3.io.FontManager;
+import com.skanderj.gingerbread3.log.Logger;
+import com.skanderj.gingerbread3.log.Logger.DebuggingType;
+import com.skanderj.gingerbread3.scene.Scene;
+import com.skanderj.gingerbread3.scene.SceneManager;
+import com.skanderj.gingerbread3.util.GraphicsUtilities;
+import com.skanderj.gingerbread3.util.VisualString;
+import com.skanderj.gingerbread3.util.VisualStringProperties;
 
 /**
  * Demo class for the G3 engine.
