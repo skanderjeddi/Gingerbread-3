@@ -1,4 +1,4 @@
-package com.skanderj.gingerbread3.demo;
+package com.skanderj.gingerbread3;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
