@@ -24,8 +24,8 @@ public abstract class Game extends ThreadWrapper {
 	private final double refreshRate;
 	protected boolean displayRefreshRate;
 	protected final Window window;
-	protected Keyboard keyboard;
-	protected Mouse mouse;
+	protected final Keyboard keyboard;
+	protected final Mouse mouse;
 
 	/**
 	 * Creates a fullscreen window on the requested screen (deviceId).
@@ -35,6 +35,8 @@ public abstract class Game extends ThreadWrapper {
 		this.initializeEngine();
 		this.refreshRate = refreshRate;
 		this.window = new Window.Fullscreen(this, title, buffers, deviceId);
+		this.keyboard = new Keyboard();
+		this.mouse = new Mouse();
 	}
 
 	/**
@@ -45,16 +47,28 @@ public abstract class Game extends ThreadWrapper {
 		this.initializeEngine();
 		this.refreshRate = refreshRate;
 		this.window = new Window.Regular(this, title, width, height, buffers);
+		this.keyboard = new Keyboard();
+		this.mouse = new Mouse();
 	}
 
+	/**
+	 * Called internally.
+	 */
 	private final void initializeEngine() {
 		this.displayRefreshRate = false;
 		Logger.redirectSystemOutput();
 	}
 
+	/**
+	 * Here is where all the resources loading should take place, through
+	 * AudioManager, ImageManager and FontManager.
+	 */
 	public abstract void loadResources();
 
-	public final void registerInputDevices() {
+	/**
+	 * Called internally.
+	 */
+	private final void registerInputDevices() {
 		if (this.keyboard != null) {
 			this.window.registerInput(this.keyboard);
 		}
@@ -63,7 +77,15 @@ public abstract class Game extends ThreadWrapper {
 		}
 	}
 
-	public abstract void registerComponents();
+	/**
+	 * Register scenes here --- useful for better organization.
+	 */
+	public abstract void registerScenes();
+
+	/**
+	 * Create and register all the components here.
+	 */
+	public abstract void createComponents();
 
 	@Override
 	protected void create() {
@@ -75,18 +97,26 @@ public abstract class Game extends ThreadWrapper {
 	}
 
 	public void postCreate() {
-		this.registerComponents();
+		this.createComponents();
+		this.registerScenes();
 		this.window.requestFocus();
 	}
 
 	@Override
 	protected void destroy() {
 		this.window.hide();
+		this.cleanup();
 		System.exit(0);
 	}
 
+	/**
+	 * Called after the window is disposed of but before the engine shuts down ---
+	 * here you can save progress.
+	 */
+	public abstract void cleanup();
+
 	@Override
-	protected void loop() {
+	protected final void loop() {
 		long startTime = System.nanoTime();
 		final double nanosecondsPerTick = 1000000000D / this.refreshRate;
 		int frames = 0;
@@ -132,7 +162,7 @@ public abstract class Game extends ThreadWrapper {
 	 *
 	 * @param delta the delaya between the current update and last update
 	 */
-	public synchronized void update(final double delta) {
+	protected synchronized void update(final double delta) {
 		SceneManager.updateScene(this, delta);
 	}
 
@@ -141,11 +171,14 @@ public abstract class Game extends ThreadWrapper {
 	 *
 	 * @param graphics used to draw the screen
 	 */
-	public synchronized void render(final Graphics2D graphics) {
+	protected synchronized void render(final Graphics2D graphics) {
 		SceneManager.renderScene(this, graphics);
 	}
 
-	public final void updateInputDevices() {
+	/**
+	 * Called internally.
+	 */
+	private final void updateInputDevices() {
 		if (this.keyboard != null) {
 			this.keyboard.update();
 		}

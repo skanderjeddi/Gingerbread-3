@@ -51,9 +51,7 @@ public class G3Checkbox extends Checkbox {
 	public void render(final Window window, final Graphics2D graphics, final Object... args) {
 		GraphicsUtilities.rectangle(graphics, this.backgroundColor, this.x, this.y, this.width, this.height, true, 0, 0);
 		if (this.isChecked) {
-			graphics.setColor(this.crossColor);
-			graphics.drawLine(this.x + 1, this.y + 1, (this.x + this.width) - 1, (this.y + this.height) - 1);
-			graphics.drawLine(this.x + 1, (this.y + this.height) - 1, (this.x + this.width) - 1, this.y + 1);
+			GraphicsUtilities.rectangle(graphics, this.crossColor, this.x + 3, this.y + 3, this.width - 5, this.height - 5, true, 0, 0);
 		}
 		GraphicsUtilities.rectangle(graphics, this.borderColor, this.x, this.y, this.width, this.height, false, 0, 0);
 		if (!this.label.isEmpty()) {

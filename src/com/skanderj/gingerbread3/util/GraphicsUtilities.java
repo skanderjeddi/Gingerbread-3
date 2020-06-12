@@ -2,8 +2,10 @@ package com.skanderj.gingerbread3.util;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RenderingHints;
 
+import com.skanderj.gingerbread3.component.Component;
 import com.skanderj.gingerbread3.display.Window;
 
 /**
@@ -47,6 +49,10 @@ public final class GraphicsUtilities {
 			}
 		}
 		graphics.setColor(tempColor);
+	}
+
+	public static Point centerComponent(final Window window, final Component component) {
+		return new Point((window.getWidth() / 2) - (component.getWidth() / 2), (window.getHeight() / 2) - (window.getHeight() / 2));
 	}
 
 	/**

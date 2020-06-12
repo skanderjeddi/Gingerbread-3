@@ -18,6 +18,14 @@ public final class VisualStringProperties {
 		this.color = color;
 	}
 
+	public VisualStringProperties build(final Color color) {
+		return new VisualStringProperties(this.font, color);
+	}
+
+	public VisualStringProperties build(final int fontSize) {
+		return new VisualStringProperties(this.font.deriveFont((float) fontSize), this.color);
+	}
+
 	public Font getFont() {
 		return this.font;
 	}

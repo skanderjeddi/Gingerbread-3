@@ -44,9 +44,10 @@ public class G3Demo extends Game {
 	public static final double REFRESH_RATE = 60.0D;
 	public static final int WIDTH = 1200, HEIGHT = (G3Demo.WIDTH / 16) * 9, BUFFERS = 3;
 
-	// Constants for button sizes until I implements a better system (how? I don't
+	// Constants for button until I implements a better system (how? I don't
 	// fucking have a clue)
 	public static final int B_WIDTH = 100, B_HEIGHT = (100 / 16) * 9;
+	private VisualStringProperties buttonProps;
 
 	// Main menu scene - first scene of the game
 	public static final Scene mainMenuScene = new Scene() {
@@ -106,21 +107,17 @@ public class G3Demo extends Game {
 
 		@Override
 		public void remove() {
-
+			return;
 		}
 
 		@Override
 		public void present() {
-
+			return;
 		}
 	};
 
 	public G3Demo() {
 		super(G3Demo.IDENTIFIER, G3Demo.REFRESH_RATE, G3Demo.TITLE, G3Demo.WIDTH, G3Demo.HEIGHT, G3Demo.BUFFERS);
-		// Initialize the keyboard/mouse and they will get polled and updated
-		// automatically
-		this.keyboard = new Keyboard();
-		this.mouse = new Mouse();
 	}
 
 	@Override
@@ -131,31 +128,41 @@ public class G3Demo extends Game {
 	}
 
 	@Override
-	public void postCreate() {
-		super.postCreate();
-		// Part of debugging - should be linked to the debugging constant but I'm lazy
-		this.displayRefreshRate = false;
+	public void registerScenes() {
 		// Register all the scenes in advance to quickly retrieve them later
 		SceneManager.registerScene("main-menu", G3Demo.mainMenuScene);
 		SceneManager.registerScene("main-game", G3Demo.mainGameScene);
 		SceneManager.registerScene("settings", G3Demo.settingsScene);
+	}
+
+	@Override
+	public void postCreate() {
+		super.postCreate();
+		// Part of debugging - should be linked to the debugging constant but I'm lazy
+		this.displayRefreshRate = false;
 		// Set the current scene
 		SceneManager.setCurrentScene("main-menu");
 	}
 
 	@Override
-	public void registerComponents() {
+	public void cleanup() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void createComponents() {
+		this.buttonProps = new VisualStringProperties(FontManager.getFont("lunchds", 14), Color.PINK);
 		// Register all the components here once and for all then manage them through
 		// scenes switching
 		ComponentManager.addComponent("main-menu-background", new G3SolidBackground(GraphicsUtilities.DEFAULT_ORIGIN_X, GraphicsUtilities.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.BLACK));
-		ComponentManager.addComponent("play-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 150, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Play!", Color.RED, FontManager.getFont("lunchds", 14)), Color.BLACK, Color.DARK_GRAY));
-		ComponentManager.addComponent("settings-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Settings", Color.RED, FontManager.getFont("lunchds", 14)), Color.BLACK, Color.DARK_GRAY));
-		ComponentManager.addComponent("exit-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Exit...", Color.RED, FontManager.getFont("lunchds", 14)), Color.BLACK, Color.DARK_GRAY));
+		ComponentManager.addComponent("play-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 150, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Play!", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
+		ComponentManager.addComponent("settings-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Settings", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
+		ComponentManager.addComponent("exit-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Exit...", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
 		ComponentManager.addComponent("main-game-background", new G3SolidBackground(GraphicsUtilities.DEFAULT_ORIGIN_X, GraphicsUtilities.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.PINK));
-		ComponentManager.addComponent("instructions-label", new G3Label(GraphicsUtilities.DEFAULT_ORIGIN_X, (G3Demo.HEIGHT / 2) - 50, G3Demo.WIDTH - 1, 100, new VisualString("Press escape to return to the main menu", new VisualStringProperties(FontManager.getFont("lunchds", 28), Color.BLACK))));
-		ComponentManager.addComponent("main-menu-music-volume", new G3Slider((G3Demo.WIDTH / 2) - 150, (G3Demo.HEIGHT / 2) - 100, 150, 30, 6, 6, 0, 100, 50, Color.WHITE, new VisualString("Main menu music", Color.WHITE, FontManager.getFont("lunchds", 14)), ComponentLabelPosition.RIGHT));
-		ComponentManager.addComponent("back-to-main-menu-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), G3Demo.HEIGHT - (2 * G3Demo.B_HEIGHT), G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Back", Color.WHITE, FontManager.getFont("lunchds", 14)), Color.BLACK, Color.DARK_GRAY));
-		ComponentManager.addComponent("music-checkbox", new G3Checkbox(G3Demo.WIDTH - 90, G3Demo.HEIGHT - 45, 20, 20, new VisualString("Music", Color.RED, FontManager.getFont("lunchds", 14)), Color.GRAY, Color.DARK_GRAY, Color.RED, ComponentLabelPosition.RIGHT));
+		ComponentManager.addComponent("instructions-label", new G3Label(GraphicsUtilities.DEFAULT_ORIGIN_X, (G3Demo.HEIGHT / 2) - 50, G3Demo.WIDTH - 1, 100, new VisualString("Press escape to return to the main menu", this.buttonProps.build(28).build(Color.BLACK))));
+		ComponentManager.addComponent("main-menu-music-volume", new G3Slider((G3Demo.WIDTH / 2) - 150, (G3Demo.HEIGHT / 2) - 100, 300, 20, 6, 6, 0, 100, 50, Color.GRAY, new VisualString("Main menu music (%.2f%%)", Color.PINK, FontManager.getFont("lunchds", 14)), ComponentLabelPosition.TOP));
+		ComponentManager.addComponent("back-to-main-menu-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), G3Demo.HEIGHT - (2 * G3Demo.B_HEIGHT), G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Back", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
+		ComponentManager.addComponent("music-checkbox", new G3Checkbox(G3Demo.WIDTH - 90, G3Demo.HEIGHT - 45, 20, 20, new VisualString("Music", Color.PINK, FontManager.getFont("lunchds", 14)), Color.GRAY, Color.DARK_GRAY, Color.PINK.darker(), ComponentLabelPosition.RIGHT));
 		// Button actions
 		((Button) ComponentManager.getComponent("play-button")).setActionForState(ComponentState.ON_CLICK, args -> SceneManager.setCurrentScene("main-game"));
 		((Button) ComponentManager.getComponent("settings-button")).setActionForState(ComponentState.ON_CLICK, args -> SceneManager.setCurrentScene("settings"));
