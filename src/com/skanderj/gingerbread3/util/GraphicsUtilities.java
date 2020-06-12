@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 
 import com.skanderj.gingerbread3.component.Component;
 import com.skanderj.gingerbread3.display.Window;
@@ -23,6 +24,10 @@ public final class GraphicsUtilities {
 	public static void clear(final Window window, final Graphics2D graphics, final Color color) {
 		graphics.setColor(color);
 		graphics.fillRect(0, 0, window.getWidth(), window.getHeight());
+	}
+
+	public static BufferedImage image(final int width, final int height) {
+		return new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 	}
 
 	public static void rectangle(final Graphics2D graphics, final Color color, final int x, final int y, final int width, final int height, final boolean fill, final int arcWidth, final int arcHeight) {

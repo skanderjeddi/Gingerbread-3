@@ -15,7 +15,7 @@ import com.skanderj.gingerbread3.sprite.Sprite;
  *
  */
 public class CharacterAnimation implements Animation {
-	private final int x, y;
+	private int x, y;
 	private final Sprite[] sprites;
 	private final int[] timers;
 	private int currentSpriteIndex, currentSpriteTimer;
@@ -42,5 +42,47 @@ public class CharacterAnimation implements Animation {
 	@Override
 	public void render(final Window window, final Graphics2D graphics, final Object... args) {
 		graphics.drawImage(this.sprites[this.currentSpriteIndex].getImage(), this.x, this.y, this.sprites[this.currentSpriteIndex].getWidth(), this.sprites[this.currentSpriteIndex].getHeight(), null);
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public int getX() {
+		return x;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public int getY() {
+		return y;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public Sprite[] getSprites() {
+		return sprites;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public int[] getTimers() {
+		return timers;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public void setY(int y) {
+		this.y = y;
 	}
 }

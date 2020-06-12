@@ -149,15 +149,15 @@ public final class AudioManager {
 					AudioManager.clipsMap.put(identifier, clip);
 					try {
 						listener.waitUntilDone();
-					} catch (final InterruptedException exception1) {
-						Logger.log(AudioManager.class, LogLevel.IGNORE, "An exception occurred while waiting for audio \"%s\" to finish: %s", identifier, exception1.getMessage());
+					} catch (final InterruptedException interruptedException) {
+						Logger.log(AudioManager.class, LogLevel.IGNORE, "An exception occurred while waiting for audio \"%s\" to finish: %s", identifier, interruptedException.getMessage());
 					}
 				} finally {
 					clip.close();
 					AudioManager.clipsMap.remove(identifier);
 				}
-			} catch (LineUnavailableException | IOException exception2) {
-				Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to play audio \"%s\": %s", identifier, exception2.getMessage());
+			} catch (LineUnavailableException | IOException exception) {
+				Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to play audio \"%s\": %s", identifier, exception.getMessage());
 			} finally {
 				try {
 					audioInputStream.close();
@@ -350,14 +350,14 @@ public final class AudioManager {
 					clip.loop(count == -1 ? -1 : count - 1);
 					AudioManager.clipsMap.put(identifier, clip);
 					listener.waitUntilDone();
-				} catch (final InterruptedException exception1) {
-					Logger.log(AudioManager.class, LogLevel.IGNORE, "An exception occurred while waiting for audio \"%s\" to finish: %s", identifier, exception1.getMessage());
+				} catch (final InterruptedException interruptedException) {
+					Logger.log(AudioManager.class, LogLevel.IGNORE, "An exception occurred while waiting for audio \"%s\" to finish: %s", identifier, interruptedException.getMessage());
 				} finally {
 					clip.close();
 					AudioManager.clipsMap.remove(identifier);
 				}
-			} catch (LineUnavailableException | IOException exception2) {
-				Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to loop audio \"%s\": %s", identifier, exception2.getMessage());
+			} catch (LineUnavailableException | IOException exception) {
+				Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to loop audio \"%s\": %s", identifier, exception.getMessage());
 			} finally {
 				try {
 					audioInputStream.close();

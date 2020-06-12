@@ -44,16 +44,16 @@ public final class Utilities {
 			return newval;
 		}
 		if (targetMin < targetMax) {
-			return Utilities.constrain(newval, targetMin, targetMax);
+			return Utilities.constraint(newval, targetMin, targetMax);
 		} else {
-			return Utilities.constrain(newval, targetMax, targetMin);
+			return Utilities.constraint(newval, targetMax, targetMin);
 		}
 	}
 
 	/**
 	 * Used for map()
 	 */
-	private static float constrain(final float value, final float minimum, final float maximum) {
+	private static float constraint(final float value, final float minimum, final float maximum) {
 		return Math.max(Math.min(value, maximum), minimum);
 	}
 }
