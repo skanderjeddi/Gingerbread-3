@@ -168,7 +168,7 @@ public final class ComponentManager {
 	/**
 	 * Draws a specific component (for special cases).
 	 */
-	public static final synchronized void updateSpecific(final String identifier, final Window window, final Graphics2D graphics, final Object... args) {
+	public static final synchronized void renderSpecific(final String identifier, final Window window, final Graphics2D graphics, final Object... args) {
 		ComponentManager.componentsMap.get(identifier).render(window, graphics, args);
 	}
 

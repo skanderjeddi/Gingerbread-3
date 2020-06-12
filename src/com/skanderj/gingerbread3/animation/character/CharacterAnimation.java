@@ -48,41 +48,41 @@ public class CharacterAnimation implements Animation {
 	 * Self explanatory.
 	 */
 	public int getX() {
-		return x;
+		return this.x;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public int getY() {
-		return y;
+		return this.y;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public Sprite[] getSprites() {
-		return sprites;
+		return this.sprites;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public int[] getTimers() {
-		return timers;
+		return this.timers;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setX(int x) {
+	public void setX(final int x) {
 		this.x = x;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setY(int y) {
+	public void setY(final int y) {
 		this.y = y;
 	}
 }

@@ -75,12 +75,12 @@ public final class VisualString {
 		if (string.shadeColor == null) {
 			graphics.setColor(string.color);
 			graphics.setFont(string.font);
-			graphics.drawString(String.format(string.content, args), x0, y0);
+			graphics.drawString(string.content, x0, y0);
 		} else {
 			graphics.setColor(string.shadeColor);
-			graphics.drawString(String.format(string.content, args), x0 + 1, y0 + 1);
+			graphics.drawString(string.content, x0 + 1, y0 + 1);
 			graphics.setColor(string.color);
-			graphics.drawString(String.format(string.content, args), x0 - 1, y0 - 1);
+			graphics.drawString(string.content, x0 - 1, y0 - 1);
 		}
 	}
 
@@ -88,16 +88,16 @@ public final class VisualString {
 		graphics.setFont(string.font);
 		graphics.setColor(string.color);
 		final FontMetrics fontMetrics = graphics.getFontMetrics();
-		final Rectangle2D rectangle2d = fontMetrics.getStringBounds(String.format(string.content, args), graphics);
+		final Rectangle2D rectangle2d = fontMetrics.getStringBounds(string.content, graphics);
 		final int x = (width - (int) rectangle2d.getWidth()) / 2;
 		final int y = ((height - (int) rectangle2d.getHeight()) / 2) + fontMetrics.getAscent();
 		if (string.shadeColor == null) {
-			graphics.drawString(String.format(string.content, args), x0 + x, y0 + y);
+			graphics.drawString(string.content, x0 + x, y0 + y);
 		} else {
 			graphics.setColor(string.shadeColor);
-			graphics.drawString(String.format(string.content, args), x0 + x + 1, y0 + y + 1);
+			graphics.drawString(string.content, x0 + x + 1, y0 + y + 1);
 			graphics.setColor(string.color);
-			graphics.drawString(String.format(string.content, args), (x0 + x) - 1, (y0 + y) - 1);
+			graphics.drawString(string.content, (x0 + x) - 1, (y0 + y) - 1);
 		}
 	}
 
@@ -105,15 +105,15 @@ public final class VisualString {
 		graphics.setFont(string.font);
 		graphics.setColor(string.color);
 		final FontMetrics fontMetrics = graphics.getFontMetrics();
-		final Rectangle2D rectangle2d = fontMetrics.getStringBounds(String.format(string.content, args), graphics);
+		final Rectangle2D rectangle2d = fontMetrics.getStringBounds(string.content, graphics);
 		final int y = ((height - (int) rectangle2d.getHeight()) / 2) + fontMetrics.getAscent();
 		if (string.shadeColor == null) {
-			graphics.drawString(String.format(string.content, args), x0, y0 + y);
+			graphics.drawString(string.content, x0, y0 + y);
 		} else {
 			graphics.setColor(string.shadeColor);
-			graphics.drawString(String.format(string.content, args), x0 + 1, y0 + y + 1);
+			graphics.drawString(string.content, x0 + 1, y0 + y + 1);
 			graphics.setColor(string.color);
-			graphics.drawString(String.format(string.content, args), x0 - 1, (y0 + y) - 1);
+			graphics.drawString(string.content, x0 - 1, (y0 + y) - 1);
 		}
 		return y0 + y;
 	}
@@ -125,7 +125,7 @@ public final class VisualString {
 		int y = (height - metrics.getHeight()) / 2;
 		graphics.setColor(Color.BLACK);
 		y = ((height - metrics.getHeight()) / 2) + metrics.getAscent();
-		graphics.drawString(String.format(string.content, args), x0, y + y0);
+		graphics.drawString(string.content, x0, y + y0);
 		return y0;
 	}
 

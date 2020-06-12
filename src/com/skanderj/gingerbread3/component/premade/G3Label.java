@@ -19,6 +19,7 @@ import com.skanderj.gingerbread3.util.VisualString;
  */
 public final class G3Label extends Label {
 	private int x, y, width, height;
+	private final String formatString;
 
 	public G3Label(final int x, final int y, final int width, final int height, final VisualString graphicString) {
 		super(graphicString);
@@ -26,6 +27,7 @@ public final class G3Label extends Label {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.formatString = graphicString.getContent();
 	}
 
 	/**
@@ -33,7 +35,7 @@ public final class G3Label extends Label {
 	 */
 	@Override
 	public void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
-		return;
+		this.graphicString.setContent(String.format(this.formatString, args));
 	}
 
 	/**
@@ -41,7 +43,7 @@ public final class G3Label extends Label {
 	 */
 	@Override
 	public void render(final Window window, final Graphics2D graphics, final Object... args) {
-		this.graphicString.drawCentered(graphics, this.x, this.y, this.width, this.height);
+		this.graphicString.drawCentered(graphics, this.x, this.y, this.width, this.height, args);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
 			graphics.setColor(Color.RED);
 			graphics.drawRect(this.x, this.y, this.width, this.height);

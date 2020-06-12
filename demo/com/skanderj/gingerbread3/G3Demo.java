@@ -77,6 +77,10 @@ public class G3Demo extends Game {
 		@Override
 		public void update(final double delta, final Keyboard keyboard, final Mouse mouse) {
 			super.update(delta, keyboard, mouse);
+			/**
+			 * Don't forget to update your skipped components accordingly.
+			 */
+			ComponentManager.updateSpecific("mouse-position-indicator", delta, keyboard, mouse, mouse.getX(), mouse.getY());
 			// Scene specific keyboard/mouse handling
 			if (keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
 				SceneManager.setCurrentScene("main-menu");
@@ -84,13 +88,26 @@ public class G3Demo extends Game {
 		}
 
 		@Override
+		public synchronized void render(final com.skanderj.gingerbread3.display.Window window, final Graphics2D graphics) {
+			super.render(window, graphics);
+			/**
+			 * Don't forget to manually render any ignored components.
+			 */
+			ComponentManager.renderSpecific("mouse-position-indicator", window, graphics);
+		}
+
+		@Override
 		public List<String> sceneComponents() {
-			return Arrays.asList("main-game-background", "instructions-label");
+			return Arrays.asList("main-game-background", "instructions-label", "mouse-position-indicator");
 		}
 
 		@Override
 		public void present() {
-			return;
+			/**
+			 * If you need to ignore a specific component (for special updates), you do it
+			 * here.
+			 */
+			ComponentManager.skipComponent("mouse-position-indicator");
 		}
 
 		@Override
@@ -163,6 +180,7 @@ public class G3Demo extends Game {
 		ComponentManager.addComponent("main-menu-music-volume", new G3Slider((G3Demo.WIDTH / 2) - 150, (G3Demo.HEIGHT / 2) - 100, 300, 20, 6, 6, 0, 100, 50, Color.GRAY, new VisualString("Main menu music (%.2f%%)", Color.PINK, FontManager.getFont("lunchds", 14)), ComponentLabelPosition.TOP));
 		ComponentManager.addComponent("back-to-main-menu-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), G3Demo.HEIGHT - (2 * G3Demo.B_HEIGHT), G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Back", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
 		ComponentManager.addComponent("music-checkbox", new G3Checkbox(G3Demo.WIDTH - 90, G3Demo.HEIGHT - 45, 20, 20, new VisualString("Music", Color.PINK, FontManager.getFont("lunchds", 14)), Color.GRAY, Color.DARK_GRAY, Color.PINK.darker(), ComponentLabelPosition.RIGHT));
+		ComponentManager.addComponent("mouse-position-indicator", new G3Label(G3Demo.WIDTH - 175, G3Demo.HEIGHT - 40, 100, 30, new VisualString("Mouse position: (%d ; %d)", this.buttonProps.build(14).build(Color.BLACK))));
 		// Button actions
 		((Button) ComponentManager.getComponent("play-button")).setActionForState(ComponentState.ON_CLICK, args -> SceneManager.setCurrentScene("main-game"));
 		((Button) ComponentManager.getComponent("settings-button")).setActionForState(ComponentState.ON_CLICK, args -> SceneManager.setCurrentScene("settings"));
