@@ -21,10 +21,14 @@ import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.Mouse;
 import com.skanderj.gingerbread3.io.FontManager;
+import com.skanderj.gingerbread3.io.ImageManager;
 import com.skanderj.gingerbread3.log.Logger;
 import com.skanderj.gingerbread3.log.Logger.DebuggingType;
+import com.skanderj.gingerbread3.math.Vector2D;
+import com.skanderj.gingerbread3.particle.ParticleManager;
 import com.skanderj.gingerbread3.scene.Scene;
 import com.skanderj.gingerbread3.scene.SceneManager;
+import com.skanderj.gingerbread3.sprite.Sprite;
 import com.skanderj.gingerbread3.util.GraphicsUtilities;
 import com.skanderj.gingerbread3.util.VisualString;
 import com.skanderj.gingerbread3.util.VisualStringProperties;
@@ -51,6 +55,8 @@ public class G3Demo extends Game {
 
 	// Main menu scene - first scene of the game
 	public static final Scene mainMenuScene = new Scene() {
+		private ParticleManager manager;
+
 		@Override
 		public List<String> sceneComponents() {
 			// Those are the only components which will be rendered/updated during this
@@ -60,6 +66,8 @@ public class G3Demo extends Game {
 
 		@Override
 		public void present() {
+			final Sprite[] sprites = Sprite.fromImages("ashe_%d", ImageManager.retrieveImages("ashe"));
+			this.manager = new ParticleManager(G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 10, 20, 30, sprites, Vector2D.randomVectors(30, -2, 2, 0, -4), 5, 5);
 			// Play some audio
 			if (((Checkbox) ComponentManager.getComponent("music-checkbox")).isChecked()) {
 				AudioManager.loopAudio("silhouette-kana_boon", -1, ((Slider) ComponentManager.getComponent("main-menu-music-volume")).getValue() / 100.0F);
@@ -70,6 +78,19 @@ public class G3Demo extends Game {
 		public void remove() {
 			// Stop the audio
 			AudioManager.stopAllAudio();
+		}
+
+		@Override
+		public synchronized void update(final double delta, final Keyboard keyboard, final Mouse mouse) {
+			super.update(delta, keyboard, mouse);
+			this.manager.update(delta);
+		}
+
+		@Override
+		public synchronized void render(final com.skanderj.gingerbread3.display.Window window, final Graphics2D graphics) {
+			super.render(window, graphics);
+			graphics.drawImage(ImageManager.retrieveImage("campfire"), (G3Demo.WIDTH / 2) - 50, G3Demo.HEIGHT - 100, 100, 100, null);
+			this.manager.render(graphics);
 		}
 	};
 
@@ -142,6 +163,8 @@ public class G3Demo extends Game {
 		// Register some audio and some fonts
 		AudioManager.registerAudio("silhouette-kana_boon", "res/audio/silhouette.wav");
 		FontManager.registerFont("lunchds", "res/font/lunchds.ttf");
+		ImageManager.registerAll("ashe_%d", "res/sprite/");
+		ImageManager.registerImage("campfire", "res/sprite/fire.png");
 	}
 
 	@Override
@@ -156,7 +179,7 @@ public class G3Demo extends Game {
 	public void postCreate() {
 		super.postCreate();
 		// Part of debugging - should be linked to the debugging constant but I'm lazy
-		this.displayRefreshRate = false;
+		this.displayRefreshRate = true;
 		// Set the current scene
 		SceneManager.setCurrentScene("main-menu");
 	}
@@ -171,7 +194,7 @@ public class G3Demo extends Game {
 		this.buttonProps = new VisualStringProperties(FontManager.getFont("lunchds", 14), Color.PINK);
 		// Register all the components here once and for all then manage them through
 		// scenes switching
-		ComponentManager.addComponent("main-menu-background", new G3SolidBackground(GraphicsUtilities.DEFAULT_ORIGIN_X, GraphicsUtilities.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.BLACK));
+		ComponentManager.addComponent("main-menu-background", new G3SolidBackground(GraphicsUtilities.DEFAULT_ORIGIN_X, GraphicsUtilities.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.WHITE));
 		ComponentManager.addComponent("play-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 150, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Play!", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
 		ComponentManager.addComponent("settings-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Settings", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
 		ComponentManager.addComponent("exit-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Exit...", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
