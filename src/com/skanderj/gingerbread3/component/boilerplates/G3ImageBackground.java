@@ -1,11 +1,11 @@
 package com.skanderj.gingerbread3.component.boilerplates;
 
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import com.skanderj.gingerbread3.component.Background;
 import com.skanderj.gingerbread3.component.ComponentPriority;
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.display.GraphicsWrapper;
 
 public class G3ImageBackground extends Background {
 	private int x, y, width, height;
@@ -32,8 +32,8 @@ public class G3ImageBackground extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public synchronized void render(final Graphics2D graphics, final Object... args) {
-		graphics.drawImage(this.image, this.x, this.y, this.width, this.height, null);
+	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
+		graphics.image(this.image, this.x, this.y, this.width, this.height);
 	}
 
 	/**

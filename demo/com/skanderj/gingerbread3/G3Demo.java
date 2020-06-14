@@ -1,7 +1,6 @@
 package com.skanderj.gingerbread3;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,6 +19,7 @@ import com.skanderj.gingerbread3.component.boilerplates.G3SolidColorBackground;
 import com.skanderj.gingerbread3.component.boilerplates.G3StraightEdgesButton;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.object.GameRegistry;
+import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.io.FontManager;
 import com.skanderj.gingerbread3.io.ImageManager;
@@ -30,7 +30,6 @@ import com.skanderj.gingerbread3.particle.ParticleManager;
 import com.skanderj.gingerbread3.scene.Scene;
 import com.skanderj.gingerbread3.scene.SceneManager;
 import com.skanderj.gingerbread3.sprite.Sprite;
-import com.skanderj.gingerbread3.util.GraphicsUtilities;
 import com.skanderj.gingerbread3.util.Utilities;
 import com.skanderj.gingerbread3.util.VisualString;
 import com.skanderj.gingerbread3.util.VisualStringProperties;
@@ -90,7 +89,7 @@ public class G3Demo extends Game {
 			}
 
 			@Override
-			public synchronized void render(final Graphics2D graphics, final Object... args) {
+			public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
 				super.render(graphics, args);
 			}
 		};
@@ -112,12 +111,12 @@ public class G3Demo extends Game {
 			}
 
 			@Override
-			public synchronized void render(final Graphics2D graphics, final Object... args) {
+			public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
 				super.render(graphics, args);
 				/**
 				 * Don't forget to manually render any ignored components.
 				 */
-				ComponentManager.renderSpecific("mouse-position-indicator", G3Demo.this.window, graphics);
+				ComponentManager.renderSpecific("mouse-position-indicator", graphics, args);
 			}
 
 			@Override
@@ -199,12 +198,12 @@ public class G3Demo extends Game {
 		this.buttonProps = new VisualStringProperties(FontManager.get("lunchds", 14), Color.PINK);
 		// Register all the components here once and for all then manage them through
 		// scenes switching
-		ComponentManager.register("main-menu-background", new G3SolidColorBackground(this, GraphicsUtilities.DEFAULT_ORIGIN_X, GraphicsUtilities.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.BLACK));
+		ComponentManager.register("main-menu-background", new G3SolidColorBackground(this, GraphicsWrapper.DEFAULT_ORIGIN_X, GraphicsWrapper.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.BLACK));
 		ComponentManager.register("play-button", new G3StraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 150, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Play!", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
 		ComponentManager.register("settings-button", new G3StraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Settings", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
 		ComponentManager.register("exit-button", new G3StraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Exit...", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
-		ComponentManager.register("main-game-background", new G3SolidColorBackground(this, GraphicsUtilities.DEFAULT_ORIGIN_X, GraphicsUtilities.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.PINK));
-		ComponentManager.register("instructions-label", new G3Label(this, GraphicsUtilities.DEFAULT_ORIGIN_X, (G3Demo.HEIGHT / 2) - 50, G3Demo.WIDTH - 1, 100, new VisualString("Press escape to return to the main menu", this.buttonProps.build(28).build(Color.BLACK))));
+		ComponentManager.register("main-game-background", new G3SolidColorBackground(this, GraphicsWrapper.DEFAULT_ORIGIN_X, GraphicsWrapper.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.PINK));
+		ComponentManager.register("instructions-label", new G3Label(this, GraphicsWrapper.DEFAULT_ORIGIN_X, (G3Demo.HEIGHT / 2) - 50, G3Demo.WIDTH - 1, 100, new VisualString("Press escape to return to the main menu", this.buttonProps.build(28).build(Color.BLACK))));
 		ComponentManager.register("main-menu-music-volume", new G3Slider(this, (G3Demo.WIDTH / 2) - 150, (G3Demo.HEIGHT / 2) - 100, 300, 20, 6, 6, 0, 100, 50, Color.GRAY, new VisualString("Main menu music (%.2f%%)", Color.PINK, FontManager.get("lunchds", 14)), ComponentLabelPosition.TOP));
 		ComponentManager.register("back-to-main-menu-button", new G3StraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), G3Demo.HEIGHT - (2 * G3Demo.B_HEIGHT), G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Back", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
 		ComponentManager.register("music-checkbox", new G3Checkbox(this, G3Demo.WIDTH - 90, G3Demo.HEIGHT - 45, 20, 20, new VisualString("Music", Color.PINK, FontManager.get("lunchds", 14)), Color.GRAY, Color.DARK_GRAY, Color.PINK.darker(), ComponentLabelPosition.RIGHT));
@@ -233,9 +232,9 @@ public class G3Demo extends Game {
 	}
 
 	@Override
-	public synchronized void render(final Graphics2D graphics) {
+	public synchronized void render(final GraphicsWrapper graphics) {
 		// Clear the screen here -- ideally done through a black background component
-		GraphicsUtilities.clear(this.window, graphics, Color.BLACK);
+		graphics.clear(this.window, Color.BLACK);
 		// VERY IMPORTANT TO CALL
 		super.render(graphics);
 		// Scene-independent rendering --- not recommended, but flexibility

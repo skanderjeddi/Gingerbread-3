@@ -2,13 +2,13 @@ package com.skanderj.gingerbread3.component.boilerplates;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.ComponentPriority;
 import com.skanderj.gingerbread3.component.Textfield;
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.util.Utilities;
 import com.skanderj.gingerbread3.util.VisualString;
 import com.skanderj.gingerbread3.util.VisualStringProperties;
@@ -77,9 +77,9 @@ public final class G3Textfield extends Textfield {
 	 * The rendering routine.
 	 */
 	@Override
-	public synchronized void render(final Graphics2D graphics, final Object... args) {
-		graphics.setFont(this.textProperties.getFont());
-		final FontMetrics metrics = graphics.getFontMetrics();
+	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
+		graphics.font(this.textProperties.getFont());
+		final FontMetrics metrics = graphics.fontMetrics();
 		final int fontHeight = metrics.getHeight();
 		// Determine height if not done before (= 0)
 		{
@@ -89,18 +89,16 @@ public final class G3Textfield extends Textfield {
 		}
 		// Background
 		{
-			graphics.setColor(this.backgroundColor);
-			graphics.fillRect(this.x, this.y, this.width, this.height);
+			graphics.rectangle(this.backgroundColor, this.x, this.y, this.width, this.height, true, 0, 0);
 		}
 		// Border
 		{
-			graphics.setColor(this.backgroundColor.darker().darker());
-			graphics.drawRect(this.x, this.y, this.width, this.height);
+			graphics.rectangle(this.backgroundColor.darker().darker(), this.x, this.y, this.width, this.height, false, 0, 0);
 		}
 		// Text color & font
 		{
-			graphics.setColor(this.textProperties.getColor());
-			graphics.setFont(this.textProperties.getFont());
+			graphics.color(this.textProperties.getColor());
+			graphics.font(this.textProperties.getFont());
 		}
 		// Line counter
 		this.linesCounter = 0;
@@ -175,7 +173,7 @@ public final class G3Textfield extends Textfield {
 				// DOES
 				if (((this.linesCounter + 2) * fontHeight) < this.height) {
 					// Should give a perfectly spaced text
-					graphics.drawString(lineOfText, this.x + 10, this.y + (fontHeight * (this.linesCounter + 1)));
+					graphics.string(lineOfText, this.x + 10, this.y + (fontHeight * (this.linesCounter + 1)));
 					// Increase maximumLines counter
 					this.linesCounter += 1;
 				}
@@ -186,7 +184,7 @@ public final class G3Textfield extends Textfield {
 			}
 			// Draw current line if we have the space
 			if (((this.linesCounter + 1) * fontHeight) < this.height) {
-				graphics.drawString(this.currentLine, this.x + 10, this.y + (fontHeight * (this.linesCounter + 1)));
+				graphics.string(this.currentLine, this.x + 10, this.y + (fontHeight * (this.linesCounter + 1)));
 			}
 			// Compute cursor position
 			cursorY = this.y + (fontHeight * this.linesCounter) + (metrics.getAscent() / 2) + (metrics.getDescent() / 2);
@@ -220,13 +218,12 @@ public final class G3Textfield extends Textfield {
 		if (this.hasFocus) {
 			{
 				if (this.cursorBlink) {
-					graphics.fillRect(cursorX, cursorY, cursorWidth, cursorHeight);
+					graphics.rectangle(Color.BLACK, cursorX, cursorY, cursorWidth, cursorHeight, true, 0, 0);
 				}
 			}
 		}
 		if (ComponentManager.GRAPHICAL_DEBUG) {
-			graphics.setColor(Color.RED);
-			graphics.drawRect(this.x, this.y, this.width, this.height);
+			graphics.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, 0, 0);
 		}
 	}
 

@@ -1,9 +1,9 @@
 package com.skanderj.gingerbread3.core;
 
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 
+import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.display.Window;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.Mouse;
@@ -150,9 +150,9 @@ public abstract class Game extends ThreadWrapper {
 			if (shouldRender) {
 				frames++;
 				final BufferStrategy bufferStrategy = this.window.getBufferStrategy();
-				final Graphics graphics = bufferStrategy.getDrawGraphics();
-				this.render((Graphics2D) graphics);
-				graphics.dispose();
+				final GraphicsWrapper graphicsWrapper = new GraphicsWrapper((Graphics2D) bufferStrategy.getDrawGraphics());
+				this.render(graphicsWrapper);
+				graphicsWrapper.dispose();
 				bufferStrategy.show();
 			}
 			if ((System.currentTimeMillis() - resetTime) >= 1000) {
@@ -180,7 +180,7 @@ public abstract class Game extends ThreadWrapper {
 	 *
 	 * @param graphics used to draw the screen
 	 */
-	protected synchronized void render(final Graphics2D graphics) {
+	protected synchronized void render(final GraphicsWrapper graphics) {
 		SceneManager.render(graphics);
 	}
 

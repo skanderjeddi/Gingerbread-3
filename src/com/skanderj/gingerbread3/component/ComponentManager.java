@@ -1,6 +1,5 @@
 package com.skanderj.gingerbread3.component;
 
-import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,7 +10,7 @@ import java.util.Set;
 
 import com.skanderj.gingerbread3.audio.AudioManager;
 import com.skanderj.gingerbread3.core.object.GameRegistry;
-import com.skanderj.gingerbread3.display.Window;
+import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.input.Mouse;
 import com.skanderj.gingerbread3.log.Logger;
 import com.skanderj.gingerbread3.log.Logger.LogLevel;
@@ -149,7 +148,7 @@ public final class ComponentManager {
 	/**
 	 * Draws every component.
 	 */
-	public static synchronized void render(final Graphics2D graphics, final Object... args) {
+	public static synchronized void render(final GraphicsWrapper graphics, final Object... args) {
 		final List<Component> toRender = new ArrayList<Component>();
 		for (final String identifier : ComponentManager.componentsMap.keySet()) {
 			if (ComponentManager.skippedComponents.contains(identifier)) {
@@ -168,7 +167,7 @@ public final class ComponentManager {
 	/**
 	 * Draws a specific component (for special cases).
 	 */
-	public static final synchronized void renderSpecific(final String identifier, final Window window, final Graphics2D graphics, final Object... args) {
+	public static final synchronized void renderSpecific(final String identifier, final GraphicsWrapper graphics, final Object... args) {
 		ComponentManager.componentsMap.get(identifier).render(graphics, args);
 	}
 

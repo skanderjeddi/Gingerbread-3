@@ -1,12 +1,12 @@
 package com.skanderj.gingerbread3.component.boilerplates;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.ComponentPriority;
 import com.skanderj.gingerbread3.component.Label;
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.util.VisualString;
 
 /**
@@ -40,11 +40,10 @@ public final class G3Label extends Label {
 	 * Just draw the string.
 	 */
 	@Override
-	public synchronized void render(final Graphics2D graphics, final Object... args) {
+	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
 		this.graphicString.drawCentered(graphics, this.x, this.y, this.width, this.height, args);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
-			graphics.setColor(Color.RED);
-			graphics.drawRect(this.x, this.y, this.width, this.height);
+			graphics.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, 0, 0);
 		}
 	}
 

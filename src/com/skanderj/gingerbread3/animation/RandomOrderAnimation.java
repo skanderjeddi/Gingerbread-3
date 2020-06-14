@@ -1,8 +1,7 @@
 package com.skanderj.gingerbread3.animation;
 
-import java.awt.Graphics2D;
-
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.sprite.Sprite;
 import com.skanderj.gingerbread3.util.Utilities;
 
@@ -47,8 +46,8 @@ public class RandomOrderAnimation extends Animation {
 	}
 
 	@Override
-	public synchronized void render(final Graphics2D graphics, final Object... args) {
-		graphics.drawImage(this.sprites[this.currentSpriteIndex].getImage(), this.x, this.y, this.sprites[this.currentSpriteIndex].getWidth(), this.sprites[this.currentSpriteIndex].getHeight(), null);
+	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
+		graphics.image(this.sprites[this.currentSpriteIndex].getImage(), this.x, this.y, this.sprites[this.currentSpriteIndex].getWidth(), this.sprites[this.currentSpriteIndex].getHeight());
 	}
 
 	/**

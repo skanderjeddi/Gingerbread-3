@@ -1,11 +1,11 @@
 package com.skanderj.gingerbread3.scene;
 
-import java.awt.Graphics2D;
 import java.util.List;
 
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.object.GameObject;
 import com.skanderj.gingerbread3.core.object.GameRegistry;
+import com.skanderj.gingerbread3.display.GraphicsWrapper;
 
 /**
  * Represents the current set of components and updates on screen.
@@ -31,7 +31,7 @@ public abstract class Scene extends GameObject {
 
 	// Rendering happens here
 	@Override
-	public synchronized void render(final Graphics2D graphics, final Object... args) {
+	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
 		GameRegistry.render(graphics, args);
 		// ComponentManager.render(this.game.getWindow(), graphics);
 	}

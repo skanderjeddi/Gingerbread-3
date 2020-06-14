@@ -1,9 +1,14 @@
 package com.skanderj.gingerbread3.core.object;
 
-import java.awt.Graphics2D;
-
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.display.GraphicsWrapper;
 
+/**
+ * Represents a game object, the building blocks of any game.
+ *
+ * @author Skander
+ *
+ */
 public abstract class GameObject {
 	protected final Game game;
 
@@ -11,11 +16,17 @@ public abstract class GameObject {
 		this.game = game;
 	}
 
+	/**
+	 * Updates the component - called by other classes.
+	 */
 	public abstract void update(double delta, Object... args);
 
-	public abstract void render(Graphics2D graphics, Object... args);
+	/**
+	 * Renders the component - called by other classes.
+	 */
+	public abstract void render(GraphicsWrapper graphics, Object... args);
 
-	public Game getGame() {
+	public final Game getGame() {
 		return this.game;
 	}
 }

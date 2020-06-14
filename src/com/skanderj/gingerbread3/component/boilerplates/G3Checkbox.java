@@ -1,14 +1,13 @@
 package com.skanderj.gingerbread3.component.boilerplates;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import com.skanderj.gingerbread3.component.Checkbox;
 import com.skanderj.gingerbread3.component.ComponentLabelPosition;
 import com.skanderj.gingerbread3.component.ComponentPriority;
 import com.skanderj.gingerbread3.core.Game;
-import com.skanderj.gingerbread3.util.GraphicsUtilities;
+import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.util.VisualString;
 
 /**
@@ -46,12 +45,12 @@ public class G3Checkbox extends Checkbox {
 	 * appropriate position.
 	 */
 	@Override
-	public synchronized void render(final Graphics2D graphics, final Object... args) {
-		GraphicsUtilities.rectangle(graphics, this.backgroundColor, this.x, this.y, this.width, this.height, true, 0, 0);
+	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
+		graphics.rectangle(this.backgroundColor, this.x, this.y, this.width, this.height, true, 0, 0);
 		if (this.isChecked) {
-			GraphicsUtilities.rectangle(graphics, this.crossColor, this.x + 3, this.y + 3, this.width - 5, this.height - 5, true, 0, 0);
+			graphics.rectangle(this.crossColor, this.x + 3, this.y + 3, this.width - 5, this.height - 5, true, 0, 0);
 		}
-		GraphicsUtilities.rectangle(graphics, this.borderColor, this.x, this.y, this.width, this.height, false, 0, 0);
+		graphics.rectangle(this.borderColor, this.x, this.y, this.width, this.height, false, 0, 0);
 		if (!this.label.isEmpty()) {
 			switch (this.labelPosition) {
 			case TOP:

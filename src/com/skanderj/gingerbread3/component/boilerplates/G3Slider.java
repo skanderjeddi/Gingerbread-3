@@ -1,7 +1,6 @@
 package com.skanderj.gingerbread3.component.boilerplates;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import com.skanderj.gingerbread3.component.ComponentLabelPosition;
@@ -9,6 +8,7 @@ import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.ComponentPriority;
 import com.skanderj.gingerbread3.component.Slider;
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.util.Utilities;
 import com.skanderj.gingerbread3.util.VisualString;
 
@@ -52,11 +52,9 @@ public final class G3Slider extends Slider {
 	 * appropriate position.
 	 */
 	@Override
-	public synchronized final void render(final Graphics2D graphics, final Object... args) {
-		graphics.setColor(this.color);
-		graphics.drawRect(this.x, this.y, this.width, this.height);
-		graphics.setColor(this.color.darker());
-		graphics.fillRect(this.sliderX - (this.sliderWidth / 2), this.y - (this.sliderHeight / 4), this.sliderWidth, this.height + (this.sliderHeight / 2));
+	public synchronized final void render(final GraphicsWrapper graphics, final Object... args) {
+		graphics.rectangle(this.color, this.x, this.y, this.width, this.height, false, 0, 0);
+		graphics.rectangle(this.color.darker(), this.sliderX - (this.sliderWidth / 2), this.y - (this.sliderHeight / 4), this.sliderWidth, this.height + (this.sliderHeight / 2), true, 0, 0);
 		if (!this.label.isEmpty()) {
 			switch (this.labelPosition) {
 			case TOP:
@@ -74,8 +72,7 @@ public final class G3Slider extends Slider {
 			}
 		}
 		if (ComponentManager.GRAPHICAL_DEBUG) {
-			graphics.setColor(Color.RED);
-			graphics.drawRect(this.x, this.y, this.width, this.height);
+			graphics.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, 0, 0);
 		}
 	}
 

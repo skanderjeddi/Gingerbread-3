@@ -1,13 +1,13 @@
 package com.skanderj.gingerbread3.component.boilerplates;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import com.skanderj.gingerbread3.component.Button;
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.ComponentPriority;
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.util.VisualString;
 
 /**
@@ -40,15 +40,12 @@ public final class G3RoundEdgesButton extends Button {
 	 * label.
 	 */
 	@Override
-	public synchronized void render(final Graphics2D graphics, final Object... args) {
-		graphics.setColor(this.backgroundColor);
-		graphics.fillRoundRect(this.x, this.y, this.width, this.height, this.borderIncline, this.borderIncline);
+	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
+		graphics.rectangle(this.backgroundColor, this.x, this.y, this.width, this.height, true, this.borderIncline, this.borderIncline);
 		this.label.drawCentered(graphics, this.x, this.y, this.width, this.height);
-		graphics.setColor(this.borderColor);
-		graphics.drawRoundRect(this.x, this.y, this.width, this.height, this.borderIncline, this.borderIncline);
+		graphics.rectangle(this.borderColor, this.x, this.y, this.width, this.height, false, this.borderIncline, this.borderIncline);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
-			graphics.setColor(Color.RED);
-			graphics.drawRoundRect(this.x, this.y, this.width, this.height, this.borderIncline, this.borderIncline);
+			graphics.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, this.borderIncline, this.borderIncline);
 		}
 	}
 

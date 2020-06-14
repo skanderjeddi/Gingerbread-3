@@ -1,13 +1,13 @@
 package com.skanderj.gingerbread3.component.boilerplates;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import com.skanderj.gingerbread3.component.Button;
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.ComponentPriority;
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.util.VisualString;
 
 /**
@@ -36,15 +36,12 @@ public final class G3StraightEdgesButton extends Button {
 	 * Draws a simple rectangle for the background, draws the border and the label.
 	 */
 	@Override
-	public synchronized void render(final Graphics2D graphics, final Object... args) {
-		graphics.setColor(this.backgroundColor);
-		graphics.fillRect(this.x, this.y, this.width, this.height);
+	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
+		graphics.rectangle(this.backgroundColor, this.x, this.y, this.width, this.height, true, 0, 0);
 		this.label.drawCentered(graphics, this.x, this.y, this.width, this.height);
-		graphics.setColor(this.borderColor);
-		graphics.drawRect(this.x, this.y, this.width, this.height);
+		graphics.rectangle(this.borderColor, this.x, this.y, this.width, this.height, false, 0, 0);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
-			graphics.setColor(Color.RED);
-			graphics.drawRect(this.x, this.y, this.width, this.height);
+			graphics.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, 0, 0);
 		}
 	}
 

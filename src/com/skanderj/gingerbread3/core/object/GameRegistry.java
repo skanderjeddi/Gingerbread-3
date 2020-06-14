@@ -1,6 +1,5 @@
 package com.skanderj.gingerbread3.core.object;
 
-import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,10 +7,17 @@ import java.util.Map;
 
 import com.skanderj.gingerbread3.component.Component;
 import com.skanderj.gingerbread3.component.ComponentManager;
+import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.log.Logger;
 import com.skanderj.gingerbread3.log.Logger.LogLevel;
 import com.skanderj.gingerbread3.scene.SceneManager;
 
+/**
+ * Probably the most important class and handles all the game objects.
+ *
+ * @author Skander
+ *
+ */
 public final class GameRegistry {
 	private final static Map<String, GameObject> registry = new HashMap<String, GameObject>();
 
@@ -45,7 +51,7 @@ public final class GameRegistry {
 		}
 	}
 
-	public static synchronized final void render(final Graphics2D graphics, final Object... args) {
+	public static synchronized final void render(final GraphicsWrapper graphics, final Object... args) {
 		ComponentManager.render(graphics, args);
 		final List<String> allowedComponents = new ArrayList<String>();
 		if (SceneManager.getCurrent() != null) {
@@ -66,7 +72,7 @@ public final class GameRegistry {
 		GameRegistry.registry.get(identifier).update(delta, args);
 	}
 
-	public static synchronized final void renderObject(final String identifier, final Graphics2D graphics, final Object... args) {
+	public static synchronized final void renderObject(final String identifier, final GraphicsWrapper graphics, final Object... args) {
 		GameRegistry.registry.get(identifier).render(graphics, args);
 	}
 }

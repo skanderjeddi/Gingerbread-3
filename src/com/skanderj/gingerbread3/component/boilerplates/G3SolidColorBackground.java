@@ -1,11 +1,11 @@
 package com.skanderj.gingerbread3.component.boilerplates;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 
 import com.skanderj.gingerbread3.component.Background;
 import com.skanderj.gingerbread3.component.ComponentPriority;
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.display.GraphicsWrapper;
 
 /**
  * Solid color background. Very basic.
@@ -38,9 +38,8 @@ public class G3SolidColorBackground extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public synchronized void render(final Graphics2D graphics, final Object... args) {
-		graphics.setColor(this.color);
-		graphics.fillRect(this.x, this.y, this.width, this.height);
+	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
+		graphics.rectangle(this.color, this.x, this.y, this.width, this.height, true, 0, 0);
 	}
 
 	/**

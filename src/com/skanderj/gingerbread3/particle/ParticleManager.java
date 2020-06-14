@@ -1,9 +1,8 @@
 package com.skanderj.gingerbread3.particle;
 
-import java.awt.Graphics2D;
-
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.object.GameObject;
+import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.log.Logger;
 import com.skanderj.gingerbread3.log.Logger.LogLevel;
 import com.skanderj.gingerbread3.math.Vector2;
@@ -48,7 +47,7 @@ public final class ParticleManager extends GameObject {
 			final int randomY = centerY + Utilities.randomInteger(-radius, radius);
 			final Sprite randomSprite = sprites[Utilities.randomInteger(0, sprites.length - 1)];
 			final Vector2 acceleration = accelerations[i];
-			this.particles[i] = new Particle(randomX, randomY, randomSprite, acceleration);
+			this.particles[i] = new Particle(game, randomX, randomY, randomSprite, acceleration);
 		}
 		this.chaosValue = chaosValue;
 		this.updateRate = updateRate;
@@ -76,7 +75,7 @@ public final class ParticleManager extends GameObject {
 	}
 
 	@Override
-	public synchronized void render(final Graphics2D graphics, final Object... args) {
+	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
 		for (final Particle particle : this.particles) {
 			particle.render(graphics);
 		}

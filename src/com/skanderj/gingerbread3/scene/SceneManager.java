@@ -1,11 +1,11 @@
 package com.skanderj.gingerbread3.scene;
 
-import java.awt.Graphics2D;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.skanderj.gingerbread3.component.ComponentManager;
+import com.skanderj.gingerbread3.display.GraphicsWrapper;
 
 /**
  * Self explanatory.
@@ -62,7 +62,7 @@ public class SceneManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static void render(final Graphics2D graphics, final Object... args) {
+	public static void render(final GraphicsWrapper graphics, final Object... args) {
 		if (SceneManager.currentScene != null) {
 			SceneManager.currentScene.render(graphics, args);
 		}
