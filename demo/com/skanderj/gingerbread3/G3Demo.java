@@ -67,7 +67,7 @@ public class G3Demo extends Game {
 		@Override
 		public void present() {
 			final Sprite[] sprites = Sprite.fromImages("ashe_%d", ImageManager.retrieveImages("ashe"));
-			this.manager = new ParticleManager(G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 10, 20, 30, sprites, Vector2D.randomVectors(30, -2, 2, 0, -4), 5, 5);
+			this.manager = new ParticleManager(G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 10, 30, 40, 50, sprites, Vector2D.randomVectors(50, -1, 1, 0, -2), 3, 5);
 			// Play some audio
 			if (((Checkbox) ComponentManager.getComponent("music-checkbox")).isChecked()) {
 				AudioManager.loopAudio("silhouette-kana_boon", -1, ((Slider) ComponentManager.getComponent("main-menu-music-volume")).getValue() / 100.0F);
@@ -163,7 +163,7 @@ public class G3Demo extends Game {
 		// Register some audio and some fonts
 		AudioManager.registerAudio("silhouette-kana_boon", "res/audio/silhouette.wav");
 		FontManager.registerFont("lunchds", "res/font/lunchds.ttf");
-		ImageManager.registerAll("ashe_%d", "res/sprite/");
+		ImageManager.registerAll("ashe_%d", "res/sprite/ashe/");
 		ImageManager.registerImage("campfire", "res/sprite/fire.png");
 	}
 
@@ -194,7 +194,7 @@ public class G3Demo extends Game {
 		this.buttonProps = new VisualStringProperties(FontManager.getFont("lunchds", 14), Color.PINK);
 		// Register all the components here once and for all then manage them through
 		// scenes switching
-		ComponentManager.addComponent("main-menu-background", new G3SolidBackground(GraphicsUtilities.DEFAULT_ORIGIN_X, GraphicsUtilities.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.WHITE));
+		ComponentManager.addComponent("main-menu-background", new G3SolidBackground(GraphicsUtilities.DEFAULT_ORIGIN_X, GraphicsUtilities.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.BLACK));
 		ComponentManager.addComponent("play-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 150, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Play!", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
 		ComponentManager.addComponent("settings-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Settings", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
 		ComponentManager.addComponent("exit-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Exit...", this.buttonProps), Color.BLACK, Color.DARK_GRAY));

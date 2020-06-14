@@ -14,7 +14,7 @@ import com.skanderj.gingerbread3.util.Utilities;
  *
  */
 public final class ParticleManager {
-	private final int centerX, centerY, radius;
+	private final int centerX, centerY, radius, maxRadius;
 	private final Particle[] particles;
 	private final int chaosValue;
 	private final int updateRate;
@@ -31,13 +31,14 @@ public final class ParticleManager {
 	 * @param chaosValue
 	 * @param updateRate     how many frames before each update
 	 */
-	public ParticleManager(final int centerX, final int centerY, final int radius, final int particlesCount, final Sprite[] sprites, final Vector2D[] accelerations, final int chaosValue, final int updateRate) {
+	public ParticleManager(final int centerX, final int centerY, final int radius, final int maxRadius, final int particlesCount, final Sprite[] sprites, final Vector2D[] accelerations, final int chaosValue, final int updateRate) {
 		if (accelerations.length != particlesCount) {
 			Logger.log(ParticleManager.class, LogLevel.FATAL, "Size mismatch between particles count and accelerations array size");
 		}
 		this.centerX = centerX;
 		this.centerY = centerY;
 		this.radius = radius;
+		this.maxRadius = maxRadius;
 		this.particles = new Particle[particlesCount];
 		for (int i = 0; i < particlesCount; i += 1) {
 			final int randomX = centerX + Utilities.randomInteger(-radius, radius);
@@ -55,14 +56,14 @@ public final class ParticleManager {
 		this.updatesCounter += 1;
 		if ((this.updatesCounter % this.updateRate) == 0) {
 			for (final Particle particle : this.particles) {
-				particle.velocity.setX(particle.velocity.getX() + Utilities.randomInteger(0, this.chaosValue));
-				particle.velocity.setY(particle.velocity.getY() + Utilities.randomInteger(0, this.chaosValue));
+				particle.velocity.setX(particle.velocity.getX() + Utilities.randomInteger(-this.chaosValue, this.chaosValue));
+				particle.velocity.setY(particle.velocity.getY() + Utilities.randomInteger(-this.chaosValue, this.chaosValue));
 				particle.update(delta);
-				if ((particle.x > (this.centerX + this.radius)) || (particle.x < (this.centerX - this.radius))) {
+				if ((particle.x > (this.centerX + this.maxRadius)) || (particle.x < (this.centerX - this.maxRadius))) {
 					final int randomX = this.centerX + Utilities.randomInteger(-this.radius, this.radius);
 					particle.x = randomX;
 				}
-				if ((particle.y > (this.centerY + this.radius)) || (particle.y < (this.centerY - this.radius))) {
+				if ((particle.y > (this.centerY + this.maxRadius)) || (particle.y < (this.centerY - this.maxRadius))) {
 					final int randomY = this.centerY + Utilities.randomInteger(-this.radius, this.radius);
 					particle.y = randomY;
 				}

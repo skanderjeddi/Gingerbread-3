@@ -18,14 +18,12 @@ public final class Utilities {
 
 	/**
 	 * Returns a random integer between a and b - included. Why doesn't Java have
-	 * this???? --- BUGGY!
+	 * this????
 	 */
 	public static int randomInteger(final int a, final int b) {
-		if (Math.min(a, b) < 0) {
-			return -Utilities.random.nextInt(Math.abs(Math.min(a, b)) + 1) + Utilities.random.nextInt(Math.abs(Math.max(a, b)) + 1);
-		} else {
-			return Math.min(a, b) + Utilities.random.nextInt(Math.max(a, b));
-		}
+		final int min = Math.min(a, b);
+		final int max = Math.max(a, b);
+		return Utilities.random.nextInt(Math.abs(min < 0 ? 2 * max : max) + 1) + ((min < 0 ? 1 : -1) * min);
 	}
 
 	/**
