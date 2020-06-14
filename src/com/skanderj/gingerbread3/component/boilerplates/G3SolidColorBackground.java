@@ -1,13 +1,11 @@
-package com.skanderj.gingerbread3.component.premade;
+package com.skanderj.gingerbread3.component.boilerplates;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import com.skanderj.gingerbread3.component.Background;
 import com.skanderj.gingerbread3.component.ComponentPriority;
-import com.skanderj.gingerbread3.component.unit.Background;
-import com.skanderj.gingerbread3.display.Window;
-import com.skanderj.gingerbread3.input.Keyboard;
-import com.skanderj.gingerbread3.input.Mouse;
+import com.skanderj.gingerbread3.core.Game;
 
 /**
  * Solid color background. Very basic.
@@ -15,11 +13,12 @@ import com.skanderj.gingerbread3.input.Mouse;
  * @author Skander
  *
  */
-public class G3SolidBackground extends Background {
+public class G3SolidColorBackground extends Background {
 	private int x, y, width, height;
 	private Color color;
 
-	public G3SolidBackground(final int x, final int y, final int width, final int height, final Color color) {
+	public G3SolidColorBackground(final Game game, final int x, final int y, final int width, final int height, final Color color) {
+		super(game);
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -31,7 +30,7 @@ public class G3SolidBackground extends Background {
 	 * No need for logic.
 	 */
 	@Override
-	public void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
+	public synchronized void update(final double delta, final Object... args) {
 		return;
 	}
 
@@ -39,7 +38,7 @@ public class G3SolidBackground extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public void render(final Window window, final Graphics2D graphics, final Object... args) {
+	public synchronized void render(final Graphics2D graphics, final Object... args) {
 		graphics.setColor(this.color);
 		graphics.fillRect(this.x, this.y, this.width, this.height);
 	}

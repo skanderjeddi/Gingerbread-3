@@ -1,15 +1,13 @@
-package com.skanderj.gingerbread3.component.premade;
+package com.skanderj.gingerbread3.component.boilerplates;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
+import com.skanderj.gingerbread3.component.Checkbox;
 import com.skanderj.gingerbread3.component.ComponentLabelPosition;
 import com.skanderj.gingerbread3.component.ComponentPriority;
-import com.skanderj.gingerbread3.component.unit.Checkbox;
-import com.skanderj.gingerbread3.display.Window;
-import com.skanderj.gingerbread3.input.Keyboard;
-import com.skanderj.gingerbread3.input.Mouse;
+import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.util.GraphicsUtilities;
 import com.skanderj.gingerbread3.util.VisualString;
 
@@ -25,8 +23,8 @@ public class G3Checkbox extends Checkbox {
 	private Color backgroundColor, borderColor, crossColor;
 	private ComponentLabelPosition labelPosition;
 
-	public G3Checkbox(final int x, final int y, final int width, final int height, final VisualString label, final Color backgroundColor, final Color borderColor, final Color crossColor, final ComponentLabelPosition labelPosition) {
-		super();
+	public G3Checkbox(final Game game, final int x, final int y, final int width, final int height, final VisualString label, final Color backgroundColor, final Color borderColor, final Color crossColor, final ComponentLabelPosition labelPosition) {
+		super(game);
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -39,8 +37,8 @@ public class G3Checkbox extends Checkbox {
 	}
 
 	@Override
-	public synchronized void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
-		super.update(delta, keyboard, mouse, args);
+	public synchronized void update(final double delta, final Object... args) {
+		super.update(delta, args);
 	}
 
 	/**
@@ -48,7 +46,7 @@ public class G3Checkbox extends Checkbox {
 	 * appropriate position.
 	 */
 	@Override
-	public void render(final Window window, final Graphics2D graphics, final Object... args) {
+	public synchronized void render(final Graphics2D graphics, final Object... args) {
 		GraphicsUtilities.rectangle(graphics, this.backgroundColor, this.x, this.y, this.width, this.height, true, 0, 0);
 		if (this.isChecked) {
 			GraphicsUtilities.rectangle(graphics, this.crossColor, this.x + 3, this.y + 3, this.width - 5, this.height - 5, true, 0, 0);

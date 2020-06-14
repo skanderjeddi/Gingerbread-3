@@ -78,6 +78,11 @@ public abstract class Game extends ThreadWrapper {
 	}
 
 	/**
+	 * Register game objects here.
+	 */
+	public abstract void registerGameObjects();
+
+	/**
 	 * Register scenes here --- useful for better organization.
 	 */
 	public abstract void registerScenes();
@@ -100,6 +105,7 @@ public abstract class Game extends ThreadWrapper {
 	}
 
 	public void postCreate() {
+		this.registerGameObjects();
 		this.createComponents();
 		this.registerScenes();
 		this.window.requestFocus();
@@ -163,10 +169,10 @@ public abstract class Game extends ThreadWrapper {
 	/**
 	 * Updates game logic
 	 *
-	 * @param delta the delaya between the current update and last update
+	 * @param delta the delay between the current update and last update
 	 */
 	protected synchronized void update(final double delta) {
-		SceneManager.updateScene(this, delta);
+		SceneManager.updateScene(delta);
 	}
 
 	/**
@@ -175,7 +181,7 @@ public abstract class Game extends ThreadWrapper {
 	 * @param graphics used to draw the screen
 	 */
 	protected synchronized void render(final Graphics2D graphics) {
-		SceneManager.renderScene(this, graphics);
+		SceneManager.renderScene(graphics);
 	}
 
 	/**

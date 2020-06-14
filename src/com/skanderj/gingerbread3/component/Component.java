@@ -1,10 +1,7 @@
 package com.skanderj.gingerbread3.component;
 
-import java.awt.Graphics2D;
-
-import com.skanderj.gingerbread3.display.Window;
-import com.skanderj.gingerbread3.input.Keyboard;
-import com.skanderj.gingerbread3.input.Mouse;
+import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.object.GameObject;
 
 /**
  * Represents a custom graphic component. Placeholder interface for batch
@@ -13,14 +10,12 @@ import com.skanderj.gingerbread3.input.Mouse;
  * @author Skander
  *
  */
-public abstract class Component implements Comparable<Component> {
+public abstract class Component extends GameObject implements Comparable<Component> {
+	public Component(final Game game) {
+		super(game);
+	}
+
 	public abstract ComponentPriority priority();
-
-	// Logic happens here
-	public abstract void update(double delta, Keyboard keyboard, Mouse mouse, Object... args);
-
-	// Rendering happens here
-	public abstract void render(Window window, Graphics2D graphics, Object... args);
 
 	// Focus related methods
 	public abstract boolean canChangeFocus();

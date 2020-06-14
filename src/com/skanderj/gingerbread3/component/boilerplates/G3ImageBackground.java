@@ -1,19 +1,18 @@
-package com.skanderj.gingerbread3.component.premade;
+package com.skanderj.gingerbread3.component.boilerplates;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import com.skanderj.gingerbread3.component.Background;
 import com.skanderj.gingerbread3.component.ComponentPriority;
-import com.skanderj.gingerbread3.component.unit.Background;
-import com.skanderj.gingerbread3.display.Window;
-import com.skanderj.gingerbread3.input.Keyboard;
-import com.skanderj.gingerbread3.input.Mouse;
+import com.skanderj.gingerbread3.core.Game;
 
 public class G3ImageBackground extends Background {
 	private int x, y, width, height;
 	private BufferedImage image;
 
-	public G3ImageBackground(final int x, final int y, final int width, final int height, final BufferedImage image) {
+	public G3ImageBackground(final Game game, final int x, final int y, final int width, final int height, final BufferedImage image) {
+		super(game);
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -25,7 +24,7 @@ public class G3ImageBackground extends Background {
 	 * No need for logic.
 	 */
 	@Override
-	public void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
+	public synchronized void update(final double delta, final Object... args) {
 		return;
 	}
 
@@ -33,7 +32,7 @@ public class G3ImageBackground extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public void render(final Window window, final Graphics2D graphics, final Object... args) {
+	public synchronized void render(final Graphics2D graphics, final Object... args) {
 		graphics.drawImage(this.image, this.x, this.y, this.width, this.height, null);
 	}
 

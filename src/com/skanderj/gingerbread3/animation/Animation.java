@@ -1,10 +1,7 @@
 package com.skanderj.gingerbread3.animation;
 
-import java.awt.Graphics2D;
-
-import com.skanderj.gingerbread3.display.Window;
-import com.skanderj.gingerbread3.input.Keyboard;
-import com.skanderj.gingerbread3.input.Mouse;
+import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.object.GameObject;
 
 /**
  * Animation interace, basis for all other animation classes.
@@ -12,10 +9,8 @@ import com.skanderj.gingerbread3.input.Mouse;
  * @author Skander
  *
  */
-public interface Animation {
-	// Logic happens here
-	void update(double delta, Keyboard keyboard, Mouse mouse, Object... args);
-
-	// Rendering happens here
-	void render(Window window, Graphics2D graphics, Object... args);
+public abstract class Animation extends GameObject {
+	public Animation(final Game game) {
+		super(game);
+	}
 }

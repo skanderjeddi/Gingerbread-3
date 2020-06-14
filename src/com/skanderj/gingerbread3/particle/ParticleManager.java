@@ -2,6 +2,8 @@ package com.skanderj.gingerbread3.particle;
 
 import java.awt.Graphics2D;
 
+import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.object.GameObject;
 import com.skanderj.gingerbread3.log.Logger;
 import com.skanderj.gingerbread3.log.Logger.LogLevel;
 import com.skanderj.gingerbread3.math.Vector2D;
@@ -13,7 +15,7 @@ import com.skanderj.gingerbread3.util.Utilities;
  * @author Skander
  *
  */
-public final class ParticleManager {
+public final class ParticleManager extends GameObject {
 	private final int centerX, centerY, radius, maxRadius;
 	private final Particle[] particles;
 	private final int chaosValue;
@@ -31,7 +33,8 @@ public final class ParticleManager {
 	 * @param chaosValue
 	 * @param updateRate     how many frames before each update
 	 */
-	public ParticleManager(final int centerX, final int centerY, final int radius, final int maxRadius, final int particlesCount, final Sprite[] sprites, final Vector2D[] accelerations, final int chaosValue, final int updateRate) {
+	public ParticleManager(final Game game, final int centerX, final int centerY, final int radius, final int maxRadius, final int particlesCount, final Sprite[] sprites, final Vector2D[] accelerations, final int chaosValue, final int updateRate) {
+		super(game);
 		if (accelerations.length != particlesCount) {
 			Logger.log(ParticleManager.class, LogLevel.FATAL, "Size mismatch between particles count and accelerations array size");
 		}
@@ -52,7 +55,8 @@ public final class ParticleManager {
 		this.updatesCounter = 0;
 	}
 
-	public synchronized void update(final double delta) {
+	@Override
+	public synchronized void update(final double delta, final Object... args) {
 		this.updatesCounter += 1;
 		if ((this.updatesCounter % this.updateRate) == 0) {
 			for (final Particle particle : this.particles) {
@@ -71,7 +75,8 @@ public final class ParticleManager {
 		}
 	}
 
-	public synchronized void render(final Graphics2D graphics) {
+	@Override
+	public synchronized void render(final Graphics2D graphics, final Object... args) {
 		for (final Particle particle : this.particles) {
 			particle.render(graphics);
 		}

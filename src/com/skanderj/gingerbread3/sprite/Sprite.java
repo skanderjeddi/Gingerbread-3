@@ -5,6 +5,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
+import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.object.GameObject;
 import com.skanderj.gingerbread3.io.ImageManager;
 
 /**
@@ -13,20 +15,20 @@ import com.skanderj.gingerbread3.io.ImageManager;
  * @author Skander
  *
  */
-public class Sprite {
+public class Sprite extends GameObject {
 	private final String identifier;
 	private final BufferedImage image;
 	private final int width, height;
 
-	public static final Sprite[] fromImages(final String identifier, final BufferedImage... images) {
+	public static final Sprite[] fromImages(final Game game, final String identifier, final BufferedImage... images) {
 		final Sprite[] array = new Sprite[images.length];
 		for (int i = 0; i < array.length; i += 1) {
-			array[i] = new Sprite(String.format(identifier, i), images[i], images[i].getWidth(), images[i].getHeight());
+			array[i] = new Sprite(game, String.format(identifier, i), images[i], images[i].getWidth(), images[i].getHeight());
 		}
 		return array;
 	}
 
-	public static final Sprite fromImage(final String identifier, final String path, final int width, final int height, final int scaleMethod) {
+	public static final Sprite fromImage(final Game game, final String identifier, final String path, final int width, final int height, final int scaleMethod) {
 		ImageManager.registerImage(identifier, path);
 		final BufferedImage loadedImage = ImageManager.retrieveImage(identifier);
 		final int loadedImageWidth = loadedImage.getWidth(), loadedImageHeight = loadedImage.getHeight();
@@ -35,18 +37,25 @@ public class Sprite {
 		affineTransform.scale((float) width / (float) loadedImageWidth, (float) height / (float) loadedImageWidth);
 		final AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, scaleMethod);
 		finalImage = affineTransformOp.filter(loadedImage, finalImage);
-		return new Sprite(identifier, finalImage, width, height);
+		return new Sprite(game, identifier, finalImage, width, height);
 	}
 
-	public Sprite(final String identifier, final BufferedImage image, final int width, final int height) {
+	public Sprite(final Game game, final String identifier, final BufferedImage image, final int width, final int height) {
+		super(game);
 		this.identifier = identifier;
 		this.image = image;
 		this.width = width;
 		this.height = height;
 	}
 
-	public synchronized final void render(final Graphics2D graphics, final int x, final int y) {
-		graphics.drawImage(this.image, x, y, this.width, this.height, null);
+	@Override
+	public synchronized void update(final double delta, final Object... args) {
+		return;
+	}
+
+	@Override
+	public synchronized final void render(final Graphics2D graphics, final Object... args) {
+		graphics.drawImage(this.image, (int) args[0], (int) args[1], this.width, this.height, null);
 	}
 
 	public int getWidth() {
@@ -64,4 +73,5 @@ public class Sprite {
 	public BufferedImage getImage() {
 		return this.image;
 	}
+
 }

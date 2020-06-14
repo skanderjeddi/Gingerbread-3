@@ -1,8 +1,12 @@
-package com.skanderj.gingerbread3.component.unit;
+package com.skanderj.gingerbread3.component;
 
-import com.skanderj.gingerbread3.component.Component;
+import com.skanderj.gingerbread3.core.Game;
 
 public abstract class Background extends Component {
+	public Background(final Game game) {
+		super(game);
+	}
+
 	/**
 	 * Always can change focus out of background.
 	 */

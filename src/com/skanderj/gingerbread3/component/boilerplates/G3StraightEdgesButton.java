@@ -1,30 +1,28 @@
-package com.skanderj.gingerbread3.component.premade;
+package com.skanderj.gingerbread3.component.boilerplates;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
+import com.skanderj.gingerbread3.component.Button;
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.ComponentPriority;
-import com.skanderj.gingerbread3.component.unit.Button;
-import com.skanderj.gingerbread3.display.Window;
+import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.util.VisualString;
 
 /**
- * A round edges version of the button. Still very basic.
+ * A straight edges version of the button. Very basic.
  *
  * @author Skander
  *
  */
-public final class G3RoundEdgesButton extends Button {
+public final class G3StraightEdgesButton extends Button {
 	private int x, y, width, height;
 	private VisualString label;
 	private Color backgroundColor, borderColor;
-	// Border incline = how many pixels will be shaved off at each edge
-	private int borderIncline;
 
-	public G3RoundEdgesButton(final int x, final int y, final int width, final int height, final VisualString label, final Color backgroundColor, final Color borderColor, final int borderIncline) {
-		super();
+	public G3StraightEdgesButton(final Game game, final int x, final int y, final int width, final int height, final VisualString label, final Color backgroundColor, final Color borderColor) {
+		super(game);
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -32,23 +30,21 @@ public final class G3RoundEdgesButton extends Button {
 		this.label = label;
 		this.backgroundColor = backgroundColor;
 		this.borderColor = borderColor;
-		this.borderIncline = borderIncline;
 	}
 
 	/**
-	 * Draws a simple round rectangle for the background, draws the border and the
-	 * label.
+	 * Draws a simple rectangle for the background, draws the border and the label.
 	 */
 	@Override
-	public void render(final Window window, final Graphics2D graphics, final Object... args) {
+	public synchronized void render(final Graphics2D graphics, final Object... args) {
 		graphics.setColor(this.backgroundColor);
-		graphics.fillRoundRect(this.x, this.y, this.width, this.height, this.borderIncline, this.borderIncline);
+		graphics.fillRect(this.x, this.y, this.width, this.height);
 		this.label.drawCentered(graphics, this.x, this.y, this.width, this.height);
 		graphics.setColor(this.borderColor);
-		graphics.drawRoundRect(this.x, this.y, this.width, this.height, this.borderIncline, this.borderIncline);
+		graphics.drawRect(this.x, this.y, this.width, this.height);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
 			graphics.setColor(Color.RED);
-			graphics.drawRoundRect(this.x, this.y, this.width, this.height, this.borderIncline, this.borderIncline);
+			graphics.drawRect(this.x, this.y, this.width, this.height);
 		}
 	}
 
@@ -116,13 +112,6 @@ public final class G3RoundEdgesButton extends Button {
 	/**
 	 * Self explanatory.
 	 */
-	public int getBorderIncline() {
-		return this.borderIncline;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
 	@Override
 	public void setX(final int x) {
 		this.x = x;
@@ -171,13 +160,6 @@ public final class G3RoundEdgesButton extends Button {
 	 */
 	public void setBorderColor(final Color borderColor) {
 		this.borderColor = borderColor;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public void setBorderIncline(final int borderIncline) {
-		this.borderIncline = borderIncline;
 	}
 
 	/**

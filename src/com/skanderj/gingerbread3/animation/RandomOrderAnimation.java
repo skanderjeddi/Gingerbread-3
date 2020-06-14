@@ -2,9 +2,7 @@ package com.skanderj.gingerbread3.animation;
 
 import java.awt.Graphics2D;
 
-import com.skanderj.gingerbread3.display.Window;
-import com.skanderj.gingerbread3.input.Keyboard;
-import com.skanderj.gingerbread3.input.Mouse;
+import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.sprite.Sprite;
 import com.skanderj.gingerbread3.util.Utilities;
 
@@ -14,13 +12,14 @@ import com.skanderj.gingerbread3.util.Utilities;
  * @author Skander
  *
  */
-public class RandomOrderAnimation implements Animation {
+public class RandomOrderAnimation extends Animation {
 	private int x, y;
 	private final Sprite[] sprites;
 	private final int[] timers;
 	private int currentSpriteIndex, currentSpriteTimer;
 
-	public RandomOrderAnimation(final int x, final int y, final Sprite[] sprites, final int[] timers) {
+	public RandomOrderAnimation(final Game game, final int x, final int y, final Sprite[] sprites, final int[] timers) {
+		super(game);
 		this.x = x;
 		this.y = y;
 		this.sprites = sprites;
@@ -30,7 +29,7 @@ public class RandomOrderAnimation implements Animation {
 	}
 
 	@Override
-	public void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
+	public synchronized void update(final double delta, final Object... args) {
 		this.currentSpriteTimer += 1;
 		if (this.currentSpriteTimer >= this.timers[this.currentSpriteIndex]) {
 			this.currentSpriteIndex = this.newRandomSprite(this.currentSpriteIndex);
@@ -48,7 +47,7 @@ public class RandomOrderAnimation implements Animation {
 	}
 
 	@Override
-	public void render(final Window window, final Graphics2D graphics, final Object... args) {
+	public synchronized void render(final Graphics2D graphics, final Object... args) {
 		graphics.drawImage(this.sprites[this.currentSpriteIndex].getImage(), this.x, this.y, this.sprites[this.currentSpriteIndex].getWidth(), this.sprites[this.currentSpriteIndex].getHeight(), null);
 	}
 

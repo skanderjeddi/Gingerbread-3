@@ -1,4 +1,4 @@
-package com.skanderj.gingerbread3.component.premade;
+package com.skanderj.gingerbread3.component.boilerplates;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -6,8 +6,8 @@ import java.awt.Rectangle;
 
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.ComponentPriority;
-import com.skanderj.gingerbread3.component.unit.Selector;
-import com.skanderj.gingerbread3.display.Window;
+import com.skanderj.gingerbread3.component.Selector;
+import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.io.FontManager;
 import com.skanderj.gingerbread3.util.VisualString;
 import com.skanderj.gingerbread3.util.VisualStringProperties;
@@ -26,15 +26,15 @@ public final class G3Selector extends Selector {
 	/**
 	 * Self explanatory.
 	 */
-	public G3Selector(final int x, final int y, final int width, final int height, final int arrowSize, final VisualStringProperties properties, final String[] optionsArray) {
-		this(x, y, width, height, arrowSize, properties, optionsArray, optionsArray[0]);
+	public G3Selector(final Game game, final int x, final int y, final int width, final int height, final int arrowSize, final VisualStringProperties properties, final String[] optionsArray) {
+		this(game, x, y, width, height, arrowSize, properties, optionsArray, optionsArray[0]);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public G3Selector(final int x, final int y, final int width, final int height, final int arrowSize, final VisualStringProperties properties, final String[] optionsArray, final String defaultOption) {
-		super(optionsArray, defaultOption);
+	public G3Selector(final Game game, final int x, final int y, final int width, final int height, final int arrowSize, final VisualStringProperties properties, final String[] optionsArray, final String defaultOption) {
+		super(game, optionsArray, defaultOption);
 		this.x = x;
 		this.y = y;
 		this.properties = properties;
@@ -47,7 +47,7 @@ public final class G3Selector extends Selector {
 	/**
 	 * Very basic rendering, 2 rectangles for the arrows.
 	 */
-	public void render(final Window window, final Graphics2D graphics, final Object... args) {
+	public synchronized void render(final Graphics2D graphics, final Object... args) {
 		graphics.setColor(Color.WHITE);
 		graphics.fillRect(this.x + 10 + this.arrowSize, this.y, this.width, this.height);
 		new VisualString(this.currentOption, this.properties, this.properties.getColor().darker().darker()).drawCentered(graphics, this.x + 10 + this.arrowSize, this.y, this.width, this.height);

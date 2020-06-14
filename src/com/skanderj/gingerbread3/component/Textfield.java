@@ -1,12 +1,11 @@
-package com.skanderj.gingerbread3.component.unit;
+package com.skanderj.gingerbread3.component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.skanderj.gingerbread3.component.Component;
+import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.Keyboard.KeyState;
-import com.skanderj.gingerbread3.input.Mouse;
 
 /**
  * Represents an abstract textbox, basis for other textbox classes which can
@@ -33,7 +32,8 @@ public abstract class Textfield extends Component {
 	protected int cursorPosition;
 
 	// Basic constructor: position
-	public Textfield() {
+	public Textfield(final Game game) {
+		super(game);
 		// No by default
 		this.hasFocus = false;
 		// Was a ^ typed last frame
@@ -50,12 +50,12 @@ public abstract class Textfield extends Component {
 	}
 
 	@Override
-	public synchronized void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
+	public synchronized void update(final double delta, final Object... args) {
 		// Check if the component has global focus
 		if (this.hasFocus) {
 			// Go through every keyboard key and retain those which are pressed at the
 			// current frame
-			for (final int keyCode : keyboard.getKeysByState(KeyState.DOWN_IN_FRAME)) {
+			for (final int keyCode : this.game.getKeyboard().getKeysByState(KeyState.DOWN_IN_FRAME)) {
 				// Left key handling, moves cursor to the left once
 				if (keyCode == Keyboard.KEY_LEFT) {
 					this.cursorPosition -= 1;
@@ -125,7 +125,7 @@ public abstract class Textfield extends Component {
 					}
 				}
 				// See Keyboard.getKeyRepresentation(), pretty self explanatory
-				String key = Keyboard.getKeyRepresentation(keyCode, keyboard.isShiftDown(), keyboard.isCapsLocked(), keyboard.isAltGrDown());
+				String key = Keyboard.getKeyRepresentation(keyCode, this.game.getKeyboard().isShiftDown(), this.game.getKeyboard().isCapsLocked(), this.game.getKeyboard().isAltGrDown());
 				{
 					if (key.equals("^") && !this.hatCarry) {
 						// A ^ was pressed to carry it to the next character

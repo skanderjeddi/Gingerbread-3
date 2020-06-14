@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.Set;
 
 import com.skanderj.gingerbread3.audio.AudioManager;
+import com.skanderj.gingerbread3.core.object.GameRegistry;
 import com.skanderj.gingerbread3.display.Window;
-import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.Mouse;
 import com.skanderj.gingerbread3.log.Logger;
 import com.skanderj.gingerbread3.log.Logger.LogLevel;
@@ -45,6 +45,7 @@ public final class ComponentManager {
 	 */
 	public static void addComponent(final String identifier, final Component component) {
 		ComponentManager.componentsMap.put(identifier, component);
+		GameRegistry.set(identifier, component);
 	}
 
 	/**
@@ -119,7 +120,7 @@ public final class ComponentManager {
 	/**
 	 * Updates every component.
 	 */
-	public static final synchronized void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
+	public static final synchronized void update(final double delta, final Object... args) {
 		final List<Component> toUpdate = new ArrayList<Component>();
 		for (final String identifier : ComponentManager.componentsMap.keySet()) {
 			if (ComponentManager.skippedComponents.contains(identifier)) {
@@ -130,10 +131,10 @@ public final class ComponentManager {
 		}
 		Collections.sort(toUpdate);
 		for (final Component component : toUpdate) {
-			if (component.containsMouse(mouse.getX(), mouse.getY()) && mouse.isButtonDown(Mouse.BUTTON_LEFT)) {
+			if (component.containsMouse(component.getGame().getMouse().getX(), component.getGame().getMouse().getY()) && component.getGame().getMouse().isButtonDown(Mouse.BUTTON_LEFT)) {
 				ComponentManager.giveFocus(component);
 			}
-			component.update(delta, keyboard, mouse, args);
+			component.update(delta, args);
 		}
 	}
 
@@ -141,14 +142,14 @@ public final class ComponentManager {
 	/**
 	 * Updates a specific component (for special cases).
 	 */
-	public static final synchronized void updateSpecific(final String identifier, final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
-		ComponentManager.componentsMap.get(identifier).update(delta, keyboard, mouse, args);
+	public static final synchronized void updateSpecific(final String identifier, final double delta, final Object... args) {
+		ComponentManager.componentsMap.get(identifier).update(delta, args);
 	}
 
 	/**
 	 * Draws every component.
 	 */
-	public static synchronized void render(final Window window, final Graphics2D graphics) {
+	public static synchronized void render(final Graphics2D graphics, final Object... args) {
 		final List<Component> toRender = new ArrayList<Component>();
 		for (final String identifier : ComponentManager.componentsMap.keySet()) {
 			if (ComponentManager.skippedComponents.contains(identifier)) {
@@ -159,9 +160,8 @@ public final class ComponentManager {
 		}
 		Collections.sort(toRender);
 		for (final Component component : toRender) {
-			component.render(window, graphics);
+			component.render(graphics, args);
 		}
-
 	}
 
 	// TODO: not finished
@@ -169,7 +169,7 @@ public final class ComponentManager {
 	 * Draws a specific component (for special cases).
 	 */
 	public static final synchronized void renderSpecific(final String identifier, final Window window, final Graphics2D graphics, final Object... args) {
-		ComponentManager.componentsMap.get(identifier).render(window, graphics, args);
+		ComponentManager.componentsMap.get(identifier).render(graphics, args);
 	}
 
 	/**

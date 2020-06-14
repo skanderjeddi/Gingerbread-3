@@ -1,12 +1,10 @@
-package com.skanderj.gingerbread3.component.unit;
+package com.skanderj.gingerbread3.component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.skanderj.gingerbread3.component.Component;
-import com.skanderj.gingerbread3.component.ComponentState;
 import com.skanderj.gingerbread3.component.action.ComponentAction;
-import com.skanderj.gingerbread3.input.Keyboard;
+import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.input.Mouse;
 import com.skanderj.gingerbread3.log.Logger;
 import com.skanderj.gingerbread3.log.Logger.LogLevel;
@@ -66,14 +64,15 @@ public abstract class Selector extends Component {
 	 * Nothing to say, calls the 2nd constructor with the first element of the
 	 * options array as the default options.
 	 */
-	public Selector(final String[] optionsArray) {
-		this(optionsArray, optionsArray[0]);
+	public Selector(final Game game, final String[] optionsArray) {
+		this(game, optionsArray, optionsArray[0]);
 	}
 
 	/**
 	 * Pretty self explanatory.
 	 */
-	public Selector(final String[] optionsArray, final String defaultOption) {
+	public Selector(final Game game, final String[] optionsArray, final String defaultOption) {
+		super(game);
 		this.options = new ArrayList<String>();
 		for (final String option : optionsArray) {
 			this.options.add(option);
@@ -103,16 +102,16 @@ public abstract class Selector extends Component {
 	 * selector arrows then run the appropriate action accordingly.
 	 */
 	@Override
-	public synchronized void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
+	public synchronized void update(final double delta, final Object... args) {
 		// Set the previous state for each individual arrow on the last update
 		this.leftArrow.previousState = this.leftArrow.currentState;
 		this.rightArrow.previousState = this.rightArrow.currentState;
 		// Get the mouse position
-		final int mouseX = mouse.getX(), mouseY = mouse.getY();
+		final int mouseX = this.game.getMouse().getX(), mouseY = this.game.getMouse().getY();
 		// Left arrow handling, this block magically works and it took me a lot of time
 		// but I couldn't for the life of me explain it..
 		{
-			final boolean mouseInLeft = this.leftArrowContainsMouse(mouseX, mouseY), mouseClicked = mouse.isButtonDown(Mouse.BUTTON_LEFT);
+			final boolean mouseInLeft = this.leftArrowContainsMouse(mouseX, mouseY), mouseClicked = this.game.getMouse().isButtonDown(Mouse.BUTTON_LEFT);
 			if (mouseInLeft && mouseClicked && !this.leftArrow.hasFocus) {
 				this.leftArrow.hasFocus = true;
 			}
@@ -135,7 +134,7 @@ public abstract class Selector extends Component {
 		// Right arrow handling, this block magically works and it took me a lot of time
 		// but I couldn't for the life of me explain it..
 		{
-			final boolean mouseInRight = this.rightArrowContainsMouse(mouseX, mouseY), mouseClicked = mouse.isButtonDown(Mouse.BUTTON_LEFT);
+			final boolean mouseInRight = this.rightArrowContainsMouse(mouseX, mouseY), mouseClicked = this.game.getMouse().isButtonDown(Mouse.BUTTON_LEFT);
 			if (mouseInRight && mouseClicked && !this.rightArrow.hasFocus) {
 				this.rightArrow.hasFocus = true;
 			}
@@ -155,8 +154,8 @@ public abstract class Selector extends Component {
 				this.rightArrow.currentState = ComponentState.ON_CLICK;
 			}
 		}
-		this.leftArrow.actions[this.leftArrow.currentState.getIdentifier()].execute(delta, keyboard, mouse);
-		this.rightArrow.actions[this.rightArrow.currentState.getIdentifier()].execute(delta, keyboard, mouse);
+		this.leftArrow.actions[this.leftArrow.currentState.getIdentifier()].execute(delta);
+		this.rightArrow.actions[this.rightArrow.currentState.getIdentifier()].execute(delta);
 		this.currentOption = this.options.get(this.currentOptionIndex);
 	}
 

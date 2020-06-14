@@ -5,23 +5,22 @@ import java.awt.Graphics2D;
 import java.util.Arrays;
 import java.util.List;
 
-import com.skanderj.gingerbread3.animation.Animation;
 import com.skanderj.gingerbread3.animation.RandomOrderAnimation;
 import com.skanderj.gingerbread3.audio.AudioManager;
+import com.skanderj.gingerbread3.component.Button;
+import com.skanderj.gingerbread3.component.Checkbox;
 import com.skanderj.gingerbread3.component.ComponentLabelPosition;
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.ComponentState;
-import com.skanderj.gingerbread3.component.premade.G3Checkbox;
-import com.skanderj.gingerbread3.component.premade.G3Label;
-import com.skanderj.gingerbread3.component.premade.G3Slider;
-import com.skanderj.gingerbread3.component.premade.G3SolidBackground;
-import com.skanderj.gingerbread3.component.premade.G3StraightEdgesButton;
-import com.skanderj.gingerbread3.component.unit.Button;
-import com.skanderj.gingerbread3.component.unit.Checkbox;
-import com.skanderj.gingerbread3.component.unit.Slider;
+import com.skanderj.gingerbread3.component.Slider;
+import com.skanderj.gingerbread3.component.boilerplates.G3Checkbox;
+import com.skanderj.gingerbread3.component.boilerplates.G3Label;
+import com.skanderj.gingerbread3.component.boilerplates.G3Slider;
+import com.skanderj.gingerbread3.component.boilerplates.G3SolidColorBackground;
+import com.skanderj.gingerbread3.component.boilerplates.G3StraightEdgesButton;
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.object.GameRegistry;
 import com.skanderj.gingerbread3.input.Keyboard;
-import com.skanderj.gingerbread3.input.Mouse;
 import com.skanderj.gingerbread3.io.FontManager;
 import com.skanderj.gingerbread3.io.ImageManager;
 import com.skanderj.gingerbread3.log.Logger;
@@ -56,116 +55,106 @@ public class G3Demo extends Game {
 	public static final int B_WIDTH = 100, B_HEIGHT = (100 / 16) * 9;
 	private VisualStringProperties buttonProps;
 
-	// Main menu scene - first scene of the game
-	public static final Scene mainMenuScene = new Scene() {
-		private Animation campfireAnimation;
-		private ParticleManager manager;
-
-		@Override
-		public List<String> sceneComponents() {
-			// Those are the only components which will be rendered/updated during this
-			// scene
-			return Arrays.asList("main-menu-background", "play-button", "settings-button", "exit-button", "music-checkbox");
-		}
-
-		@Override
-		public void present() {
-			final Sprite[] ashes = Sprite.fromImages("ashe_%d", ImageManager.retrieveImages("ashe"));
-			final Sprite[] campfire = Sprite.fromImages("campfire_%d", ImageManager.retrieveImages("campfire"));
-			this.campfireAnimation = new RandomOrderAnimation((G3Demo.WIDTH / 2) - 70, G3Demo.HEIGHT - 140, campfire, new int[] { 8, 10, 12 });
-			this.manager = new ParticleManager(G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 5, 25, 40, 50, ashes, Vector2D.randomVectors(50, -1, 1, 0, -2), 1, 8);
-			// Play some audio
-			if (((Checkbox) ComponentManager.getComponent("music-checkbox")).isChecked()) {
-				AudioManager.loopAudio("background", -1, ((Slider) ComponentManager.getComponent("main-menu-music-volume")).getValue() / 100.0F);
-			}
-		}
-
-		@Override
-		public void remove() {
-			// Stop the audio
-			AudioManager.stopAllAudio();
-		}
-
-		@Override
-		public synchronized void update(final double delta, final Keyboard keyboard, final Mouse mouse) {
-			super.update(delta, keyboard, mouse);
-			this.campfireAnimation.update(delta, keyboard, mouse);
-			this.manager.update(delta);
-		}
-
-		@Override
-		public synchronized void render(final com.skanderj.gingerbread3.display.Window window, final Graphics2D graphics) {
-			super.render(window, graphics);
-			this.campfireAnimation.render(window, graphics);
-			this.manager.render(graphics);
-		}
-	};
-
-	public static final Scene mainGameScene = new Scene() {
-		@Override
-		public void update(final double delta, final Keyboard keyboard, final Mouse mouse) {
-			super.update(delta, keyboard, mouse);
-			/**
-			 * Don't forget to update your skipped components accordingly.
-			 */
-			ComponentManager.updateSpecific("mouse-position-indicator", delta, keyboard, mouse, mouse.getX(), mouse.getY());
-			// Scene specific keyboard/mouse handling
-			if (keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
-				SceneManager.setCurrentScene("main-menu");
-			}
-			if (keyboard.isKeyDownInFrame(Keyboard.KEY_SPACE)) {
-				AudioManager.playAudio("fart_" + Utilities.randomInteger(0, 4));
-			}
-		}
-
-		@Override
-		public synchronized void render(final com.skanderj.gingerbread3.display.Window window, final Graphics2D graphics) {
-			super.render(window, graphics);
-			/**
-			 * Don't forget to manually render any ignored components.
-			 */
-			ComponentManager.renderSpecific("mouse-position-indicator", window, graphics);
-		}
-
-		@Override
-		public List<String> sceneComponents() {
-			return Arrays.asList("main-game-background", "instructions-label", "mouse-position-indicator");
-		}
-
-		@Override
-		public void present() {
-			/**
-			 * If you need to ignore a specific component (for special updates), you do it
-			 * here.
-			 */
-			ComponentManager.skipComponent("mouse-position-indicator");
-		}
-
-		@Override
-		public void remove() {
-			return;
-		}
-	};
-
-	public static final Scene settingsScene = new Scene() {
-		@Override
-		public List<String> sceneComponents() {
-			return Arrays.asList("main-menu-music-volume", "back-to-main-menu-button");
-		}
-
-		@Override
-		public void remove() {
-			return;
-		}
-
-		@Override
-		public void present() {
-			return;
-		}
-	};
+	// Game scenes
+	private final Scene mainMenuScene;
+	private final Scene mainGameScene;
+	private final Scene settingsScene;
 
 	public G3Demo() {
 		super(G3Demo.IDENTIFIER, G3Demo.REFRESH_RATE, G3Demo.TITLE, G3Demo.WIDTH, G3Demo.HEIGHT, G3Demo.BUFFERS);
+		this.mainMenuScene = new Scene(this) {
+			@Override
+			public List<String> sceneObjects() {
+				// Those are the only components which will be rendered/updated during this
+				// scene
+				return Arrays.asList("main-menu-background", "play-button", "settings-button", "exit-button", "music-checkbox", "campfire-animation", "smoke-particles");
+			}
+
+			@Override
+			public void present() {
+				// Play some audio
+				if (((Checkbox) ComponentManager.getComponent("music-checkbox")).isChecked()) {
+					AudioManager.loopAudio("background", -1, ((Slider) ComponentManager.getComponent("main-menu-music-volume")).getValue() / 100.0F);
+				}
+			}
+
+			@Override
+			public void remove() {
+				// Stop the audio
+				AudioManager.stopAllAudio();
+			}
+
+			@Override
+			public synchronized void update(final double delta, final Object... args) {
+				super.update(delta, args);
+			}
+
+			@Override
+			public synchronized void render(final Graphics2D graphics, final Object... args) {
+				super.render(graphics, args);
+			}
+		};
+		this.mainGameScene = new Scene(this) {
+			@Override
+			public void update(final double delta, final Object... args) {
+				super.update(delta, args);
+				/**
+				 * Don't forget to update your skipped components accordingly.
+				 */
+				ComponentManager.updateSpecific("mouse-position-indicator", delta, G3Demo.this.mouse.getX(), G3Demo.this.mouse.getY());
+				// Scene specific keyboard/mouse handling
+				if (G3Demo.this.keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+					SceneManager.setCurrentScene("main-menu");
+				}
+				if (G3Demo.this.keyboard.isKeyDownInFrame(Keyboard.KEY_SPACE)) {
+					AudioManager.playAudio("fart_" + Utilities.randomInteger(0, 4));
+				}
+			}
+
+			@Override
+			public synchronized void render(final Graphics2D graphics, final Object... args) {
+				super.render(graphics, args);
+				/**
+				 * Don't forget to manually render any ignored components.
+				 */
+				ComponentManager.renderSpecific("mouse-position-indicator", G3Demo.this.window, graphics);
+			}
+
+			@Override
+			public List<String> sceneObjects() {
+				return Arrays.asList("main-game-background", "instructions-label", "mouse-position-indicator");
+			}
+
+			@Override
+			public void present() {
+				/**
+				 * If you need to ignore a specific component (for special updates), you do it
+				 * here.
+				 */
+				ComponentManager.skipComponent("mouse-position-indicator");
+			}
+
+			@Override
+			public void remove() {
+				return;
+			}
+		};
+		this.settingsScene = new Scene(this) {
+			@Override
+			public List<String> sceneObjects() {
+				return Arrays.asList("main-menu-music-volume", "back-to-main-menu-button");
+			}
+
+			@Override
+			public void remove() {
+				return;
+			}
+
+			@Override
+			public void present() {
+				return;
+			}
+		};
 	}
 
 	@Override
@@ -178,11 +167,17 @@ public class G3Demo extends Game {
 	}
 
 	@Override
+	public void registerGameObjects() {
+		GameRegistry.set("campfire-animation", new RandomOrderAnimation(this, (G3Demo.WIDTH / 2) - 70, G3Demo.HEIGHT - 140, Sprite.fromImages(this, "campfire_%d", ImageManager.retrieveImages("campfire")), new int[] { 8, 10, 12 }));
+		GameRegistry.set("smoke-particles", new ParticleManager(this, G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 5, 25, 40, 50, Sprite.fromImages(this, "ashe_%d", ImageManager.retrieveImages("ashe")), Vector2D.randomVectors(50, -1, 1, 0, -2), 1, 8));
+	}
+
+	@Override
 	public void registerScenes() {
 		// Register all the scenes in advance to quickly retrieve them later
-		SceneManager.registerScene("main-menu", G3Demo.mainMenuScene);
-		SceneManager.registerScene("main-game", G3Demo.mainGameScene);
-		SceneManager.registerScene("settings", G3Demo.settingsScene);
+		SceneManager.registerScene("main-menu", this.mainMenuScene);
+		SceneManager.registerScene("main-game", this.mainGameScene);
+		SceneManager.registerScene("settings", this.settingsScene);
 	}
 
 	@Override
@@ -204,16 +199,16 @@ public class G3Demo extends Game {
 		this.buttonProps = new VisualStringProperties(FontManager.getFont("lunchds", 14), Color.PINK);
 		// Register all the components here once and for all then manage them through
 		// scenes switching
-		ComponentManager.addComponent("main-menu-background", new G3SolidBackground(GraphicsUtilities.DEFAULT_ORIGIN_X, GraphicsUtilities.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.BLACK));
-		ComponentManager.addComponent("play-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 150, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Play!", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
-		ComponentManager.addComponent("settings-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Settings", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
-		ComponentManager.addComponent("exit-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Exit...", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
-		ComponentManager.addComponent("main-game-background", new G3SolidBackground(GraphicsUtilities.DEFAULT_ORIGIN_X, GraphicsUtilities.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.PINK));
-		ComponentManager.addComponent("instructions-label", new G3Label(GraphicsUtilities.DEFAULT_ORIGIN_X, (G3Demo.HEIGHT / 2) - 50, G3Demo.WIDTH - 1, 100, new VisualString("Press escape to return to the main menu", this.buttonProps.build(28).build(Color.BLACK))));
-		ComponentManager.addComponent("main-menu-music-volume", new G3Slider((G3Demo.WIDTH / 2) - 150, (G3Demo.HEIGHT / 2) - 100, 300, 20, 6, 6, 0, 100, 50, Color.GRAY, new VisualString("Main menu music (%.2f%%)", Color.PINK, FontManager.getFont("lunchds", 14)), ComponentLabelPosition.TOP));
-		ComponentManager.addComponent("back-to-main-menu-button", new G3StraightEdgesButton((G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), G3Demo.HEIGHT - (2 * G3Demo.B_HEIGHT), G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Back", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
-		ComponentManager.addComponent("music-checkbox", new G3Checkbox(G3Demo.WIDTH - 90, G3Demo.HEIGHT - 45, 20, 20, new VisualString("Music", Color.PINK, FontManager.getFont("lunchds", 14)), Color.GRAY, Color.DARK_GRAY, Color.PINK.darker(), ComponentLabelPosition.RIGHT));
-		ComponentManager.addComponent("mouse-position-indicator", new G3Label(G3Demo.WIDTH - 175, G3Demo.HEIGHT - 40, 100, 30, new VisualString("Mouse position: (%d ; %d)", this.buttonProps.build(14).build(Color.BLACK))));
+		ComponentManager.addComponent("main-menu-background", new G3SolidColorBackground(this, GraphicsUtilities.DEFAULT_ORIGIN_X, GraphicsUtilities.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.BLACK));
+		ComponentManager.addComponent("play-button", new G3StraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 150, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Play!", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
+		ComponentManager.addComponent("settings-button", new G3StraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Settings", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
+		ComponentManager.addComponent("exit-button", new G3StraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Exit...", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
+		ComponentManager.addComponent("main-game-background", new G3SolidColorBackground(this, GraphicsUtilities.DEFAULT_ORIGIN_X, GraphicsUtilities.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.PINK));
+		ComponentManager.addComponent("instructions-label", new G3Label(this, GraphicsUtilities.DEFAULT_ORIGIN_X, (G3Demo.HEIGHT / 2) - 50, G3Demo.WIDTH - 1, 100, new VisualString("Press escape to return to the main menu", this.buttonProps.build(28).build(Color.BLACK))));
+		ComponentManager.addComponent("main-menu-music-volume", new G3Slider(this, (G3Demo.WIDTH / 2) - 150, (G3Demo.HEIGHT / 2) - 100, 300, 20, 6, 6, 0, 100, 50, Color.GRAY, new VisualString("Main menu music (%.2f%%)", Color.PINK, FontManager.getFont("lunchds", 14)), ComponentLabelPosition.TOP));
+		ComponentManager.addComponent("back-to-main-menu-button", new G3StraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), G3Demo.HEIGHT - (2 * G3Demo.B_HEIGHT), G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Back", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
+		ComponentManager.addComponent("music-checkbox", new G3Checkbox(this, G3Demo.WIDTH - 90, G3Demo.HEIGHT - 45, 20, 20, new VisualString("Music", Color.PINK, FontManager.getFont("lunchds", 14)), Color.GRAY, Color.DARK_GRAY, Color.PINK.darker(), ComponentLabelPosition.RIGHT));
+		ComponentManager.addComponent("mouse-position-indicator", new G3Label(this, G3Demo.WIDTH - 175, G3Demo.HEIGHT - 40, 100, 30, new VisualString("Mouse position: (%d ; %d)", this.buttonProps.build(14).build(Color.BLACK))));
 		// Button actions
 		((Button) ComponentManager.getComponent("play-button")).setActionForState(ComponentState.ON_CLICK, args -> SceneManager.setCurrentScene("main-game"));
 		((Button) ComponentManager.getComponent("settings-button")).setActionForState(ComponentState.ON_CLICK, args -> SceneManager.setCurrentScene("settings"));

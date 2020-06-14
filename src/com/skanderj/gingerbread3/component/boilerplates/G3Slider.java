@@ -1,4 +1,4 @@
-package com.skanderj.gingerbread3.component.premade;
+package com.skanderj.gingerbread3.component.boilerplates;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -7,10 +7,8 @@ import java.awt.Rectangle;
 import com.skanderj.gingerbread3.component.ComponentLabelPosition;
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.ComponentPriority;
-import com.skanderj.gingerbread3.component.unit.Slider;
-import com.skanderj.gingerbread3.display.Window;
-import com.skanderj.gingerbread3.input.Keyboard;
-import com.skanderj.gingerbread3.input.Mouse;
+import com.skanderj.gingerbread3.component.Slider;
+import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.util.Utilities;
 import com.skanderj.gingerbread3.util.VisualString;
 
@@ -27,8 +25,8 @@ public final class G3Slider extends Slider {
 	private ComponentLabelPosition labelPosition;
 	private Color color;
 
-	public G3Slider(final int x, final int y, final int width, final int height, final int sliderWidth, final int sliderHeight, final float min, final float max, final float defaultValue, final Color color, final VisualString label, final ComponentLabelPosition position) {
-		super(min, max, defaultValue);
+	public G3Slider(final Game game, final int x, final int y, final int width, final int height, final int sliderWidth, final int sliderHeight, final float min, final float max, final float defaultValue, final Color color, final VisualString label, final ComponentLabelPosition position) {
+		super(game, min, max, defaultValue);
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -42,10 +40,10 @@ public final class G3Slider extends Slider {
 	}
 
 	@Override
-	public synchronized void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
-		super.update(delta, keyboard, mouse, args);
+	public synchronized void update(final double delta, final Object... args) {
+		super.update(delta, args);
 		if (this.hasFocus) {
-			this.sliderX = (int) Utilities.map(mouse.getX(), this.x, this.x + this.getWidth(), this.x, this.x + this.getWidth(), true);
+			this.sliderX = (int) Utilities.map(this.game.getMouse().getX(), this.x, this.x + this.getWidth(), this.x, this.x + this.getWidth(), true);
 		}
 	}
 
@@ -54,7 +52,7 @@ public final class G3Slider extends Slider {
 	 * appropriate position.
 	 */
 	@Override
-	public synchronized final void render(final Window window, final Graphics2D graphics, final Object... args) {
+	public synchronized final void render(final Graphics2D graphics, final Object... args) {
 		graphics.setColor(this.color);
 		graphics.drawRect(this.x, this.y, this.width, this.height);
 		graphics.setColor(this.color.darker());

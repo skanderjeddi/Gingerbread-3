@@ -1,6 +1,6 @@
-package com.skanderj.gingerbread3.component.unit;
+package com.skanderj.gingerbread3.component;
 
-import com.skanderj.gingerbread3.component.Component;
+import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.util.VisualString;
 
 /**
@@ -17,7 +17,8 @@ public abstract class Label extends Component {
 	/**
 	 * Very basic constructor.
 	 */
-	public Label(final VisualString graphicString) {
+	public Label(final Game game, final VisualString graphicString) {
+		super(game);
 		this.graphicString = graphicString;
 	}
 

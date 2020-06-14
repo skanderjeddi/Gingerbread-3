@@ -1,4 +1,4 @@
-package com.skanderj.gingerbread3.component.premade;
+package com.skanderj.gingerbread3.component.boilerplates;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
@@ -7,10 +7,8 @@ import java.awt.Rectangle;
 
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.ComponentPriority;
-import com.skanderj.gingerbread3.component.unit.Textfield;
-import com.skanderj.gingerbread3.display.Window;
-import com.skanderj.gingerbread3.input.Keyboard;
-import com.skanderj.gingerbread3.input.Mouse;
+import com.skanderj.gingerbread3.component.Textfield;
+import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.util.Utilities;
 import com.skanderj.gingerbread3.util.VisualString;
 import com.skanderj.gingerbread3.util.VisualStringProperties;
@@ -36,16 +34,16 @@ public final class G3Textfield extends Textfield {
 	 * Background color for rendering a simple box and text properties for the font
 	 * and color, by default can only display 1 line.
 	 */
-	public G3Textfield(final int x, final int y, final int width, final Color backgroundColor, final VisualStringProperties textProperties) {
-		this(x, y, width, backgroundColor, textProperties, 0);
+	public G3Textfield(final Game game, final int x, final int y, final int width, final Color backgroundColor, final VisualStringProperties textProperties) {
+		this(game, x, y, width, backgroundColor, textProperties, 0);
 	}
 
 	/**
 	 * Background color for rendering a simple box, text properties for the font and
 	 * color, and amount maximumLines to display.
 	 */
-	public G3Textfield(final int x, final int y, final int width, final Color backgroundColor, final VisualStringProperties textProperties, final int lines) {
-		super();
+	public G3Textfield(final Game game, final int x, final int y, final int width, final Color backgroundColor, final VisualStringProperties textProperties, final int lines) {
+		super(game);
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -64,8 +62,8 @@ public final class G3Textfield extends Textfield {
 	}
 
 	@Override
-	public void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
-		super.update(delta, keyboard, mouse, args);
+	public synchronized void update(final double delta, final Object... args) {
+		super.update(delta, args);
 		// Cursor blinking timer
 		{
 			this.blinkTimer += 1;
@@ -79,7 +77,7 @@ public final class G3Textfield extends Textfield {
 	 * The rendering routine.
 	 */
 	@Override
-	public void render(final Window window, final Graphics2D graphics, final Object... args) {
+	public synchronized void render(final Graphics2D graphics, final Object... args) {
 		graphics.setFont(this.textProperties.getFont());
 		final FontMetrics metrics = graphics.getFontMetrics();
 		final int fontHeight = metrics.getHeight();

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.skanderj.gingerbread3.component.ComponentManager;
-import com.skanderj.gingerbread3.core.Game;
 
 /**
  * Self explanatory.
@@ -46,26 +45,30 @@ public class SceneManager {
 			SceneManager.currentScene.remove();
 		}
 		SceneManager.currentScene = SceneManager.retrieveScene(identifier);
-		final List<String> components = SceneManager.currentScene.sceneComponents();
-		ComponentManager.onlyConsider(components);
+		final List<String> gameObjects = SceneManager.currentScene.sceneObjects();
+		ComponentManager.onlyConsider(gameObjects);
 		SceneManager.currentScene.present();
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public static void updateScene(final Game game, final double delta) {
+	public static void updateScene(final double delta, final Object... args) {
 		if (SceneManager.currentScene != null) {
-			SceneManager.currentScene.update(delta, game.getKeyboard(), game.getMouse());
+			SceneManager.currentScene.update(delta, args);
 		}
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public static void renderScene(final Game game, final Graphics2D graphics) {
+	public static void renderScene(final Graphics2D graphics, final Object... args) {
 		if (SceneManager.currentScene != null) {
-			SceneManager.currentScene.render(game.getWindow(), graphics);
+			SceneManager.currentScene.render(graphics, args);
 		}
+	}
+
+	public static Scene getCurrentScene() {
+		return SceneManager.currentScene;
 	}
 }

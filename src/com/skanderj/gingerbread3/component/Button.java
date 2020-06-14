@@ -1,9 +1,7 @@
-package com.skanderj.gingerbread3.component.unit;
+package com.skanderj.gingerbread3.component;
 
-import com.skanderj.gingerbread3.component.Component;
-import com.skanderj.gingerbread3.component.ComponentState;
 import com.skanderj.gingerbread3.component.action.ComponentAction;
-import com.skanderj.gingerbread3.input.Keyboard;
+import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.input.Mouse;
 
 /**
@@ -22,7 +20,8 @@ public abstract class Button extends Component {
 	/**
 	 * Basic constructor: position.
 	 */
-	public Button() {
+	public Button(final Game game) {
+		super(game);
 		this.previousState = ComponentState.IDLE;
 		this.state = ComponentState.IDLE;
 		this.actions = new ComponentAction[4];
@@ -39,10 +38,10 @@ public abstract class Button extends Component {
 	 * button then run the appropriate button action accordingly.
 	 */
 	@Override
-	public void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
+	public void update(final double delta, final Object... args) {
 		this.previousState = this.state;
-		final int mouseX = mouse.getX(), mouseY = mouse.getY();
-		final boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = mouse.isButtonDown(Mouse.BUTTON_LEFT);
+		final int mouseX = this.game.getMouse().getX(), mouseY = this.game.getMouse().getY();
+		final boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = this.game.getMouse().isButtonDown(Mouse.BUTTON_LEFT);
 		if (mouseIn && mouseClicked && !this.hasFocus) {
 			this.hasFocus = true;
 		}
@@ -61,7 +60,7 @@ public abstract class Button extends Component {
 		if ((this.previousState == ComponentState.HELD) && ((this.state == ComponentState.IDLE) || (this.state == ComponentState.HOVERED)) && mouseIn) {
 			this.state = ComponentState.ON_CLICK;
 		}
-		this.actions[this.state.getIdentifier()].execute(delta, keyboard, mouse);
+		this.actions[this.state.getIdentifier()].execute(delta);
 	}
 
 	/**

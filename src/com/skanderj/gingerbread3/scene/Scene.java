@@ -3,10 +3,9 @@ package com.skanderj.gingerbread3.scene;
 import java.awt.Graphics2D;
 import java.util.List;
 
-import com.skanderj.gingerbread3.component.ComponentManager;
-import com.skanderj.gingerbread3.display.Window;
-import com.skanderj.gingerbread3.input.Keyboard;
-import com.skanderj.gingerbread3.input.Mouse;
+import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.object.GameObject;
+import com.skanderj.gingerbread3.core.object.GameRegistry;
 
 /**
  * Represents the current set of components and updates on screen.
@@ -14,18 +13,27 @@ import com.skanderj.gingerbread3.input.Mouse;
  * @author Skander
  *
  */
-public abstract class Scene {
-	// Set the scene components
-	public abstract List<String> sceneComponents();
+public abstract class Scene extends GameObject {
+	public Scene(final Game game) {
+		super(game);
+	}
+
+	// Set the scene game objects
+	public abstract List<String> sceneObjects();
 
 	// Logic happens here
-	public synchronized void update(final double delta, final Keyboard keyboard, final Mouse mouse) {
-		ComponentManager.update(delta, keyboard, mouse);
+	@Override
+	public synchronized void update(final double delta, final Object... args) {
+		GameRegistry.update(delta, args);
+		// ComponentManager.update(delta, this.game.getKeyboard(),
+		// this.game.getMouse());
 	}
 
 	// Rendering happens here
-	public synchronized void render(final Window window, final Graphics2D graphics) {
-		ComponentManager.render(window, graphics);
+	@Override
+	public synchronized void render(final Graphics2D graphics, final Object... args) {
+		GameRegistry.render(graphics, args);
+		// ComponentManager.render(this.game.getWindow(), graphics);
 	}
 
 	/**
