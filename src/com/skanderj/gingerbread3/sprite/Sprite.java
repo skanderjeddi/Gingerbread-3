@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.object.GameObject;
+import com.skanderj.gingerbread3.core.object.GameObjectPriority;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.io.ImageManager;
 
@@ -74,4 +75,8 @@ public class Sprite extends GameObject {
 		return this.image;
 	}
 
+	@Override
+	public GameObjectPriority priority() {
+		return GameObjectPriority.REGULAR;
+	}
 }

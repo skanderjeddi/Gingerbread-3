@@ -5,8 +5,8 @@ import java.awt.Rectangle;
 
 import com.skanderj.gingerbread3.component.Checkbox;
 import com.skanderj.gingerbread3.component.ComponentLabelPosition;
-import com.skanderj.gingerbread3.component.ComponentPriority;
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.object.GameObjectPriority;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.util.VisualString;
 
@@ -215,7 +215,7 @@ public class G3Checkbox extends Checkbox {
 	 * Self explanatory.
 	 */
 	@Override
-	public ComponentPriority priority() {
-		return ComponentPriority.LOW;
+	public GameObjectPriority priority() {
+		return GameObjectPriority.LOW;
 	}
 }

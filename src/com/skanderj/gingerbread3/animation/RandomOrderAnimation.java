@@ -1,6 +1,7 @@
 package com.skanderj.gingerbread3.animation;
 
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.object.GameObjectPriority;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.sprite.Sprite;
 import com.skanderj.gingerbread3.util.Utilities;
@@ -90,5 +91,10 @@ public class RandomOrderAnimation extends Animation {
 	 */
 	public void setY(final int y) {
 		this.y = y;
+	}
+
+	@Override
+	public GameObjectPriority priority() {
+		return GameObjectPriority.LOW;
 	}
 }

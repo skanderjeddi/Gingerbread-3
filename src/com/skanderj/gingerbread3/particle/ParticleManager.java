@@ -2,6 +2,7 @@ package com.skanderj.gingerbread3.particle;
 
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.object.GameObject;
+import com.skanderj.gingerbread3.core.object.GameObjectPriority;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.log.Logger;
 import com.skanderj.gingerbread3.log.Logger.LogLevel;
@@ -79,5 +80,10 @@ public final class ParticleManager extends GameObject {
 		for (final Particle particle : this.particles) {
 			particle.render(graphics);
 		}
+	}
+
+	@Override
+	public GameObjectPriority priority() {
+		return GameObjectPriority.REGULAR;
 	}
 }

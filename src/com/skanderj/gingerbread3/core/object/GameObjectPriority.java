@@ -1,18 +1,18 @@
-package com.skanderj.gingerbread3.component;
+package com.skanderj.gingerbread3.core.object;
 
 /**
- * Represents a component priority, or what order do the components get
+ * Represents a game object priority, or what order do the objects get
  * updated/drawn in.
  *
  * @author Skander
  *
  */
-public enum ComponentPriority {
+public enum GameObjectPriority {
 	EXTREMELY_LOW(-10), LOW(-1), REGULAR(0), HIGH(1), EXTREMELY_HIGH(10), CRITICAL(100);
 
-	int priorityIndex;
+	public int priorityIndex;
 
-	private ComponentPriority(final int index) {
+	private GameObjectPriority(final int index) {
 		this.priorityIndex = index;
 	}
 

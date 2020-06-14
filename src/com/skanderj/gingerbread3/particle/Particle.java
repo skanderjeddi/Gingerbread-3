@@ -2,6 +2,7 @@ package com.skanderj.gingerbread3.particle;
 
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.object.GameObject;
+import com.skanderj.gingerbread3.core.object.GameObjectPriority;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.math.Vector2;
 import com.skanderj.gingerbread3.sprite.Sprite;
@@ -33,5 +34,10 @@ public class Particle extends GameObject {
 	@Override
 	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
 		this.sprite.render(graphics, this.x, this.y);
+	}
+
+	@Override
+	public GameObjectPriority priority() {
+		return GameObjectPriority.REGULAR;
 	}
 }

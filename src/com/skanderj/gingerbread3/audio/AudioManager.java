@@ -351,7 +351,7 @@ public final class AudioManager {
 					clip.close();
 					AudioManager.clipsMap.remove(identifier);
 				}
-			} catch (LineUnavailableException | IOException exception) {
+			} catch (final LineUnavailableException | IOException exception) {
 				Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to loop audio \"%s\": %s", identifier, exception.getMessage());
 			} finally {
 				try {

@@ -3,9 +3,9 @@ package com.skanderj.gingerbread3.component.boilerplates;
 import java.awt.Color;
 
 import com.skanderj.gingerbread3.component.ComponentManager;
-import com.skanderj.gingerbread3.component.ComponentPriority;
 import com.skanderj.gingerbread3.component.Label;
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.object.GameObjectPriority;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.util.VisualString;
 
@@ -123,7 +123,7 @@ public final class G3Label extends Label {
 	 * Self explanatory.
 	 */
 	@Override
-	public ComponentPriority priority() {
-		return ComponentPriority.LOW;
+	public GameObjectPriority priority() {
+		return GameObjectPriority.LOW;
 	}
 }

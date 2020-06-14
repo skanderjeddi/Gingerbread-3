@@ -30,6 +30,7 @@ import com.skanderj.gingerbread3.particle.ParticleManager;
 import com.skanderj.gingerbread3.scene.Scene;
 import com.skanderj.gingerbread3.scene.SceneManager;
 import com.skanderj.gingerbread3.sprite.Sprite;
+import com.skanderj.gingerbread3.transition.boilerplates.FadeTransition;
 import com.skanderj.gingerbread3.util.Utilities;
 import com.skanderj.gingerbread3.util.VisualString;
 import com.skanderj.gingerbread3.util.VisualStringProperties;
@@ -46,7 +47,7 @@ public class G3Demo extends Game {
 	 * nice.
 	 */
 	public static final String IDENTIFIER = "g3-d", TITLE = "Gingerbread-3 [DEMO]";
-	public static final double REFRESH_RATE = 3000.0D;
+	public static final double REFRESH_RATE = 144.0D;
 	public static final int WIDTH = 1200, HEIGHT = (G3Demo.WIDTH / 16) * 9, BUFFERS = 3;
 
 	// Constants for button until I implements a better system (how? I don't
@@ -131,11 +132,12 @@ public class G3Demo extends Game {
 				 * here.
 				 */
 				ComponentManager.skip("mouse-position-indicator");
+				SceneManager.transition("fade-transition");
 			}
 
 			@Override
 			public void remove() {
-				return;
+				SceneManager.transition("fade-transition");
 			}
 		};
 		this.settingsScene = new Scene(this) {
@@ -146,12 +148,12 @@ public class G3Demo extends Game {
 
 			@Override
 			public void remove() {
-				return;
+				SceneManager.transition("fade-transition");
 			}
 
 			@Override
 			public void present() {
-				return;
+				SceneManager.transition("fade-transition");
 			}
 		};
 	}
@@ -168,7 +170,8 @@ public class G3Demo extends Game {
 	@Override
 	public void registerGameObjects() {
 		GameRegistry.set("campfire-animation", new RandomOrderAnimation(this, (G3Demo.WIDTH / 2) - 70, G3Demo.HEIGHT - 140, Sprite.fromImages(this, "campfire_%d", ImageManager.getUniqueID("campfire")), new int[] { 8, 10, 12 }));
-		GameRegistry.set("smoke-particles", new ParticleManager(this, G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 5, 25, 40, 50, Sprite.fromImages(this, "ashe_%d", ImageManager.getUniqueID("ashe")), Vector2.randomVectors(50, -1, 1, 0, -2), 1, 8));
+		GameRegistry.set("smoke-particles", new ParticleManager(this, G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 5, 25, 40, 10, Sprite.fromImages(this, "ashe_%d", ImageManager.getUniqueID("ashe")), Vector2.randomVectors(10, -1, 1, 0, -2), 1, 8));
+		GameRegistry.set("fade-transition", new FadeTransition(this, 300, Color.BLACK));
 	}
 
 	@Override

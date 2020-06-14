@@ -2,6 +2,7 @@ package com.skanderj.gingerbread3.component;
 
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.object.GameObject;
+import com.skanderj.gingerbread3.core.object.GameObjectPriority;
 
 /**
  * Represents a custom graphic component. Placeholder interface for batch
@@ -10,12 +11,13 @@ import com.skanderj.gingerbread3.core.object.GameObject;
  * @author Skander
  *
  */
-public abstract class Component extends GameObject implements Comparable<Component> {
+public abstract class Component extends GameObject {
 	public Component(final Game game) {
 		super(game);
 	}
 
-	public abstract ComponentPriority priority();
+	@Override
+	public abstract GameObjectPriority priority();
 
 	// Focus related methods
 	public abstract boolean canChangeFocus();
@@ -50,10 +52,4 @@ public abstract class Component extends GameObject implements Comparable<Compone
 
 	// Self explanatory, implementation is child-component dependent
 	public abstract void setHeight(int height);
-
-	// Priority comparison, could be nicer but flemme
-	@Override
-	public int compareTo(final Component o) {
-		return -(this.priority().priorityIndex - o.priority().priorityIndex);
-	}
 }

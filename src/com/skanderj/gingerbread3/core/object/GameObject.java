@@ -9,7 +9,7 @@ import com.skanderj.gingerbread3.display.GraphicsWrapper;
  * @author Skander
  *
  */
-public abstract class GameObject {
+public abstract class GameObject implements Comparable<GameObject> {
 	protected final Game game;
 
 	public GameObject(final Game game) {
@@ -26,7 +26,19 @@ public abstract class GameObject {
 	 */
 	public abstract void render(GraphicsWrapper graphics, Object... args);
 
+	public void sceneChange() {
+		return;
+	}
+
 	public final Game getGame() {
 		return this.game;
+	}
+
+	public abstract GameObjectPriority priority();
+
+	// Priority comparison, could be nicer but flemme
+	@Override
+	public int compareTo(final GameObject o) {
+		return -(this.priority().priorityIndex - o.priority().priorityIndex);
 	}
 }

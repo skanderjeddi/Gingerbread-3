@@ -3,8 +3,8 @@ package com.skanderj.gingerbread3.component.boilerplates;
 import java.awt.image.BufferedImage;
 
 import com.skanderj.gingerbread3.component.Background;
-import com.skanderj.gingerbread3.component.ComponentPriority;
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.object.GameObjectPriority;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 
 public class G3ImageBackground extends Background {
@@ -126,7 +126,7 @@ public class G3ImageBackground extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public ComponentPriority priority() {
-		return ComponentPriority.HIGH;
+	public GameObjectPriority priority() {
+		return GameObjectPriority.HIGH;
 	}
 }

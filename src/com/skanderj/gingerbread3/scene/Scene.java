@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.object.GameObject;
+import com.skanderj.gingerbread3.core.object.GameObjectPriority;
 import com.skanderj.gingerbread3.core.object.GameRegistry;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 
@@ -45,4 +46,9 @@ public abstract class Scene extends GameObject {
 	 * What to do when the scene is switched.
 	 */
 	public abstract void remove();
+
+	@Override
+	public GameObjectPriority priority() {
+		return GameObjectPriority.HIGH;
+	}
 }

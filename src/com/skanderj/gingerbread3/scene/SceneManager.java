@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.skanderj.gingerbread3.component.ComponentManager;
+import com.skanderj.gingerbread3.core.object.GameRegistry;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
+import com.skanderj.gingerbread3.transition.Transition;
 
 /**
  * Self explanatory.
@@ -16,8 +18,8 @@ import com.skanderj.gingerbread3.display.GraphicsWrapper;
 public class SceneManager {
 	// Scenes map to quickly retrieve a scene by its identifier
 	private static final Map<String, Scene> scenesMap = new HashMap<String, Scene>();
-
 	private static Scene currentScene;
+	private static Transition currentTransition;
 
 	private SceneManager() {
 		return;
@@ -45,6 +47,7 @@ public class SceneManager {
 			SceneManager.currentScene.remove();
 		}
 		SceneManager.currentScene = SceneManager.get(identifier);
+		GameRegistry.newScene();
 		final List<String> gameObjects = SceneManager.currentScene.sceneObjects();
 		ComponentManager.considerOnly(gameObjects);
 		SceneManager.currentScene.present();
@@ -57,6 +60,9 @@ public class SceneManager {
 		if (SceneManager.currentScene != null) {
 			SceneManager.currentScene.update(delta, args);
 		}
+		if (SceneManager.currentTransition != null) {
+			SceneManager.currentTransition.update(delta, args);
+		}
 	}
 
 	/**
@@ -66,9 +72,20 @@ public class SceneManager {
 		if (SceneManager.currentScene != null) {
 			SceneManager.currentScene.render(graphics, args);
 		}
+		if (SceneManager.currentTransition != null) {
+			SceneManager.currentTransition.render(graphics, args);
+		}
 	}
 
-	public static Scene getCurrent() {
+	public static void transition(final String identifier) {
+		SceneManager.currentTransition = (Transition) GameRegistry.get(identifier);
+	}
+
+	public static Scene scene() {
 		return SceneManager.currentScene;
+	}
+
+	public static Transition getCurrentTransition() {
+		return SceneManager.currentTransition;
 	}
 }

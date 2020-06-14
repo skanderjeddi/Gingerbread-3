@@ -5,9 +5,9 @@ import java.awt.Rectangle;
 
 import com.skanderj.gingerbread3.component.ComponentLabelPosition;
 import com.skanderj.gingerbread3.component.ComponentManager;
-import com.skanderj.gingerbread3.component.ComponentPriority;
 import com.skanderj.gingerbread3.component.Slider;
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.object.GameObjectPriority;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.util.Utilities;
 import com.skanderj.gingerbread3.util.VisualString;
@@ -237,7 +237,7 @@ public final class G3Slider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public ComponentPriority priority() {
-		return ComponentPriority.LOW;
+	public GameObjectPriority priority() {
+		return GameObjectPriority.LOW;
 	}
 }
