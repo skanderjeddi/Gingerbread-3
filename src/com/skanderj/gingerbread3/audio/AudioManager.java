@@ -49,7 +49,7 @@ public final class AudioManager {
 	 * Loads an audio from the provided path. File must be .WAV format. Returns true
 	 * if the audio was successfully registered, false otherwise.
 	 */
-	public static boolean registerAudio(final String identifier, final String path) {
+	public static boolean register(final String identifier, final String path) {
 		final long startTime = System.currentTimeMillis();
 		final File soundFile = new File(path);
 		AudioInputStream reusableAudioInputStream;
@@ -57,7 +57,7 @@ public final class AudioManager {
 			reusableAudioInputStream = AudioManager.createReusableAudioInputStream(soundFile);
 			final long endTime = System.currentTimeMillis();
 			AudioManager.audioMap.put(identifier, reusableAudioInputStream);
-			Logger.log(AudioManager.class, LogLevel.INFO, "Successfully registered audio with identifier \"%s\" (took %d ms)", identifier, (endTime - startTime));
+			Logger.log(AudioManager.class, LogLevel.INFO, "NEW audio from disk -> \"%s\" (%d ms)", identifier, (endTime - startTime));
 			return true;
 		} catch (IOException | UnsupportedAudioFileException exception) {
 			Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while loading audio from %s: %s", path, exception.getMessage());
@@ -69,13 +69,13 @@ public final class AudioManager {
 	 * Loads all the audio files in the provided directory while adding "_0, _1, _2"
 	 * to the identifier. Returns true if successful, false otherwise.
 	 */
-	public static boolean registerAll(final String identifier, final String path) {
+	public static boolean registerDirectory(final String identifier, final String path) {
 		final File directory = new File(path);
 		if (directory.isDirectory()) {
 			int counter = 0;
 			boolean success = true;
 			for (final File file : directory.listFiles()) {
-				if (!AudioManager.registerAudio(String.format(identifier, counter), file.getPath())) {
+				if (!AudioManager.register(String.format(identifier, counter), file.getPath())) {
 					success = false;
 				}
 				counter += 1;
@@ -91,14 +91,14 @@ public final class AudioManager {
 	 * Self explanatory. Returns true if successful, false otherwise. Plays audio at
 	 * full volume.
 	 */
-	public static boolean playAudio(final String identifier) {
-		return AudioManager.playAudio(identifier, 1.0F);
+	public static boolean play(final String identifier) {
+		return AudioManager.play(identifier, 1.0F);
 	}
 
 	/**
 	 * Self explanatory. Returns true if successful, false otherwise.
 	 */
-	public static boolean playAudio(final String identifier, final float volume) {
+	public static boolean play(final String identifier, final float volume) {
 		final AudioInputStream stream = AudioManager.audioMap.get(identifier);
 		if (stream == null) {
 			Logger.log(AudioManager.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
@@ -106,7 +106,7 @@ public final class AudioManager {
 		} else {
 			try {
 				stream.reset();
-				return AudioManager.playAudio(identifier, stream, volume);
+				return AudioManager.play(identifier, stream, volume);
 			} catch (final IOException exception) {
 				Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to play audio \"%s\": %s", identifier, exception.getMessage());
 				return false;
@@ -119,7 +119,7 @@ public final class AudioManager {
 	 * a thread and start it. Registering everything in the corresponding maps.
 	 * Returns true if successful, false otherwise.
 	 */
-	private static boolean playAudio(final String identifier, final AudioInputStream audioInputStream, final float volume) {
+	private static boolean play(final String identifier, final AudioInputStream audioInputStream, final float volume) {
 		class AudioListener implements LineListener {
 			private boolean isDone = false;
 
@@ -176,19 +176,12 @@ public final class AudioManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static boolean isAudioPaused(final String identifier) {
+	public static boolean isPaused(final String identifier) {
 		if (AudioManager.pausesMap.contains(identifier)) {
 			return true;
 		} else {
 			return false;
 		}
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public static boolean isAudioPlaying(final String identifier) {
-		return AudioManager.clipsMap.containsKey(identifier) && AudioManager.threadsMap.containsKey(identifier) && !AudioManager.isAudioPaused(identifier);
 	}
 
 	/**
@@ -224,7 +217,7 @@ public final class AudioManager {
 	/**
 	 * Self explanatory. Returns true if successful, false otherwise.
 	 */
-	public static boolean pauseAudio(final String identifier) {
+	public static boolean pause(final String identifier) {
 		final Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
 			Logger.log(AudioManager.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
@@ -239,7 +232,7 @@ public final class AudioManager {
 	/**
 	 * Self explanatory. Returns true if successful, false otherwise.
 	 */
-	public static boolean resumeAudio(final String identifier) {
+	public static boolean resume(final String identifier) {
 		final Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
 			Logger.log(AudioManager.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
@@ -254,7 +247,7 @@ public final class AudioManager {
 	/**
 	 * Self explanatory. Returns true if successful, false otherwise.
 	 */
-	public static boolean stopAudio(final String identifier) {
+	public static boolean stop(final String identifier) {
 		final Clip clip = AudioManager.clipsMap.get(identifier);
 		if (clip == null) {
 			Logger.log(AudioManager.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
@@ -269,7 +262,7 @@ public final class AudioManager {
 	/**
 	 * Self explanatory. Returns true if successful, false otherwise.
 	 */
-	public static boolean stopAllAudio() {
+	public static boolean stopAll() {
 		for (final AudioInputStream audioInputStream : AudioManager.audioMap.values()) {
 			try {
 				audioInputStream.reset();
@@ -292,15 +285,15 @@ public final class AudioManager {
 	 * Self explanatory. Returns true if successful, false otherwise. -1 to loop
 	 * indefinitely. Plays audio at full volume.
 	 */
-	public static boolean loopAudio(final String identifier, final int count) {
-		return AudioManager.loopAudio(identifier, count, 1.0F);
+	public static boolean loop(final String identifier, final int count) {
+		return AudioManager.loop(identifier, count, 1.0F);
 	}
 
 	/**
 	 * Self explanatory. Returns true if successful, false otherwise. -1 to loop
 	 * indefinitely.
 	 */
-	public static boolean loopAudio(final String identifier, final int count, final float volume) {
+	public static boolean loop(final String identifier, final int count, final float volume) {
 		final AudioInputStream stream = AudioManager.audioMap.get(identifier);
 		if (stream == null) {
 			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find audio stream with identifier \"%s\"", identifier);
@@ -312,7 +305,7 @@ public final class AudioManager {
 				Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to play audio \"%s\": %s", identifier, ioException.getMessage());
 				return false;
 			}
-			return AudioManager.loopAudio(identifier, count, stream, volume);
+			return AudioManager.loop(identifier, count, stream, volume);
 		}
 	}
 
@@ -321,7 +314,7 @@ public final class AudioManager {
 	 * a thread and loop it. Registering everything in the corresponding maps.
 	 * Returns true if successful, false otherwise.
 	 */
-	private static boolean loopAudio(final String identifier, final int count, final AudioInputStream audioInputStream, final float volume) {
+	private static boolean loop(final String identifier, final int count, final AudioInputStream audioInputStream, final float volume) {
 		class AudioListener implements LineListener {
 			private boolean isDone = false;
 

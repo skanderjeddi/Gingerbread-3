@@ -158,7 +158,7 @@ public abstract class Game extends ThreadWrapper {
 			if ((System.currentTimeMillis() - resetTime) >= 1000) {
 				resetTime += 1000;
 				if (this.displayRefreshRate) {
-					Logger.log(this.getClass(), LogLevel.DEBUG, "%d/%d", frames, updates);
+					Logger.log(this.getClass(), LogLevel.DEBUG, "%d frames last second for %d updates", frames, updates);
 				}
 				frames = 0;
 				updates = 0;
@@ -172,7 +172,7 @@ public abstract class Game extends ThreadWrapper {
 	 * @param delta the delay between the current update and last update
 	 */
 	protected synchronized void update(final double delta) {
-		SceneManager.updateScene(delta);
+		SceneManager.update(delta);
 	}
 
 	/**
@@ -181,7 +181,7 @@ public abstract class Game extends ThreadWrapper {
 	 * @param graphics used to draw the screen
 	 */
 	protected synchronized void render(final Graphics2D graphics) {
-		SceneManager.renderScene(graphics);
+		SceneManager.render(graphics);
 	}
 
 	/**

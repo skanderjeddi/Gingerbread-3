@@ -8,6 +8,8 @@ import java.util.Map;
 
 import com.skanderj.gingerbread3.component.Component;
 import com.skanderj.gingerbread3.component.ComponentManager;
+import com.skanderj.gingerbread3.log.Logger;
+import com.skanderj.gingerbread3.log.Logger.LogLevel;
 import com.skanderj.gingerbread3.scene.SceneManager;
 
 public final class GameRegistry {
@@ -18,6 +20,7 @@ public final class GameRegistry {
 	}
 
 	public static synchronized void set(final String identifier, final GameObject object) {
+		Logger.log(GameRegistry.class, LogLevel.DEBUG, "NEW game object -> \"%s\" <class : %s>", identifier, object.getClass().getSimpleName());
 		GameRegistry.registry.put(identifier, object);
 	}
 
@@ -28,8 +31,8 @@ public final class GameRegistry {
 	public static synchronized final void update(final double delta, final Object... args) {
 		ComponentManager.update(delta, args);
 		final List<String> allowedComponents = new ArrayList<String>();
-		if (SceneManager.getCurrentScene() != null) {
-			allowedComponents.addAll(SceneManager.getCurrentScene().sceneObjects());
+		if (SceneManager.getCurrent() != null) {
+			allowedComponents.addAll(SceneManager.getCurrent().sceneObjects());
 		}
 		for (final String identifier : GameRegistry.registry.keySet()) {
 			if (allowedComponents.contains(identifier)) {
@@ -45,8 +48,8 @@ public final class GameRegistry {
 	public static synchronized final void render(final Graphics2D graphics, final Object... args) {
 		ComponentManager.render(graphics, args);
 		final List<String> allowedComponents = new ArrayList<String>();
-		if (SceneManager.getCurrentScene() != null) {
-			allowedComponents.addAll(SceneManager.getCurrentScene().sceneObjects());
+		if (SceneManager.getCurrent() != null) {
+			allowedComponents.addAll(SceneManager.getCurrent().sceneObjects());
 		}
 		for (final String identifier : GameRegistry.registry.keySet()) {
 			if (allowedComponents.contains(identifier)) {

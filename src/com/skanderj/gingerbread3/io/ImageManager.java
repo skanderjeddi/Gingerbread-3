@@ -33,14 +33,14 @@ public final class ImageManager {
 	 * Loads an image from the provided path. Returns true if the font was
 	 * successfully registered, false otherwise.
 	 */
-	public static boolean registerImage(final String identifier, final String path) {
+	public static boolean register(final String identifier, final String path) {
 		final long startTime = System.currentTimeMillis();
 		BufferedImage image;
 		try {
 			image = ImageIO.read(new File(path));
 			final long endTime = System.currentTimeMillis();
 			ImageManager.imagesMap.put(identifier, image);
-			Logger.log(ImageManager.class, LogLevel.INFO, "Successfully registered image with identifier \"%s\" (took %d ms)", identifier, endTime - startTime);
+			Logger.log(ImageManager.class, LogLevel.INFO, "NEW image from disk -> \"%s\" (%d ms)", identifier, endTime - startTime);
 			return true;
 		} catch (final IOException exception) {
 			Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while loading image from %s: %s", path, exception.getMessage());
@@ -52,13 +52,13 @@ public final class ImageManager {
 	 * Loads all the audio files in the provided directory while adding "_0, _1, _2"
 	 * to the identifier. Returns true if successful, false otherwise.
 	 */
-	public static boolean registerAll(final String identifier, final String path) {
+	public static boolean registerDirectory(final String identifier, final String path) {
 		final File directory = new File(path);
 		if (directory.isDirectory()) {
 			int counter = 0;
 			boolean success = true;
 			for (final File file : directory.listFiles()) {
-				if (!ImageManager.registerImage(String.format(identifier, counter), file.getPath())) {
+				if (!ImageManager.register(String.format(identifier, counter), file.getPath())) {
 					success = false;
 				}
 				counter += 1;
@@ -73,7 +73,7 @@ public final class ImageManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static BufferedImage retrieveImage(final String identifier) {
+	public static BufferedImage get(final String identifier) {
 		final BufferedImage image = ImageManager.imagesMap.get(identifier);
 		if (image == null) {
 			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find image with identifier \"%s\"", identifier);
@@ -85,7 +85,7 @@ public final class ImageManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static BufferedImage[] retrieveImages(final String identifier) {
+	public static BufferedImage[] getUniqueID(final String identifier) {
 		final List<BufferedImage> images = new ArrayList<BufferedImage>();
 		for (final String id : ImageManager.imagesMap.keySet()) {
 			if (id.contains(identifier)) {

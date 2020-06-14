@@ -75,7 +75,7 @@ public abstract class Window {
 	 * Self explanatory.
 	 */
 	public void registerInput(final InputDevice device) {
-		Logger.log(Window.class, LogLevel.DEV_DEBUG, "Registering input device (type:%s)", device.getType().name());
+		Logger.log(Window.class, LogLevel.DEV_DEBUG, "NEW input device (type : %s)", device.getType().name());
 		switch (device.getType()) {
 		case KEYBOARD:
 			this.canvas.addKeyListener((KeyListener) device);

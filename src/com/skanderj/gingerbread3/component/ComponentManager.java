@@ -43,7 +43,7 @@ public final class ComponentManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static void addComponent(final String identifier, final Component component) {
+	public static void register(final String identifier, final Component component) {
 		ComponentManager.componentsMap.put(identifier, component);
 		GameRegistry.set(identifier, component);
 	}
@@ -51,7 +51,7 @@ public final class ComponentManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static void addComponents(final String[] identifiers, final Component[] components) {
+	public static void register(final String[] identifiers, final Component[] components) {
 		if (identifiers.length == components.length) {
 			for (int i = 0; i < identifiers.length; i += 1) {
 				ComponentManager.componentsMap.put(identifiers[i], components[i]);
@@ -64,43 +64,43 @@ public final class ComponentManager {
 	/**
 	 * Self explanatory. Skips the component and doesn't update/render it..
 	 */
-	public static void skipComponent(final String identifier) {
+	public static void skip(final String identifier) {
 		ComponentManager.skippedComponents.add(identifier);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public static final void skipComponents(final String... identifiers) {
+	public static final void skip(final String... identifiers) {
 		for (final String identifier : identifiers) {
-			ComponentManager.skipComponent(identifier);
+			ComponentManager.skip(identifier);
 		}
 	}
 
 	/**
 	 * Self explanatory. Unskips the component and updates/renders it..
 	 */
-	public static void unskipComponent(final String identifier) {
+	public static void unskip(final String identifier) {
 		ComponentManager.skippedComponents.remove(identifier);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public static final void unskipComponents(final String... identifiers) {
+	public static final void unskip(final String... identifiers) {
 		for (final String identifier : identifiers) {
-			ComponentManager.unskipComponent(identifier);
+			ComponentManager.unskip(identifier);
 		}
 	}
 
-	public static void onlyConsider(final List<String> identifiers) {
+	public static void considerOnly(final List<String> identifiers) {
 		ComponentManager.inFocus = null;
 		ComponentManager.skippedComponents.clear();
 		for (final String identifier : ComponentManager.componentsMap.keySet()) {
 			if (identifiers.contains(identifier)) {
 				continue;
 			} else {
-				ComponentManager.skipComponent(identifier);
+				ComponentManager.skip(identifier);
 			}
 		}
 	}
@@ -108,7 +108,7 @@ public final class ComponentManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static Component getComponent(final String identifier) {
+	public static Component get(final String identifier) {
 		final Component component = ComponentManager.componentsMap.get(identifier);
 		if (component == null) {
 			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find a component with identifier \"%s\"", identifier);

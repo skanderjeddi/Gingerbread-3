@@ -26,34 +26,34 @@ public class SceneManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static void registerScene(final String identifier, final Scene scene) {
+	public static void register(final String identifier, final Scene scene) {
 		SceneManager.scenesMap.put(identifier, scene);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public static Scene retrieveScene(final String identifier) {
+	public static Scene get(final String identifier) {
 		return SceneManager.scenesMap.get(identifier);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public static void setCurrentScene(final String identifier) {
+	public static void setCurrent(final String identifier) {
 		if (SceneManager.currentScene != null) {
 			SceneManager.currentScene.remove();
 		}
-		SceneManager.currentScene = SceneManager.retrieveScene(identifier);
+		SceneManager.currentScene = SceneManager.get(identifier);
 		final List<String> gameObjects = SceneManager.currentScene.sceneObjects();
-		ComponentManager.onlyConsider(gameObjects);
+		ComponentManager.considerOnly(gameObjects);
 		SceneManager.currentScene.present();
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public static void updateScene(final double delta, final Object... args) {
+	public static void update(final double delta, final Object... args) {
 		if (SceneManager.currentScene != null) {
 			SceneManager.currentScene.update(delta, args);
 		}
@@ -62,13 +62,13 @@ public class SceneManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static void renderScene(final Graphics2D graphics, final Object... args) {
+	public static void render(final Graphics2D graphics, final Object... args) {
 		if (SceneManager.currentScene != null) {
 			SceneManager.currentScene.render(graphics, args);
 		}
 	}
 
-	public static Scene getCurrentScene() {
+	public static Scene getCurrent() {
 		return SceneManager.currentScene;
 	}
 }

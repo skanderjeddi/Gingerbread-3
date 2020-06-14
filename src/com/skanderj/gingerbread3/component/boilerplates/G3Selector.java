@@ -57,14 +57,14 @@ public final class G3Selector extends Selector {
 		}
 		graphics.setColor(Color.WHITE);
 		graphics.fillRect(this.x, this.y, this.arrowSize, this.height);
-		new VisualString("<", Color.BLACK, FontManager.getFont("lunchtime", 24)).drawCentered(graphics, this.x, this.y, this.arrowSize, this.height);
+		new VisualString("<", Color.BLACK, FontManager.get("lunchtime", 24)).drawCentered(graphics, this.x, this.y, this.arrowSize, this.height);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
 			graphics.setColor(Color.RED);
 			graphics.drawRect(this.x, this.y, this.arrowSize, this.height);
 		}
 		graphics.setColor(Color.WHITE);
 		graphics.fillRect(this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height);
-		new VisualString(">", Color.BLACK, FontManager.getFont("lunchtime", 24)).drawCentered(graphics, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height);
+		new VisualString(">", Color.BLACK, FontManager.get("lunchtime", 24)).drawCentered(graphics, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
 			graphics.setColor(Color.RED);
 			graphics.drawRect(this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height);

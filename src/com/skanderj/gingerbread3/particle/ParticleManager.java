@@ -6,7 +6,7 @@ import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.object.GameObject;
 import com.skanderj.gingerbread3.log.Logger;
 import com.skanderj.gingerbread3.log.Logger.LogLevel;
-import com.skanderj.gingerbread3.math.Vector2D;
+import com.skanderj.gingerbread3.math.Vector2;
 import com.skanderj.gingerbread3.sprite.Sprite;
 import com.skanderj.gingerbread3.util.Utilities;
 
@@ -33,7 +33,7 @@ public final class ParticleManager extends GameObject {
 	 * @param chaosValue
 	 * @param updateRate     how many frames before each update
 	 */
-	public ParticleManager(final Game game, final int centerX, final int centerY, final int radius, final int maxRadius, final int particlesCount, final Sprite[] sprites, final Vector2D[] accelerations, final int chaosValue, final int updateRate) {
+	public ParticleManager(final Game game, final int centerX, final int centerY, final int radius, final int maxRadius, final int particlesCount, final Sprite[] sprites, final Vector2[] accelerations, final int chaosValue, final int updateRate) {
 		super(game);
 		if (accelerations.length != particlesCount) {
 			Logger.log(ParticleManager.class, LogLevel.FATAL, "Size mismatch between particles count and accelerations array size");
@@ -47,7 +47,7 @@ public final class ParticleManager extends GameObject {
 			final int randomX = centerX + Utilities.randomInteger(-radius, radius);
 			final int randomY = centerY + Utilities.randomInteger(-radius, radius);
 			final Sprite randomSprite = sprites[Utilities.randomInteger(0, sprites.length - 1)];
-			final Vector2D acceleration = accelerations[i];
+			final Vector2 acceleration = accelerations[i];
 			this.particles[i] = new Particle(randomX, randomY, randomSprite, acceleration);
 		}
 		this.chaosValue = chaosValue;

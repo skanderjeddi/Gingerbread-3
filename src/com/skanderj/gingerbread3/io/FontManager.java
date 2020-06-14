@@ -31,7 +31,7 @@ public final class FontManager {
 	 * Loads a font from the provided path. File must be .TTF format (for now).
 	 * Returns true if the font was successfully registered, false otherwise.
 	 */
-	public static boolean registerFont(final String identifier, final String path) {
+	public static boolean register(final String identifier, final String path) {
 		final long startTime = System.currentTimeMillis();
 		final File fontFile = new File(path);
 		FileInputStream fileInputStream;
@@ -40,7 +40,7 @@ public final class FontManager {
 			final Font font = Font.createFont(Font.TRUETYPE_FONT, fileInputStream);
 			final long endTime = System.currentTimeMillis();
 			FontManager.fontsMap.put(identifier, font);
-			Logger.log(FontManager.class, LogLevel.INFO, "Successfully registered font with identifier \"%s\" (took %d ms)", identifier, endTime - startTime);
+			Logger.log(FontManager.class, LogLevel.INFO, "NEW font from disk -> \"%s\" (%d ms)", identifier, endTime - startTime);
 			return true;
 		} catch (FontFormatException | IOException exception) {
 			Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while loading font from %s: %s", path, exception.getMessage());
@@ -51,7 +51,7 @@ public final class FontManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static Font getFont(final String identifier) {
+	public static Font get(final String identifier) {
 		final Font font = FontManager.fontsMap.get(identifier);
 		if (font == null) {
 			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier \"%s\"", identifier);
@@ -63,7 +63,7 @@ public final class FontManager {
 	/**
 	 * Self explanatory. Returns the corresponding font with a specific size.
 	 */
-	public static Font getFont(final String identifier, final int size) {
+	public static Font get(final String identifier, final int size) {
 		final Font font = FontManager.fontsMap.get(identifier);
 		if (font == null) {
 			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier \"%s\"", identifier);
@@ -76,7 +76,7 @@ public final class FontManager {
 	 * Self explanatory. Returns the corresponding font with a specific size and
 	 * style.
 	 */
-	public static Font getFont(final String identifier, final int size, final int style) {
+	public static Font get(final String identifier, final int size, final int style) {
 		final Font font = FontManager.fontsMap.get(identifier);
 		if (font == null) {
 			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier \"%s\"", identifier);

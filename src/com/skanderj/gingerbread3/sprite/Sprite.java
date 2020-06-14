@@ -29,8 +29,8 @@ public class Sprite extends GameObject {
 	}
 
 	public static final Sprite fromImage(final Game game, final String identifier, final String path, final int width, final int height, final int scaleMethod) {
-		ImageManager.registerImage(identifier, path);
-		final BufferedImage loadedImage = ImageManager.retrieveImage(identifier);
+		ImageManager.register(identifier, path);
+		final BufferedImage loadedImage = ImageManager.get(identifier);
 		final int loadedImageWidth = loadedImage.getWidth(), loadedImageHeight = loadedImage.getHeight();
 		BufferedImage finalImage = new BufferedImage(loadedImageWidth, loadedImageHeight, loadedImage.getType());
 		final AffineTransform affineTransform = new AffineTransform();
