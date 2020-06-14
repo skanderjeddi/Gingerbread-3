@@ -89,11 +89,14 @@ public abstract class Game extends ThreadWrapper {
 
 	@Override
 	protected void create() {
+		final long startTime = System.currentTimeMillis();
 		this.loadResources();
 		this.window.create();
 		this.registerInputDevices();
 		this.window.show();
 		this.postCreate();
+		final long endTime = System.currentTimeMillis();
+		Logger.log(this.getClass(), LogLevel.DEBUG, "Game creation took %d ms", endTime - startTime);
 	}
 
 	public void postCreate() {
@@ -149,7 +152,7 @@ public abstract class Game extends ThreadWrapper {
 			if ((System.currentTimeMillis() - resetTime) >= 1000) {
 				resetTime += 1000;
 				if (this.displayRefreshRate) {
-					Logger.log(this.getClass(), LogLevel.DEBUG, "Last second frames: %d, last second updates: %d", frames, updates);
+					Logger.log(this.getClass(), LogLevel.DEBUG, "%d/%d", frames, updates);
 				}
 				frames = 0;
 				updates = 0;

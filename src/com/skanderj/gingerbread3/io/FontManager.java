@@ -32,13 +32,15 @@ public final class FontManager {
 	 * Returns true if the font was successfully registered, false otherwise.
 	 */
 	public static boolean registerFont(final String identifier, final String path) {
+		final long startTime = System.currentTimeMillis();
 		final File fontFile = new File(path);
 		FileInputStream fileInputStream;
 		try {
 			fileInputStream = new FileInputStream(fontFile);
 			final Font font = Font.createFont(Font.TRUETYPE_FONT, fileInputStream);
+			final long endTime = System.currentTimeMillis();
 			FontManager.fontsMap.put(identifier, font);
-			Logger.log(FontManager.class, LogLevel.INFO, "Successfully registered font with identifier \"%s\"", identifier);
+			Logger.log(FontManager.class, LogLevel.INFO, "Successfully registered font with identifier \"%s\" (took %d ms)", identifier, endTime - startTime);
 			return true;
 		} catch (FontFormatException | IOException exception) {
 			Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while loading font from %s: %s", path, exception.getMessage());

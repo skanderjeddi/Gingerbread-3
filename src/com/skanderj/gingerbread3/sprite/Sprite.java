@@ -7,6 +7,12 @@ import java.awt.image.BufferedImage;
 
 import com.skanderj.gingerbread3.io.ImageManager;
 
+/**
+ * Represents a simple sprite.
+ *
+ * @author Skander
+ *
+ */
 public class Sprite {
 	private final String identifier;
 	private final BufferedImage image;
@@ -20,8 +26,7 @@ public class Sprite {
 		return array;
 	}
 
-	public Sprite(final String identifier, final String path, final int width, final int height, final int scaleMethod) {
-		this.identifier = identifier;
+	public static final Sprite fromImage(final String identifier, final String path, final int width, final int height, final int scaleMethod) {
 		ImageManager.registerImage(identifier, path);
 		final BufferedImage loadedImage = ImageManager.retrieveImage(identifier);
 		final int loadedImageWidth = loadedImage.getWidth(), loadedImageHeight = loadedImage.getHeight();
@@ -30,9 +35,7 @@ public class Sprite {
 		affineTransform.scale((float) width / (float) loadedImageWidth, (float) height / (float) loadedImageWidth);
 		final AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, scaleMethod);
 		finalImage = affineTransformOp.filter(loadedImage, finalImage);
-		this.image = finalImage;
-		this.width = width;
-		this.height = height;
+		return new Sprite(identifier, finalImage, width, height);
 	}
 
 	public Sprite(final String identifier, final BufferedImage image, final int width, final int height) {

@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.util.Arrays;
 import java.util.List;
 
+import com.skanderj.gingerbread3.animation.Animation;
+import com.skanderj.gingerbread3.animation.RandomOrderAnimation;
 import com.skanderj.gingerbread3.audio.AudioManager;
 import com.skanderj.gingerbread3.component.ComponentLabelPosition;
 import com.skanderj.gingerbread3.component.ComponentManager;
@@ -30,6 +32,7 @@ import com.skanderj.gingerbread3.scene.Scene;
 import com.skanderj.gingerbread3.scene.SceneManager;
 import com.skanderj.gingerbread3.sprite.Sprite;
 import com.skanderj.gingerbread3.util.GraphicsUtilities;
+import com.skanderj.gingerbread3.util.Utilities;
 import com.skanderj.gingerbread3.util.VisualString;
 import com.skanderj.gingerbread3.util.VisualStringProperties;
 
@@ -55,6 +58,7 @@ public class G3Demo extends Game {
 
 	// Main menu scene - first scene of the game
 	public static final Scene mainMenuScene = new Scene() {
+		private Animation campfireAnimation;
 		private ParticleManager manager;
 
 		@Override
@@ -66,11 +70,13 @@ public class G3Demo extends Game {
 
 		@Override
 		public void present() {
-			final Sprite[] sprites = Sprite.fromImages("ashe_%d", ImageManager.retrieveImages("ashe"));
-			this.manager = new ParticleManager(G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 10, 30, 40, 50, sprites, Vector2D.randomVectors(50, -1, 1, 0, -2), 3, 5);
+			final Sprite[] ashes = Sprite.fromImages("ashe_%d", ImageManager.retrieveImages("ashe"));
+			final Sprite[] campfire = Sprite.fromImages("campfire_%d", ImageManager.retrieveImages("campfire"));
+			this.campfireAnimation = new RandomOrderAnimation((G3Demo.WIDTH / 2) - 70, G3Demo.HEIGHT - 140, campfire, new int[] { 8, 10, 12 });
+			this.manager = new ParticleManager(G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 5, 25, 40, 50, ashes, Vector2D.randomVectors(50, -1, 1, 0, -2), 1, 8);
 			// Play some audio
 			if (((Checkbox) ComponentManager.getComponent("music-checkbox")).isChecked()) {
-				AudioManager.loopAudio("silhouette-kana_boon", -1, ((Slider) ComponentManager.getComponent("main-menu-music-volume")).getValue() / 100.0F);
+				AudioManager.loopAudio("background", -1, ((Slider) ComponentManager.getComponent("main-menu-music-volume")).getValue() / 100.0F);
 			}
 		}
 
@@ -83,13 +89,14 @@ public class G3Demo extends Game {
 		@Override
 		public synchronized void update(final double delta, final Keyboard keyboard, final Mouse mouse) {
 			super.update(delta, keyboard, mouse);
+			this.campfireAnimation.update(delta, keyboard, mouse);
 			this.manager.update(delta);
 		}
 
 		@Override
 		public synchronized void render(final com.skanderj.gingerbread3.display.Window window, final Graphics2D graphics) {
 			super.render(window, graphics);
-			graphics.drawImage(ImageManager.retrieveImage("campfire"), (G3Demo.WIDTH / 2) - 50, G3Demo.HEIGHT - 100, 100, 100, null);
+			this.campfireAnimation.render(window, graphics);
 			this.manager.render(graphics);
 		}
 	};
@@ -105,6 +112,9 @@ public class G3Demo extends Game {
 			// Scene specific keyboard/mouse handling
 			if (keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
 				SceneManager.setCurrentScene("main-menu");
+			}
+			if (keyboard.isKeyDownInFrame(Keyboard.KEY_SPACE)) {
+				AudioManager.playAudio("fart_" + Utilities.randomInteger(0, 4));
 			}
 		}
 
@@ -161,10 +171,10 @@ public class G3Demo extends Game {
 	@Override
 	public void loadResources() {
 		// Register some audio and some fonts
-		AudioManager.registerAudio("silhouette-kana_boon", "res/audio/silhouette.wav");
+		AudioManager.registerAudio("background", "res/audio/background.wav");
 		FontManager.registerFont("lunchds", "res/font/lunchds.ttf");
 		ImageManager.registerAll("ashe_%d", "res/sprite/ashe/");
-		ImageManager.registerImage("campfire", "res/sprite/fire.png");
+		ImageManager.registerAll("campfire_%d", "res/sprite/campfire");
 	}
 
 	@Override
@@ -212,10 +222,10 @@ public class G3Demo extends Game {
 		((Checkbox) ComponentManager.getComponent("music-checkbox")).setOnSwitchAction(args -> {
 			final boolean state = (boolean) args[0];
 			if (state) {
-				AudioManager.stopAudio("silhouette-kana_boon");
-				AudioManager.loopAudio("silhouette-kana_boon", -1, ((Slider) ComponentManager.getComponent("main-menu-music-volume")).getValue() / 100.0F);
+				AudioManager.stopAudio("background");
+				AudioManager.loopAudio("background", -1, ((Slider) ComponentManager.getComponent("main-menu-music-volume")).getValue() / 100.0F);
 			} else {
-				AudioManager.stopAudio("silhouette-kana_boon");
+				AudioManager.stopAudio("background");
 			}
 		});
 	}

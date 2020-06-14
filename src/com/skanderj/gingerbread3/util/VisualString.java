@@ -14,7 +14,7 @@ import java.awt.geom.Rectangle2D;
  */
 public final class VisualString {
 	private String content;
-	private Color color, shadeColor;;
+	private Color color, shadeColor;
 	private Font font;
 
 	public VisualString(final String content, final VisualStringProperties properties) {
@@ -72,7 +72,7 @@ public final class VisualString {
 	}
 
 	private static final void drawString(final Graphics2D graphics, final int x0, final int y0, final VisualString string, final Object... args) {
-		VisualString formatted = new VisualString(args.length > 0 ? String.format(string.content, args) : string.content, string.color, string.font);
+		final VisualString formatted = new VisualString(args.length > 0 ? String.format(string.content, args) : string.content, string.color, string.font);
 		if (formatted.shadeColor == null) {
 			graphics.setColor(formatted.color);
 			graphics.setFont(formatted.font);
@@ -86,7 +86,7 @@ public final class VisualString {
 	}
 
 	private static final void drawCenteredString(final Graphics2D graphics, final int x0, final int y0, final int width, final int height, final VisualString string, final Object... args) {
-		VisualString formatted = new VisualString(args.length > 0 ? String.format(string.content, args) : string.content, string.color, string.font);
+		final VisualString formatted = new VisualString(args.length > 0 ? String.format(string.content, args) : string.content, string.color, string.font);
 		graphics.setFont(string.font);
 		graphics.setColor(string.color);
 		final FontMetrics fontMetrics = graphics.getFontMetrics();
@@ -104,7 +104,7 @@ public final class VisualString {
 	}
 
 	private static final int drawCenteredStringWidthless(final Graphics2D graphics, final int x0, final int y0, final int height, final VisualString string, final Object... args) {
-		VisualString formatted = new VisualString(args.length > 0 ? String.format(string.content, args) : string.content, string.color, string.font);
+		final VisualString formatted = new VisualString(args.length > 0 ? String.format(string.content, args) : string.content, string.color, string.font);
 		graphics.setFont(formatted.font);
 		graphics.setColor(formatted.color);
 		final FontMetrics fontMetrics = graphics.getFontMetrics();
@@ -122,7 +122,7 @@ public final class VisualString {
 	}
 
 	private static final int drawCenteredStringAbsolute(final Graphics2D graphics, final int x0, final int y0, final int height, final VisualString string, final Object... args) {
-		VisualString formatted = new VisualString(args.length > 0 ? String.format(string.content, args) : string.content, string.color, string.font);
+		final VisualString formatted = new VisualString(args.length > 0 ? String.format(string.content, args) : string.content, string.color, string.font);
 		graphics.setFont(formatted.font);
 		graphics.setColor(formatted.color);
 		final FontMetrics metrics = graphics.getFontMetrics();

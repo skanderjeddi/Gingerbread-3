@@ -1,12 +1,12 @@
-package com.skanderj.gingerbread3.animation.character;
+package com.skanderj.gingerbread3.animation;
 
 import java.awt.Graphics2D;
 
-import com.skanderj.gingerbread3.animation.Animation;
 import com.skanderj.gingerbread3.display.Window;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.Mouse;
 import com.skanderj.gingerbread3.sprite.Sprite;
+import com.skanderj.gingerbread3.util.Utilities;
 
 /**
  * A (very) basic character animation.
@@ -14,13 +14,13 @@ import com.skanderj.gingerbread3.sprite.Sprite;
  * @author Skander
  *
  */
-public class CharacterAnimation implements Animation {
+public class RandomOrderAnimation implements Animation {
 	private int x, y;
 	private final Sprite[] sprites;
 	private final int[] timers;
 	private int currentSpriteIndex, currentSpriteTimer;
 
-	public CharacterAnimation(final int x, final int y, final Sprite[] sprites, final int[] timers) {
+	public RandomOrderAnimation(final int x, final int y, final Sprite[] sprites, final int[] timers) {
 		this.x = x;
 		this.y = y;
 		this.sprites = sprites;
@@ -33,10 +33,18 @@ public class CharacterAnimation implements Animation {
 	public void update(final double delta, final Keyboard keyboard, final Mouse mouse, final Object... args) {
 		this.currentSpriteTimer += 1;
 		if (this.currentSpriteTimer >= this.timers[this.currentSpriteIndex]) {
-			this.currentSpriteIndex += 1;
+			this.currentSpriteIndex = this.newRandomSprite(this.currentSpriteIndex);
 			this.currentSpriteIndex %= this.sprites.length;
 			this.currentSpriteTimer = 0;
 		}
+	}
+
+	private final int newRandomSprite(final int previous) {
+		int r = Utilities.randomInteger(0, this.sprites.length - 1);
+		while (r == previous) {
+			r = Utilities.randomInteger(0, this.sprites.length - 1);
+		}
+		return r;
 	}
 
 	@Override

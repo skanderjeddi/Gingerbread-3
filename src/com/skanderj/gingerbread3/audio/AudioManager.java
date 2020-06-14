@@ -50,12 +50,14 @@ public final class AudioManager {
 	 * if the audio was successfully registered, false otherwise.
 	 */
 	public static boolean registerAudio(final String identifier, final String path) {
+		final long startTime = System.currentTimeMillis();
 		final File soundFile = new File(path);
 		AudioInputStream reusableAudioInputStream;
 		try {
 			reusableAudioInputStream = AudioManager.createReusableAudioInputStream(soundFile);
+			final long endTime = System.currentTimeMillis();
 			AudioManager.audioMap.put(identifier, reusableAudioInputStream);
-			Logger.log(AudioManager.class, LogLevel.INFO, "Successfully registered audio with identifier \"%s\"", identifier);
+			Logger.log(AudioManager.class, LogLevel.INFO, "Successfully registered audio with identifier \"%s\" (took %d ms)", identifier, (endTime - startTime));
 			return true;
 		} catch (IOException | UnsupportedAudioFileException exception) {
 			Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while loading audio from %s: %s", path, exception.getMessage());

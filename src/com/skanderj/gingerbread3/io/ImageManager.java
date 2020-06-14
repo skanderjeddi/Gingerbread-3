@@ -34,11 +34,13 @@ public final class ImageManager {
 	 * successfully registered, false otherwise.
 	 */
 	public static boolean registerImage(final String identifier, final String path) {
+		final long startTime = System.currentTimeMillis();
 		BufferedImage image;
 		try {
 			image = ImageIO.read(new File(path));
+			final long endTime = System.currentTimeMillis();
 			ImageManager.imagesMap.put(identifier, image);
-			Logger.log(ImageManager.class, LogLevel.INFO, "Successfully registered image with identifier \"%s\"", identifier);
+			Logger.log(ImageManager.class, LogLevel.INFO, "Successfully registered image with identifier \"%s\" (took %d ms)", identifier, endTime - startTime);
 			return true;
 		} catch (final IOException exception) {
 			Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while loading image from %s: %s", path, exception.getMessage());
