@@ -27,6 +27,13 @@ public class Particle extends GameObject {
 
 	@Override
 	public synchronized void update(final double delta, final Object... args) {
+		final int limit = 40;
+		if (Math.abs(this.velocity.x) > limit) {
+			this.velocity.x = (int) (Math.signum(x) * limit);
+		}
+		if (Math.abs(this.velocity.y) > limit) {
+			this.velocity.y = (int) (Math.signum(y) * limit);
+		}
 		this.x += this.velocity.getX();
 		this.y += this.velocity.getY();
 	}

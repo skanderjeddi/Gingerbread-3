@@ -67,7 +67,7 @@ public class G3Demo extends Game {
 			public List<String> sceneObjects() {
 				// Those are the only components which will be rendered/updated during this
 				// scene
-				return Arrays.asList("main-menu-background", "play-button", "settings-button", "exit-button", "music-checkbox", "campfire-animation", "smoke-particles");
+				return Arrays.asList("main-menu-background", "play-button", "settings-button", "exit-button", "music-checkbox", "stars-background");
 			}
 
 			@Override
@@ -171,6 +171,7 @@ public class G3Demo extends Game {
 	public void registerGameObjects() {
 		GameRegistry.set("campfire-animation", new RandomOrderAnimation(this, (G3Demo.WIDTH / 2) - 70, G3Demo.HEIGHT - 140, Sprite.fromImages(this, "campfire_%d", ImageManager.getUniqueID("campfire")), new int[] { 8, 10, 12 }));
 		GameRegistry.set("smoke-particles", new ParticleManager(this, G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 5, 25, 40, 10, Sprite.fromImages(this, "ashe_%d", ImageManager.getUniqueID("ashe")), Vector2.randomVectors(10, -1, 1, 0, -2), 1, 8));
+		GameRegistry.set("stars-background", new ParticleManager(this, WIDTH-100, 0, 10, WIDTH + 10, 500, Sprite.fromImages(this, "ashe_%d", ImageManager.getUniqueID("ashe")), Vector2.randomVectors(500, -1, -1, 1, 1), 5, 4));
 		GameRegistry.set("fade-transition", new FadeTransition(this, 300, Color.BLACK));
 	}
 

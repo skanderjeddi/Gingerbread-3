@@ -8,7 +8,7 @@ import com.skanderj.gingerbread3.util.Utilities;
  *
  */
 public class Vector2 {
-	private int x, y;
+	public int x, y;
 
 	public static final Vector2[] randomVectors(final int count, final int xMin, final int xMax, final int yMin, final int yMax) {
 		final Vector2[] vects = new Vector2[count];
