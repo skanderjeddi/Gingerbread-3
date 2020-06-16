@@ -17,16 +17,18 @@ class SimpleServer {
     private int listenPort;
     private ServerSocket serverSocket;
     private Map<Integer, ClientObj> clients;
-    private Integer maxClients;
+    private int maxClients;
     private int nextId = 0;
+    private boolean active = true;
 
     /**
     *   @param listenPort   The port that the server will open and use to wait for clients
     **/
-    public SimpleServer(int listenPort) {
+    protected SimpleServer(final int listenPort) {
         try{
             this.listenPort = listenPort;
             this.serverSocket = new ServerSocket(listenPort);
+            this.clients = new Map<Integer, ClientObj>();
         } catch (Exception e) {
             Logger.log(SimpleServer.class, LogLevel.ERROR, e.toString());
         }
@@ -37,12 +39,12 @@ class SimpleServer {
     *   Simple class to organize client attributes
     **/
     private class ClientObj {
-        Socket socket;
-        boolean alive = true;
-        int id;
-        String ip;
+        private Socket socket;
+        private boolean alive = true;
+        private int id;
+        private String ip;
 
-        public ClientObj(String socket, int id, String ip) {
+        private ClientObj(final String socket, final int id, final String ip) {
             this.socket = socket;
             this.id = id;
             this.ip = ip;
@@ -67,7 +69,7 @@ class SimpleServer {
     *   @param type     The type of packet, defined in PacketType
     *   @param s        The raw data
     **/
-    private byte[] craftPacket(PacketType type, byte[] data) {
+    private byte[] craftPacket(final PacketType type, final byte[] data) {
         byte[] header = new byte[]{(byte)type.ordinal()};
         byte[] packet = new byte[header.length + data.length];
         System.arraycopy(header, 0, packet, 0, header.length);
@@ -94,10 +96,17 @@ class SimpleServer {
     *   @param s        The string to send
     *   TODO: The whole thing lmao
     **/
-    public boolean sendString(int id, String s){
-
+    public boolean sendString(final int id, final String s){
+        ClientObj thisClient = this.clients.get(id);
         if (!this.clients.get(id).alive) {
             Logger.log(SimpleServer.class, LogLevel.IGNORE_UNLESS_REPEATED, "Trying to send data to a dead client");
+            return false;
+        }
+        try {
+            this.socket.getOutputStream().write(craftPacket((byte)0, s.getBytes()));
+            return 0;
+        } catch(Exception e) {
+            System.out.println("NETWORKING ERROR: " + e.toString());
             return false;
         }
         return true;
