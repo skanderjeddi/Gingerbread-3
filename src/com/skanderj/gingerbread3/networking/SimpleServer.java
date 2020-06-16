@@ -30,7 +30,7 @@ public class SimpleServer {
 			this.serverSocket = new ServerSocket(listenPort);
 			this.clients = new HashMap<Integer, ClientObj>();
 		} catch (Exception e) {
-			Logger.log(SimpleServer.class, LogLevel.ERROR, e.toString());
+			Logger.log(SimpleServer.class, LogLevel.SEVERE, "Networking exception: %s", e.getMessage());
 		}
 	}
 
@@ -60,7 +60,7 @@ public class SimpleServer {
 	/**
 	 * This function is only used internally and doesn't concern the end user Crafts
 	 * a packet from a header and data. The @return value is the crafted packet.
-	 * 
+	 *
 	 * @param type The type of packet, defined in PacketType
 	 * @param s    The raw data
 	 **/
@@ -82,7 +82,7 @@ public class SimpleServer {
             this.nextId += 1;
             return this.nextId-1;
         } catch(Exception e) {
-            Logger.log(SimpleServer.class, LogLevel.ERROR, e.toString());
+            Logger.log(SimpleServer.class, LogLevel.SEVERE, "Networking exception: %s", e.getMessage());
         }
     }
 
@@ -93,14 +93,13 @@ public class SimpleServer {
 	public boolean sendString(final int id, final String s) {
 		ClientObj thisClient = this.clients.get(id);
 		if (!this.clients.get(id).alive) {
-			Logger.log(SimpleServer.class, LogLevel.IGNORE_UNLESS_REPEATED, "Trying to send data to a dead client");
+			Logger.log(SimpleServer.class, LogLevel.WARNING, "Trying to send data to a dead client");
 			return false;
 		}
 		try {
 			this.socket.getOutputStream().write(craftPacket((byte) 0, s.getBytes()));
 			return 0;
 		} catch (Exception e) {
-			// That's how you should print an exception
 			Logger.log(SimpleServer.class, LogLevel.SEVERE, "Networking exception: %s", e.getMessage());
 			return false;
 		}
