@@ -2,82 +2,77 @@ package com.skanderj.gingerbread3.networking;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.skanderj.gingerbread3.log.Logger;
-import com.skanderj.gingerbread3.log.LogLevel;
-
+import com.skanderj.gingerbread3.log.Logger.LogLevel;
 
 /**
-*   @author Nim
-*   This simple TCP server allows the user to simply manage clients and perform simple network
-*   operations with said clients
-**/
-class SimpleServer {
-    private int listenPort;
-    private ServerSocket serverSocket;
-    private Map<Integer, ClientObj> clients;
-    private int maxClients;
-    private int nextId = 0;
-    private boolean active = true;
+ * @author Nim This simple TCP server allows the user to simply manage clients
+ *         and perform simple network operations with said clients
+ **/
+public class SimpleServer {
+	private int listenPort;
+	private ServerSocket serverSocket;
+	private Map<Integer, ClientObj> clients;
+	private int maxClients;
+	private int nextId = 0;
+	private boolean active = true;
 
-    /**
-    *   @param listenPort   The port that the server will open and use to wait for clients
-    **/
-    protected SimpleServer(final int listenPort) {
-        try{
-            this.listenPort = listenPort;
-            this.serverSocket = new ServerSocket(listenPort);
-            this.clients = new Map<Integer, ClientObj>();
-        } catch (Exception e) {
-            Logger.log(SimpleServer.class, LogLevel.ERROR, e.toString());
-        }
-    }
+	/**
+	 * @param listenPort The port that the server will open and use to wait for
+	 *                   clients
+	 **/
+	protected SimpleServer(final int listenPort) {
+		try {
+			this.listenPort = listenPort;
+			this.serverSocket = new ServerSocket(listenPort);
+			this.clients = new HashMap<Integer, ClientObj>();
+		} catch (Exception e) {
+			Logger.log(SimpleServer.class, LogLevel.ERROR, e.toString());
+		}
+	}
 
+	/**
+	 * Simple class to organize client attributes
+	 **/
+	private class ClientObj {
+		private Socket socket;
+		private boolean alive = true;
+		private int id;
+		private String ip;
 
-    /**
-    *   Simple class to organize client attributes
-    **/
-    private class ClientObj {
-        private Socket socket;
-        private boolean alive = true;
-        private int id;
-        private String ip;
+		private ClientObj(final Socket socket, final int id, final String ip) {
+			this.socket = socket;
+			this.id = id;
+			this.ip = ip;
+		}
+	}
 
-        private ClientObj(final String socket, final int id, final String ip) {
-            this.socket = socket;
-            this.id = id;
-            this.ip = ip;
-        }
-    }
+	/**
+	 * The different types of packets
+	 **/
+	enum PacketType {
+		SENDINT, SENDDOUBLE, SENDRAW, SENDSTRINGLEN, SENDSTRING, DISCONNECT;
+	}
 
-    /**
-    *   The different types of packets
-    **/
-    enum PacketType {
-        SENDINT,
-        SENDDOUBLE,
-        SENDRAW,
-        SENDSTRINGLEN,
-        SENDSTRING,
-        DISCONNECT;
-    }
+	/**
+	 * This function is only used internally and doesn't concern the end user Crafts
+	 * a packet from a header and data. The @return value is the crafted packet.
+	 * 
+	 * @param type The type of packet, defined in PacketType
+	 * @param s    The raw data
+	 **/
+	private byte[] craftPacket(final PacketType type, final byte[] data) {
+		byte[] header = new byte[] { (byte) type.ordinal() };
+		byte[] packet = new byte[header.length + data.length];
+		System.arraycopy(header, 0, packet, 0, header.length);
+		System.arraycopy(data, 0, packet, header.length, data.length);
+		return packet;
+	}
 
-    /**
-    *   This function is only used internally and doesn't concern the end user
-    *   Crafts a packet from a header and data. The @return value is the crafted packet.
-    *   @param type     The type of packet, defined in PacketType
-    *   @param s        The raw data
-    **/
-    private byte[] craftPacket(final PacketType type, final byte[] data) {
-        byte[] header = new byte[]{(byte)type.ordinal()};
-        byte[] packet = new byte[header.length + data.length];
-        System.arraycopy(header, 0, packet, 0, header.length);
-        System.arraycopy(data, 0, packet, header.length, data.length);
-        return packet;
-    }
-
-    /**
+	/**
     *   Indefinetely waits for a client to connect, and adds them to the client map.
     **/
     public int acceptClient() {
@@ -91,29 +86,26 @@ class SimpleServer {
         }
     }
 
-    /**
-    *   @param id       The client id of the receipient
-    *   @param s        The string to send
-    *   TODO: The whole thing lmao
-    **/
-    public boolean sendString(final int id, final String s){
-        ClientObj thisClient = this.clients.get(id);
-        if (!this.clients.get(id).alive) {
-            Logger.log(SimpleServer.class, LogLevel.IGNORE_UNLESS_REPEATED, "Trying to send data to a dead client");
-            return false;
-        }
-        try {
-            this.socket.getOutputStream().write(craftPacket((byte)0, s.getBytes()));
-            return 0;
-        } catch(Exception e) {
-            System.out.println("NETWORKING ERROR: " + e.toString());
-            return false;
-        }
-        return true;
-    }
-
-
-
+	/**
+	 * @param id The client id of the receipient
+	 * @param s  The string to send TODO: The whole thing lmao
+	 **/
+	public boolean sendString(final int id, final String s) {
+		ClientObj thisClient = this.clients.get(id);
+		if (!this.clients.get(id).alive) {
+			Logger.log(SimpleServer.class, LogLevel.IGNORE_UNLESS_REPEATED, "Trying to send data to a dead client");
+			return false;
+		}
+		try {
+			this.socket.getOutputStream().write(craftPacket((byte) 0, s.getBytes()));
+			return 0;
+		} catch (Exception e) {
+			// That's how you should print an exception
+			Logger.log(SimpleServer.class, LogLevel.SEVERE, "Networking exception: %s", e.getMessage());
+			return false;
+		}
+		return true;
+	}
 
 	public int getListenPort() {
 		return this.listenPort;
