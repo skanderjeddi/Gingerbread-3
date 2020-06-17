@@ -9,8 +9,10 @@ import com.skanderj.gingerbread3.log.Logger;
 import com.skanderj.gingerbread3.log.Logger.LogLevel;
 
 /**
- * @author Nim This simple TCP server allows the user to simply manage clients
- *         and perform simple network operations with said clients
+ * @author Nim
+
+ * This simple TCP server allows the user to simply manage clients
+ * and perform simple network operations with said clients
  **/
 public class SimpleServer {
 	private int listenPort;
@@ -18,7 +20,7 @@ public class SimpleServer {
 	private Map<Integer, ClientObj> clients;
 	private int maxClients;
 	private int nextId = 0;
-	private boolean active = true;
+	private boolean isActive = true;
 
 	/**
 	 * @param listenPort The port that the server will open and use to wait for
@@ -39,7 +41,7 @@ public class SimpleServer {
 	 **/
 	private class ClientObj {
 		private Socket socket;
-		private boolean alive = true;
+		private boolean isAlive = true;
 		private int id;
 		private String ip;
 
@@ -51,13 +53,6 @@ public class SimpleServer {
 	}
 
 	/**
-	 * The different types of packets
-	 **/
-	enum PacketType {
-		SENDINT, SENDDOUBLE, SENDRAW, SENDSTRINGLEN, SENDSTRING, DISCONNECT;
-	}
-
-	/**
 	 * This function is only used internally and doesn't concern the end user Crafts
 	 * a packet from a header and data. The @return value is the crafted packet.
 	 *
@@ -65,9 +60,9 @@ public class SimpleServer {
 	 * @param s    The raw data
 	 **/
 	private byte[] craftPacket(final PacketType type, final byte[] data) {
-		byte[] header = new byte[] { (byte) type.ordinal() };
+		byte[] header = new byte[]{ (byte) type.ordinal() };
 		byte[] packet = new byte[header.length + data.length];
-		System.arraycopy(header, 0, packet, 0, header.length);
+        System.arraycopy(header, 0, packet, 0, header.length);
 		System.arraycopy(data, 0, packet, header.length, data.length);
 		return packet;
 	}
@@ -92,7 +87,7 @@ public class SimpleServer {
 	 **/
 	public boolean sendString(final int id, final String s) {
 		ClientObj thisClient = this.clients.get(id);
-		if (!this.clients.get(id).alive) {
+		if (!this.clients.get(id).isAlive) {
 			Logger.log(SimpleServer.class, LogLevel.WARNING, "Trying to send data to a dead client");
 			return false;
 		}
@@ -105,6 +100,21 @@ public class SimpleServer {
 		}
 		return true;
 	}
+
+
+    private NetworkingError stop() {
+        for (Map.Entry<String, Integer> client : this.clients.entrySet()) {
+            try {
+                client.getValue().socket.close();
+            } catch(IOException e) {
+                return NetworkingError.SOCKET_CLOSE_ERROR;
+            }
+            client.getValue().isAlive = false;
+        }
+        self.isActive = false;
+        return NetworkingError.SUCCESS;
+    }
+
 
 	public int getListenPort() {
 		return this.listenPort;
