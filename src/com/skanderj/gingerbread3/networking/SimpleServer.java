@@ -4,6 +4,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.io.IOException;
 
 import com.skanderj.gingerbread3.log.Logger;
 import com.skanderj.gingerbread3.log.Logger.LogLevel;
@@ -73,11 +74,12 @@ public class SimpleServer {
     public int acceptClient() {
         try {
             Socket newClientSock = this.serverSocket.accept();
-            this.clients.put(this.nextId, new this.ClientObj(newClientSock, this.nextId, newClientSock.getInetAddress().getHostAddress()));
+            this.clients.put(this.nextId, new ClientObj(newClientSock, this.nextId, newClientSock.getInetAddress().getHostAddress()));
             this.nextId += 1;
             return this.nextId-1;
         } catch(Exception e) {
             Logger.log(SimpleServer.class, LogLevel.SEVERE, "Networking exception: %s", e.getMessage());
+			return -1;
         }
     }
 
@@ -85,25 +87,24 @@ public class SimpleServer {
 	 * @param id The client id of the receipient
 	 * @param s  The string to send TODO: The whole thing lmao
 	 **/
-	public boolean sendString(final int id, final String s) {
+	public NetworkingError sendString(final int id, final String s) {
 		ClientObj thisClient = this.clients.get(id);
 		if (!this.clients.get(id).isAlive) {
 			Logger.log(SimpleServer.class, LogLevel.WARNING, "Trying to send data to a dead client");
-			return false;
+			return NetworkingError.DEAD_CLIENT;
 		}
 		try {
-			this.socket.getOutputStream().write(craftPacket((byte) 0, s.getBytes()));
-			return 0;
+			thisClient.socket.getOutputStream().write(craftPacket(PacketType.SENDSTRING, s.getBytes()));
+			return NetworkingError.SUCCESS;
 		} catch (Exception e) {
 			Logger.log(SimpleServer.class, LogLevel.SEVERE, "Networking exception: %s", e.getMessage());
-			return false;
+			return NetworkingError.GENERIC_SEND_ERROR;
 		}
-		return true;
 	}
 
 
-    private NetworkingError stop() {
-        for (Map.Entry<String, Integer> client : this.clients.entrySet()) {
+    protected NetworkingError stop() {
+        for (Map.Entry<Integer,SimpleServer.ClientObj> client : this.clients.entrySet()) {
             try {
                 client.getValue().socket.close();
             } catch(IOException e) {
@@ -111,13 +112,17 @@ public class SimpleServer {
             }
             client.getValue().isAlive = false;
         }
-        self.isActive = false;
+        this.isActive = false;
         return NetworkingError.SUCCESS;
     }
 
 
 	public int getListenPort() {
 		return this.listenPort;
+	}
+
+	public boolean isActive() {
+		return this.isActive;
 	}
 
 	public Map<Integer, ClientObj> getClients() {

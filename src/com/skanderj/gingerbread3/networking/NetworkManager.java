@@ -21,6 +21,7 @@ public final class NetworkManager {
         if ( 1 > listenPort || 65535 < listenPort) return NetworkingError.INVALID_PORT_RANGE;
         SimpleServer newServer = new SimpleServer(listenPort);
         serversMap.put(identifier, newServer);
+		return NetworkingError.SUCCESS;
 	}
 
     /**
@@ -32,7 +33,7 @@ public final class NetworkManager {
     public static NetworkingError deleteServer(final String identifier) {
         if (!serversMap.containsKey(identifier)) return NetworkingError.IDENTIFIER_DOESNT_EXIST;
         SimpleServer serverToDelete = serversMap.get(identifier);
-        if (serverToDelete.isActive) return NetworkingError.SERVER_IS_RUNNING;
+        if (serverToDelete.isActive()) return NetworkingError.SERVER_IS_RUNNING;
         serversMap.remove(identifier);
         return NetworkingError.SUCCESS;
     }
@@ -47,7 +48,7 @@ public final class NetworkManager {
     public static NetworkingError stopSimpleServer(final String identifier) {
 		if (!serversMap.containsKey(identifier)) return NetworkingError.IDENTIFIER_DOESNT_EXIST;
 		SimpleServer serverToStop = serversMap.get(identifier);
-		if (!serverToStop.isActive) return NetworkingError.SERVER_NOT_RUNNING;
+		if (!serverToStop.isActive()) return NetworkingError.SERVER_NOT_RUNNING;
 		return serverToStop.stop();
     }
 
