@@ -113,7 +113,7 @@ public final class Registry {
 	/**
 	 * Sorts then updates all the game components.
 	 */
-	public static synchronized final void update(final double delta, final Object... args) {
+	public static synchronized final void update(final double delta) {
 		final List<GameObject> toUpdate = new ArrayList<GameObject>();
 		if (!Registry.deletions.isEmpty()) {
 			for (final GameObject object : Registry.deletions) {
