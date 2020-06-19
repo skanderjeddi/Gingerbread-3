@@ -1,19 +1,19 @@
 package com.skanderj.gingerbread3.networking;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
-import java.io.IOException;
 
 import com.skanderj.gingerbread3.log.Logger;
 import com.skanderj.gingerbread3.log.Logger.LogLevel;
 
 /**
  * @author Nim
-
- * This simple TCP server allows the user to simply manage clients
- * and perform simple network operations with said clients
+ * 
+ *         This simple TCP server allows the user to simply manage clients and
+ *         perform simple network operations with said clients
  **/
 public class SimpleServer {
 	private int listenPort;
@@ -41,10 +41,10 @@ public class SimpleServer {
 	 * Simple class to organize client attributes
 	 **/
 	private class ClientObj {
-		private Socket socket;
-		private boolean isAlive = true;
-		private int id;
-		private String ip;
+		public Socket socket;
+		public boolean isAlive = true;
+		public int id;
+		public String ip;
 
 		private ClientObj(final Socket socket, final int id, final String ip) {
 			this.socket = socket;
@@ -61,27 +61,27 @@ public class SimpleServer {
 	 * @param s    The raw data
 	 **/
 	private byte[] craftPacket(final PacketType type, final byte[] data) {
-		byte[] header = new byte[]{ (byte) type.ordinal() };
+		byte[] header = new byte[] { (byte) type.ordinal() };
 		byte[] packet = new byte[header.length + data.length];
-        System.arraycopy(header, 0, packet, 0, header.length);
+		System.arraycopy(header, 0, packet, 0, header.length);
 		System.arraycopy(data, 0, packet, header.length, data.length);
 		return packet;
 	}
 
 	/**
-    *   Indefinetely waits for a client to connect, and adds them to the client map.
-    **/
-    public int acceptClient() {
-        try {
-            Socket newClientSock = this.serverSocket.accept();
-            this.clients.put(this.nextId, new ClientObj(newClientSock, this.nextId, newClientSock.getInetAddress().getHostAddress()));
-            this.nextId += 1;
-            return this.nextId-1;
-        } catch(Exception e) {
-            Logger.log(SimpleServer.class, LogLevel.SEVERE, "Networking exception: %s", e.getMessage());
+	 * Indefinetely waits for a client to connect, and adds them to the client map.
+	 **/
+	public int acceptClient() {
+		try {
+			Socket newClientSock = this.serverSocket.accept();
+			this.clients.put(this.nextId, new ClientObj(newClientSock, this.nextId, newClientSock.getInetAddress().getHostAddress()));
+			this.nextId += 1;
+			return this.nextId - 1;
+		} catch (Exception e) {
+			Logger.log(SimpleServer.class, LogLevel.SEVERE, "Networking exception: %s", e.getMessage());
 			return -1;
-        }
-    }
+		}
+	}
 
 	/**
 	 * @param id The client id of the receipient
@@ -102,20 +102,18 @@ public class SimpleServer {
 		}
 	}
 
-
-    protected NetworkingError stop() {
-        for (Map.Entry<Integer,SimpleServer.ClientObj> client : this.clients.entrySet()) {
-            try {
-                client.getValue().socket.close();
-            } catch(IOException e) {
-                return NetworkingError.SOCKET_CLOSE_ERROR;
-            }
-            client.getValue().isAlive = false;
-        }
-        this.isActive = false;
-        return NetworkingError.SUCCESS;
-    }
-
+	protected NetworkingError stop() {
+		for (Map.Entry<Integer, SimpleServer.ClientObj> client : this.clients.entrySet()) {
+			try {
+				client.getValue().socket.close();
+			} catch (IOException e) {
+				return NetworkingError.SOCKET_CLOSE_ERROR;
+			}
+			client.getValue().isAlive = false;
+		}
+		this.isActive = false;
+		return NetworkingError.SUCCESS;
+	}
 
 	public int getListenPort() {
 		return this.listenPort;
