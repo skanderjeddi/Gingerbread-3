@@ -15,13 +15,12 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineEvent.Type;
-
-import com.skanderj.gingerbread3.logging.Logger;
-import com.skanderj.gingerbread3.logging.Logger.LogLevel;
-
 import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+
+import com.skanderj.gingerbread3.logging.Logger;
+import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 
 /**
  * A class used for handling all audio purposes. Can't be instantiated, only

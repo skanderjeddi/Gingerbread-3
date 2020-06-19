@@ -170,6 +170,7 @@ public class G3Demo extends Game {
 		SceneManager.register("main-menu", this.mainMenuScene);
 		SceneManager.register("main-game", this.mainGameScene);
 		SceneManager.register("settings", this.settingsScene);
+		Registry.parameterize(this.refreshMarker(), 0, 0);
 	}
 
 	@Override

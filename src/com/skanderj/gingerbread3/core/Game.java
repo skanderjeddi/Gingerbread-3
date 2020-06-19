@@ -198,7 +198,7 @@ public abstract class Game extends ThreadWrapper {
 			}
 		}
 	}
-	
+
 	protected synchronized final String refreshMarker() {
 		return this.identifier + "-refresh-marker";
 	}
