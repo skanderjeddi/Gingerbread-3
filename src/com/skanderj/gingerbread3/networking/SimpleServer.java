@@ -9,9 +9,10 @@ import java.util.Map;
 import com.skanderj.gingerbread3.log.Logger;
 import com.skanderj.gingerbread3.log.Logger.LogLevel;
 
+
 /**
  * @author Nim
- * 
+ *
  *         This simple TCP server allows the user to simply manage clients and
  *         perform simple network operations with said clients
  **/
