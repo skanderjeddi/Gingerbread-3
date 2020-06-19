@@ -1,8 +1,8 @@
 package com.skanderj.gingerbread3.particle;
 
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.object.GameObject;
-import com.skanderj.gingerbread3.core.object.GameObjectPriority;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.log.Logger;
 import com.skanderj.gingerbread3.log.Logger.LogLevel;
@@ -55,13 +55,16 @@ public final class ParticleManager extends GameObject {
 		this.updatesCounter = 0;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public synchronized void update(final double delta, final Object... args) {
 		this.updatesCounter += 1;
 		if ((this.updatesCounter % this.updateRate) == 0) {
 			for (final Particle particle : this.particles) {
-				particle.velocity.setX(particle.velocity.getX() + Utilities.randomInteger(-this.chaosValue, this.chaosValue));
-				particle.velocity.setY(particle.velocity.getY() + Utilities.randomInteger(-this.chaosValue, this.chaosValue));
+				particle.velocity.x = particle.velocity.x + Utilities.randomInteger(-this.chaosValue, this.chaosValue);
+				particle.velocity.y = particle.velocity.y + Utilities.randomInteger(-this.chaosValue, this.chaosValue);
 				particle.update(delta);
 				if ((particle.x > (this.centerX + this.maxRadius)) || (particle.x < (this.centerX - this.maxRadius))) {
 					final int randomX = this.centerX + Utilities.randomInteger(-this.radius, this.radius);
@@ -75,15 +78,21 @@ public final class ParticleManager extends GameObject {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
-	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
+	public synchronized void render(final GraphicsWrapper graphics) {
 		for (final Particle particle : this.particles) {
 			particle.render(graphics);
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
-	public GameObjectPriority priority() {
-		return GameObjectPriority.REGULAR;
+	public Priority priority() {
+		return Priority.REGULAR;
 	}
 }

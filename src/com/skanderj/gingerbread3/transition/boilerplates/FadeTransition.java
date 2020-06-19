@@ -21,19 +21,28 @@ public class FadeTransition extends Transition {
 		this.color = color;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public void update(final double delta, final Object... args) {
 		super.update(delta, args);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
-	public void render(final GraphicsWrapper graphics, final Object... args) {
+	public void render(final GraphicsWrapper graphics) {
 		int alpha = 0;
 		alpha = (int) Utilities.map(this.timer, 0, this.duration, 255, 0, false);
 		final Color newColor = new Color(this.color.getRed(), this.color.getBlue(), this.color.getGreen(), alpha);
 		graphics.rectangle(newColor, 0, 0, this.game.getWindow().getWidth(), this.game.getWindow().getHeight(), true);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public void sceneChange() {
 		super.sceneChange();

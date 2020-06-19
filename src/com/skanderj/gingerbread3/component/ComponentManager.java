@@ -116,7 +116,7 @@ public final class ComponentManager {
 	/**
 	 * Makes a list of all the active components.
 	 */
-	public static final synchronized List<Component> activeComponents() {
+	public static synchronized List<Component> activeComponents() {
 		final List<Component> active = new ArrayList<Component>();
 		for (final String identifier : ComponentManager.componentsMap.keySet()) {
 			if (ComponentManager.skippedComponents.contains(identifier)) {

@@ -7,6 +7,11 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
+/**
+ *
+ * @author Skander
+ *
+ */
 public class GraphicsWrapper {
 	public static final int DEFAULT_ORIGIN_X = 0, DEFAULT_ORIGIN_Y = 0;
 
@@ -16,47 +21,80 @@ public class GraphicsWrapper {
 		this.graphics = graphics;
 	}
 
+	/**
+	 * Self explanatory, used internally.
+	 */
 	public final synchronized void dispose() {
 		this.graphics.dispose();
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final void color(final Color color) {
 		this.graphics.setColor(color);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final void clear(final Window window, final Color color) {
 		this.graphics.setColor(color);
 		this.graphics.fillRect(0, 0, window.getWidth(), window.getHeight());
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final BufferedImage newImage(final int width, final int height) {
 		return new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final void font(final Font font) {
 		this.graphics.setFont(font);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final FontMetrics fontMetrics() {
 		return this.graphics.getFontMetrics();
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final FontMetrics fontMetrics(final Font font) {
 		return this.graphics.getFontMetrics(font);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final void image(final BufferedImage image, final int x, final int y, final int width, final int height) {
 		this.graphics.drawImage(image, x, y, width, height, null);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final void string(final String string, final int x, final int y) {
 		this.graphics.drawString(string, x, y);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final void rectangle(final Color color, final int x, final int y, final int width, final int height, final boolean fill) {
 		this.rectangle(color, x, y, width, height, fill, 0, 0);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final void rectangle(final Color color, final int x, final int y, final int width, final int height, final boolean fill, final int arcWidth, final int arcHeight) {
 		final Color tempColor = this.graphics.getColor();
 		{
@@ -70,6 +108,9 @@ public class GraphicsWrapper {
 		this.graphics.setColor(tempColor);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final void oval(final Color color, final int centerX, final int centerY, final int width, final int height, final boolean fill) {
 		final Color tempColor = this.graphics.getColor();
 		{
@@ -105,6 +146,9 @@ public class GraphicsWrapper {
 		this.graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public Graphics2D getGraphics() {
 		return this.graphics;
 	}

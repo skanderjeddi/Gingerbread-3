@@ -1,7 +1,7 @@
 package com.skanderj.gingerbread3.animation;
 
 import com.skanderj.gingerbread3.core.Game;
-import com.skanderj.gingerbread3.core.object.GameObjectPriority;
+import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.sprite.Sprite;
 import com.skanderj.gingerbread3.util.Utilities;
@@ -28,6 +28,9 @@ public class RandomOrderAnimation extends Animation {
 		this.currentSpriteTimer = 0;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public synchronized void update(final double delta, final Object... args) {
 		this.currentSpriteTimer += 1;
@@ -38,6 +41,9 @@ public class RandomOrderAnimation extends Animation {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	private final int newRandomSprite(final int previous) {
 		int r = Utilities.randomInteger(0, this.sprites.length - 1);
 		while (r == previous) {
@@ -46,8 +52,11 @@ public class RandomOrderAnimation extends Animation {
 		return r;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
-	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
+	public synchronized void render(final GraphicsWrapper graphics) {
 		graphics.image(this.sprites[this.currentSpriteIndex].getImage(), this.x, this.y, this.sprites[this.currentSpriteIndex].getWidth(), this.sprites[this.currentSpriteIndex].getHeight());
 	}
 
@@ -94,7 +103,7 @@ public class RandomOrderAnimation extends Animation {
 	}
 
 	@Override
-	public GameObjectPriority priority() {
-		return GameObjectPriority.LOW;
+	public Priority priority() {
+		return Priority.LOW;
 	}
 }

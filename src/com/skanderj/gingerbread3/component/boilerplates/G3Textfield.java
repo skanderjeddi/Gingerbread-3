@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.Textfield;
 import com.skanderj.gingerbread3.core.Game;
-import com.skanderj.gingerbread3.core.object.GameObjectPriority;
+import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.util.Utilities;
 import com.skanderj.gingerbread3.util.VisualString;
@@ -77,7 +77,7 @@ public final class G3Textfield extends Textfield {
 	 * The rendering routine.
 	 */
 	@Override
-	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
+	public synchronized void render(final GraphicsWrapper graphics) {
 		graphics.font(this.textProperties.getFont());
 		final FontMetrics metrics = graphics.fontMetrics();
 		final int fontHeight = metrics.getHeight();
@@ -342,7 +342,7 @@ public final class G3Textfield extends Textfield {
 	 * Self explanatory.
 	 */
 	@Override
-	public GameObjectPriority priority() {
-		return GameObjectPriority.LOW;
+	public Priority priority() {
+		return Priority.LOW;
 	}
 }

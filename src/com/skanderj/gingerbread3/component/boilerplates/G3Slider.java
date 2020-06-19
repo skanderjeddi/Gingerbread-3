@@ -7,7 +7,7 @@ import com.skanderj.gingerbread3.component.ComponentLabelPosition;
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.Slider;
 import com.skanderj.gingerbread3.core.Game;
-import com.skanderj.gingerbread3.core.object.GameObjectPriority;
+import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.util.Utilities;
 import com.skanderj.gingerbread3.util.VisualString;
@@ -52,7 +52,7 @@ public final class G3Slider extends Slider {
 	 * appropriate position.
 	 */
 	@Override
-	public synchronized final void render(final GraphicsWrapper graphics, final Object... args) {
+	public synchronized void render(final GraphicsWrapper graphics) {
 		graphics.rectangle(this.color, this.x, this.y, this.width, this.height, false, 0, 0);
 		graphics.rectangle(this.color.darker(), this.sliderX - (this.sliderWidth / 2), this.y - (this.sliderHeight / 4), this.sliderWidth, this.height + (this.sliderHeight / 2), true, 0, 0);
 		if (!this.label.isEmpty()) {
@@ -237,7 +237,7 @@ public final class G3Slider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public GameObjectPriority priority() {
-		return GameObjectPriority.LOW;
+	public Priority priority() {
+		return Priority.LOW;
 	}
 }

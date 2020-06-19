@@ -9,10 +9,12 @@ package com.skanderj.gingerbread3.core;
 public abstract class ThreadWrapper {
 	public static final int EXIT_SUCCESS = 0, EXIT_FAILURE = -1;
 
+	protected final String identifier;
 	private final Thread thread;
 	protected boolean isRunning;
 
 	public ThreadWrapper(final String identifier) {
+		this.identifier = identifier;
 		this.thread = new Thread((Runnable) ThreadWrapper.this::run, String.format("%s", identifier));
 		this.isRunning = false;
 	}
@@ -63,4 +65,8 @@ public abstract class ThreadWrapper {
 	 * Gets called continuously until thread is stopped
 	 */
 	protected abstract void loop();
+
+	public String getIdentifier() {
+		return this.identifier;
+	}
 }

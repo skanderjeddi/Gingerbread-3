@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 import com.skanderj.gingerbread3.component.Button;
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.core.Game;
-import com.skanderj.gingerbread3.core.object.GameObjectPriority;
+import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.util.VisualString;
 
@@ -40,7 +40,7 @@ public final class G3RoundEdgesButton extends Button {
 	 * label.
 	 */
 	@Override
-	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
+	public synchronized void render(final GraphicsWrapper graphics) {
 		graphics.rectangle(this.backgroundColor, this.x, this.y, this.width, this.height, true, this.borderIncline, this.borderIncline);
 		this.label.drawCentered(graphics, this.x, this.y, this.width, this.height);
 		graphics.rectangle(this.borderColor, this.x, this.y, this.width, this.height, false, this.borderIncline, this.borderIncline);
@@ -181,7 +181,7 @@ public final class G3RoundEdgesButton extends Button {
 	 * Self explanatory.
 	 */
 	@Override
-	public GameObjectPriority priority() {
-		return GameObjectPriority.LOW;
+	public Priority priority() {
+		return Priority.LOW;
 	}
 }

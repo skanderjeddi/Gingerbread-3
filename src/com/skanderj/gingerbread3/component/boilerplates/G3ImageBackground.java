@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 import com.skanderj.gingerbread3.component.Background;
 import com.skanderj.gingerbread3.core.Game;
-import com.skanderj.gingerbread3.core.object.GameObjectPriority;
+import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 
 public class G3ImageBackground extends Background {
@@ -32,7 +32,7 @@ public class G3ImageBackground extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
+	public synchronized void render(final GraphicsWrapper graphics) {
 		graphics.image(this.image, this.x, this.y, this.width, this.height);
 	}
 
@@ -126,7 +126,7 @@ public class G3ImageBackground extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public GameObjectPriority priority() {
-		return GameObjectPriority.HIGH;
+	public Priority priority() {
+		return Priority.HIGH;
 	}
 }

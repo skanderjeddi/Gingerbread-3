@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import com.skanderj.gingerbread3.component.Background;
 import com.skanderj.gingerbread3.core.Game;
-import com.skanderj.gingerbread3.core.object.GameObjectPriority;
+import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 
 /**
@@ -38,7 +38,7 @@ public class G3SolidColorBackground extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
+	public synchronized void render(final GraphicsWrapper graphics) {
 		graphics.rectangle(this.color, this.x, this.y, this.width, this.height, true, 0, 0);
 	}
 
@@ -132,7 +132,7 @@ public class G3SolidColorBackground extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public GameObjectPriority priority() {
-		return GameObjectPriority.HIGH;
+	public Priority priority() {
+		return Priority.HIGH;
 	}
 }

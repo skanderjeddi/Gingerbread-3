@@ -5,9 +5,10 @@ import java.awt.Color;
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.Label;
 import com.skanderj.gingerbread3.core.Game;
-import com.skanderj.gingerbread3.core.object.GameObjectPriority;
+import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.util.VisualString;
+import com.skanderj.gingerbread3.util.VisualStringProperties;
 
 /**
  * Represents a simple label centered inside a rectangle.
@@ -17,6 +18,7 @@ import com.skanderj.gingerbread3.util.VisualString;
  */
 public final class G3Label extends Label {
 	private int x, y, width, height;
+	private final String format;
 
 	public G3Label(final Game game, final int x, final int y, final int width, final int height, final VisualString graphicString) {
 		super(game, graphicString);
@@ -24,6 +26,7 @@ public final class G3Label extends Label {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.format = graphicString.getContent();
 	}
 
 	/**
@@ -31,15 +34,15 @@ public final class G3Label extends Label {
 	 */
 	@Override
 	public synchronized void update(final double delta, final Object... args) {
-		return;
+		this.graphicString = new VisualString(String.format(this.format, args), new VisualStringProperties(this.graphicString.getFont(), this.graphicString.getColor()));
 	}
 
 	/**
 	 * Just draw the string.
 	 */
 	@Override
-	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
-		this.graphicString.drawCentered(graphics, this.x, this.y, this.width, this.height, args);
+	public synchronized void render(final GraphicsWrapper graphics) {
+		this.graphicString.drawCentered(graphics, this.x, this.y, this.width, this.height);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
 			graphics.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, 0, 0);
 		}
@@ -121,7 +124,7 @@ public final class G3Label extends Label {
 	 * Self explanatory.
 	 */
 	@Override
-	public GameObjectPriority priority() {
-		return GameObjectPriority.LOW;
+	public Priority priority() {
+		return Priority.LOW;
 	}
 }

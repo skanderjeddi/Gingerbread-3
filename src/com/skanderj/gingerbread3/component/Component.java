@@ -1,8 +1,8 @@
 package com.skanderj.gingerbread3.component;
 
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.object.GameObject;
-import com.skanderj.gingerbread3.core.object.GameObjectPriority;
 
 /**
  * Represents a custom graphic component. Placeholder interface for batch
@@ -17,7 +17,7 @@ public abstract class Component extends GameObject {
 	}
 
 	@Override
-	public abstract GameObjectPriority priority();
+	public abstract Priority priority();
 
 	// Focus related methods
 	public abstract boolean canChangeFocus();

@@ -1,4 +1,4 @@
-package com.skanderj.gingerbread3.core.object;
+package com.skanderj.gingerbread3.core;
 
 /**
  * Represents a game object priority, or what order do the objects get
@@ -7,12 +7,12 @@ package com.skanderj.gingerbread3.core.object;
  * @author Skander
  *
  */
-public enum GameObjectPriority {
+public enum Priority {
 	EXTREMELY_LOW(-10), LOW(-1), REGULAR(0), HIGH(1), EXTREMELY_HIGH(10), CRITICAL(100);
 
 	public int priorityIndex;
 
-	private GameObjectPriority(final int index) {
+	private Priority(final int index) {
 		this.priorityIndex = index;
 	}
 

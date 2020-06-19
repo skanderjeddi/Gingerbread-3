@@ -3,6 +3,7 @@ package com.skanderj.gingerbread3.core;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 
+import com.skanderj.gingerbread3.core.object.GameObject;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.display.Window;
 import com.skanderj.gingerbread3.input.Keyboard;
@@ -22,10 +23,10 @@ public abstract class Game extends ThreadWrapper {
 	public static final int DEFAULT_SIZE = 400, DEFAULT_BUFFERS = 2;
 
 	private final double refreshRate;
-	protected boolean displayRefreshRate;
 	protected final Window window;
 	protected final Keyboard keyboard;
 	protected final Mouse mouse;
+	protected final Updatable refreshMarker;
 
 	/**
 	 * Creates a fullscreen window on the requested screen (deviceId).
@@ -37,6 +38,23 @@ public abstract class Game extends ThreadWrapper {
 		this.window = new Window.Fullscreen(this, title, buffers, deviceId);
 		this.keyboard = new Keyboard();
 		this.mouse = new Mouse();
+		this.refreshMarker = new Updatable() {
+			private int counter = 0;
+
+			@Override
+			public void update(final double delta, final Object... args) {
+				this.counter += 1;
+				if ((this.counter % refreshRate) == 0) {
+					this.counter = 0;
+					Logger.log(this.getClass().getEnclosingClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args[0], args[1]);
+				}
+			}
+
+			@Override
+			public Priority priority() {
+				return Priority.CRITICAL;
+			}
+		};
 	}
 
 	/**
@@ -49,13 +67,29 @@ public abstract class Game extends ThreadWrapper {
 		this.window = new Window.Regular(this, title, width, height, buffers);
 		this.keyboard = new Keyboard();
 		this.mouse = new Mouse();
+		this.refreshMarker = new Updatable() {
+			private int counter = 0;
+
+			@Override
+			public void update(final double delta, final Object... args) {
+				this.counter += 1;
+				if ((this.counter % refreshRate) == 0) {
+					this.counter = 0;
+					Logger.log(this.getClass().getEnclosingClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args[0], args[1]);
+				}
+			}
+
+			@Override
+			public Priority priority() {
+				return Priority.CRITICAL;
+			}
+		};
 	}
 
 	/**
 	 * Called internally.
 	 */
 	private final void initializeEngine() {
-		this.displayRefreshRate = false;
 		Logger.redirectSystemOutput();
 	}
 
@@ -106,6 +140,9 @@ public abstract class Game extends ThreadWrapper {
 
 	public void postCreate() {
 		this.registerGameObjects();
+		Registry.set(this.identifier + "-refresh-marker", GameObject.constructFromUpdatable(this, this.refreshMarker));
+		Registry.parameterize(this.identifier + "-refresh-marker", 0, 0);
+		Registry.skip(this.identifier + "-refresh-marker");
 		this.createComponents();
 		this.registerScenes();
 		this.window.requestFocus();
@@ -157,9 +194,7 @@ public abstract class Game extends ThreadWrapper {
 			}
 			if ((System.currentTimeMillis() - resetTime) >= 1000) {
 				resetTime += 1000;
-				if (this.displayRefreshRate) {
-					Logger.log(this.getClass(), LogLevel.DEBUG, "%d frames last second for %d updates", frames, updates);
-				}
+				Registry.parameterize(this.identifier + "-refresh-marker", frames, updates);
 				frames = 0;
 				updates = 0;
 			}

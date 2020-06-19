@@ -1,9 +1,9 @@
 package com.skanderj.gingerbread3.transition;
 
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.core.object.GameObject;
-import com.skanderj.gingerbread3.core.object.GameObjectPriority;
 import com.skanderj.gingerbread3.scene.SceneManager;
 
 /**
@@ -21,28 +21,40 @@ public abstract class Transition extends GameObject {
 		this.timer = 0;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public void update(final double delta, final Object... args) {
 		this.timer += 1;
 		if (this.timer >= this.duration) {
-			Registry.skip(this);
+			Registry.skip(Registry.identifier(this));
 			if (SceneManager.getCurrentTransition() == this) {
 				SceneManager.transition(null);
 			}
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final int getDuration() {
 		return this.duration;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public void sceneChange() {
 		this.timer = 0;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
-	public GameObjectPriority priority() {
-		return GameObjectPriority.CRITICAL;
+	public Priority priority() {
+		return Priority.CRITICAL;
 	}
 }

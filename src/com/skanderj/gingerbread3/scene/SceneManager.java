@@ -68,12 +68,12 @@ public class SceneManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static void render(final GraphicsWrapper graphics, final Object... args) {
+	public static void render(final GraphicsWrapper graphics) {
 		if (SceneManager.currentScene != null) {
-			SceneManager.currentScene.render(graphics, args);
+			SceneManager.currentScene.render(graphics);
 		}
 		if (SceneManager.currentTransition != null) {
-			SceneManager.currentTransition.render(graphics, args);
+			SceneManager.currentTransition.render(graphics);
 		}
 	}
 

@@ -47,7 +47,7 @@ public class G3Demo extends Game {
 	 */
 	public static final String IDENTIFIER = "g3-d", TITLE = "Gingerbread-3 [DEMO]";
 	public static final double REFRESH_RATE = 144.0D;
-	public static final int WIDTH = 1200, HEIGHT = (G3Demo.WIDTH / 16) * 9, BUFFERS = 3;
+	public static final int WIDTH = 1400, HEIGHT = (G3Demo.WIDTH / 16) * 9, BUFFERS = 3;
 
 	// Constants for button until I implements a better system (how? I don't
 	// fucking have a clue)
@@ -66,7 +66,7 @@ public class G3Demo extends Game {
 			public List<String> sceneObjects() {
 				// Those are the only components which will be rendered/updated during this
 				// scene
-				return Arrays.asList("main-menu-background", "play-button", "settings-button", "exit-button", "music-checkbox", "stars-background");
+				return Arrays.asList(G3Demo.this.identifier + "-refresh-marker", "background-clock", "main-menu-background", "play-button", "settings-button", "exit-button", "music-checkbox", "stars-background");
 			}
 
 			@Override
@@ -85,22 +85,20 @@ public class G3Demo extends Game {
 
 			@Override
 			public synchronized void update(final double delta, final Object... args) {
+				Registry.parameterize("stars-background", args);
 				super.update(delta, args);
 			}
 
 			@Override
-			public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
-				super.render(graphics, args);
+			public synchronized void render(final GraphicsWrapper graphics) {
+				super.render(graphics);
 			}
 		};
 		this.mainGameScene = new Scene(this) {
 			@Override
 			public void update(final double delta, final Object... args) {
+				Registry.parameterize("mouse-position-indicator", this.game.getMouse().getX(), this.game.getMouse().getY());
 				super.update(delta, args);
-				/**
-				 * Don't forget to update your skipped components accordingly.
-				 */
-				Registry.updateObject("mouse-position-indicator", delta, G3Demo.this.mouse.getX(), G3Demo.this.mouse.getY());
 				// Scene specific keyboard/mouse handling
 				if (G3Demo.this.keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
 					SceneManager.setCurrent("main-menu");
@@ -108,12 +106,8 @@ public class G3Demo extends Game {
 			}
 
 			@Override
-			public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
-				super.render(graphics, args);
-				/**
-				 * Don't forget to manually render any ignored components.
-				 */
-				Registry.renderObject("mouse-position-indicator", graphics, args);
+			public synchronized void render(final GraphicsWrapper graphics) {
+				super.render(graphics);
 			}
 
 			@Override
@@ -127,7 +121,6 @@ public class G3Demo extends Game {
 				 * If you need to ignore a specific component (for special updates), you do it
 				 * here.
 				 */
-				ComponentManager.skip("mouse-position-indicator");
 				SceneManager.transition("fade-transition");
 			}
 
@@ -167,7 +160,7 @@ public class G3Demo extends Game {
 	public void registerGameObjects() {
 		Registry.set("campfire-animation", new RandomOrderAnimation(this, (G3Demo.WIDTH / 2) - 70, G3Demo.HEIGHT - 140, Sprite.fromImages(this, "campfire_%d", ImageManager.getUniqueID("campfire")), new int[] { 8, 10, 12 }));
 		Registry.set("smoke-particles", new ParticleManager(this, G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 5, 25, 40, 10, Sprite.fromImages(this, "ashe_%d", ImageManager.getUniqueID("ashe")), Vector2.randomVectors(10, -1, 1, 0, -2), 1, 8));
-		Registry.set("stars-background", new ParticleManager(this, WIDTH - 100, 0, 10, WIDTH + 10, 500, Sprite.fromImages(this, "ashe_%d", ImageManager.getUniqueID("ashe")), Vector2.randomVectors(500, -1, -1, 1, 1), 5, 4));
+		Registry.set("stars-background", new ParticleManager(this, G3Demo.WIDTH - 100, 0, 10, G3Demo.WIDTH + 10, 500, Sprite.fromImages(this, "ashe_%d", ImageManager.getUniqueID("ashe")), Vector2.randomVectors(500, -1, -1, 1, 1), 5, 4));
 		Registry.set("fade-transition", new FadeTransition(this, 300, Color.BLACK));
 	}
 
@@ -182,8 +175,6 @@ public class G3Demo extends Game {
 	@Override
 	public void postCreate() {
 		super.postCreate();
-		// Part of debugging - should be linked to the debugging constant but I'm lazy
-		this.displayRefreshRate = true;
 		// Set the current scene
 		SceneManager.setCurrent("main-menu");
 	}

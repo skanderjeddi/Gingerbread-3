@@ -1,8 +1,8 @@
 package com.skanderj.gingerbread3.particle;
 
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.object.GameObject;
-import com.skanderj.gingerbread3.core.object.GameObjectPriority;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.math.Vector2;
 import com.skanderj.gingerbread3.sprite.Sprite;
@@ -21,30 +21,40 @@ public class Particle extends GameObject {
 		super(game);
 		this.x = x;
 		this.y = y;
-		this.sprite = sprite;
+		this.sprite = sprite.copy();
 		this.velocity = velocity;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public synchronized void update(final double delta, final Object... args) {
 		final int limit = 40;
 		if (Math.abs(this.velocity.x) > limit) {
-			this.velocity.x = (int) (Math.signum(x) * limit);
+			this.velocity.x = (int) (Math.signum(this.x) * limit);
 		}
 		if (Math.abs(this.velocity.y) > limit) {
-			this.velocity.y = (int) (Math.signum(y) * limit);
+			this.velocity.y = (int) (Math.signum(this.y) * limit);
 		}
-		this.x += this.velocity.getX();
-		this.y += this.velocity.getY();
+		this.x += this.velocity.x;
+		this.y += this.velocity.y;
+		this.sprite.update(delta, this.x, this.y);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
-	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
-		this.sprite.render(graphics, this.x, this.y);
+	public synchronized void render(final GraphicsWrapper graphics) {
+		this.sprite.render(graphics);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
-	public GameObjectPriority priority() {
-		return GameObjectPriority.REGULAR;
+	public Priority priority() {
+		return Priority.REGULAR;
 	}
 }

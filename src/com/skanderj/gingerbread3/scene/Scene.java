@@ -3,9 +3,9 @@ package com.skanderj.gingerbread3.scene;
 import java.util.List;
 
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.core.object.GameObject;
-import com.skanderj.gingerbread3.core.object.GameObjectPriority;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 
 /**
@@ -32,8 +32,8 @@ public abstract class Scene extends GameObject {
 
 	// Rendering happens here
 	@Override
-	public synchronized void render(final GraphicsWrapper graphics, final Object... args) {
-		Registry.render(graphics, args);
+	public synchronized void render(final GraphicsWrapper graphics) {
+		Registry.render(graphics);
 		// ComponentManager.render(this.game.getWindow(), graphics);
 	}
 
@@ -48,7 +48,7 @@ public abstract class Scene extends GameObject {
 	public abstract void remove();
 
 	@Override
-	public GameObjectPriority priority() {
-		return GameObjectPriority.HIGH;
+	public Priority priority() {
+		return Priority.HIGH;
 	}
 }
