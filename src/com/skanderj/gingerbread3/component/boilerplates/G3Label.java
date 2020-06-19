@@ -17,7 +17,6 @@ import com.skanderj.gingerbread3.util.VisualString;
  */
 public final class G3Label extends Label {
 	private int x, y, width, height;
-	private final String formatString;
 
 	public G3Label(final Game game, final int x, final int y, final int width, final int height, final VisualString graphicString) {
 		super(game, graphicString);
@@ -25,7 +24,6 @@ public final class G3Label extends Label {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.formatString = graphicString.getContent();
 	}
 
 	/**
@@ -33,7 +31,7 @@ public final class G3Label extends Label {
 	 */
 	@Override
 	public synchronized void update(final double delta, final Object... args) {
-		this.graphicString.setContent(String.format(this.formatString, args));
+		return;
 	}
 
 	/**

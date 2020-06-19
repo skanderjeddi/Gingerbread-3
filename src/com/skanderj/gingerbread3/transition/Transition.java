@@ -1,9 +1,9 @@
 package com.skanderj.gingerbread3.transition;
 
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.core.object.GameObject;
 import com.skanderj.gingerbread3.core.object.GameObjectPriority;
-import com.skanderj.gingerbread3.core.object.GameRegistry;
 import com.skanderj.gingerbread3.scene.SceneManager;
 
 /**
@@ -25,7 +25,7 @@ public abstract class Transition extends GameObject {
 	public void update(final double delta, final Object... args) {
 		this.timer += 1;
 		if (this.timer >= this.duration) {
-			GameRegistry.skip(this);
+			Registry.skip(this);
 			if (SceneManager.getCurrentTransition() == this) {
 				SceneManager.transition(null);
 			}

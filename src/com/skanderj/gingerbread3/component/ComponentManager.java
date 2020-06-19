@@ -1,7 +1,6 @@
 package com.skanderj.gingerbread3.component;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -9,9 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.skanderj.gingerbread3.audio.AudioManager;
-import com.skanderj.gingerbread3.core.object.GameRegistry;
-import com.skanderj.gingerbread3.display.GraphicsWrapper;
-import com.skanderj.gingerbread3.input.Mouse;
+import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.log.Logger;
 import com.skanderj.gingerbread3.log.Logger.LogLevel;
 
@@ -44,7 +41,7 @@ public final class ComponentManager {
 	 */
 	public static void register(final String identifier, final Component component) {
 		ComponentManager.componentsMap.put(identifier, component);
-		GameRegistry.set(identifier, component);
+		Registry.set(identifier, component);
 	}
 
 	/**
@@ -117,58 +114,18 @@ public final class ComponentManager {
 	}
 
 	/**
-	 * Updates every component.
+	 * Makes a list of all the active components.
 	 */
-	public static final synchronized void update(final double delta, final Object... args) {
-		final List<Component> toUpdate = new ArrayList<Component>();
+	public static final synchronized List<Component> activeComponents() {
+		final List<Component> active = new ArrayList<Component>();
 		for (final String identifier : ComponentManager.componentsMap.keySet()) {
 			if (ComponentManager.skippedComponents.contains(identifier)) {
 				continue;
 			}
 			final Component component = ComponentManager.componentsMap.get(identifier);
-			toUpdate.add(component);
+			active.add(component);
 		}
-		Collections.sort(toUpdate);
-		for (final Component component : toUpdate) {
-			if (component.containsMouse(component.getGame().getMouse().getX(), component.getGame().getMouse().getY()) && component.getGame().getMouse().isButtonDown(Mouse.BUTTON_LEFT)) {
-				ComponentManager.giveFocus(component);
-			}
-			component.update(delta, args);
-		}
-	}
-
-	// TODO: not finished
-	/**
-	 * Updates a specific component (for special cases).
-	 */
-	public static final synchronized void updateSpecific(final String identifier, final double delta, final Object... args) {
-		ComponentManager.componentsMap.get(identifier).update(delta, args);
-	}
-
-	/**
-	 * Draws every component.
-	 */
-	public static synchronized void render(final GraphicsWrapper graphics, final Object... args) {
-		final List<Component> toRender = new ArrayList<Component>();
-		for (final String identifier : ComponentManager.componentsMap.keySet()) {
-			if (ComponentManager.skippedComponents.contains(identifier)) {
-				continue;
-			}
-			final Component component = ComponentManager.componentsMap.get(identifier);
-			toRender.add(component);
-		}
-		Collections.sort(toRender);
-		for (final Component component : toRender) {
-			component.render(graphics, args);
-		}
-	}
-
-	// TODO: not finished
-	/**
-	 * Draws a specific component (for special cases).
-	 */
-	public static final synchronized void renderSpecific(final String identifier, final GraphicsWrapper graphics, final Object... args) {
-		ComponentManager.componentsMap.get(identifier).render(graphics, args);
+		return active;
 	}
 
 	/**

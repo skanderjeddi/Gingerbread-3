@@ -18,7 +18,7 @@ import com.skanderj.gingerbread3.component.boilerplates.G3Slider;
 import com.skanderj.gingerbread3.component.boilerplates.G3SolidColorBackground;
 import com.skanderj.gingerbread3.component.boilerplates.G3StraightEdgesButton;
 import com.skanderj.gingerbread3.core.Game;
-import com.skanderj.gingerbread3.core.object.GameRegistry;
+import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.io.FontManager;
@@ -31,7 +31,6 @@ import com.skanderj.gingerbread3.scene.Scene;
 import com.skanderj.gingerbread3.scene.SceneManager;
 import com.skanderj.gingerbread3.sprite.Sprite;
 import com.skanderj.gingerbread3.transition.boilerplates.FadeTransition;
-import com.skanderj.gingerbread3.util.Utilities;
 import com.skanderj.gingerbread3.util.VisualString;
 import com.skanderj.gingerbread3.util.VisualStringProperties;
 
@@ -101,13 +100,10 @@ public class G3Demo extends Game {
 				/**
 				 * Don't forget to update your skipped components accordingly.
 				 */
-				ComponentManager.updateSpecific("mouse-position-indicator", delta, G3Demo.this.mouse.getX(), G3Demo.this.mouse.getY());
+				Registry.updateObject("mouse-position-indicator", delta, G3Demo.this.mouse.getX(), G3Demo.this.mouse.getY());
 				// Scene specific keyboard/mouse handling
 				if (G3Demo.this.keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
 					SceneManager.setCurrent("main-menu");
-				}
-				if (G3Demo.this.keyboard.isKeyDownInFrame(Keyboard.KEY_SPACE)) {
-					AudioManager.play("fart_" + Utilities.randomInteger(0, 4));
 				}
 			}
 
@@ -117,7 +113,7 @@ public class G3Demo extends Game {
 				/**
 				 * Don't forget to manually render any ignored components.
 				 */
-				ComponentManager.renderSpecific("mouse-position-indicator", graphics, args);
+				Registry.renderObject("mouse-position-indicator", graphics, args);
 			}
 
 			@Override
@@ -169,10 +165,10 @@ public class G3Demo extends Game {
 
 	@Override
 	public void registerGameObjects() {
-		GameRegistry.set("campfire-animation", new RandomOrderAnimation(this, (G3Demo.WIDTH / 2) - 70, G3Demo.HEIGHT - 140, Sprite.fromImages(this, "campfire_%d", ImageManager.getUniqueID("campfire")), new int[] { 8, 10, 12 }));
-		GameRegistry.set("smoke-particles", new ParticleManager(this, G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 5, 25, 40, 10, Sprite.fromImages(this, "ashe_%d", ImageManager.getUniqueID("ashe")), Vector2.randomVectors(10, -1, 1, 0, -2), 1, 8));
-		GameRegistry.set("stars-background", new ParticleManager(this, WIDTH-100, 0, 10, WIDTH + 10, 500, Sprite.fromImages(this, "ashe_%d", ImageManager.getUniqueID("ashe")), Vector2.randomVectors(500, -1, -1, 1, 1), 5, 4));
-		GameRegistry.set("fade-transition", new FadeTransition(this, 300, Color.BLACK));
+		Registry.set("campfire-animation", new RandomOrderAnimation(this, (G3Demo.WIDTH / 2) - 70, G3Demo.HEIGHT - 140, Sprite.fromImages(this, "campfire_%d", ImageManager.getUniqueID("campfire")), new int[] { 8, 10, 12 }));
+		Registry.set("smoke-particles", new ParticleManager(this, G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 5, 25, 40, 10, Sprite.fromImages(this, "ashe_%d", ImageManager.getUniqueID("ashe")), Vector2.randomVectors(10, -1, 1, 0, -2), 1, 8));
+		Registry.set("stars-background", new ParticleManager(this, WIDTH - 100, 0, 10, WIDTH + 10, 500, Sprite.fromImages(this, "ashe_%d", ImageManager.getUniqueID("ashe")), Vector2.randomVectors(500, -1, -1, 1, 1), 5, 4));
+		Registry.set("fade-transition", new FadeTransition(this, 300, Color.BLACK));
 	}
 
 	@Override

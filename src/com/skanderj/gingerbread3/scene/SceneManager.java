@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.skanderj.gingerbread3.component.ComponentManager;
-import com.skanderj.gingerbread3.core.object.GameRegistry;
+import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.transition.Transition;
 
@@ -47,7 +47,7 @@ public class SceneManager {
 			SceneManager.currentScene.remove();
 		}
 		SceneManager.currentScene = SceneManager.get(identifier);
-		GameRegistry.newScene();
+		Registry.newScene();
 		final List<String> gameObjects = SceneManager.currentScene.sceneObjects();
 		ComponentManager.considerOnly(gameObjects);
 		SceneManager.currentScene.present();
@@ -78,7 +78,7 @@ public class SceneManager {
 	}
 
 	public static void transition(final String identifier) {
-		SceneManager.currentTransition = (Transition) GameRegistry.get(identifier);
+		SceneManager.currentTransition = (Transition) Registry.get(identifier);
 	}
 
 	public static Scene scene() {
