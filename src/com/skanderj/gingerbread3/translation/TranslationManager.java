@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.skanderj.gingerbread3.log.Logger;
-import com.skanderj.gingerbread3.log.Logger.LogLevel;
+import com.skanderj.gingerbread3.logging.Logger;
+import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 
 /**
  * A class used to load and retrieve translations from .lang files - a more

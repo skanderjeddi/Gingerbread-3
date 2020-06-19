@@ -9,8 +9,8 @@ import java.util.Set;
 
 import com.skanderj.gingerbread3.audio.AudioManager;
 import com.skanderj.gingerbread3.core.Registry;
-import com.skanderj.gingerbread3.log.Logger;
-import com.skanderj.gingerbread3.log.Logger.LogLevel;
+import com.skanderj.gingerbread3.logging.Logger;
+import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 
 /**
  * A class used for registering, handling, updating and rendering all the

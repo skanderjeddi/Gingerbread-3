@@ -13,8 +13,8 @@ import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.core.object.GameObject;
 import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.input.Mouse;
-import com.skanderj.gingerbread3.log.Logger;
-import com.skanderj.gingerbread3.log.Logger.LogLevel;
+import com.skanderj.gingerbread3.logging.Logger;
+import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 import com.skanderj.gingerbread3.scene.SceneManager;
 
 /**

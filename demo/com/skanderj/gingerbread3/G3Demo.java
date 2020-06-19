@@ -23,8 +23,8 @@ import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.io.FontManager;
 import com.skanderj.gingerbread3.io.ImageManager;
-import com.skanderj.gingerbread3.log.Logger;
-import com.skanderj.gingerbread3.log.Logger.DebuggingType;
+import com.skanderj.gingerbread3.logging.Logger;
+import com.skanderj.gingerbread3.logging.Logger.DebuggingType;
 import com.skanderj.gingerbread3.math.Vector2;
 import com.skanderj.gingerbread3.particle.ParticleManager;
 import com.skanderj.gingerbread3.scene.Scene;
@@ -66,7 +66,7 @@ public class G3Demo extends Game {
 			public List<String> sceneObjects() {
 				// Those are the only components which will be rendered/updated during this
 				// scene
-				return Arrays.asList(G3Demo.this.identifier + "-refresh-marker", "background-clock", "main-menu-background", "play-button", "settings-button", "exit-button", "music-checkbox", "stars-background");
+				return Arrays.asList(G3Demo.this.refreshMarker(), "background-clock", "main-menu-background", "play-button", "settings-button", "exit-button", "music-checkbox", "stars-background");
 			}
 
 			@Override
@@ -112,7 +112,7 @@ public class G3Demo extends Game {
 
 			@Override
 			public List<String> sceneObjects() {
-				return Arrays.asList("main-game-background", "instructions-label", "mouse-position-indicator");
+				return Arrays.asList(G3Demo.this.refreshMarker(), "main-game-background", "instructions-label", "mouse-position-indicator");
 			}
 
 			@Override
@@ -132,7 +132,7 @@ public class G3Demo extends Game {
 		this.settingsScene = new Scene(this) {
 			@Override
 			public List<String> sceneObjects() {
-				return Arrays.asList("main-menu-music-volume", "back-to-main-menu-button");
+				return Arrays.asList(G3Demo.this.refreshMarker(), "main-menu-music-volume", "back-to-main-menu-button");
 			}
 
 			@Override

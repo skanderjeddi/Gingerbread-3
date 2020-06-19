@@ -6,8 +6,8 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.skanderj.gingerbread3.log.Logger;
-import com.skanderj.gingerbread3.log.Logger.LogLevel;
+import com.skanderj.gingerbread3.logging.Logger;
+import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 
 /**
  * A class representing an AZERTY (!!!) keyboard, although it can be used for

@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.skanderj.gingerbread3.audio.AudioManager;
-import com.skanderj.gingerbread3.log.Logger;
-import com.skanderj.gingerbread3.log.Logger.LogLevel;
+import com.skanderj.gingerbread3.logging.Logger;
+import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 
 /**
  * A class used for handling all fonts purposes. Can't be instantiated, only

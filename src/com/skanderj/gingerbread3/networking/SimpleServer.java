@@ -6,8 +6,8 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.skanderj.gingerbread3.log.Logger;
-import com.skanderj.gingerbread3.log.Logger.LogLevel;
+import com.skanderj.gingerbread3.logging.Logger;
+import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 
 
 /**

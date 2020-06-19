@@ -8,8 +8,8 @@ import com.skanderj.gingerbread3.display.GraphicsWrapper;
 import com.skanderj.gingerbread3.display.Window;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.Mouse;
-import com.skanderj.gingerbread3.log.Logger;
-import com.skanderj.gingerbread3.log.Logger.LogLevel;
+import com.skanderj.gingerbread3.logging.Logger;
+import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 import com.skanderj.gingerbread3.scene.SceneManager;
 
 /**
@@ -140,9 +140,7 @@ public abstract class Game extends ThreadWrapper {
 
 	public void postCreate() {
 		this.registerGameObjects();
-		Registry.set(this.identifier + "-refresh-marker", GameObject.constructFromUpdatable(this, this.refreshMarker));
-		Registry.parameterize(this.identifier + "-refresh-marker", 0, 0);
-		Registry.skip(this.identifier + "-refresh-marker");
+		Registry.set(this.refreshMarker(), GameObject.constructFromUpdatable(this, this.refreshMarker));
 		this.createComponents();
 		this.registerScenes();
 		this.window.requestFocus();
@@ -199,6 +197,10 @@ public abstract class Game extends ThreadWrapper {
 				updates = 0;
 			}
 		}
+	}
+	
+	protected synchronized final String refreshMarker() {
+		return this.identifier + "-refresh-marker";
 	}
 
 	/**

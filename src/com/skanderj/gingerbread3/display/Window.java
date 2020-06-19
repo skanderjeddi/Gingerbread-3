@@ -16,8 +16,8 @@ import java.awt.image.BufferStrategy;
 
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.input.InputDevice;
-import com.skanderj.gingerbread3.log.Logger;
-import com.skanderj.gingerbread3.log.Logger.LogLevel;
+import com.skanderj.gingerbread3.logging.Logger;
+import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 
 /**
  * A class representing an abstract window. Subclasses Regular and Fullscreen

@@ -11,8 +11,8 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import com.skanderj.gingerbread3.audio.AudioManager;
-import com.skanderj.gingerbread3.log.Logger;
-import com.skanderj.gingerbread3.log.Logger.LogLevel;
+import com.skanderj.gingerbread3.logging.Logger;
+import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 
 /**
  * A class used for handling all images purposes. Can't be instantiated, only

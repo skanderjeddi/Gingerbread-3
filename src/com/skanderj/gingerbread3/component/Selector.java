@@ -6,8 +6,8 @@ import java.util.List;
 import com.skanderj.gingerbread3.component.action.ComponentAction;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.input.Mouse;
-import com.skanderj.gingerbread3.log.Logger;
-import com.skanderj.gingerbread3.log.Logger.LogLevel;
+import com.skanderj.gingerbread3.logging.Logger;
+import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 
 /**
  * Represents an abstract selector, basis for other selector classes which can

@@ -1,4 +1,4 @@
-package com.skanderj.gingerbread3.log;
+package com.skanderj.gingerbread3.logging;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
