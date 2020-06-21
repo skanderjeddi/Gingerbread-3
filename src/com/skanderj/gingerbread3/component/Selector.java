@@ -43,7 +43,7 @@ public abstract class Selector extends Component {
 		}
 
 		public final void setAction(final ComponentState state, final ComponentAction action) {
-			if (state == ComponentState.ON_CLICK) {
+			if (state == ComponentState.ACTIVE) {
 				Logger.log(Selector.SelectorArrow.class, LogLevel.ERROR, "Can't change the on click behavior of a selector arrow");
 			} else {
 				this.actions[state.getIdentifier()] = action;
@@ -84,13 +84,13 @@ public abstract class Selector extends Component {
 		this.currentOptionIndex = this.options.lastIndexOf(defaultOption);
 		this.leftArrow = new SelectorArrow();
 		this.rightArrow = new SelectorArrow();
-		this.leftArrow.actions[ComponentState.ON_CLICK.getIdentifier()] = args -> {
+		this.leftArrow.actions[ComponentState.ACTIVE.getIdentifier()] = args -> {
 			Selector.this.currentOptionIndex -= 1;
 			if (Selector.this.currentOptionIndex < 0) {
 				Selector.this.currentOptionIndex = Selector.this.options.size() - 1;
 			}
 		};
-		this.rightArrow.actions[ComponentState.ON_CLICK.getIdentifier()] = args -> {
+		this.rightArrow.actions[ComponentState.ACTIVE.getIdentifier()] = args -> {
 			Selector.this.currentOptionIndex += 1;
 			Selector.this.currentOptionIndex %= Selector.this.options.size();
 		};
@@ -107,11 +107,11 @@ public abstract class Selector extends Component {
 		this.leftArrow.previousState = this.leftArrow.currentState;
 		this.rightArrow.previousState = this.rightArrow.currentState;
 		// Get the mouse position
-		final int mouseX = this.game.getMouse().getX(), mouseY = this.game.getMouse().getY();
+		final int mouseX = this.game.mouse().getX(), mouseY = this.game.mouse().getY();
 		// Left arrow handling, this block magically works and it took me a lot of time
 		// but I couldn't for the life of me explain it..
 		{
-			final boolean mouseInLeft = this.leftArrowContainsMouse(mouseX, mouseY), mouseClicked = this.game.getMouse().isButtonDown(Mouse.BUTTON_LEFT);
+			final boolean mouseInLeft = this.leftArrowContainsMouse(mouseX, mouseY), mouseClicked = this.game.mouse().isButtonDown(Mouse.BUTTON_LEFT);
 			if (mouseInLeft && mouseClicked && !this.leftArrow.hasFocus) {
 				this.leftArrow.hasFocus = true;
 			}
@@ -128,13 +128,13 @@ public abstract class Selector extends Component {
 				this.leftArrow.mouseWasIn = false;
 			}
 			if ((this.leftArrow.previousState == ComponentState.HELD) && ((this.leftArrow.currentState == ComponentState.IDLE) || (this.leftArrow.currentState == ComponentState.HOVERED)) && mouseInLeft) {
-				this.leftArrow.currentState = ComponentState.ON_CLICK;
+				this.leftArrow.currentState = ComponentState.ACTIVE;
 			}
 		}
 		// Right arrow handling, this block magically works and it took me a lot of time
 		// but I couldn't for the life of me explain it..
 		{
-			final boolean mouseInRight = this.rightArrowContainsMouse(mouseX, mouseY), mouseClicked = this.game.getMouse().isButtonDown(Mouse.BUTTON_LEFT);
+			final boolean mouseInRight = this.rightArrowContainsMouse(mouseX, mouseY), mouseClicked = this.game.mouse().isButtonDown(Mouse.BUTTON_LEFT);
 			if (mouseInRight && mouseClicked && !this.rightArrow.hasFocus) {
 				this.rightArrow.hasFocus = true;
 			}
@@ -151,7 +151,7 @@ public abstract class Selector extends Component {
 				this.rightArrow.mouseWasIn = false;
 			}
 			if ((this.rightArrow.previousState == ComponentState.HELD) && ((this.rightArrow.currentState == ComponentState.IDLE) || (this.rightArrow.currentState == ComponentState.HOVERED)) && mouseInRight) {
-				this.rightArrow.currentState = ComponentState.ON_CLICK;
+				this.rightArrow.currentState = ComponentState.ACTIVE;
 			}
 		}
 		this.leftArrow.actions[this.leftArrow.currentState.getIdentifier()].execute(delta);

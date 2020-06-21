@@ -46,6 +46,8 @@ public abstract class Window {
 
 	protected boolean closeRequested, created;
 
+	protected Screen screen;
+
 	/**
 	 * Self explanatory.
 	 */
@@ -59,6 +61,7 @@ public abstract class Window {
 		this.canvas = new Canvas();
 		this.closeRequested = false;
 		this.created = false;
+		this.screen = new Screen(width, height);
 	}
 
 	public abstract void create();
@@ -185,18 +188,8 @@ public abstract class Window {
 		return this.closeRequested;
 	}
 
-	/**
-	 * Self explanatory.
-	 */
-	public final int getWP(final float proportion) {
-		return (int) Math.floor(this.width * proportion);
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public final int getHP(final float proportion) {
-		return (int) Math.floor(this.height * proportion);
+	public final Screen screen() {
+		return this.screen;
 	}
 
 	/**

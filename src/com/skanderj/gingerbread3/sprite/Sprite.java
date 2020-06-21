@@ -8,7 +8,7 @@ import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.core.object.GameObject;
-import com.skanderj.gingerbread3.display.GraphicsWrapper;
+import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.io.ImageManager;
 
 /**
@@ -74,8 +74,8 @@ public class Sprite extends GameObject {
 	 * Self explanatory.
 	 */
 	@Override
-	public synchronized final void render(final GraphicsWrapper graphics) {
-		graphics.image(this.image, this.x, this.y, this.width, this.height);
+	public synchronized final void render(final Screen screen) {
+		screen.image(this.image, this.x, this.y, this.width, this.height);
 	}
 
 	/**

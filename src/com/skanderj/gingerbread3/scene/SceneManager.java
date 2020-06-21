@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.core.Registry;
-import com.skanderj.gingerbread3.display.GraphicsWrapper;
+import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.transition.Transition;
 
 /**
@@ -68,12 +68,12 @@ public class SceneManager {
 	/**
 	 * Self explanatory.
 	 */
-	public static void render(final GraphicsWrapper graphics) {
+	public static void render(final Screen screen) {
 		if (SceneManager.currentScene != null) {
-			SceneManager.currentScene.render(graphics);
+			SceneManager.currentScene.render(screen);
 		}
 		if (SceneManager.currentTransition != null) {
-			SceneManager.currentTransition.render(graphics);
+			SceneManager.currentTransition.render(screen);
 		}
 	}
 

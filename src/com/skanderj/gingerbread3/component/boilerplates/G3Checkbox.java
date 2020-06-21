@@ -7,7 +7,7 @@ import com.skanderj.gingerbread3.component.Checkbox;
 import com.skanderj.gingerbread3.component.ComponentLabelPosition;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.display.GraphicsWrapper;
+import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.util.VisualString;
 
 /**
@@ -45,25 +45,25 @@ public class G3Checkbox extends Checkbox {
 	 * appropriate position.
 	 */
 	@Override
-	public synchronized void render(final GraphicsWrapper graphics) {
-		graphics.rectangle(this.backgroundColor, this.x, this.y, this.width, this.height, true, 0, 0);
+	public synchronized void render(final Screen screen) {
+		screen.rectangle(this.backgroundColor, this.x, this.y, this.width, this.height, true, 0, 0);
 		if (this.isChecked) {
-			graphics.rectangle(this.crossColor, this.x + 3, this.y + 3, this.width - 5, this.height - 5, true, 0, 0);
+			screen.rectangle(this.crossColor, this.x + 3, this.y + 3, this.width - 5, this.height - 5, true, 0, 0);
 		}
-		graphics.rectangle(this.borderColor, this.x, this.y, this.width, this.height, false, 0, 0);
+		screen.rectangle(this.borderColor, this.x, this.y, this.width, this.height, false, 0, 0);
 		if (!this.label.isEmpty()) {
 			switch (this.labelPosition) {
 			case TOP:
-				this.label.draw(graphics, this.x, this.y - this.label.getHeight(graphics));
+				this.label.draw(screen, this.x, this.y - this.label.getHeight(screen));
 				break;
 			case BOTTOM:
-				this.label.draw(graphics, this.x, this.y + this.height + this.label.getAugmentedHeight(graphics));
+				this.label.draw(screen, this.x, this.y + this.height + this.label.getAugmentedHeight(screen));
 				break;
 			case LEFT:
-				this.label.drawCenteredWidthless(graphics, this.x - 10 - this.label.getWidth(graphics), this.y, this.height);
+				this.label.drawCenteredWidthless(screen, this.x - 10 - this.label.getWidth(screen), this.y, this.height);
 				break;
 			case RIGHT:
-				this.label.drawCenteredWidthless(graphics, this.x + this.width + 10, this.y, this.height);
+				this.label.drawCenteredWidthless(screen, this.x + this.width + 10, this.y, this.height);
 				break;
 			}
 		}

@@ -40,6 +40,9 @@ public class Matrix {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final void copyFrom(final double[][] cells) {
 		for (int line = 0; line < this.lines; line += 1) {
 			for (int column = 0; column < this.columns; column += 1) {
@@ -48,6 +51,9 @@ public class Matrix {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final void scale(final double k) {
 		for (int line = 0; line < this.lines; line += 1) {
 			for (int column = 0; column < this.columns; column += 1) {
@@ -56,6 +62,9 @@ public class Matrix {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final void add(final Matrix matrix) {
 		for (int line = 0; line < this.lines; line += 1) {
 			for (int column = 0; column < this.columns; column += 1) {
@@ -64,6 +73,9 @@ public class Matrix {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final void subtract(final Matrix matrix) {
 		for (int line = 0; line < this.lines; line += 1) {
 			for (int column = 0; column < this.columns; column += 1) {
@@ -72,6 +84,9 @@ public class Matrix {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final void multiply(final Matrix matrix) {
 		Matrix product = new Matrix(this.lines, matrix.columns);
 		if (this.columns == matrix.lines) {
@@ -87,6 +102,9 @@ public class Matrix {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final void transpose() {
 		final Matrix transpose = new Matrix(this.columns, this.lines);
 		for (int line = 0; line < this.lines; line += 1) {
@@ -97,6 +115,9 @@ public class Matrix {
 		this.copyFrom(transpose.cells);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final double determinant() {
 		final boolean square = this.isSquare();
 		if (square) {
@@ -113,11 +134,17 @@ public class Matrix {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final boolean isSquare() {
 		return this.lines == this.columns;
 	}
 
-	public Matrix minor(final int targetLine, final int targetColumn) {
+	/**
+	 * Used internally.
+	 */
+	private final Matrix minor(final int targetLine, final int targetColumn) {
 		final Matrix minor = new Matrix(this.lines - 1, this.columns - 1);
 		for (int line = 0; line < this.lines; line += 1) {
 			for (int column = 0; (line != targetLine) && (column < this.columns); column += 1) {
@@ -129,90 +156,102 @@ public class Matrix {
 		return minor;
 	}
 
-	public final double[] reduceLine(final int i) {
-		final double[] line = new double[this.cells[i].length + 1];
-		if (this.cells[i][i] != -1.0F) {
-			final double f = this.cells[i][i];
-			for (int j = 0; j < this.cells[i].length; j += 1) {
-				line[j] = this.cells[i][j] / f;
+	/**
+	 * Used internally.
+	 */
+	private final double[] reduceLine(final int lineIndex) {
+		final double[] line = new double[this.cells[lineIndex].length + 1];
+		if (this.cells[lineIndex][lineIndex] != -1.0F) {
+			final double scaleFactor = this.cells[lineIndex][lineIndex];
+			for (int column = 0; column < this.cells[lineIndex].length; column += 1) {
+				line[column] = this.cells[lineIndex][column] / scaleFactor;
 			}
-			line[line.length - 1] = f;
+			line[line.length - 1] = scaleFactor;
 			return line;
 		} else {
-			for (int j = 0; j < this.cells[i].length; j += 1) {
-				line[j] = this.cells[i][j];
+			for (int column = 0; column < this.cells[lineIndex].length; column += 1) {
+				line[column] = this.cells[lineIndex][column];
 			}
 			line[line.length - 1] = 1.0F;
 			return line;
 		}
 	}
 
-	public final double[] scaleLine(final int i, final double scalar) {
-		final double[] line = new double[this.cells[i].length];
-		for (int j = 0; j < this.cells[i].length; j += 1) {
-			line[j] = this.cells[i][j] * scalar;
+	/**
+	 * Used internally.
+	 */
+	private final double[] scaleLine(final int lineIndex, final double scalar) {
+		final double[] line = new double[this.cells[lineIndex].length];
+		for (int column = 0; column < this.cells[lineIndex].length; column += 1) {
+			line[column] = this.cells[lineIndex][column] * scalar;
 		}
 		return line;
 	}
 
-	public final double[] subtractLines(final int j, final int i, final double scalar) {
-		final double[] diff = new double[this.cells[j].length];
-		for (int k = 0; k < this.cells[j].length; k += 1) {
-			diff[k] = (this.cells[j][k] - (scalar * this.cells[i][k]));
+	/**
+	 * Used internally.
+	 */
+	private final double[] subtractLines(final int firstLine, final int secondLine, final double scalar) {
+		final double[] diff = new double[this.cells[firstLine].length];
+		for (int column = 0; column < this.cells[firstLine].length; column += 1) {
+			diff[column] = (this.cells[firstLine][column] - (scalar * this.cells[secondLine][column]));
 		}
 		return diff;
 	}
 
+	/**
+	 * Self explanatory. Pretty fast.
+	 */
 	public final Matrix inverseByGaussianReduction() {
-		final Matrix reduc = new Matrix(this.cells.length, this.cells[0].length);
-		final Matrix inv = new Matrix(this.cells.length, this.cells[0].length);
-		for (int i = 0; i < this.cells.length; i += 1) {
-			for (int j = 0; j < this.cells[i].length; j += 1) {
-				reduc.cells[i][j] = this.cells[i][j];
-				if (i == j) {
-					inv.cells[i][j] = 1.0F;
+		final Matrix reducedMatrix = new Matrix(this.lines, this.columns);
+		final Matrix invertedMatrix = new Matrix(this.lines, this.columns);
+		for (int line = 0; line < this.lines; line += 1) {
+			for (int column = 0; column < this.columns; column += 1) {
+				reducedMatrix.cells[line][column] = this.cells[line][column];
+				if (line == column) {
+					invertedMatrix.cells[line][column] = 1.0F;
 				}
 			}
 		}
-		double[] rLine = reduc.reduceLine(0);
-		double f = rLine[rLine.length - 1];
-		for (int j = 0; j < reduc.cells[0].length; j += 1) {
-			reduc.cells[0][j] = rLine[j];
+		double[] reducedLine = reducedMatrix.reduceLine(0);
+		double factor = reducedLine[reducedLine.length - 1];
+		for (int column = 0; column < reducedMatrix.columns; column += 1) {
+			reducedMatrix.cells[0][column] = reducedLine[column];
 		}
-		inv.cells[0] = inv.scaleLine(0, 1.0 / f);
-		int c = 0;
-		for (int k = 1; k < reduc.cells.length; k += 1) {
-			for (int i = k; i < reduc.cells.length; i += 1) {
-				f = reduc.cells[i][c];
-				if (f == 0.0) {
+		invertedMatrix.cells[0] = invertedMatrix.scaleLine(0, 1.0 / factor);
+		int cursor = 0;
+		for (int line = 1; line < reducedMatrix.lines; line += 1) {
+			for (int line2 = line; line2 < reducedMatrix.lines; line2 += 1) {
+				factor = reducedMatrix.cells[line2][cursor];
+				if (factor == 0.0) {
 					continue;
 				} else {
-					reduc.cells[i] = reduc.subtractLines(i, c, f);
-					inv.cells[i] = inv.subtractLines(i, c, f);
+					reducedMatrix.cells[line2] = reducedMatrix.subtractLines(line2, cursor, factor);
+					invertedMatrix.cells[line2] = invertedMatrix.subtractLines(line2, cursor, factor);
 				}
 			}
-			rLine = reduc.reduceLine(k);
-			f = rLine[rLine.length - 1];
-			for (int j = 0; j < reduc.cells[0].length; j += 1) {
-				reduc.cells[k][j] = rLine[j];
+			reducedLine = reducedMatrix.reduceLine(line);
+			factor = reducedLine[reducedLine.length - 1];
+			for (int column = 0; column < reducedMatrix.columns; column += 1) {
+				reducedMatrix.cells[line][column] = reducedLine[column];
 			}
-			inv.cells[k] = inv.scaleLine(k, 1 / f);
-			c += 1;
+			invertedMatrix.cells[line] = invertedMatrix.scaleLine(line, 1 / factor);
+			cursor += 1;
 		}
-		c = this.cells.length - 1;
-		for (int k = this.cells.length - 2; k >= 0; k -= 1) {
-			for (int i = k; i >= 0; i -= 1) {
-				f = reduc.cells[i][c];
-				if (f == 0) {
+		cursor = this.lines - 1;
+		for (int line = this.lines - 2; line >= 0; line -= 1) {
+			for (int LineIndex = line; LineIndex >= 0; LineIndex -= 1) {
+				factor = reducedMatrix.cells[LineIndex][cursor];
+				if (factor == 0) {
 					continue;
 				} else {
-					reduc.cells[i] = reduc.subtractLines(i, c, f);
-					inv.cells[i] = inv.subtractLines(i, c, f);
+					reducedMatrix.cells[LineIndex] = reducedMatrix.subtractLines(LineIndex, cursor, factor);
+					invertedMatrix.cells[LineIndex] = invertedMatrix.subtractLines(LineIndex, cursor, factor);
 				}
 			}
-			c -= 1;
+			cursor -= 1;
 		}
-		return inv;
+		return invertedMatrix;
 	}
 
 	@Override

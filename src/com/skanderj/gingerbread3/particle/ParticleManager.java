@@ -3,7 +3,7 @@ package com.skanderj.gingerbread3.particle;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.object.GameObject;
-import com.skanderj.gingerbread3.display.GraphicsWrapper;
+import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 import com.skanderj.gingerbread3.math.Vector2;
@@ -82,9 +82,9 @@ public final class ParticleManager extends GameObject {
 	 * Self explanatory.
 	 */
 	@Override
-	public synchronized void render(final GraphicsWrapper graphics) {
+	public synchronized void render(final Screen screen) {
 		for (final Particle particle : this.particles) {
-			particle.render(graphics);
+			particle.render(screen);
 		}
 	}
 

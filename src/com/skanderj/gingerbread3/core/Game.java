@@ -1,10 +1,11 @@
 package com.skanderj.gingerbread3.core;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 
 import com.skanderj.gingerbread3.core.object.GameObject;
-import com.skanderj.gingerbread3.display.GraphicsWrapper;
+import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.display.Window;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.Mouse;
@@ -22,11 +23,13 @@ import com.skanderj.gingerbread3.scene.SceneManager;
 public abstract class Game extends ThreadWrapper {
 	public static final int DEFAULT_SIZE = 400, DEFAULT_BUFFERS = 2;
 
-	private final double refreshRate;
+	protected final double refreshRate;
 	protected final Window window;
 	protected final Keyboard keyboard;
 	protected final Mouse mouse;
-	protected final Updatable refreshMarker;
+	protected final Updatable profiler;
+
+	private BufferStrategy bufferStrategy;
 
 	/**
 	 * Creates a fullscreen window on the requested screen (deviceId).
@@ -38,7 +41,7 @@ public abstract class Game extends ThreadWrapper {
 		this.window = new Window.Fullscreen(this, title, buffers, deviceId);
 		this.keyboard = new Keyboard();
 		this.mouse = new Mouse();
-		this.refreshMarker = new Updatable() {
+		this.profiler = new Updatable() {
 			private int counter = 0;
 
 			@Override
@@ -46,7 +49,11 @@ public abstract class Game extends ThreadWrapper {
 				this.counter += 1;
 				if ((this.counter % refreshRate) == 0) {
 					this.counter = 0;
-					Logger.log(this.getClass().getEnclosingClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args[0], args[1]);
+					if (args == null) {
+						Logger.log(this.getClass().getEnclosingClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
+					} else {
+						Logger.log(this.getClass().getEnclosingClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args[0], args[1]);
+					}
 				}
 			}
 
@@ -67,7 +74,7 @@ public abstract class Game extends ThreadWrapper {
 		this.window = new Window.Regular(this, title, width, height, buffers);
 		this.keyboard = new Keyboard();
 		this.mouse = new Mouse();
-		this.refreshMarker = new Updatable() {
+		this.profiler = new Updatable() {
 			private int counter = 0;
 
 			@Override
@@ -75,7 +82,11 @@ public abstract class Game extends ThreadWrapper {
 				this.counter += 1;
 				if ((this.counter % refreshRate) == 0) {
 					this.counter = 0;
-					Logger.log(this.getClass().getEnclosingClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args[0], args[1]);
+					if (args == null) {
+						Logger.log(this.getClass().getEnclosingClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
+					} else {
+						Logger.log(this.getClass().getEnclosingClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args[0], args[1]);
+					}
 				}
 			}
 
@@ -140,7 +151,7 @@ public abstract class Game extends ThreadWrapper {
 
 	public void postCreate() {
 		this.registerGameObjects();
-		Registry.set(this.refreshMarker(), GameObject.constructFromUpdatable(this, this.refreshMarker));
+		Registry.set(this.profilerIdentifier(), GameObject.constructFromUpdatable(this, this.profiler));
 		this.createComponents();
 		this.registerScenes();
 		this.window.requestFocus();
@@ -184,23 +195,29 @@ public abstract class Game extends ThreadWrapper {
 			}
 			if (shouldRender) {
 				frames++;
-				final BufferStrategy bufferStrategy = this.window.getBufferStrategy();
-				final GraphicsWrapper graphicsWrapper = new GraphicsWrapper((Graphics2D) bufferStrategy.getDrawGraphics());
-				this.render(graphicsWrapper);
-				graphicsWrapper.dispose();
-				bufferStrategy.show();
+				this.bufferStrategy = this.window.getBufferStrategy();
+				this.screen().clear(this.window, Color.BLACK);
+				this.render(this.screen());
+				this.screen().renderThrough((Graphics2D) this.bufferStrategy.getDrawGraphics());
+				this.screen().drawTo();
+				this.screen().dispose();
+				this.bufferStrategy.show();
 			}
 			if ((System.currentTimeMillis() - resetTime) >= 1000) {
 				resetTime += 1000;
-				Registry.parameterize(this.identifier + "-refresh-marker", frames, updates);
+				Registry.parameterize(this.profilerIdentifier(), frames, updates);
 				frames = 0;
 				updates = 0;
 			}
 		}
 	}
 
-	protected synchronized final String refreshMarker() {
-		return this.identifier + "-refresh-marker";
+	protected synchronized final void useProfiler() {
+		Registry.get(this.profilerIdentifier()).setShouldSkipRegistryChecks(true);
+	}
+
+	protected synchronized final String profilerIdentifier() {
+		return this.identifier + "-profiler";
 	}
 
 	/**
@@ -215,10 +232,10 @@ public abstract class Game extends ThreadWrapper {
 	/**
 	 * Renders the game
 	 *
-	 * @param graphics used to draw the screen
+	 * @param screen used to draw the screen
 	 */
-	protected synchronized void render(final GraphicsWrapper graphics) {
-		SceneManager.render(graphics);
+	protected synchronized void render(final Screen screen) {
+		SceneManager.render(screen);
 	}
 
 	/**
@@ -236,14 +253,28 @@ public abstract class Game extends ThreadWrapper {
 	/**
 	 * Self explanatory.
 	 */
-	public Keyboard getKeyboard() {
+	public synchronized final Window window() {
+		return this.window;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public synchronized final Screen screen() {
+		return this.window.screen();
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public synchronized final Keyboard keyboard() {
 		return this.keyboard;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public Mouse getMouse() {
+	public synchronized final Mouse mouse() {
 		return this.mouse;
 	}
 
@@ -252,12 +283,5 @@ public abstract class Game extends ThreadWrapper {
 	 */
 	public double getRefreshRate() {
 		return this.refreshRate;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public Window getWindow() {
-		return this.window;
 	}
 }

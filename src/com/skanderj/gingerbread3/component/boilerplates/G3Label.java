@@ -6,7 +6,7 @@ import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.Label;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.display.GraphicsWrapper;
+import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.util.VisualString;
 import com.skanderj.gingerbread3.util.VisualStringProperties;
 
@@ -41,10 +41,10 @@ public final class G3Label extends Label {
 	 * Just draw the string.
 	 */
 	@Override
-	public synchronized void render(final GraphicsWrapper graphics) {
-		this.graphicString.drawCentered(graphics, this.x, this.y, this.width, this.height);
+	public synchronized void render(final Screen screen) {
+		this.graphicString.drawCentered(screen, this.x, this.y, this.width, this.height);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
-			graphics.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, 0, 0);
+			screen.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, 0, 0);
 		}
 	}
 

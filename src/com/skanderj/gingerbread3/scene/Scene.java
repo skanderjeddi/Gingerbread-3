@@ -6,7 +6,7 @@ import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.core.object.GameObject;
-import com.skanderj.gingerbread3.display.GraphicsWrapper;
+import com.skanderj.gingerbread3.display.Screen;
 
 /**
  * Represents the current set of components and updates on screen.
@@ -32,9 +32,9 @@ public abstract class Scene extends GameObject {
 
 	// Rendering happens here
 	@Override
-	public synchronized void render(final GraphicsWrapper graphics) {
-		Registry.render(graphics);
-		// ComponentManager.render(this.game.getWindow(), graphics);
+	public synchronized void render(final Screen screen) {
+		Registry.render(screen);
+		// ComponentManager.render(this.game.getWindow(), screen);
 	}
 
 	/**

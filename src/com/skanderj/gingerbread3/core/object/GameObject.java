@@ -4,7 +4,7 @@ import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Renderable;
 import com.skanderj.gingerbread3.core.Updatable;
-import com.skanderj.gingerbread3.display.GraphicsWrapper;
+import com.skanderj.gingerbread3.display.Screen;
 
 /**
  * Represents a game object, the building blocks of any game.
@@ -25,7 +25,7 @@ public abstract class GameObject implements Comparable<GameObject> {
 			}
 
 			@Override
-			public void render(final GraphicsWrapper graphics) {
+			public void render(final Screen screen) {
 				return;
 			}
 
@@ -48,8 +48,8 @@ public abstract class GameObject implements Comparable<GameObject> {
 			}
 
 			@Override
-			public void render(final GraphicsWrapper graphics) {
-				renderable.render(graphics);
+			public void render(final Screen screen) {
+				renderable.render(screen);
 			}
 
 			@Override
@@ -60,9 +60,11 @@ public abstract class GameObject implements Comparable<GameObject> {
 	}
 
 	protected final Game game;
+	protected boolean shouldSkipRegistryChecks;
 
 	public GameObject(final Game game) {
 		this.game = game;
+		this.shouldSkipRegistryChecks = false;
 	}
 
 	/**
@@ -73,7 +75,7 @@ public abstract class GameObject implements Comparable<GameObject> {
 	/**
 	 * Renders the component - called by other classes.
 	 */
-	public abstract void render(GraphicsWrapper graphics);
+	public abstract void render(Screen screen);
 
 	public void sceneChange() {
 		return;
@@ -89,5 +91,19 @@ public abstract class GameObject implements Comparable<GameObject> {
 	@Override
 	public int compareTo(final GameObject o) {
 		return -(this.priority().priorityIndex - o.priority().priorityIndex);
+	}
+
+	/**
+	 * Called by other classes.
+	 */
+	public boolean shouldSkipRegistryChecks() {
+		return this.shouldSkipRegistryChecks;
+	}
+
+	/**
+	 * Called by other classes. Returns this object for easy construction.
+	 */
+	public final void setShouldSkipRegistryChecks(final boolean shouldSkipRegistryChecks) {
+		this.shouldSkipRegistryChecks = shouldSkipRegistryChecks;
 	}
 }

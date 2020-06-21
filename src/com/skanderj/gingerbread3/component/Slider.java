@@ -33,8 +33,8 @@ public abstract class Slider extends Component {
 	 */
 	@Override
 	public synchronized void update(final double delta, final Object... args) {
-		if ((this.containsMouse(this.game.getMouse().getX(), this.game.getMouse().getY()) || this.hasFocus) && this.globalFocus) {
-			if (this.game.getMouse().isButtonDown(Mouse.BUTTON_LEFT)) {
+		if ((this.containsMouse(this.game.mouse().getX(), this.game.mouse().getY()) || this.hasFocus) && this.globalFocus) {
+			if (this.game.mouse().isButtonDown(Mouse.BUTTON_LEFT)) {
 				this.hasFocus = true;
 			} else {
 				this.hasFocus = false;

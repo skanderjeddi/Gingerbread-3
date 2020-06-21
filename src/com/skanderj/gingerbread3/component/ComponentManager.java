@@ -119,10 +119,14 @@ public final class ComponentManager {
 	public static synchronized List<Component> activeComponents() {
 		final List<Component> active = new ArrayList<Component>();
 		for (final String identifier : ComponentManager.componentsMap.keySet()) {
+			final Component component = ComponentManager.componentsMap.get(identifier);
+			if (component.shouldSkipRegistryChecks()) {
+				active.add(component);
+				continue;
+			}
 			if (ComponentManager.skippedComponents.contains(identifier)) {
 				continue;
 			}
-			final Component component = ComponentManager.componentsMap.get(identifier);
 			active.add(component);
 		}
 		return active;

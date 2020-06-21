@@ -1,6 +1,7 @@
 package com.skanderj.gingerbread3.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,7 +12,7 @@ import java.util.Set;
 import com.skanderj.gingerbread3.component.Component;
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.core.object.GameObject;
-import com.skanderj.gingerbread3.display.GraphicsWrapper;
+import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.input.Mouse;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
@@ -132,9 +133,17 @@ public final class Registry {
 			allowedComponents.addAll(SceneManager.scene().sceneObjects());
 		}
 		for (final String identifier : Registry.contents.keySet()) {
-			if (allowedComponents.contains(identifier)) {
-				final GameObject object = Registry.contents.get(identifier);
-				if (object != null) {
+			final GameObject object = Registry.contents.get(identifier);
+			if (object != null) {
+				if (object.shouldSkipRegistryChecks()) {
+					toUpdate.add(object);
+					continue;
+				}
+				if (allowedComponents.contains(identifier)) {
+					if (object.shouldSkipRegistryChecks()) {
+						toUpdate.add(object);
+						continue;
+					}
 					if ((object instanceof Component) || Registry.skips.contains(object)) {
 						continue;
 					}
@@ -147,7 +156,7 @@ public final class Registry {
 		for (final GameObject object : toUpdate) {
 			if (object instanceof Component) {
 				final Component component = (Component) object;
-				if (component.containsMouse(component.getGame().getMouse().getX(), component.getGame().getMouse().getY()) && component.getGame().getMouse().isButtonDown(Mouse.BUTTON_LEFT)) {
+				if (component.containsMouse(component.getGame().mouse.getX(), component.getGame().mouse.getY()) && component.getGame().mouse.isButtonDown(Mouse.BUTTON_LEFT)) {
 					ComponentManager.giveFocus(component);
 				}
 			}
@@ -159,16 +168,24 @@ public final class Registry {
 	/**
 	 * Sorts then renders all the game components.
 	 */
-	public static synchronized void render(final GraphicsWrapper graphics) {
+	public static synchronized void render(final Screen screen) {
 		final List<GameObject> toRender = new ArrayList<GameObject>();
 		final List<String> allowedComponents = new ArrayList<String>();
 		if (SceneManager.scene() != null) {
 			allowedComponents.addAll(SceneManager.scene().sceneObjects());
 		}
 		for (final String identifier : Registry.contents.keySet()) {
-			if (allowedComponents.contains(identifier)) {
-				final GameObject object = Registry.contents.get(identifier);
-				if (object != null) {
+			final GameObject object = Registry.contents.get(identifier);
+			if (object != null) {
+				if (object.shouldSkipRegistryChecks()) {
+					toRender.add(object);
+					continue;
+				}
+				if (allowedComponents.contains(identifier)) {
+					if (object.shouldSkipRegistryChecks()) {
+						toRender.add(object);
+						continue;
+					}
 					if ((object instanceof Component) || Registry.skips.contains(object)) {
 						continue;
 					}
@@ -179,7 +196,7 @@ public final class Registry {
 		toRender.addAll(ComponentManager.activeComponents());
 		Collections.sort(toRender);
 		for (final GameObject object : toRender) {
-			object.render(graphics);
+			object.render(screen);
 		}
 	}
 
@@ -207,7 +224,14 @@ public final class Registry {
 	/**
 	 * Self explanatory.
 	 */
-	public static synchronized void renderObject(final String identifier, final GraphicsWrapper graphics) {
-		Registry.contents.get(identifier).render(graphics);
+	public static synchronized void renderObject(final String identifier, final Screen screen) {
+		Registry.contents.get(identifier).render(screen);
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public static synchronized Collection<GameObject> getObjects() {
+		return Registry.contents.values();
 	}
 }

@@ -7,7 +7,7 @@ import com.skanderj.gingerbread3.component.Button;
 import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.display.GraphicsWrapper;
+import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.util.VisualString;
 
 /**
@@ -40,12 +40,12 @@ public final class G3RoundEdgesButton extends Button {
 	 * label.
 	 */
 	@Override
-	public synchronized void render(final GraphicsWrapper graphics) {
-		graphics.rectangle(this.backgroundColor, this.x, this.y, this.width, this.height, true, this.borderIncline, this.borderIncline);
-		this.label.drawCentered(graphics, this.x, this.y, this.width, this.height);
-		graphics.rectangle(this.borderColor, this.x, this.y, this.width, this.height, false, this.borderIncline, this.borderIncline);
+	public synchronized void render(final Screen screen) {
+		screen.rectangle(this.backgroundColor, this.x, this.y, this.width, this.height, true, this.borderIncline, this.borderIncline);
+		this.label.drawCentered(screen, this.x, this.y, this.width, this.height);
+		screen.rectangle(this.borderColor, this.x, this.y, this.width, this.height, false, this.borderIncline, this.borderIncline);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
-			graphics.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, this.borderIncline, this.borderIncline);
+			screen.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, this.borderIncline, this.borderIncline);
 		}
 	}
 

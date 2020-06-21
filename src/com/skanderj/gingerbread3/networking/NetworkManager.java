@@ -17,12 +17,14 @@ public final class NetworkManager {
 	private static final Map<String, SimpleServer> serversMap = new HashMap<String, SimpleServer>();
 
 	public static NetworkingError createSimpleServer(final String identifier, final int listenPort) {
-		if (serversMap.containsKey(identifier))
+		if (NetworkManager.serversMap.containsKey(identifier)) {
 			return NetworkingError.IDENTIFIER_ALREADY_TAKEN;
-		if (1 > listenPort || 65535 < listenPort)
+		}
+		if ((1 > listenPort) || (65535 < listenPort)) {
 			return NetworkingError.INVALID_PORT_RANGE;
-		SimpleServer newServer = new SimpleServer(listenPort);
-		serversMap.put(identifier, newServer);
+		}
+		final SimpleServer newServer = new SimpleServer(listenPort);
+		NetworkManager.serversMap.put(identifier, newServer);
 		return NetworkingError.SUCCESS;
 	}
 
@@ -34,12 +36,14 @@ public final class NetworkManager {
 	 * @param s    The raw data
 	 **/
 	public static NetworkingError deleteServer(final String identifier) {
-		if (!serversMap.containsKey(identifier))
+		if (!NetworkManager.serversMap.containsKey(identifier)) {
 			return NetworkingError.IDENTIFIER_DOESNT_EXIST;
-		SimpleServer serverToDelete = serversMap.get(identifier);
-		if (serverToDelete.isActive())
+		}
+		final SimpleServer serverToDelete = NetworkManager.serversMap.get(identifier);
+		if (serverToDelete.isActive()) {
 			return NetworkingError.SERVER_IS_RUNNING;
-		serversMap.remove(identifier);
+		}
+		NetworkManager.serversMap.remove(identifier);
 		return NetworkingError.SUCCESS;
 	}
 
@@ -50,11 +54,13 @@ public final class NetworkManager {
 	 * @param identifier The server identifier
 	 **/
 	public static NetworkingError stopSimpleServer(final String identifier) {
-		if (!serversMap.containsKey(identifier))
+		if (!NetworkManager.serversMap.containsKey(identifier)) {
 			return NetworkingError.IDENTIFIER_DOESNT_EXIST;
-		SimpleServer serverToStop = serversMap.get(identifier);
-		if (!serverToStop.isActive())
+		}
+		final SimpleServer serverToStop = NetworkManager.serversMap.get(identifier);
+		if (!serverToStop.isActive()) {
 			return NetworkingError.SERVER_NOT_RUNNING;
+		}
 		return serverToStop.stop();
 	}
 
@@ -65,8 +71,9 @@ public final class NetworkManager {
 	 * @param identifier The server identifier
 	 **/
 	public static SimpleServer getSimpleServer(final String identifier) {
-		if (!serversMap.containsKey(identifier))
+		if (!NetworkManager.serversMap.containsKey(identifier)) {
 			return null;
-		return serversMap.get(identifier);
+		}
+		return NetworkManager.serversMap.get(identifier);
 	}
 }

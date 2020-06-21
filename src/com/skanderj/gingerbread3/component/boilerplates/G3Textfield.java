@@ -8,7 +8,7 @@ import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.Textfield;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.display.GraphicsWrapper;
+import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.util.Utilities;
 import com.skanderj.gingerbread3.util.VisualString;
 import com.skanderj.gingerbread3.util.VisualStringProperties;
@@ -77,9 +77,9 @@ public final class G3Textfield extends Textfield {
 	 * The rendering routine.
 	 */
 	@Override
-	public synchronized void render(final GraphicsWrapper graphics) {
-		graphics.font(this.textProperties.getFont());
-		final FontMetrics metrics = graphics.fontMetrics();
+	public synchronized void render(final Screen screen) {
+		screen.font(this.textProperties.getFont());
+		final FontMetrics metrics = screen.fontMetrics();
 		final int fontHeight = metrics.getHeight();
 		// Determine height if not done before (= 0)
 		{
@@ -89,16 +89,16 @@ public final class G3Textfield extends Textfield {
 		}
 		// Background
 		{
-			graphics.rectangle(this.backgroundColor, this.x, this.y, this.width, this.height, true, 0, 0);
+			screen.rectangle(this.backgroundColor, this.x, this.y, this.width, this.height, true, 0, 0);
 		}
 		// Border
 		{
-			graphics.rectangle(this.backgroundColor.darker().darker(), this.x, this.y, this.width, this.height, false, 0, 0);
+			screen.rectangle(this.backgroundColor.darker().darker(), this.x, this.y, this.width, this.height, false, 0, 0);
 		}
 		// Text color & font
 		{
-			graphics.color(this.textProperties.getColor());
-			graphics.font(this.textProperties.getFont());
+			screen.color(this.textProperties.getColor());
+			screen.font(this.textProperties.getFont());
 		}
 		// Line counter
 		this.linesCounter = 0;
@@ -173,7 +173,7 @@ public final class G3Textfield extends Textfield {
 				// DOES
 				if (((this.linesCounter + 2) * fontHeight) < this.height) {
 					// Should give a perfectly spaced text
-					graphics.string(lineOfText, this.x + 10, this.y + (fontHeight * (this.linesCounter + 1)));
+					screen.string(lineOfText, this.x + 10, this.y + (fontHeight * (this.linesCounter + 1)));
 					// Increase maximumLines counter
 					this.linesCounter += 1;
 				}
@@ -184,7 +184,7 @@ public final class G3Textfield extends Textfield {
 			}
 			// Draw current line if we have the space
 			if (((this.linesCounter + 1) * fontHeight) < this.height) {
-				graphics.string(this.currentLine, this.x + 10, this.y + (fontHeight * (this.linesCounter + 1)));
+				screen.string(this.currentLine, this.x + 10, this.y + (fontHeight * (this.linesCounter + 1)));
 			}
 			// Compute cursor position
 			cursorY = this.y + (fontHeight * this.linesCounter) + (metrics.getAscent() / 2) + (metrics.getDescent() / 2);
@@ -200,7 +200,7 @@ public final class G3Textfield extends Textfield {
 			cursorHeight = (int) ((metrics.getDescent() / 2) + (metrics.getAscent() / 2) + Utilities.map(this.textProperties.getFont().getSize(), 0, 144, 0, 4, true));
 		} else {
 			// easy - maybe too memory heavy? might need a cache
-			new VisualString(this.currentLine, this.textProperties.getColor(), this.textProperties.getFont()).drawCenteredAbsolute(graphics, this.x + 10, this.y, this.height);
+			new VisualString(this.currentLine, this.textProperties.getColor(), this.textProperties.getFont()).drawCenteredAbsolute(screen, this.x + 10, this.y, this.height);
 			// FIXED!
 			cursorY = this.y + 5;
 			// Here is a fixed x-offset - need to change that to scale with the font
@@ -218,12 +218,12 @@ public final class G3Textfield extends Textfield {
 		if (this.hasFocus) {
 			{
 				if (this.cursorBlink) {
-					graphics.rectangle(Color.BLACK, cursorX, cursorY, cursorWidth, cursorHeight, true, 0, 0);
+					screen.rectangle(Color.BLACK, cursorX, cursorY, cursorWidth, cursorHeight, true, 0, 0);
 				}
 			}
 		}
 		if (ComponentManager.GRAPHICAL_DEBUG) {
-			graphics.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, 0, 0);
+			screen.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, 0, 0);
 		}
 	}
 

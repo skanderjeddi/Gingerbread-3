@@ -55,7 +55,7 @@ public abstract class Textfield extends Component {
 		if (this.hasFocus) {
 			// Go through every keyboard key and retain those which are pressed at the
 			// current frame
-			for (final int keyCode : this.game.getKeyboard().getKeysByState(KeyState.DOWN_IN_FRAME)) {
+			for (final int keyCode : this.game.keyboard().getKeysByState(KeyState.DOWN_IN_FRAME)) {
 				// Left key handling, moves cursor to the left once
 				if (keyCode == Keyboard.KEY_LEFT) {
 					this.cursorPosition -= 1;
@@ -125,7 +125,7 @@ public abstract class Textfield extends Component {
 					}
 				}
 				// See Keyboard.getKeyRepresentation(), pretty self explanatory
-				String key = Keyboard.getKeyRepresentation(keyCode, this.game.getKeyboard().isShiftDown(), this.game.getKeyboard().isCapsLocked(), this.game.getKeyboard().isAltGrDown());
+				String key = Keyboard.getKeyRepresentation(keyCode, this.game.keyboard().isShiftDown(), this.game.keyboard().isCapsLocked(), this.game.keyboard().isAltGrDown());
 				{
 					if (key.equals("^") && !this.hatCarry) {
 						// A ^ was pressed to carry it to the next character

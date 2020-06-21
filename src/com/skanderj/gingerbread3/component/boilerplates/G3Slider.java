@@ -8,7 +8,7 @@ import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.Slider;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.display.GraphicsWrapper;
+import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.util.Utilities;
 import com.skanderj.gingerbread3.util.VisualString;
 
@@ -43,7 +43,7 @@ public final class G3Slider extends Slider {
 	public synchronized void update(final double delta, final Object... args) {
 		super.update(delta, args);
 		if (this.hasFocus) {
-			this.sliderX = (int) Utilities.map(this.game.getMouse().getX(), this.x, this.x + this.getWidth(), this.x, this.x + this.getWidth(), true);
+			this.sliderX = (int) Utilities.map(this.game.mouse().getX(), this.x, this.x + this.getWidth(), this.x, this.x + this.getWidth(), true);
 		}
 	}
 
@@ -52,27 +52,27 @@ public final class G3Slider extends Slider {
 	 * appropriate position.
 	 */
 	@Override
-	public synchronized void render(final GraphicsWrapper graphics) {
-		graphics.rectangle(this.color, this.x, this.y, this.width, this.height, false, 0, 0);
-		graphics.rectangle(this.color.darker(), this.sliderX - (this.sliderWidth / 2), this.y - (this.sliderHeight / 4), this.sliderWidth, this.height + (this.sliderHeight / 2), true, 0, 0);
+	public synchronized void render(final Screen screen) {
+		screen.rectangle(this.color, this.x, this.y, this.width, this.height, false, 0, 0);
+		screen.rectangle(this.color.darker(), this.sliderX - (this.sliderWidth / 2), this.y - (this.sliderHeight / 4), this.sliderWidth, this.height + (this.sliderHeight / 2), true, 0, 0);
 		if (!this.label.isEmpty()) {
 			switch (this.labelPosition) {
 			case TOP:
-				this.label.draw(graphics, this.x, this.y - this.label.getHeight(graphics), this.getValue());
+				this.label.draw(screen, this.x, this.y - this.label.getHeight(screen), this.getValue());
 				break;
 			case BOTTOM:
-				this.label.draw(graphics, this.x, this.y + this.height + this.label.getAugmentedHeight(graphics), this.getValue());
+				this.label.draw(screen, this.x, this.y + this.height + this.label.getAugmentedHeight(screen), this.getValue());
 				break;
 			case LEFT:
-				this.label.drawCenteredWidthless(graphics, this.x - 10 - this.label.getWidth(graphics), this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.getValue());
+				this.label.drawCenteredWidthless(screen, this.x - 10 - this.label.getWidth(screen), this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.getValue());
 				break;
 			case RIGHT:
-				this.label.drawCenteredWidthless(graphics, this.x + this.width + 10, this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.getValue());
+				this.label.drawCenteredWidthless(screen, this.x + this.width + 10, this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.getValue());
 				break;
 			}
 		}
 		if (ComponentManager.GRAPHICAL_DEBUG) {
-			graphics.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, 0, 0);
+			screen.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, 0, 0);
 		}
 	}
 

@@ -3,7 +3,7 @@ package com.skanderj.gingerbread3.transition.boilerplates;
 import java.awt.Color;
 
 import com.skanderj.gingerbread3.core.Game;
-import com.skanderj.gingerbread3.display.GraphicsWrapper;
+import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.transition.Transition;
 import com.skanderj.gingerbread3.util.Utilities;
 
@@ -33,11 +33,11 @@ public class FadeTransition extends Transition {
 	 * Self explanatory.
 	 */
 	@Override
-	public void render(final GraphicsWrapper graphics) {
+	public void render(final Screen screen) {
 		int alpha = 0;
 		alpha = (int) Utilities.map(this.timer, 0, this.duration, 255, 0, false);
 		final Color newColor = new Color(this.color.getRed(), this.color.getBlue(), this.color.getGreen(), alpha);
-		graphics.rectangle(newColor, 0, 0, this.game.getWindow().getWidth(), this.game.getWindow().getHeight(), true);
+		screen.rectangle(newColor, 0, 0, this.game.window().getWidth(), this.game.window().getHeight(), true);
 	}
 
 	/**

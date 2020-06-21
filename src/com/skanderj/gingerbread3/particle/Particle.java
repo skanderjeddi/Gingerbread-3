@@ -3,7 +3,7 @@ package com.skanderj.gingerbread3.particle;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.object.GameObject;
-import com.skanderj.gingerbread3.display.GraphicsWrapper;
+import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.math.Vector2;
 import com.skanderj.gingerbread3.sprite.Sprite;
 
@@ -46,8 +46,8 @@ public class Particle extends GameObject {
 	 * Self explanatory.
 	 */
 	@Override
-	public synchronized void render(final GraphicsWrapper graphics) {
-		this.sprite.render(graphics);
+	public synchronized void render(final Screen screen) {
+		this.sprite.render(screen);
 	}
 
 	/**

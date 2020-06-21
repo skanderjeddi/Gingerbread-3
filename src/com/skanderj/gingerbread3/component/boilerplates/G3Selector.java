@@ -7,7 +7,7 @@ import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.Selector;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.display.GraphicsWrapper;
+import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.io.FontManager;
 import com.skanderj.gingerbread3.util.VisualString;
 import com.skanderj.gingerbread3.util.VisualStringProperties;
@@ -47,21 +47,21 @@ public final class G3Selector extends Selector {
 	/**
 	 * Very basic rendering, 2 rectangles for the arrows.
 	 */
-	public synchronized void render(final GraphicsWrapper graphics) {
-		graphics.rectangle(Color.WHITE, this.x + 10 + this.arrowSize, this.y, this.width, this.height, true, 0, 0);
-		new VisualString(this.currentOption, this.properties, this.properties.getColor().darker().darker()).drawCentered(graphics, this.x + 10 + this.arrowSize, this.y, this.width, this.height);
+	public synchronized void render(final Screen screen) {
+		screen.rectangle(Color.WHITE, this.x + 10 + this.arrowSize, this.y, this.width, this.height, true, 0, 0);
+		new VisualString(this.currentOption, this.properties, this.properties.getColor().darker().darker()).drawCentered(screen, this.x + 10 + this.arrowSize, this.y, this.width, this.height);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
-			graphics.rectangle(Color.RED, this.x + 10 + this.arrowSize, this.y, this.width, this.height, false, 0, 0);
+			screen.rectangle(Color.RED, this.x + 10 + this.arrowSize, this.y, this.width, this.height, false, 0, 0);
 		}
-		graphics.rectangle(Color.WHITE, this.x, this.y, this.arrowSize, this.height, true, 0, 0);
-		new VisualString("<", Color.BLACK, FontManager.get("lunchtime", 24)).drawCentered(graphics, this.x, this.y, this.arrowSize, this.height);
+		screen.rectangle(Color.WHITE, this.x, this.y, this.arrowSize, this.height, true, 0, 0);
+		new VisualString("<", Color.BLACK, FontManager.get("lunchtime", 24)).drawCentered(screen, this.x, this.y, this.arrowSize, this.height);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
-			graphics.rectangle(Color.RED, this.x, this.y, this.arrowSize, this.height, false, 0, 0);
+			screen.rectangle(Color.RED, this.x, this.y, this.arrowSize, this.height, false, 0, 0);
 		}
-		graphics.rectangle(Color.WHITE, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height, true, 0, 0);
-		new VisualString(">", Color.BLACK, FontManager.get("lunchtime", 24)).drawCentered(graphics, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height);
+		screen.rectangle(Color.WHITE, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height, true, 0, 0);
+		new VisualString(">", Color.BLACK, FontManager.get("lunchtime", 24)).drawCentered(screen, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
-			graphics.rectangle(Color.RED, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height, false, 0, 0);
+			screen.rectangle(Color.RED, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height, false, 0, 0);
 		}
 	}
 

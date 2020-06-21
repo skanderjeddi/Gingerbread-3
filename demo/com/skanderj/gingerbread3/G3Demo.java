@@ -19,7 +19,7 @@ import com.skanderj.gingerbread3.component.boilerplates.G3SolidColorBackground;
 import com.skanderj.gingerbread3.component.boilerplates.G3StraightEdgesButton;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Registry;
-import com.skanderj.gingerbread3.display.GraphicsWrapper;
+import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.io.FontManager;
 import com.skanderj.gingerbread3.io.ImageManager;
@@ -47,7 +47,7 @@ public class G3Demo extends Game {
 	 */
 	public static final String IDENTIFIER = "g3-d", TITLE = "Gingerbread-3 [DEMO]";
 	public static final double REFRESH_RATE = 144.0D;
-	public static final int WIDTH = 1400, HEIGHT = (G3Demo.WIDTH / 16) * 9, BUFFERS = 3;
+	public static final int WIDTH = 1000, HEIGHT = (G3Demo.WIDTH / 16) * 9, BUFFERS = 2;
 
 	// Constants for button until I implements a better system (how? I don't
 	// fucking have a clue)
@@ -66,7 +66,7 @@ public class G3Demo extends Game {
 			public List<String> sceneObjects() {
 				// Those are the only components which will be rendered/updated during this
 				// scene
-				return Arrays.asList(G3Demo.this.refreshMarker(), "background-clock", "main-menu-background", "play-button", "settings-button", "exit-button", "music-checkbox", "stars-background");
+				return Arrays.asList(G3Demo.this.profilerIdentifier(), "background-clock", "main-menu-background", "play-button", "settings-button", "exit-button", "music-checkbox", "stars-background");
 			}
 
 			@Override
@@ -90,14 +90,14 @@ public class G3Demo extends Game {
 			}
 
 			@Override
-			public synchronized void render(final GraphicsWrapper graphics) {
-				super.render(graphics);
+			public synchronized void render(final Screen screen) {
+				super.render(screen);
 			}
 		};
 		this.mainGameScene = new Scene(this) {
 			@Override
 			public void update(final double delta, final Object... args) {
-				Registry.parameterize("mouse-position-indicator", this.game.getMouse().getX(), this.game.getMouse().getY());
+				Registry.parameterize("mouse-position-indicator", this.game.mouse().getX(), this.game.mouse().getY());
 				super.update(delta, args);
 				// Scene specific keyboard/mouse handling
 				if (G3Demo.this.keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
@@ -106,13 +106,13 @@ public class G3Demo extends Game {
 			}
 
 			@Override
-			public synchronized void render(final GraphicsWrapper graphics) {
-				super.render(graphics);
+			public synchronized void render(final Screen screen) {
+				super.render(screen);
 			}
 
 			@Override
 			public List<String> sceneObjects() {
-				return Arrays.asList(G3Demo.this.refreshMarker(), "main-game-background", "instructions-label", "mouse-position-indicator");
+				return Arrays.asList("main-game-background", "instructions-label", "mouse-position-indicator");
 			}
 
 			@Override
@@ -132,7 +132,7 @@ public class G3Demo extends Game {
 		this.settingsScene = new Scene(this) {
 			@Override
 			public List<String> sceneObjects() {
-				return Arrays.asList(G3Demo.this.refreshMarker(), "main-menu-music-volume", "back-to-main-menu-button");
+				return Arrays.asList("main-menu-music-volume", "back-to-main-menu-button");
 			}
 
 			@Override
@@ -170,7 +170,7 @@ public class G3Demo extends Game {
 		SceneManager.register("main-menu", this.mainMenuScene);
 		SceneManager.register("main-game", this.mainGameScene);
 		SceneManager.register("settings", this.settingsScene);
-		Registry.parameterize(this.refreshMarker(), 0, 0);
+		Registry.parameterize(this.profilerIdentifier(), 0, 0);
 	}
 
 	@Override
@@ -190,21 +190,21 @@ public class G3Demo extends Game {
 		this.buttonProps = new VisualStringProperties(FontManager.get("lunchds", 14), Color.PINK);
 		// Register all the components here once and for all then manage them through
 		// scenes switching
-		ComponentManager.register("main-menu-background", new G3SolidColorBackground(this, GraphicsWrapper.DEFAULT_ORIGIN_X, GraphicsWrapper.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.BLACK));
+		ComponentManager.register("main-menu-background", new G3SolidColorBackground(this, Screen.DEFAULT_ORIGIN_X, Screen.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.BLACK));
 		ComponentManager.register("play-button", new G3StraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 150, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Play!", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
 		ComponentManager.register("settings-button", new G3StraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Settings", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
 		ComponentManager.register("exit-button", new G3StraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Exit...", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
-		ComponentManager.register("main-game-background", new G3SolidColorBackground(this, GraphicsWrapper.DEFAULT_ORIGIN_X, GraphicsWrapper.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.PINK));
-		ComponentManager.register("instructions-label", new G3Label(this, GraphicsWrapper.DEFAULT_ORIGIN_X, (G3Demo.HEIGHT / 2) - 50, G3Demo.WIDTH - 1, 100, new VisualString("Press escape to return to the main menu", this.buttonProps.build(28).build(Color.BLACK))));
+		ComponentManager.register("main-game-background", new G3SolidColorBackground(this, Screen.DEFAULT_ORIGIN_X, Screen.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.PINK));
+		ComponentManager.register("instructions-label", new G3Label(this, Screen.DEFAULT_ORIGIN_X, (G3Demo.HEIGHT / 2) - 50, G3Demo.WIDTH - 1, 100, new VisualString("Press escape to return to the main menu", this.buttonProps.build(28).build(Color.BLACK))));
 		ComponentManager.register("main-menu-music-volume", new G3Slider(this, (G3Demo.WIDTH / 2) - 150, (G3Demo.HEIGHT / 2) - 100, 300, 20, 6, 6, 0, 100, 50, Color.GRAY, new VisualString("Main menu music (%.2f%%)", Color.PINK, FontManager.get("lunchds", 14)), ComponentLabelPosition.TOP));
 		ComponentManager.register("back-to-main-menu-button", new G3StraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), G3Demo.HEIGHT - (2 * G3Demo.B_HEIGHT), G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Back", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
 		ComponentManager.register("music-checkbox", new G3Checkbox(this, G3Demo.WIDTH - 90, G3Demo.HEIGHT - 45, 20, 20, new VisualString("Music", Color.PINK, FontManager.get("lunchds", 14)), Color.GRAY, Color.DARK_GRAY, Color.PINK.darker(), ComponentLabelPosition.RIGHT));
 		ComponentManager.register("mouse-position-indicator", new G3Label(this, G3Demo.WIDTH - 175, G3Demo.HEIGHT - 40, 100, 30, new VisualString("Mouse position: (%d ; %d)", this.buttonProps.build(14).build(Color.BLACK))));
 		// Button actions
-		((Button) ComponentManager.get("play-button")).setActionForState(ComponentState.ON_CLICK, args -> SceneManager.setCurrent("main-game"));
-		((Button) ComponentManager.get("settings-button")).setActionForState(ComponentState.ON_CLICK, args -> SceneManager.setCurrent("settings"));
-		((Button) ComponentManager.get("back-to-main-menu-button")).setActionForState(ComponentState.ON_CLICK, args -> SceneManager.setCurrent("main-menu"));
-		((Button) ComponentManager.get("exit-button")).setActionForState(ComponentState.ON_CLICK, args -> this.stop());
+		((Button) ComponentManager.get("play-button")).setActionForState(ComponentState.ACTIVE, args -> SceneManager.setCurrent("main-game"));
+		((Button) ComponentManager.get("settings-button")).setActionForState(ComponentState.ACTIVE, args -> SceneManager.setCurrent("settings"));
+		((Button) ComponentManager.get("back-to-main-menu-button")).setActionForState(ComponentState.ACTIVE, args -> SceneManager.setCurrent("main-menu"));
+		((Button) ComponentManager.get("exit-button")).setActionForState(ComponentState.ACTIVE, args -> this.stop());
 		((Checkbox) ComponentManager.get("music-checkbox")).setOnSwitchAction(args -> {
 			final boolean state = (boolean) args[0];
 			if (state) {
@@ -224,11 +224,10 @@ public class G3Demo extends Game {
 	}
 
 	@Override
-	public synchronized void render(final GraphicsWrapper graphics) {
-		// Clear the screen here -- ideally done through a black background component
-		graphics.clear(this.window, Color.BLACK);
+	public synchronized void render(final Screen screen) {
+		screen.focusOnQuality();
 		// VERY IMPORTANT TO CALL
-		super.render(graphics);
+		super.render(screen);
 		// Scene-independent rendering --- not recommended, but flexibility
 	}
 

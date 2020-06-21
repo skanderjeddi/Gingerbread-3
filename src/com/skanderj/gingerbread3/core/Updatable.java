@@ -22,7 +22,7 @@ public interface Updatable extends Comparable<GameObject> {
 	 * Self explanatory.
 	 */
 	@Override
-	default int compareTo(final GameObject o) {
-		return -(this.priority().priorityIndex - o.priority().priorityIndex);
+	default int compareTo(final GameObject gameObject) {
+		return -(this.priority().priorityIndex - gameObject.priority().priorityIndex);
 	}
 }

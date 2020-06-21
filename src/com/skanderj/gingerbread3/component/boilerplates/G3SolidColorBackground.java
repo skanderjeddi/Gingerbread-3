@@ -5,7 +5,7 @@ import java.awt.Color;
 import com.skanderj.gingerbread3.component.Background;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.display.GraphicsWrapper;
+import com.skanderj.gingerbread3.display.Screen;
 
 /**
  * Solid color background. Very basic.
@@ -38,8 +38,8 @@ public class G3SolidColorBackground extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public synchronized void render(final GraphicsWrapper graphics) {
-		graphics.rectangle(this.color, this.x, this.y, this.width, this.height, true, 0, 0);
+	public synchronized void render(final Screen screen) {
+		screen.rectangle(this.color, this.x, this.y, this.width, this.height, true, 0, 0);
 	}
 
 	/**

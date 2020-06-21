@@ -40,8 +40,8 @@ public abstract class Button extends Component {
 	@Override
 	public void update(final double delta, final Object... args) {
 		this.previousState = this.state;
-		final int mouseX = this.game.getMouse().getX(), mouseY = this.game.getMouse().getY();
-		final boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = this.game.getMouse().isButtonDown(Mouse.BUTTON_LEFT);
+		final int mouseX = this.game.mouse().getX(), mouseY = this.game.mouse().getY();
+		final boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = this.game.mouse().isButtonDown(Mouse.BUTTON_LEFT);
 		if (mouseIn && mouseClicked && !this.hasFocus) {
 			this.hasFocus = true;
 		}
@@ -58,7 +58,7 @@ public abstract class Button extends Component {
 			this.mouseWasIn = false;
 		}
 		if ((this.previousState == ComponentState.HELD) && ((this.state == ComponentState.IDLE) || (this.state == ComponentState.HOVERED)) && mouseIn) {
-			this.state = ComponentState.ON_CLICK;
+			this.state = ComponentState.ACTIVE;
 		}
 		this.actions[this.state.getIdentifier()].execute(delta);
 	}
