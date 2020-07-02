@@ -8,6 +8,7 @@ import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 
 /**
  *
@@ -204,5 +205,17 @@ public class Screen {
 	 */
 	public BufferedImage screenContent() {
 		return this.screenContent;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public final BufferedImage screenContentOnFrame() {
+		BufferedImage image = new BufferedImage(this.screenContent.getWidth(), this.screenContent.getHeight(), this.screenContent.getType());
+		int[] sourcePixels = ((DataBufferInt) this.screenContent.getRaster().getDataBuffer()).getData(), targetPixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+		for (int index = 0; index < sourcePixels.length; index += 1) {
+			targetPixels[index] = sourcePixels[index];
+		}
+		return image;
 	}
 }
