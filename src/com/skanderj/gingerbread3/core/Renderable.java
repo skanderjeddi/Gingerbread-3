@@ -12,7 +12,7 @@ public interface Renderable extends Comparable<GameObject> {
 	/**
 	 * Self explanatory.
 	 */
-	void render(Screen screen, Object... args);
+	void render(Screen screen);
 
 	/**
 	 * Self explanatory.

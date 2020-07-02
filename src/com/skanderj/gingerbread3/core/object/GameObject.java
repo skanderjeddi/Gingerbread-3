@@ -89,8 +89,8 @@ public abstract class GameObject implements Comparable<GameObject> {
 
 	// Priority comparison, could be nicer but flemme
 	@Override
-	public int compareTo(final GameObject o) {
-		return -(this.priority().priorityIndex - o.priority().priorityIndex);
+	public int compareTo(final GameObject gameObject) {
+		return -(this.priority().priorityIndex - gameObject.priority().priorityIndex);
 	}
 
 	/**
@@ -101,7 +101,7 @@ public abstract class GameObject implements Comparable<GameObject> {
 	}
 
 	/**
-	 * Called by other classes. Returns this object for easy construction.
+	 * Called by other classes.
 	 */
 	public final void setShouldSkipRegistryChecks(final boolean shouldSkipRegistryChecks) {
 		this.shouldSkipRegistryChecks = shouldSkipRegistryChecks;

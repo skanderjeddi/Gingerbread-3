@@ -3,8 +3,8 @@ package com.skanderj.gingerbread3.component;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.skanderj.gingerbread3.component.action.ComponentAction;
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.object.Action;
 import com.skanderj.gingerbread3.input.Mouse;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
@@ -28,21 +28,21 @@ public abstract class Selector extends Component {
 		protected ComponentState currentState, previousState;
 		protected boolean hasFocus;
 		protected boolean mouseWasIn;
-		private final ComponentAction[] actions;
+		private final Action[] actions;
 
 		public SelectorArrow() {
 			this.currentState = ComponentState.IDLE;
 			this.previousState = ComponentState.IDLE;
 			this.hasFocus = false;
 			this.mouseWasIn = false;
-			this.actions = new ComponentAction[4];
+			this.actions = new Action[4];
 			// Set default action (do nothing) for every currentState
 			for (int index = 0; index < this.actions.length; index += 1) {
-				this.actions[index] = new ComponentAction.DefaultComponentAction();
+				this.actions[index] = new Action.DefaultAction();
 			}
 		}
 
-		public final void setAction(final ComponentState state, final ComponentAction action) {
+		public final void setAction(final ComponentState state, final Action action) {
 			if (state == ComponentState.ACTIVE) {
 				Logger.log(Selector.SelectorArrow.class, LogLevel.ERROR, "Can't change the on click behavior of a selector arrow");
 			} else {

@@ -1,7 +1,7 @@
 package com.skanderj.gingerbread3.component;
 
-import com.skanderj.gingerbread3.component.action.ComponentAction;
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.object.Action;
 import com.skanderj.gingerbread3.input.Mouse;
 
 /**
@@ -14,7 +14,7 @@ import com.skanderj.gingerbread3.input.Mouse;
  */
 public abstract class Button extends Component {
 	protected ComponentState previousState, state;
-	protected ComponentAction[] actions;
+	protected Action[] actions;
 	protected boolean hasFocus, mouseWasIn;
 
 	/**
@@ -24,10 +24,10 @@ public abstract class Button extends Component {
 		super(game);
 		this.previousState = ComponentState.IDLE;
 		this.state = ComponentState.IDLE;
-		this.actions = new ComponentAction[4];
+		this.actions = new Action[4];
 		// Set default action (do nothing) for every currentState
 		for (int index = 0; index < this.actions.length; index += 1) {
-			this.actions[index] = new ComponentAction.DefaultComponentAction();
+			this.actions[index] = new Action.DefaultAction();
 		}
 		this.hasFocus = false;
 	}
@@ -67,7 +67,7 @@ public abstract class Button extends Component {
 	 * Sets the button action that will be executed when the provided currentState
 	 * is the current currentState.
 	 */
-	public void setActionForState(final ComponentState state, final ComponentAction action) {
+	public void setActionForState(final ComponentState state, final Action action) {
 		this.actions[state.getIdentifier()] = action;
 	}
 
@@ -101,14 +101,14 @@ public abstract class Button extends Component {
 	/**
 	 * Self explanatory.
 	 */
-	public ComponentAction[] getActions() {
+	public Action[] getActions() {
 		return this.actions;
 	}
 
 	/**
 	 * Self explanatory. Can be used to set multiple actions at once.
 	 */
-	public void setActions(final ComponentAction[] actions) {
+	public void setActions(final Action[] actions) {
 		this.actions = actions;
 	}
 }
