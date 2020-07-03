@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Rectangle;
 
-import com.skanderj.gingerbread3.component.ComponentManager;
+import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.Textfield;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
@@ -222,7 +222,7 @@ public final class GTextfield extends Textfield {
 				}
 			}
 		}
-		if (ComponentManager.GRAPHICAL_DEBUG) {
+		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, 0, 0);
 		}
 	}

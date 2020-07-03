@@ -9,8 +9,8 @@ import com.skanderj.gingerbread3.audio.Audios;
 import com.skanderj.gingerbread3.component.Button;
 import com.skanderj.gingerbread3.component.Checkbox;
 import com.skanderj.gingerbread3.component.ComponentLabelPosition;
-import com.skanderj.gingerbread3.component.ComponentManager;
 import com.skanderj.gingerbread3.component.ComponentState;
+import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.Slider;
 import com.skanderj.gingerbread3.component.boilerplates.GCheckbox;
 import com.skanderj.gingerbread3.component.boilerplates.GLabel;
@@ -22,6 +22,7 @@ import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.binds.Binds;
+import com.skanderj.gingerbread3.input.localized.AZERTYKeyboard;
 import com.skanderj.gingerbread3.io.Fonts;
 import com.skanderj.gingerbread3.io.Images;
 import com.skanderj.gingerbread3.logging.Logger;
@@ -61,7 +62,7 @@ public class G3Demo extends Game {
 	private final Scene settingsScene;
 
 	public G3Demo() {
-		super(G3Demo.IDENTIFIER, G3Demo.REFRESH_RATE, G3Demo.TITLE, G3Demo.WIDTH, G3Demo.HEIGHT, G3Demo.BUFFERS);
+		super(G3Demo.IDENTIFIER, G3Demo.REFRESH_RATE, G3Demo.TITLE, G3Demo.WIDTH, G3Demo.HEIGHT, G3Demo.BUFFERS, AZERTYKeyboard.class);
 		this.mainMenuScene = new Scene(this) {
 			@Override
 			public List<String> sceneObjects() {
@@ -73,8 +74,8 @@ public class G3Demo extends Game {
 			@Override
 			public void present() {
 				// Play some audio
-				if (((Checkbox) ComponentManager.get("music-checkbox")).isChecked()) {
-					Audios.loop("background", -1, ((Slider) ComponentManager.get("main-menu-music-volume")).getValue() / 100.0F);
+				if (((Checkbox) Components.get("music-checkbox")).isChecked()) {
+					Audios.loop("background", -1, ((Slider) Components.get("main-menu-music-volume")).getValue() / 100.0F);
 				}
 			}
 
@@ -190,26 +191,26 @@ public class G3Demo extends Game {
 		this.buttonProps = new VisualStringProperties(Fonts.get("lunchds", 14), Color.PINK);
 		// Register all the components here once and for all then manage them through
 		// scenes switching
-		ComponentManager.register("main-menu-background", new GSolidColorBackground(this, Screen.DEFAULT_ORIGIN_X, Screen.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.BLACK));
-		ComponentManager.register("play-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 150, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Play!", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
-		ComponentManager.register("settings-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Settings", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
-		ComponentManager.register("exit-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Exit...", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
-		ComponentManager.register("main-game-background", new GSolidColorBackground(this, Screen.DEFAULT_ORIGIN_X, Screen.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.PINK));
-		ComponentManager.register("instructions-label", new GLabel(this, Screen.DEFAULT_ORIGIN_X, (G3Demo.HEIGHT / 2) - 50, G3Demo.WIDTH - 1, 100, new VisualString("Press escape to return to the main menu", this.buttonProps.build(28).build(Color.BLACK))));
-		ComponentManager.register("main-menu-music-volume", new GSlider(this, (G3Demo.WIDTH / 2) - 150, (G3Demo.HEIGHT / 2) - 100, 300, 20, 6, 6, 0, 100, 50, Color.GRAY, new VisualString("Main menu music (%.2f%%)", Color.PINK, Fonts.get("lunchds", 14)), ComponentLabelPosition.TOP));
-		ComponentManager.register("back-to-main-menu-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), G3Demo.HEIGHT - (2 * G3Demo.B_HEIGHT), G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Back", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
-		ComponentManager.register("music-checkbox", new GCheckbox(this, G3Demo.WIDTH - 90, G3Demo.HEIGHT - 45, 20, 20, new VisualString("Music", Color.PINK, Fonts.get("lunchds", 14)), Color.GRAY, Color.DARK_GRAY, Color.PINK.darker(), ComponentLabelPosition.RIGHT));
-		ComponentManager.register("mouse-position-indicator", new GLabel(this, G3Demo.WIDTH - 175, G3Demo.HEIGHT - 40, 100, 30, new VisualString("Mouse position: (%d ; %d)", this.buttonProps.build(14).build(Color.BLACK))));
+		Components.register("main-menu-background", new GSolidColorBackground(this, Screen.DEFAULT_ORIGIN_X, Screen.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.BLACK));
+		Components.register("play-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 150, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Play!", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
+		Components.register("settings-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) - 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Settings", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
+		Components.register("exit-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Exit...", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
+		Components.register("main-game-background", new GSolidColorBackground(this, Screen.DEFAULT_ORIGIN_X, Screen.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.PINK));
+		Components.register("instructions-label", new GLabel(this, Screen.DEFAULT_ORIGIN_X, (G3Demo.HEIGHT / 2) - 50, G3Demo.WIDTH - 1, 100, new VisualString("Press escape to return to the main menu", this.buttonProps.build(28).build(Color.BLACK))));
+		Components.register("main-menu-music-volume", new GSlider(this, (G3Demo.WIDTH / 2) - 150, (G3Demo.HEIGHT / 2) - 100, 300, 20, 6, 6, 0, 100, 50, Color.GRAY, new VisualString("Main menu music (%.2f%%)", Color.PINK, Fonts.get("lunchds", 14)), ComponentLabelPosition.TOP));
+		Components.register("back-to-main-menu-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), G3Demo.HEIGHT - (2 * G3Demo.B_HEIGHT), G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Back", this.buttonProps), Color.BLACK, Color.DARK_GRAY));
+		Components.register("music-checkbox", new GCheckbox(this, G3Demo.WIDTH - 90, G3Demo.HEIGHT - 45, 20, 20, new VisualString("Music", Color.PINK, Fonts.get("lunchds", 14)), Color.GRAY, Color.DARK_GRAY, Color.PINK.darker(), ComponentLabelPosition.RIGHT));
+		Components.register("mouse-position-indicator", new GLabel(this, G3Demo.WIDTH - 175, G3Demo.HEIGHT - 40, 100, 30, new VisualString("Mouse position: (%d ; %d)", this.buttonProps.build(14).build(Color.BLACK))));
 		// Button actions
-		((Button) ComponentManager.get("play-button")).setActionForState(ComponentState.ACTIVE, args -> Scenes.switchTo("main-game"));
-		((Button) ComponentManager.get("settings-button")).setActionForState(ComponentState.ACTIVE, args -> Scenes.switchTo("settings"));
-		((Button) ComponentManager.get("back-to-main-menu-button")).setActionForState(ComponentState.ACTIVE, args -> Scenes.switchTo("main-menu"));
-		((Button) ComponentManager.get("exit-button")).setActionForState(ComponentState.ACTIVE, args -> this.stop());
-		((Checkbox) ComponentManager.get("music-checkbox")).setOnSwitchAction(args -> {
+		((Button) Components.get("play-button")).setActionForState(ComponentState.ACTIVE, args -> Scenes.switchTo("main-game"));
+		((Button) Components.get("settings-button")).setActionForState(ComponentState.ACTIVE, args -> Scenes.switchTo("settings"));
+		((Button) Components.get("back-to-main-menu-button")).setActionForState(ComponentState.ACTIVE, args -> Scenes.switchTo("main-menu"));
+		((Button) Components.get("exit-button")).setActionForState(ComponentState.ACTIVE, args -> this.stop());
+		((Checkbox) Components.get("music-checkbox")).setOnSwitchAction(args -> {
 			final boolean state = (boolean) args[0];
 			if (state) {
 				Audios.stop("background");
-				Audios.loop("background", -1, ((Slider) ComponentManager.get("main-menu-music-volume")).getValue() / 100.0F);
+				Audios.loop("background", -1, ((Slider) Components.get("main-menu-music-volume")).getValue() / 100.0F);
 			} else {
 				Audios.stop("background");
 			}

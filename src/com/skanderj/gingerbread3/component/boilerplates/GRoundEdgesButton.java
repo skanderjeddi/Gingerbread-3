@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Rectangle;
 
 import com.skanderj.gingerbread3.component.Button;
-import com.skanderj.gingerbread3.component.ComponentManager;
+import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
@@ -44,7 +44,7 @@ public final class GRoundEdgesButton extends Button {
 		screen.rectangle(this.backgroundColor, this.x, this.y, this.width, this.height, true, this.borderIncline, this.borderIncline);
 		this.label.drawCentered(screen, this.x, this.y, this.width, this.height);
 		screen.rectangle(this.borderColor, this.x, this.y, this.width, this.height, false, this.borderIncline, this.borderIncline);
-		if (ComponentManager.GRAPHICAL_DEBUG) {
+		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, this.borderIncline, this.borderIncline);
 		}
 	}

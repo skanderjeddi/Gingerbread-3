@@ -26,7 +26,7 @@ public abstract class Scene extends GameObject {
 	@Override
 	public synchronized void update(final double delta, final Object... args) {
 		Registry.update(delta);
-		// ComponentManager.update(delta, this.game.getKeyboard(),
+		// Components.update(delta, this.game.getKeyboard(),
 		// this.game.getMouse());
 	}
 
@@ -34,7 +34,7 @@ public abstract class Scene extends GameObject {
 	@Override
 	public synchronized void render(final Screen screen) {
 		Registry.render(screen);
-		// ComponentManager.render(this.game.getWindow(), screen);
+		// Components.render(this.game.getWindow(), screen);
 	}
 
 	/**

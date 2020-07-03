@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.skanderj.gingerbread3.component.ComponentManager;
+import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.transition.Transition;
@@ -49,7 +49,7 @@ public class Scenes {
 		Scenes.currentScene = Scenes.get(identifier);
 		Registry.newScene();
 		final List<String> gameObjects = Scenes.currentScene.sceneObjects();
-		ComponentManager.considerOnly(gameObjects);
+		Components.considerOnly(gameObjects);
 		Scenes.currentScene.present();
 	}
 

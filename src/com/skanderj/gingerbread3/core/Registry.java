@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.skanderj.gingerbread3.component.Component;
-import com.skanderj.gingerbread3.component.ComponentManager;
+import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.core.object.GameObject;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.input.Mouse;
@@ -151,13 +151,13 @@ public final class Registry {
 				}
 			}
 		}
-		toUpdate.addAll(ComponentManager.activeComponents());
+		toUpdate.addAll(Components.activeComponents());
 		Collections.sort(toUpdate);
 		for (final GameObject object : toUpdate) {
 			if (object instanceof Component) {
 				final Component component = (Component) object;
 				if (component.containsMouse(component.getGame().mouse.getX(), component.getGame().mouse.getY()) && component.getGame().mouse.isButtonDown(Mouse.BUTTON_LEFT)) {
-					ComponentManager.giveFocus(component);
+					Components.giveFocus(component);
 				}
 			}
 			final Object[] objectArgs = Registry.args.get(Registry.identifier(object));
@@ -193,7 +193,7 @@ public final class Registry {
 				}
 			}
 		}
-		toRender.addAll(ComponentManager.activeComponents());
+		toRender.addAll(Components.activeComponents());
 		Collections.sort(toRender);
 		for (final GameObject object : toRender) {
 			object.render(screen);

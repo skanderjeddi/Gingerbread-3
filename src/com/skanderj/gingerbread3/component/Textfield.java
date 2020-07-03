@@ -125,7 +125,7 @@ public abstract class Textfield extends Component {
 					}
 				}
 				// See Keyboard.getKeyRepresentation(), pretty self explanatory
-				String key = Keyboard.getKeyRepresentation(keyCode, this.game.keyboard().isShiftDown(), this.game.keyboard().isCapsLocked(), this.game.keyboard().isAltGrDown());
+				String key = this.game.keyboard().getKeyRepresentation(keyCode, this.game.keyboard().isShiftDown(), this.game.keyboard().isCapsLocked(), this.game.keyboard().isAltGrDown());
 				{
 					if (key.equals("^") && !this.hatCarry) {
 						// A ^ was pressed to carry it to the next character

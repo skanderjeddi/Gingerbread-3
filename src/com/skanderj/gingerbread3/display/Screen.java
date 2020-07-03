@@ -211,7 +211,7 @@ public class Screen {
 	 * Self explanatory.
 	 */
 	public final BufferedImage screenContentOnFrame() {
-		BufferedImage image = new BufferedImage(this.screenContent.getWidth(), this.screenContent.getHeight(), this.screenContent.getType());
+		final BufferedImage image = new BufferedImage(this.screenContent.getWidth(), this.screenContent.getHeight(), this.screenContent.getType());
 		final int[] sourcePixels = ((DataBufferInt) this.screenContent.getRaster().getDataBuffer()).getData(), targetPixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 		for (int index = 0; index < sourcePixels.length; index += 1) {
 			targetPixels[index] = sourcePixels[index];

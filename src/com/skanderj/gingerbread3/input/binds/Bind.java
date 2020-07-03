@@ -4,48 +4,49 @@ import com.skanderj.gingerbread3.core.object.Action;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.Keyboard.KeyState;
 
+/**
+ *
+ * @author Skander
+ *
+ */
 public class Bind {
-	private String scene;
-	private int keycode;
-	private Keyboard.KeyState state;
-	private Action action;
+	private final String targetScene;
+	private final int targetKeycode;
+	private final Keyboard.KeyState targetKeyState;
+	private final Action action;
 
 	public Bind(final String scene, final int keycode, final KeyState state, final Action action) {
-		this.scene = scene;
-		this.keycode = keycode;
-		this.state = state;
+		this.targetScene = scene;
+		this.targetKeycode = keycode;
+		this.targetKeyState = state;
 		this.action = action;
 	}
 
-	public String getScene() {
-		return this.scene;
+	/**
+	 * Self explanatory.
+	 */
+	public String getTargetScene() {
+		return targetScene;
 	}
 
-	public int getKeycode() {
-		return this.keycode;
+	/**
+	 * Self explanatory.
+	 */
+	public int getTargetKeycode() {
+		return targetKeycode;
 	}
 
-	public Keyboard.KeyState getState() {
-		return this.state;
+	/**
+	 * Self explanatory.
+	 */
+	public Keyboard.KeyState getTargetKeyState() {
+		return targetKeyState;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public Action getAction() {
-		return this.action;
-	}
-
-	public void setScene(final String scene) {
-		this.scene = scene;
-	}
-
-	public void setKeycode(final int keycode) {
-		this.keycode = keycode;
-	}
-
-	public void setState(final Keyboard.KeyState state) {
-		this.state = state;
-	}
-
-	public void setAction(final Action action) {
-		this.action = action;
+		return action;
 	}
 }

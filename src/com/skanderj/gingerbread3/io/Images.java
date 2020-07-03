@@ -37,7 +37,7 @@ public final class Images {
 		final long startTime = System.currentTimeMillis();
 		BufferedImage image;
 		try {
-			File file = new File(path);
+			final File file = new File(path);
 			image = ImageIO.read(file);
 			final long endTime = System.currentTimeMillis();
 			Images.imagesMap.put(identifier, image);

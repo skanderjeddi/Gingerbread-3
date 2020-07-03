@@ -3,6 +3,7 @@ package com.skanderj.gingerbread3.core;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+import java.lang.reflect.InvocationTargetException;
 
 import com.skanderj.gingerbread3.core.object.GameObject;
 import com.skanderj.gingerbread3.display.Screen;
@@ -26,7 +27,7 @@ public abstract class Game extends ThreadWrapper {
 
 	protected final double refreshRate;
 	protected final Window window;
-	protected final Keyboard keyboard;
+	protected Keyboard keyboard;
 	protected final Mouse mouse;
 	protected final Updatable profiler;
 
@@ -35,12 +36,16 @@ public abstract class Game extends ThreadWrapper {
 	/**
 	 * Creates a fullscreen window on the requested screen (deviceId).
 	 */
-	public Game(final String identifier, final double refreshRate, final String title, final int buffers, final int deviceId) {
+	public Game(final String identifier, final double refreshRate, final String title, final int buffers, final int deviceId, final Class<? extends Keyboard> localizedKeyboardClass) {
 		super(identifier);
 		this.initializeEngine();
 		this.refreshRate = refreshRate;
 		this.window = new Window.Fullscreen(this, title, buffers, deviceId);
-		this.keyboard = new Keyboard();
+		try {
+			this.keyboard = localizedKeyboardClass.getDeclaredConstructor().newInstance();
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException exception) {
+			Logger.log(Game.class, LogLevel.FATAL, "Wrong class type for keyboard instantiation: %s", exception.getMessage());
+		}
 		this.mouse = new Mouse();
 		this.profiler = new Updatable() {
 			private int counter = 0;
@@ -68,12 +73,16 @@ public abstract class Game extends ThreadWrapper {
 	/**
 	 * Creates a regular window.
 	 */
-	public Game(final String identifier, final double refreshRate, final String title, final int width, final int height, final int buffers) {
+	public Game(final String identifier, final double refreshRate, final String title, final int width, final int height, final int buffers, final Class<? extends Keyboard> localizedKeyboardClass) {
 		super(identifier);
 		this.initializeEngine();
 		this.refreshRate = refreshRate;
 		this.window = new Window.Regular(this, title, width, height, buffers);
-		this.keyboard = new Keyboard();
+		try {
+			this.keyboard = localizedKeyboardClass.getDeclaredConstructor().newInstance();
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException exception) {
+			Logger.log(Game.class, LogLevel.FATAL, "Wrong class type for keyboard instantiation: %s", exception.getMessage());
+		}
 		this.mouse = new Mouse();
 		this.profiler = new Updatable() {
 			private int counter = 0;
@@ -106,8 +115,8 @@ public abstract class Game extends ThreadWrapper {
 	}
 
 	/**
-	 * Here is where all the resources loading should take place, through
-	 * Audios, Images and Fonts.
+	 * Here is where all the resources loading should take place, through Audios,
+	 * Images and Fonts.
 	 */
 	public abstract void loadResources();
 
@@ -137,7 +146,7 @@ public abstract class Game extends ThreadWrapper {
 	 * Create and register all the components here.
 	 */
 	public abstract void createComponents();
-	
+
 	/**
 	 * Register all binds here.
 	 */
@@ -291,5 +300,16 @@ public abstract class Game extends ThreadWrapper {
 	 */
 	public double getRefreshRate() {
 		return this.refreshRate;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public synchronized final void changeKeyboardLayout(final Class<? extends Keyboard> targetKeyboardClass) {
+		try {
+			this.keyboard = targetKeyboardClass.getDeclaredConstructor().newInstance();
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException exception) {
+			Logger.log(Game.class, LogLevel.FATAL, "Wrong class type for keyboard instantiation: %s", exception.getMessage());
+		}
 	}
 }

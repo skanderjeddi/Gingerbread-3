@@ -3,7 +3,7 @@ package com.skanderj.gingerbread3.component.boilerplates;
 import java.awt.Color;
 import java.awt.Rectangle;
 
-import com.skanderj.gingerbread3.component.ComponentManager;
+import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.Selector;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
@@ -50,17 +50,17 @@ public final class GSelector extends Selector {
 	public synchronized void render(final Screen screen) {
 		screen.rectangle(Color.WHITE, this.x + 10 + this.arrowSize, this.y, this.width, this.height, true, 0, 0);
 		new VisualString(this.currentOption, this.properties, this.properties.getColor().darker().darker()).drawCentered(screen, this.x + 10 + this.arrowSize, this.y, this.width, this.height);
-		if (ComponentManager.GRAPHICAL_DEBUG) {
+		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x + 10 + this.arrowSize, this.y, this.width, this.height, false, 0, 0);
 		}
 		screen.rectangle(Color.WHITE, this.x, this.y, this.arrowSize, this.height, true, 0, 0);
 		new VisualString("<", Color.BLACK, Fonts.get("lunchtime", 24)).drawCentered(screen, this.x, this.y, this.arrowSize, this.height);
-		if (ComponentManager.GRAPHICAL_DEBUG) {
+		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x, this.y, this.arrowSize, this.height, false, 0, 0);
 		}
 		screen.rectangle(Color.WHITE, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height, true, 0, 0);
 		new VisualString(">", Color.BLACK, Fonts.get("lunchtime", 24)).drawCentered(screen, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height);
-		if (ComponentManager.GRAPHICAL_DEBUG) {
+		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height, false, 0, 0);
 		}
 	}

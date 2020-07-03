@@ -20,7 +20,7 @@ import com.skanderj.gingerbread3.logging.Logger.LogLevel;
  * @author Skander
  *
  */
-public final class ComponentManager {
+public final class Components {
 	// Graphical debug - mostly drawing components' bounds
 	public static final boolean GRAPHICAL_DEBUG = false;
 
@@ -32,7 +32,7 @@ public final class ComponentManager {
 	// Currently focused component on screen
 	private static Component inFocus = null;
 
-	private ComponentManager() {
+	private Components() {
 		return;
 	}
 
@@ -40,7 +40,7 @@ public final class ComponentManager {
 	 * Self explanatory.
 	 */
 	public static void register(final String identifier, final Component component) {
-		ComponentManager.componentsMap.put(identifier, component);
+		Components.componentsMap.put(identifier, component);
 		Registry.set(identifier, component);
 	}
 
@@ -50,10 +50,10 @@ public final class ComponentManager {
 	public static void register(final String[] identifiers, final Component[] components) {
 		if (identifiers.length == components.length) {
 			for (int i = 0; i < identifiers.length; i += 1) {
-				ComponentManager.componentsMap.put(identifiers[i], components[i]);
+				Components.componentsMap.put(identifiers[i], components[i]);
 			}
 		} else {
-			Logger.log(ComponentManager.class, LogLevel.ERROR, "Size mismatch between the identifiers and the components lists (%d vs %d)", identifiers.length, components.length);
+			Logger.log(Components.class, LogLevel.ERROR, "Size mismatch between the identifiers and the components lists (%d vs %d)", identifiers.length, components.length);
 		}
 	}
 
@@ -61,7 +61,7 @@ public final class ComponentManager {
 	 * Self explanatory. Skips the component and doesn't update/render it..
 	 */
 	public static void skip(final String identifier) {
-		ComponentManager.skippedComponents.add(identifier);
+		Components.skippedComponents.add(identifier);
 	}
 
 	/**
@@ -69,7 +69,7 @@ public final class ComponentManager {
 	 */
 	public static final void skip(final String... identifiers) {
 		for (final String identifier : identifiers) {
-			ComponentManager.skip(identifier);
+			Components.skip(identifier);
 		}
 	}
 
@@ -77,7 +77,7 @@ public final class ComponentManager {
 	 * Self explanatory. Unskips the component and updates/renders it..
 	 */
 	public static void unskip(final String identifier) {
-		ComponentManager.skippedComponents.remove(identifier);
+		Components.skippedComponents.remove(identifier);
 	}
 
 	/**
@@ -85,18 +85,18 @@ public final class ComponentManager {
 	 */
 	public static final void unskip(final String... identifiers) {
 		for (final String identifier : identifiers) {
-			ComponentManager.unskip(identifier);
+			Components.unskip(identifier);
 		}
 	}
 
 	public static void considerOnly(final List<String> identifiers) {
-		ComponentManager.inFocus = null;
-		ComponentManager.skippedComponents.clear();
-		for (final String identifier : ComponentManager.componentsMap.keySet()) {
+		Components.inFocus = null;
+		Components.skippedComponents.clear();
+		for (final String identifier : Components.componentsMap.keySet()) {
 			if (identifiers.contains(identifier)) {
 				continue;
 			} else {
-				ComponentManager.skip(identifier);
+				Components.skip(identifier);
 			}
 		}
 	}
@@ -105,7 +105,7 @@ public final class ComponentManager {
 	 * Self explanatory.
 	 */
 	public static Component get(final String identifier) {
-		final Component component = ComponentManager.componentsMap.get(identifier);
+		final Component component = Components.componentsMap.get(identifier);
 		if (component == null) {
 			Logger.log(Audios.class, Logger.LogLevel.SEVERE, "Could not find a component with identifier \"%s\"", identifier);
 			return null;
@@ -118,13 +118,13 @@ public final class ComponentManager {
 	 */
 	public static synchronized List<Component> activeComponents() {
 		final List<Component> active = new ArrayList<Component>();
-		for (final String identifier : ComponentManager.componentsMap.keySet()) {
-			final Component component = ComponentManager.componentsMap.get(identifier);
+		for (final String identifier : Components.componentsMap.keySet()) {
+			final Component component = Components.componentsMap.get(identifier);
 			if (component.shouldSkipRegistryChecks()) {
 				active.add(component);
 				continue;
 			}
-			if (ComponentManager.skippedComponents.contains(identifier)) {
+			if (Components.skippedComponents.contains(identifier)) {
 				continue;
 			}
 			active.add(component);
@@ -137,19 +137,19 @@ public final class ComponentManager {
 	 * focused component.
 	 */
 	public static synchronized void giveFocus(final String identifier) {
-		final Component component = ComponentManager.componentsMap.get(identifier);
+		final Component component = Components.componentsMap.get(identifier);
 		if (component == null) {
-			ComponentManager.inFocus = null;
+			Components.inFocus = null;
 			return;
 		}
-		if (ComponentManager.inFocus == null) {
+		if (Components.inFocus == null) {
 			component.grantFocus();
-			ComponentManager.inFocus = component;
+			Components.inFocus = component;
 		} else {
-			if (ComponentManager.inFocus.canChangeFocus()) {
-				ComponentManager.inFocus.revokeFocus();
+			if (Components.inFocus.canChangeFocus()) {
+				Components.inFocus.revokeFocus();
 				component.grantFocus();
-				ComponentManager.inFocus = component;
+				Components.inFocus = component;
 			}
 		}
 	}
@@ -160,17 +160,17 @@ public final class ComponentManager {
 	 */
 	public static synchronized void giveFocus(final Component component) {
 		if (component == null) {
-			ComponentManager.inFocus = null;
+			Components.inFocus = null;
 			return;
 		}
-		if (ComponentManager.inFocus == null) {
+		if (Components.inFocus == null) {
 			component.grantFocus();
-			ComponentManager.inFocus = component;
+			Components.inFocus = component;
 		} else {
-			if (ComponentManager.inFocus.canChangeFocus()) {
-				ComponentManager.inFocus.revokeFocus();
+			if (Components.inFocus.canChangeFocus()) {
+				Components.inFocus.revokeFocus();
 				component.grantFocus();
-				ComponentManager.inFocus = component;
+				Components.inFocus = component;
 			}
 		}
 	}
@@ -179,7 +179,7 @@ public final class ComponentManager {
 	 * Resets the currently focused component.
 	 */
 	public static synchronized void revokeFocus() {
-		ComponentManager.inFocus = null;
+		Components.inFocus = null;
 	}
 
 	/**
@@ -188,6 +188,6 @@ public final class ComponentManager {
 	 * @return
 	 */
 	public static Component getInFocus() {
-		return ComponentManager.inFocus;
+		return Components.inFocus;
 	}
 }

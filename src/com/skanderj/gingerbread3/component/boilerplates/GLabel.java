@@ -2,7 +2,7 @@ package com.skanderj.gingerbread3.component.boilerplates;
 
 import java.awt.Color;
 
-import com.skanderj.gingerbread3.component.ComponentManager;
+import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.Label;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
@@ -43,7 +43,7 @@ public final class GLabel extends Label {
 	@Override
 	public synchronized void render(final Screen screen) {
 		this.graphicString.drawCentered(screen, this.x, this.y, this.width, this.height);
-		if (ComponentManager.GRAPHICAL_DEBUG) {
+		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, 0, 0);
 		}
 	}
