@@ -18,14 +18,14 @@ import com.skanderj.gingerbread3.util.VisualString;
  * @author Skander
  *
  */
-public final class G3Slider extends Slider {
+public final class GSlider extends Slider {
 	private int x, y, width, height;
 	private int sliderX, sliderWidth, sliderHeight;
 	private VisualString label;
 	private ComponentLabelPosition labelPosition;
 	private Color color;
 
-	public G3Slider(final Game game, final int x, final int y, final int width, final int height, final int sliderWidth, final int sliderHeight, final float min, final float max, final float defaultValue, final Color color, final VisualString label, final ComponentLabelPosition position) {
+	public GSlider(final Game game, final int x, final int y, final int width, final int height, final int sliderWidth, final int sliderHeight, final float min, final float max, final float defaultValue, final Color color, final VisualString label, final ComponentLabelPosition position) {
 		super(game, min, max, defaultValue);
 		this.x = x;
 		this.y = y;

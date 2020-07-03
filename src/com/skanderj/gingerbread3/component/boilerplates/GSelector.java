@@ -8,7 +8,7 @@ import com.skanderj.gingerbread3.component.Selector;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
-import com.skanderj.gingerbread3.io.FontManager;
+import com.skanderj.gingerbread3.io.Fonts;
 import com.skanderj.gingerbread3.util.VisualString;
 import com.skanderj.gingerbread3.util.VisualStringProperties;
 
@@ -18,7 +18,7 @@ import com.skanderj.gingerbread3.util.VisualStringProperties;
  * @author Skander
  *
  */
-public final class G3Selector extends Selector {
+public final class GSelector extends Selector {
 	private int x, y, width, height;
 	private VisualStringProperties properties;
 	private int arrowSize;
@@ -26,14 +26,14 @@ public final class G3Selector extends Selector {
 	/**
 	 * Self explanatory.
 	 */
-	public G3Selector(final Game game, final int x, final int y, final int width, final int height, final int arrowSize, final VisualStringProperties properties, final String[] optionsArray) {
+	public GSelector(final Game game, final int x, final int y, final int width, final int height, final int arrowSize, final VisualStringProperties properties, final String[] optionsArray) {
 		this(game, x, y, width, height, arrowSize, properties, optionsArray, optionsArray[0]);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public G3Selector(final Game game, final int x, final int y, final int width, final int height, final int arrowSize, final VisualStringProperties properties, final String[] optionsArray, final String defaultOption) {
+	public GSelector(final Game game, final int x, final int y, final int width, final int height, final int arrowSize, final VisualStringProperties properties, final String[] optionsArray, final String defaultOption) {
 		super(game, optionsArray, defaultOption);
 		this.x = x;
 		this.y = y;
@@ -54,12 +54,12 @@ public final class G3Selector extends Selector {
 			screen.rectangle(Color.RED, this.x + 10 + this.arrowSize, this.y, this.width, this.height, false, 0, 0);
 		}
 		screen.rectangle(Color.WHITE, this.x, this.y, this.arrowSize, this.height, true, 0, 0);
-		new VisualString("<", Color.BLACK, FontManager.get("lunchtime", 24)).drawCentered(screen, this.x, this.y, this.arrowSize, this.height);
+		new VisualString("<", Color.BLACK, Fonts.get("lunchtime", 24)).drawCentered(screen, this.x, this.y, this.arrowSize, this.height);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x, this.y, this.arrowSize, this.height, false, 0, 0);
 		}
 		screen.rectangle(Color.WHITE, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height, true, 0, 0);
-		new VisualString(">", Color.BLACK, FontManager.get("lunchtime", 24)).drawCentered(screen, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height);
+		new VisualString(">", Color.BLACK, Fonts.get("lunchtime", 24)).drawCentered(screen, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height, false, 0, 0);
 		}

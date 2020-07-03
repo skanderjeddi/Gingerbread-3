@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.skanderj.gingerbread3.audio.AudioManager;
+import com.skanderj.gingerbread3.audio.Audios;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 
@@ -19,8 +19,8 @@ import com.skanderj.gingerbread3.logging.Logger.LogLevel;
  * @author Skander
  *
  */
-public final class FontManager {
-	private FontManager() {
+public final class Fonts {
+	private Fonts() {
 		return;
 	}
 
@@ -39,11 +39,11 @@ public final class FontManager {
 			fileInputStream = new FileInputStream(fontFile);
 			final Font font = Font.createFont(Font.TRUETYPE_FONT, fileInputStream);
 			final long endTime = System.currentTimeMillis();
-			FontManager.fontsMap.put(identifier, font);
-			Logger.log(FontManager.class, LogLevel.INFO, "NEW font from disk -> \"%s\" (%d ms)", identifier, endTime - startTime);
+			Fonts.fontsMap.put(identifier, font);
+			Logger.log(Fonts.class, LogLevel.INFO, "Font loaded: [%s] -> \"%s\" (%d ms)", fontFile.getPath(), identifier, endTime - startTime);
 			return true;
 		} catch (FontFormatException | IOException exception) {
-			Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while loading font from %s: %s", path, exception.getMessage());
+			Logger.log(Audios.class, LogLevel.SEVERE, "An exception occurred while loading font from %s: %s", path, exception.getMessage());
 			return false;
 		}
 	}
@@ -52,9 +52,9 @@ public final class FontManager {
 	 * Self explanatory.
 	 */
 	public static Font get(final String identifier) {
-		final Font font = FontManager.fontsMap.get(identifier);
+		final Font font = Fonts.fontsMap.get(identifier);
 		if (font == null) {
-			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier \"%s\"", identifier);
+			Logger.log(Fonts.class, Logger.LogLevel.SEVERE, "Could not find font with identifier \"%s\"", identifier);
 			return null;
 		}
 		return font;
@@ -64,9 +64,9 @@ public final class FontManager {
 	 * Self explanatory. Returns the corresponding font with a specific size.
 	 */
 	public static Font get(final String identifier, final int size) {
-		final Font font = FontManager.fontsMap.get(identifier);
+		final Font font = Fonts.fontsMap.get(identifier);
 		if (font == null) {
-			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier \"%s\"", identifier);
+			Logger.log(Fonts.class, Logger.LogLevel.SEVERE, "Could not find font with identifier \"%s\"", identifier);
 			return null;
 		}
 		return font.deriveFont((float) size);
@@ -77,9 +77,9 @@ public final class FontManager {
 	 * style.
 	 */
 	public static Font get(final String identifier, final int size, final int style) {
-		final Font font = FontManager.fontsMap.get(identifier);
+		final Font font = Fonts.fontsMap.get(identifier);
 		if (font == null) {
-			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find font with identifier \"%s\"", identifier);
+			Logger.log(Fonts.class, Logger.LogLevel.SEVERE, "Could not find font with identifier \"%s\"", identifier);
 			return null;
 		}
 		return font.deriveFont((float) size).deriveFont(style);

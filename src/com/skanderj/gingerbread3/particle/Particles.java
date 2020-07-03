@@ -15,7 +15,7 @@ import com.skanderj.gingerbread3.util.Utilities;
  * @author Skander
  *
  */
-public final class ParticleManager extends GameObject {
+public final class Particles extends GameObject {
 	private final int centerX, centerY, radius, maxRadius;
 	private final Particle[] particles;
 	private final int chaosValue;
@@ -33,10 +33,10 @@ public final class ParticleManager extends GameObject {
 	 * @param chaosValue
 	 * @param updateRate     how many frames before each update
 	 */
-	public ParticleManager(final Game game, final int centerX, final int centerY, final int radius, final int maxRadius, final int particlesCount, final Sprite[] sprites, final Vector2[] accelerations, final int chaosValue, final int updateRate) {
+	public Particles(final Game game, final int centerX, final int centerY, final int radius, final int maxRadius, final int particlesCount, final Sprite[] sprites, final Vector2[] accelerations, final int chaosValue, final int updateRate) {
 		super(game);
 		if (accelerations.length != particlesCount) {
-			Logger.log(ParticleManager.class, LogLevel.FATAL, "Size mismatch between particles count and accelerations array size");
+			Logger.log(Particles.class, LogLevel.FATAL, "Size mismatch between particles count and accelerations array size");
 		}
 		this.centerX = centerX;
 		this.centerY = centerY;

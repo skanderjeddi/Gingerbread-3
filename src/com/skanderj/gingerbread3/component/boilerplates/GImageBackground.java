@@ -1,36 +1,30 @@
 package com.skanderj.gingerbread3.component.boilerplates;
 
-import java.awt.Color;
+import java.awt.image.BufferedImage;
 
 import com.skanderj.gingerbread3.component.Background;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
 
-/**
- * Solid color background. Very basic.
- *
- * @author Skander
- *
- */
-public class G3SolidColorBackground extends Background {
+public class GImageBackground extends Background {
 	private int x, y, width, height;
-	private Color color;
+	private BufferedImage image;
 
-	public G3SolidColorBackground(final Game game, final int x, final int y, final int width, final int height, final Color color) {
+	public GImageBackground(final Game game, final int x, final int y, final int width, final int height, final BufferedImage image) {
 		super(game);
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.color = color;
+		this.image = image;
 	}
 
 	/**
 	 * No need for logic.
 	 */
 	@Override
-	public synchronized void update(final double delta, final Object... args) {
+	public void update(final double delta, final Object... args) {
 		return;
 	}
 
@@ -38,8 +32,8 @@ public class G3SolidColorBackground extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public synchronized void render(final Screen screen) {
-		screen.rectangle(this.color, this.x, this.y, this.width, this.height, true, 0, 0);
+	public void render(final Screen screen) {
+		screen.image(this.image, this.x, this.y, this.width, this.height);
 	}
 
 	/**
@@ -117,15 +111,15 @@ public class G3SolidColorBackground extends Background {
 	/**
 	 * Self explanatory.
 	 */
-	public Color getColor() {
-		return this.color;
+	public BufferedImage getBufferedImage() {
+		return this.image;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setColor(final Color color) {
-		this.color = color;
+	public void setBufferedImage(final BufferedImage image) {
+		this.image = image;
 	}
 
 	/**

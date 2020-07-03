@@ -1,30 +1,36 @@
 package com.skanderj.gingerbread3.component.boilerplates;
 
-import java.awt.image.BufferedImage;
+import java.awt.Color;
 
 import com.skanderj.gingerbread3.component.Background;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
 
-public class G3ImageBackground extends Background {
+/**
+ * Solid color background. Very basic.
+ *
+ * @author Skander
+ *
+ */
+public class GSolidColorBackground extends Background {
 	private int x, y, width, height;
-	private BufferedImage image;
+	private Color color;
 
-	public G3ImageBackground(final Game game, final int x, final int y, final int width, final int height, final BufferedImage image) {
+	public GSolidColorBackground(final Game game, final int x, final int y, final int width, final int height, final Color color) {
 		super(game);
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.image = image;
+		this.color = color;
 	}
 
 	/**
 	 * No need for logic.
 	 */
 	@Override
-	public void update(final double delta, final Object... args) {
+	public synchronized void update(final double delta, final Object... args) {
 		return;
 	}
 
@@ -32,8 +38,8 @@ public class G3ImageBackground extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public void render(final Screen screen) {
-		screen.image(this.image, this.x, this.y, this.width, this.height);
+	public synchronized void render(final Screen screen) {
+		screen.rectangle(this.color, this.x, this.y, this.width, this.height, true, 0, 0);
 	}
 
 	/**
@@ -111,15 +117,15 @@ public class G3ImageBackground extends Background {
 	/**
 	 * Self explanatory.
 	 */
-	public BufferedImage getBufferedImage() {
-		return this.image;
+	public Color getColor() {
+		return this.color;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setBufferedImage(final BufferedImage image) {
-		this.image = image;
+	public void setColor(final Color color) {
+		this.color = color;
 	}
 
 	/**

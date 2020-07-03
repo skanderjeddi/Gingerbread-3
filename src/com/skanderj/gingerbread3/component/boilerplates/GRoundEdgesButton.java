@@ -11,17 +11,19 @@ import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.util.VisualString;
 
 /**
- * A straight edges version of the button. Very basic.
+ * A round edges version of the button. Still very basic.
  *
  * @author Skander
  *
  */
-public final class G3StraightEdgesButton extends Button {
+public final class GRoundEdgesButton extends Button {
 	private int x, y, width, height;
 	private VisualString label;
 	private Color backgroundColor, borderColor;
+	// Border incline = how many pixels will be shaved off at each edge
+	private int borderIncline;
 
-	public G3StraightEdgesButton(final Game game, final int x, final int y, final int width, final int height, final VisualString label, final Color backgroundColor, final Color borderColor) {
+	public GRoundEdgesButton(final Game game, final int x, final int y, final int width, final int height, final VisualString label, final Color backgroundColor, final Color borderColor, final int borderIncline) {
 		super(game);
 		this.x = x;
 		this.y = y;
@@ -30,18 +32,20 @@ public final class G3StraightEdgesButton extends Button {
 		this.label = label;
 		this.backgroundColor = backgroundColor;
 		this.borderColor = borderColor;
+		this.borderIncline = borderIncline;
 	}
 
 	/**
-	 * Draws a simple rectangle for the background, draws the border and the label.
+	 * Draws a simple round rectangle for the background, draws the border and the
+	 * label.
 	 */
 	@Override
 	public synchronized void render(final Screen screen) {
-		screen.rectangle(this.backgroundColor, this.x, this.y, this.width, this.height, true, 0, 0);
+		screen.rectangle(this.backgroundColor, this.x, this.y, this.width, this.height, true, this.borderIncline, this.borderIncline);
 		this.label.drawCentered(screen, this.x, this.y, this.width, this.height);
-		screen.rectangle(this.borderColor, this.x, this.y, this.width, this.height, false, 0, 0);
+		screen.rectangle(this.borderColor, this.x, this.y, this.width, this.height, false, this.borderIncline, this.borderIncline);
 		if (ComponentManager.GRAPHICAL_DEBUG) {
-			screen.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, 0, 0);
+			screen.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, this.borderIncline, this.borderIncline);
 		}
 	}
 
@@ -109,6 +113,13 @@ public final class G3StraightEdgesButton extends Button {
 	/**
 	 * Self explanatory.
 	 */
+	public int getBorderIncline() {
+		return this.borderIncline;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public void setX(final int x) {
 		this.x = x;
@@ -157,6 +168,13 @@ public final class G3StraightEdgesButton extends Button {
 	 */
 	public void setBorderColor(final Color borderColor) {
 		this.borderColor = borderColor;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public void setBorderIncline(final int borderIncline) {
+		this.borderIncline = borderIncline;
 	}
 
 	/**

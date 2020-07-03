@@ -9,7 +9,7 @@ import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.core.object.GameObject;
 import com.skanderj.gingerbread3.display.Screen;
-import com.skanderj.gingerbread3.io.ImageManager;
+import com.skanderj.gingerbread3.io.Images;
 
 /**
  * Represents a simple sprite.
@@ -38,8 +38,8 @@ public class Sprite extends GameObject {
 	 * Self explanatory.
 	 */
 	public static final Sprite fromImage(final Game game, final String identifier, final String path, final int width, final int height, final int scaleMethod) {
-		ImageManager.register(identifier, path);
-		final BufferedImage loadedImage = ImageManager.get(identifier);
+		Images.register(identifier, path);
+		final BufferedImage loadedImage = Images.get(identifier);
 		final int loadedImageWidth = loadedImage.getWidth(), loadedImageHeight = loadedImage.getHeight();
 		BufferedImage finalImage = new BufferedImage(loadedImageWidth, loadedImageHeight, loadedImage.getType());
 		final AffineTransform affineTransform = new AffineTransform();

@@ -10,7 +10,7 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import com.skanderj.gingerbread3.audio.AudioManager;
+import com.skanderj.gingerbread3.audio.Audios;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 
@@ -21,8 +21,8 @@ import com.skanderj.gingerbread3.logging.Logger.LogLevel;
  * @author Skander
  *
  */
-public final class ImageManager {
-	private ImageManager() {
+public final class Images {
+	private Images() {
 		return;
 	}
 
@@ -37,13 +37,14 @@ public final class ImageManager {
 		final long startTime = System.currentTimeMillis();
 		BufferedImage image;
 		try {
-			image = ImageIO.read(new File(path));
+			File file = new File(path);
+			image = ImageIO.read(file);
 			final long endTime = System.currentTimeMillis();
-			ImageManager.imagesMap.put(identifier, image);
-			Logger.log(ImageManager.class, LogLevel.INFO, "NEW image from disk -> \"%s\" (%d ms)", identifier, endTime - startTime);
+			Images.imagesMap.put(identifier, image);
+			Logger.log(Images.class, LogLevel.INFO, "Image loaded: [%s] -> \"%s\" (%d ms)", file.getPath(), identifier, endTime - startTime);
 			return true;
 		} catch (final IOException exception) {
-			Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while loading image from %s: %s", path, exception.getMessage());
+			Logger.log(Audios.class, LogLevel.SEVERE, "An exception occurred while loading image from %s: %s", path, exception.getMessage());
 			return false;
 		}
 	}
@@ -58,14 +59,14 @@ public final class ImageManager {
 			int counter = 0;
 			boolean success = true;
 			for (final File file : directory.listFiles()) {
-				if (!ImageManager.register(String.format(identifier, counter), file.getPath())) {
+				if (!Images.register(String.format(identifier, counter), file.getPath())) {
 					success = false;
 				}
 				counter += 1;
 			}
 			return success;
 		} else {
-			Logger.log(ImageManager.class, Logger.LogLevel.SEVERE, "Provided path %s doesn't point to a directory", path);
+			Logger.log(Images.class, Logger.LogLevel.SEVERE, "Provided path %s doesn't point to a directory", path);
 			return false;
 		}
 	}
@@ -74,9 +75,9 @@ public final class ImageManager {
 	 * Self explanatory.
 	 */
 	public static BufferedImage get(final String identifier) {
-		final BufferedImage image = ImageManager.imagesMap.get(identifier);
+		final BufferedImage image = Images.imagesMap.get(identifier);
 		if (image == null) {
-			Logger.log(FontManager.class, Logger.LogLevel.SEVERE, "Could not find image with identifier \"%s\"", identifier);
+			Logger.log(Fonts.class, Logger.LogLevel.SEVERE, "Could not find image with identifier \"%s\"", identifier);
 			return null;
 		}
 		return image;
@@ -87,9 +88,9 @@ public final class ImageManager {
 	 */
 	public static BufferedImage[] getUniqueID(final String identifier) {
 		final List<BufferedImage> images = new ArrayList<BufferedImage>();
-		for (final String id : ImageManager.imagesMap.keySet()) {
+		for (final String id : Images.imagesMap.keySet()) {
 			if (id.contains(identifier)) {
-				images.add(ImageManager.imagesMap.get(id));
+				images.add(Images.imagesMap.get(id));
 			}
 		}
 		return images.toArray(new BufferedImage[images.size()]);

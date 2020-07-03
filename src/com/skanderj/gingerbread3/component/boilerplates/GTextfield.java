@@ -19,7 +19,7 @@ import com.skanderj.gingerbread3.util.VisualStringProperties;
  * @author Skander
  *
  */
-public final class G3Textfield extends Textfield {
+public final class GTextfield extends Textfield {
 	private int x, y, width, height;
 	private Color backgroundColor;
 	private final VisualStringProperties textProperties;
@@ -34,7 +34,7 @@ public final class G3Textfield extends Textfield {
 	 * Background color for rendering a simple box and text properties for the font
 	 * and color, by default can only display 1 line.
 	 */
-	public G3Textfield(final Game game, final int x, final int y, final int width, final Color backgroundColor, final VisualStringProperties textProperties) {
+	public GTextfield(final Game game, final int x, final int y, final int width, final Color backgroundColor, final VisualStringProperties textProperties) {
 		this(game, x, y, width, backgroundColor, textProperties, 0);
 	}
 
@@ -42,7 +42,7 @@ public final class G3Textfield extends Textfield {
 	 * Background color for rendering a simple box, text properties for the font and
 	 * color, and amount maximumLines to display.
 	 */
-	public G3Textfield(final Game game, final int x, final int y, final int width, final Color backgroundColor, final VisualStringProperties textProperties, final int lines) {
+	public GTextfield(final Game game, final int x, final int y, final int width, final Color backgroundColor, final VisualStringProperties textProperties, final int lines) {
 		super(game);
 		this.x = x;
 		this.y = y;

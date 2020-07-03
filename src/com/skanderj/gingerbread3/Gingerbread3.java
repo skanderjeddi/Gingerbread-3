@@ -7,5 +7,5 @@ package com.skanderj.gingerbread3;
  *
  */
 public final class Gingerbread3 {
-	public static final String RELEASE = "R0.9";
+	public static final String RELEASE = "R0.9.3";
 }

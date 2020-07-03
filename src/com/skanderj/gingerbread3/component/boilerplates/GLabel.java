@@ -16,11 +16,11 @@ import com.skanderj.gingerbread3.util.VisualStringProperties;
  * @author Skander
  *
  */
-public final class G3Label extends Label {
+public final class GLabel extends Label {
 	private int x, y, width, height;
 	private final String format;
 
-	public G3Label(final Game game, final int x, final int y, final int width, final int height, final VisualString graphicString) {
+	public GLabel(final Game game, final int x, final int y, final int width, final int height, final VisualString graphicString) {
 		super(game, graphicString);
 		this.x = x;
 		this.y = y;

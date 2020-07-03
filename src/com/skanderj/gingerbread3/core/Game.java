@@ -9,9 +9,10 @@ import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.display.Window;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.Mouse;
+import com.skanderj.gingerbread3.input.binds.Binds;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
-import com.skanderj.gingerbread3.scene.SceneManager;
+import com.skanderj.gingerbread3.scene.Scenes;
 
 /**
  * Most important class, all G3-based games must extend this class. Pretty self
@@ -106,7 +107,7 @@ public abstract class Game extends ThreadWrapper {
 
 	/**
 	 * Here is where all the resources loading should take place, through
-	 * AudioManager, ImageManager and FontManager.
+	 * Audios, Images and Fonts.
 	 */
 	public abstract void loadResources();
 
@@ -136,6 +137,11 @@ public abstract class Game extends ThreadWrapper {
 	 * Create and register all the components here.
 	 */
 	public abstract void createComponents();
+	
+	/**
+	 * Register all binds here.
+	 */
+	public abstract void registerBinds();
 
 	@Override
 	protected void create() {
@@ -154,6 +160,7 @@ public abstract class Game extends ThreadWrapper {
 		Registry.set(this.profilerIdentifier(), GameObject.constructFromUpdatable(this, this.profiler));
 		this.createComponents();
 		this.registerScenes();
+		this.registerBinds();
 		this.window.requestFocus();
 	}
 
@@ -189,6 +196,7 @@ public abstract class Game extends ThreadWrapper {
 				if (this.window.isCloseRequested()) {
 					this.stop();
 				}
+				Binds.update(this, delta);
 				this.updateInputDevices();
 				delta -= 1;
 				shouldRender = true;
@@ -226,7 +234,7 @@ public abstract class Game extends ThreadWrapper {
 	 * @param delta the delay between the current update and last update
 	 */
 	protected synchronized void update(final double delta) {
-		SceneManager.update(delta);
+		Scenes.update(delta);
 	}
 
 	/**
@@ -235,7 +243,7 @@ public abstract class Game extends ThreadWrapper {
 	 * @param screen used to draw the screen
 	 */
 	protected synchronized void render(final Screen screen) {
-		SceneManager.render(screen);
+		Scenes.render(screen);
 	}
 
 	/**

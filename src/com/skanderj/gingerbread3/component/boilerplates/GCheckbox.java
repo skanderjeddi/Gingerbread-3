@@ -16,13 +16,13 @@ import com.skanderj.gingerbread3.util.VisualString;
  * @author Skander
  *
  */
-public class G3Checkbox extends Checkbox {
+public class GCheckbox extends Checkbox {
 	private int x, y, width, height;
 	private VisualString label;
 	private Color backgroundColor, borderColor, crossColor;
 	private ComponentLabelPosition labelPosition;
 
-	public G3Checkbox(final Game game, final int x, final int y, final int width, final int height, final VisualString label, final Color backgroundColor, final Color borderColor, final Color crossColor, final ComponentLabelPosition labelPosition) {
+	public GCheckbox(final Game game, final int x, final int y, final int width, final int height, final VisualString label, final Color backgroundColor, final Color borderColor, final Color crossColor, final ComponentLabelPosition labelPosition) {
 		super(game);
 		this.x = x;
 		this.y = y;

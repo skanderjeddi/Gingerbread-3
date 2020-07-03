@@ -16,7 +16,7 @@ import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.input.Mouse;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
-import com.skanderj.gingerbread3.scene.SceneManager;
+import com.skanderj.gingerbread3.scene.Scenes;
 
 /**
  * Probably the most important class and handles all the game objects.
@@ -84,7 +84,7 @@ public final class Registry {
 	 * Self explanatory.
 	 */
 	public static synchronized void set(final String identifier, final GameObject object) {
-		Logger.log(Registry.class, LogLevel.DEBUG, "NEW game object -> \"%s\" <class : %s>", identifier, object.getClass().getSimpleName().isEmpty() ? object.getClass().getTypeName() : object.getClass().getSimpleName());
+		Logger.log(Registry.class, LogLevel.DEBUG, "Game object registered: <class : %s> -> \"%s\"", object.getClass().getSimpleName().equals("") ? object.getClass().getEnclosingClass().getSimpleName() + "#" : object.getClass().getSimpleName(), identifier);
 		Registry.contents.put(identifier, object);
 	}
 
@@ -121,7 +121,7 @@ public final class Registry {
 				for (final String key : Registry.contents.keySet().toArray(new String[Registry.contents.size()])) {
 					if (Registry.contents.get(key) == object) {
 						Registry.contents.remove(key);
-						Logger.log(Registry.class, LogLevel.DEBUG, "DELETED game object [\"%s\"]", key);
+						Logger.log(Registry.class, LogLevel.DEBUG, "Game object deleted: [\"%s\"]", key);
 						return;
 					}
 				}
@@ -129,8 +129,8 @@ public final class Registry {
 		}
 		Registry.deletions.clear();
 		final List<String> allowedComponents = new ArrayList<String>();
-		if (SceneManager.scene() != null) {
-			allowedComponents.addAll(SceneManager.scene().sceneObjects());
+		if (Scenes.scene() != null) {
+			allowedComponents.addAll(Scenes.scene().sceneObjects());
 		}
 		for (final String identifier : Registry.contents.keySet()) {
 			final GameObject object = Registry.contents.get(identifier);
@@ -171,8 +171,8 @@ public final class Registry {
 	public static synchronized void render(final Screen screen) {
 		final List<GameObject> toRender = new ArrayList<GameObject>();
 		final List<String> allowedComponents = new ArrayList<String>();
-		if (SceneManager.scene() != null) {
-			allowedComponents.addAll(SceneManager.scene().sceneObjects());
+		if (Scenes.scene() != null) {
+			allowedComponents.addAll(Scenes.scene().sceneObjects());
 		}
 		for (final String identifier : Registry.contents.keySet()) {
 			final GameObject object = Registry.contents.get(identifier);

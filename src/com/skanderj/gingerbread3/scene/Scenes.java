@@ -15,13 +15,13 @@ import com.skanderj.gingerbread3.transition.Transition;
  * @author Skander
  *
  */
-public class SceneManager {
+public class Scenes {
 	// Scenes map to quickly retrieve a scene by its identifier
 	private static final Map<String, Scene> scenesMap = new HashMap<String, Scene>();
 	private static Scene currentScene;
 	private static Transition currentTransition;
 
-	private SceneManager() {
+	private Scenes() {
 		return;
 	}
 
@@ -29,39 +29,39 @@ public class SceneManager {
 	 * Self explanatory.
 	 */
 	public static void register(final String identifier, final Scene scene) {
-		SceneManager.scenesMap.put(identifier, scene);
+		Scenes.scenesMap.put(identifier, scene);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public static Scene get(final String identifier) {
-		return SceneManager.scenesMap.get(identifier);
+		return Scenes.scenesMap.get(identifier);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public static void setCurrent(final String identifier) {
-		if (SceneManager.currentScene != null) {
-			SceneManager.currentScene.remove();
+	public static void switchTo(final String identifier) {
+		if (Scenes.currentScene != null) {
+			Scenes.currentScene.remove();
 		}
-		SceneManager.currentScene = SceneManager.get(identifier);
+		Scenes.currentScene = Scenes.get(identifier);
 		Registry.newScene();
-		final List<String> gameObjects = SceneManager.currentScene.sceneObjects();
+		final List<String> gameObjects = Scenes.currentScene.sceneObjects();
 		ComponentManager.considerOnly(gameObjects);
-		SceneManager.currentScene.present();
+		Scenes.currentScene.present();
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public static void update(final double delta, final Object... args) {
-		if (SceneManager.currentScene != null) {
-			SceneManager.currentScene.update(delta, args);
+		if (Scenes.currentScene != null) {
+			Scenes.currentScene.update(delta, args);
 		}
-		if (SceneManager.currentTransition != null) {
-			SceneManager.currentTransition.update(delta, args);
+		if (Scenes.currentTransition != null) {
+			Scenes.currentTransition.update(delta, args);
 		}
 	}
 
@@ -69,23 +69,23 @@ public class SceneManager {
 	 * Self explanatory.
 	 */
 	public static void render(final Screen screen) {
-		if (SceneManager.currentScene != null) {
-			SceneManager.currentScene.render(screen);
+		if (Scenes.currentScene != null) {
+			Scenes.currentScene.render(screen);
 		}
-		if (SceneManager.currentTransition != null) {
-			SceneManager.currentTransition.render(screen);
+		if (Scenes.currentTransition != null) {
+			Scenes.currentTransition.render(screen);
 		}
 	}
 
 	public static void transition(final String identifier) {
-		SceneManager.currentTransition = (Transition) Registry.get(identifier);
+		Scenes.currentTransition = (Transition) Registry.get(identifier);
 	}
 
 	public static Scene scene() {
-		return SceneManager.currentScene;
+		return Scenes.currentScene;
 	}
 
-	public static Transition getCurrentTransition() {
-		return SceneManager.currentTransition;
+	public static Transition transition() {
+		return Scenes.currentTransition;
 	}
 }

@@ -4,7 +4,7 @@ import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.core.object.GameObject;
-import com.skanderj.gingerbread3.scene.SceneManager;
+import com.skanderj.gingerbread3.scene.Scenes;
 
 /**
  * Represents a basic graphical transition.
@@ -29,8 +29,8 @@ public abstract class Transition extends GameObject {
 		this.timer += 1;
 		if (this.timer >= this.duration) {
 			Registry.skip(Registry.identifier(this));
-			if (SceneManager.getCurrentTransition() == this) {
-				SceneManager.transition(null);
+			if (Scenes.transition() == this) {
+				Scenes.transition(null);
 			}
 		}
 	}

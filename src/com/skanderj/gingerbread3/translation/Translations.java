@@ -17,14 +17,14 @@ import com.skanderj.gingerbread3.logging.Logger.LogLevel;
  * @author Skander
  *
  */
-public final class TranslationManager {
+public final class Translations {
 	// Default language will always be ENGLISH because ENGLISH >>>>
 	public static final Language DEFAULT_LANGUAGE = Language.ENGLISH;
 
 	// Translations map, only 1 language at a time (#TODO maybe change that?)
 	private static final Map<String, String> languageMap = new HashMap<String, String>();
 
-	private TranslationManager() {
+	private Translations() {
 		return;
 	}
 
@@ -42,17 +42,17 @@ public final class TranslationManager {
 					if (line.startsWith("#") || line.isBlank()) {
 						continue;
 					}
-					TranslationManager.languageMap.put(line.split("=")[0], line.split("=")[1]);
+					Translations.languageMap.put(line.split("=")[0], line.split("=")[1]);
 				}
 				bufferedReader.close();
-				Logger.log(TranslationManager.class, LogLevel.INFO, "Successfully loaded translations for language id \"%s\"...", language.identifier);
+				Logger.log(Translations.class, LogLevel.INFO, "Successfully loaded translations for language id \"%s\"...", language.identifier);
 				return true;
 			} catch (final IOException exception) {
-				Logger.log(TranslationManager.class, LogLevel.SEVERE, "An exception occurred while loading translations from file for language id \"%s\": %s", language.identifier, exception.getMessage());
+				Logger.log(Translations.class, LogLevel.SEVERE, "An exception occurred while loading translations from file for language id \"%s\": %s", language.identifier, exception.getMessage());
 				return false;
 			}
 		} else {
-			Logger.log(TranslationManager.class, LogLevel.SEVERE, "Could not find translations file for language id \"%s\"!", language.identifier);
+			Logger.log(Translations.class, LogLevel.SEVERE, "Could not find translations file for language id \"%s\"!", language.identifier);
 			return false;
 		}
 	}
@@ -62,18 +62,18 @@ public final class TranslationManager {
 	 * loaded.
 	 */
 	private static void loadDefaultLanguage() {
-		Logger.log(TranslationManager.class, LogLevel.INFO, "Loading default translations for default language (%s)...", TranslationManager.DEFAULT_LANGUAGE.identifier);
-		TranslationManager.loadLanguage(TranslationManager.DEFAULT_LANGUAGE);
+		Logger.log(Translations.class, LogLevel.INFO, "Loading default translations for default language (%s)...", Translations.DEFAULT_LANGUAGE.identifier);
+		Translations.loadLanguage(Translations.DEFAULT_LANGUAGE);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public static final String getKey(final String key, final Object... args) {
-		if (TranslationManager.languageMap.isEmpty()) {
-			TranslationManager.loadDefaultLanguage();
+		if (Translations.languageMap.isEmpty()) {
+			Translations.loadDefaultLanguage();
 		}
-		return TranslationManager.languageMap.get(key) == null ? "(null)" : String.format(TranslationManager.languageMap.get(key), args);
+		return Translations.languageMap.get(key) == null ? "(null)" : String.format(Translations.languageMap.get(key), args);
 	}
 
 	/**

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.skanderj.gingerbread3.audio.AudioManager;
+import com.skanderj.gingerbread3.audio.Audios;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
@@ -107,7 +107,7 @@ public final class ComponentManager {
 	public static Component get(final String identifier) {
 		final Component component = ComponentManager.componentsMap.get(identifier);
 		if (component == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find a component with identifier \"%s\"", identifier);
+			Logger.log(Audios.class, Logger.LogLevel.SEVERE, "Could not find a component with identifier \"%s\"", identifier);
 			return null;
 		}
 		return component;

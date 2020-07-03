@@ -30,7 +30,7 @@ import com.skanderj.gingerbread3.logging.Logger.LogLevel;
  * @author Skander
  *
  */
-public final class AudioManager {
+public final class Audios {
 	// Reusable audio streams map - how we can play multiple sounds at once over and
 	// over
 	public static final Map<String, AudioInputStream> audioMap = new HashMap<String, AudioInputStream>();
@@ -41,7 +41,7 @@ public final class AudioManager {
 	// Keep track of which clips are paused
 	public static final Set<String> pausesMap = new HashSet<String>();
 
-	private AudioManager() {
+	private Audios() {
 		return;
 	}
 
@@ -54,13 +54,13 @@ public final class AudioManager {
 		final File soundFile = new File(path);
 		AudioInputStream reusableAudioInputStream;
 		try {
-			reusableAudioInputStream = AudioManager.createReusableAudioInputStream(soundFile);
+			reusableAudioInputStream = Audios.createReusableAudioInputStream(soundFile);
 			final long endTime = System.currentTimeMillis();
-			AudioManager.audioMap.put(identifier, reusableAudioInputStream);
-			Logger.log(AudioManager.class, LogLevel.INFO, "NEW audio from disk -> \"%s\" (%d ms)", identifier, (endTime - startTime));
+			Audios.audioMap.put(identifier, reusableAudioInputStream);
+			Logger.log(Audios.class, LogLevel.INFO, "Audio loaded: [%s] -> \"%s\" (%d ms)", soundFile.getPath(), identifier, (endTime - startTime));
 			return true;
 		} catch (IOException | UnsupportedAudioFileException exception) {
-			Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while loading audio from %s: %s", path, exception.getMessage());
+			Logger.log(Audios.class, LogLevel.SEVERE, "An exception occurred while loading audio from %s: %s", path, exception.getMessage());
 			return false;
 		}
 	}
@@ -75,14 +75,14 @@ public final class AudioManager {
 			int counter = 0;
 			boolean success = true;
 			for (final File file : directory.listFiles()) {
-				if (!AudioManager.register(String.format(identifier, counter), file.getPath())) {
+				if (!Audios.register(String.format(identifier, counter), file.getPath())) {
 					success = false;
 				}
 				counter += 1;
 			}
 			return success;
 		} else {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Provided path %s doesn't point to a directory", path);
+			Logger.log(Audios.class, Logger.LogLevel.SEVERE, "Provided path %s doesn't point to a directory", path);
 			return false;
 		}
 	}
@@ -92,23 +92,23 @@ public final class AudioManager {
 	 * full volume.
 	 */
 	public static boolean play(final String identifier) {
-		return AudioManager.play(identifier, 1.0F);
+		return Audios.play(identifier, 1.0F);
 	}
 
 	/**
 	 * Self explanatory. Returns true if successful, false otherwise.
 	 */
 	public static boolean play(final String identifier, final float volume) {
-		final AudioInputStream stream = AudioManager.audioMap.get(identifier);
+		final AudioInputStream stream = Audios.audioMap.get(identifier);
 		if (stream == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
+			Logger.log(Audios.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
 			return false;
 		} else {
 			try {
 				stream.reset();
-				return AudioManager.play(identifier, stream, volume);
+				return Audios.play(identifier, stream, volume);
 			} catch (final IOException exception) {
-				Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to play audio \"%s\": %s", identifier, exception.getMessage());
+				Logger.log(Audios.class, LogLevel.SEVERE, "An exception occurred while trying to play audio \"%s\": %s", identifier, exception.getMessage());
 				return false;
 			}
 		}
@@ -148,28 +148,28 @@ public final class AudioManager {
 					final FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 					gainControl.setValue(20f * (float) Math.log10(volume));
 					clip.start();
-					AudioManager.clipsMap.put(identifier, clip);
+					Audios.clipsMap.put(identifier, clip);
 					try {
 						listener.waitUntilDone();
 					} catch (final InterruptedException interruptedException) {
-						Logger.log(AudioManager.class, LogLevel.IGNORE, "An exception occurred while waiting for audio \"%s\" to finish: %s", identifier, interruptedException.getMessage());
+						Logger.log(Audios.class, LogLevel.IGNORE, "An exception occurred while waiting for audio \"%s\" to finish: %s", identifier, interruptedException.getMessage());
 					}
 				} finally {
 					clip.close();
-					AudioManager.clipsMap.remove(identifier);
+					Audios.clipsMap.remove(identifier);
 				}
 			} catch (LineUnavailableException | IOException exception) {
-				Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to play audio \"%s\": %s", identifier, exception.getMessage());
+				Logger.log(Audios.class, LogLevel.SEVERE, "An exception occurred while trying to play audio \"%s\": %s", identifier, exception.getMessage());
 			} finally {
 				try {
 					audioInputStream.close();
 				} catch (final IOException ioException) {
-					Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to close audio stream \"%s\": %s", identifier, ioException.getMessage());
+					Logger.log(Audios.class, LogLevel.SEVERE, "An exception occurred while trying to close audio stream \"%s\": %s", identifier, ioException.getMessage());
 				}
 			}
 		});
 		thread.start();
-		AudioManager.threadsMap.put(identifier, thread);
+		Audios.threadsMap.put(identifier, thread);
 		return true;
 	}
 
@@ -177,7 +177,7 @@ public final class AudioManager {
 	 * Self explanatory.
 	 */
 	public static boolean isPaused(final String identifier) {
-		if (AudioManager.pausesMap.contains(identifier)) {
+		if (Audios.pausesMap.contains(identifier)) {
 			return true;
 		} else {
 			return false;
@@ -188,9 +188,9 @@ public final class AudioManager {
 	 * Self explanatory.
 	 */
 	public static float getVolume(final String identifier) {
-		final Clip clip = AudioManager.clipsMap.get(identifier);
+		final Clip clip = Audios.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
+			Logger.log(Audios.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
 			return -1;
 		} else {
 			final FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -202,9 +202,9 @@ public final class AudioManager {
 	 * Sets the volume for a running clip. Volume must be between 0f and 1f.
 	 */
 	public static void setVolume(final String identifier, final float volume) {
-		final Clip clip = AudioManager.clipsMap.get(identifier);
+		final Clip clip = Audios.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
+			Logger.log(Audios.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
 		} else {
 			if ((volume < 0f) || (volume > 1f)) {
 				throw new IllegalArgumentException("Volume not valid: " + volume);
@@ -218,13 +218,13 @@ public final class AudioManager {
 	 * Self explanatory. Returns true if successful, false otherwise.
 	 */
 	public static boolean pause(final String identifier) {
-		final Clip clip = AudioManager.clipsMap.get(identifier);
+		final Clip clip = Audios.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
+			Logger.log(Audios.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
 			return false;
 		} else {
 			clip.stop();
-			AudioManager.pausesMap.add(identifier);
+			Audios.pausesMap.add(identifier);
 			return true;
 		}
 	}
@@ -233,13 +233,13 @@ public final class AudioManager {
 	 * Self explanatory. Returns true if successful, false otherwise.
 	 */
 	public static boolean resume(final String identifier) {
-		final Clip clip = AudioManager.clipsMap.get(identifier);
+		final Clip clip = Audios.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
+			Logger.log(Audios.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
 			return false;
 		} else {
 			clip.start();
-			AudioManager.pausesMap.remove(identifier);
+			Audios.pausesMap.remove(identifier);
 			return true;
 		}
 	}
@@ -248,13 +248,13 @@ public final class AudioManager {
 	 * Self explanatory. Returns true if successful, false otherwise.
 	 */
 	public static boolean stop(final String identifier) {
-		final Clip clip = AudioManager.clipsMap.get(identifier);
+		final Clip clip = Audios.clipsMap.get(identifier);
 		if (clip == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
+			Logger.log(Audios.class, Logger.LogLevel.IGNORE_UNLESS_REPEATED, "Could not find audio with identifier \"%s\"", identifier);
 			return false;
 		} else {
 			clip.stop();
-			AudioManager.threadsMap.get(identifier).interrupt();
+			Audios.threadsMap.get(identifier).interrupt();
 			return true;
 		}
 	}
@@ -263,19 +263,19 @@ public final class AudioManager {
 	 * Self explanatory. Returns true if successful, false otherwise.
 	 */
 	public static boolean stopAll() {
-		for (final AudioInputStream audioInputStream : AudioManager.audioMap.values()) {
+		for (final AudioInputStream audioInputStream : Audios.audioMap.values()) {
 			try {
 				audioInputStream.reset();
 				audioInputStream.close();
 			} catch (final IOException ioException) {
-				Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to close audio streams \"%s\": %s", ioException.getMessage());
+				Logger.log(Audios.class, LogLevel.SEVERE, "An exception occurred while trying to close audio streams \"%s\": %s", ioException.getMessage());
 				return false;
 			}
 		}
-		for (final Clip clip : AudioManager.clipsMap.values()) {
+		for (final Clip clip : Audios.clipsMap.values()) {
 			clip.stop();
 		}
-		for (final Thread thread : AudioManager.threadsMap.values()) {
+		for (final Thread thread : Audios.threadsMap.values()) {
 			thread.interrupt();
 		}
 		return true;
@@ -286,7 +286,7 @@ public final class AudioManager {
 	 * indefinitely. Plays audio at full volume.
 	 */
 	public static boolean loop(final String identifier, final int count) {
-		return AudioManager.loop(identifier, count, 1.0F);
+		return Audios.loop(identifier, count, 1.0F);
 	}
 
 	/**
@@ -294,18 +294,18 @@ public final class AudioManager {
 	 * indefinitely.
 	 */
 	public static boolean loop(final String identifier, final int count, final float volume) {
-		final AudioInputStream stream = AudioManager.audioMap.get(identifier);
+		final AudioInputStream stream = Audios.audioMap.get(identifier);
 		if (stream == null) {
-			Logger.log(AudioManager.class, Logger.LogLevel.SEVERE, "Could not find audio stream with identifier \"%s\"", identifier);
+			Logger.log(Audios.class, Logger.LogLevel.SEVERE, "Could not find audio stream with identifier \"%s\"", identifier);
 			return false;
 		} else {
 			try {
 				stream.reset();
 			} catch (final IOException ioException) {
-				Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to play audio \"%s\": %s", identifier, ioException.getMessage());
+				Logger.log(Audios.class, LogLevel.SEVERE, "An exception occurred while trying to play audio \"%s\": %s", identifier, ioException.getMessage());
 				return false;
 			}
-			return AudioManager.loop(identifier, count, stream, volume);
+			return Audios.loop(identifier, count, stream, volume);
 		}
 	}
 
@@ -343,26 +343,26 @@ public final class AudioManager {
 					final FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 					gainControl.setValue(20f * (float) Math.log10(volume));
 					clip.loop(count == -1 ? -1 : count - 1);
-					AudioManager.clipsMap.put(identifier, clip);
+					Audios.clipsMap.put(identifier, clip);
 					listener.waitUntilDone();
 				} catch (final InterruptedException interruptedException) {
-					Logger.log(AudioManager.class, LogLevel.IGNORE, "An exception occurred while waiting for audio \"%s\" to finish: %s", identifier, interruptedException.getMessage());
+					Logger.log(Audios.class, LogLevel.IGNORE, "An exception occurred while waiting for audio \"%s\" to finish: %s", identifier, interruptedException.getMessage());
 				} finally {
 					clip.close();
-					AudioManager.clipsMap.remove(identifier);
+					Audios.clipsMap.remove(identifier);
 				}
 			} catch (final LineUnavailableException | IOException exception) {
-				Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to loop audio \"%s\": %s", identifier, exception.getMessage());
+				Logger.log(Audios.class, LogLevel.SEVERE, "An exception occurred while trying to loop audio \"%s\": %s", identifier, exception.getMessage());
 			} finally {
 				try {
 					audioInputStream.close();
 				} catch (final IOException ioException) {
-					Logger.log(AudioManager.class, LogLevel.SEVERE, "An exception occurred while trying to close audio stream \"%s\": %s", identifier, ioException.getMessage());
+					Logger.log(Audios.class, LogLevel.SEVERE, "An exception occurred while trying to close audio stream \"%s\": %s", identifier, ioException.getMessage());
 				}
 			}
 		});
 		thread.start();
-		AudioManager.threadsMap.put(identifier, thread);
+		Audios.threadsMap.put(identifier, thread);
 		return true;
 	}
 

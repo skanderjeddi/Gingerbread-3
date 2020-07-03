@@ -12,13 +12,13 @@ import com.skanderj.gingerbread3.util.Utilities;
  * @author Skander
  *
  */
-public class RandomOrderAnimation extends Animation {
+public class RandomizedAnimation extends Animation {
 	private int x, y;
 	private final Sprite[] sprites;
 	private final int[] timers;
 	private int currentSpriteIndex, currentSpriteTimer;
 
-	public RandomOrderAnimation(final Game game, final int x, final int y, final Sprite[] sprites, final int[] timers) {
+	public RandomizedAnimation(final Game game, final int x, final int y, final Sprite[] sprites, final int[] timers) {
 		super(game);
 		this.x = x;
 		this.y = y;
