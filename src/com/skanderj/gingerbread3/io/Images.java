@@ -53,7 +53,7 @@ public final class Images {
 	 * Loads all the audio files in the provided directory while adding "_0, _1, _2"
 	 * to the identifier. Returns true if successful, false otherwise.
 	 */
-	public static boolean registerDirectory(final String identifier, final String path) {
+	public static boolean loadAll(final String identifier, final String path) {
 		final File directory = new File(path);
 		if (directory.isDirectory()) {
 			int counter = 0;

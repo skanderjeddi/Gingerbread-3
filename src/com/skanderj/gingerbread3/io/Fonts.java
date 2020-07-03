@@ -31,7 +31,7 @@ public final class Fonts {
 	 * Loads a font from the provided path. File must be .TTF format (for now).
 	 * Returns true if the font was successfully registered, false otherwise.
 	 */
-	public static boolean register(final String identifier, final String path) {
+	public static boolean load(final String identifier, final String path) {
 		final long startTime = System.currentTimeMillis();
 		final File fontFile = new File(path);
 		FileInputStream fileInputStream;

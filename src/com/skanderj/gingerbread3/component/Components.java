@@ -41,7 +41,7 @@ public final class Components {
 	 */
 	public static void register(final String identifier, final Component component) {
 		Components.componentsMap.put(identifier, component);
-		Registry.set(identifier, component);
+		Registry.register(identifier, component);
 	}
 
 	/**

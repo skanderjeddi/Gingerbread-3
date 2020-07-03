@@ -166,7 +166,7 @@ public abstract class Game extends ThreadWrapper {
 
 	public void postCreate() {
 		this.registerGameObjects();
-		Registry.set(this.profilerIdentifier(), GameObject.constructFromUpdatable(this, this.profiler));
+		Registry.register(this.profilerIdentifier(), GameObject.constructFromUpdatable(this, this.profiler));
 		this.createComponents();
 		this.registerScenes();
 		this.registerBinds();

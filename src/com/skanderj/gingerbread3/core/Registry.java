@@ -83,7 +83,7 @@ public final class Registry {
 	/**
 	 * Self explanatory.
 	 */
-	public static synchronized void set(final String identifier, final GameObject object) {
+	public static synchronized void register(final String identifier, final GameObject object) {
 		Logger.log(Registry.class, LogLevel.DEBUG, "Game object registered: <class : %s> -> \"%s\"", object.getClass().getSimpleName().equals("") ? object.getClass().getEnclosingClass().getSimpleName() + "#" : object.getClass().getSimpleName(), identifier);
 		Registry.contents.put(identifier, object);
 	}

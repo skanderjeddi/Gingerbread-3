@@ -49,7 +49,7 @@ public final class Audios {
 	 * Loads an audio from the provided path. File must be .WAV format. Returns true
 	 * if the audio was successfully registered, false otherwise.
 	 */
-	public static boolean register(final String identifier, final String path) {
+	public static boolean load(final String identifier, final String path) {
 		final long startTime = System.currentTimeMillis();
 		final File soundFile = new File(path);
 		AudioInputStream reusableAudioInputStream;
@@ -69,13 +69,13 @@ public final class Audios {
 	 * Loads all the audio files in the provided directory while adding "_0, _1, _2"
 	 * to the identifier. Returns true if successful, false otherwise.
 	 */
-	public static boolean registerDirectory(final String identifier, final String path) {
+	public static boolean loadAll(final String identifier, final String path) {
 		final File directory = new File(path);
 		if (directory.isDirectory()) {
 			int counter = 0;
 			boolean success = true;
 			for (final File file : directory.listFiles()) {
-				if (!Audios.register(String.format(identifier, counter), file.getPath())) {
+				if (!Audios.load(String.format(identifier, counter), file.getPath())) {
 					success = false;
 				}
 				counter += 1;

@@ -68,7 +68,7 @@ public class G3Demo extends Game {
 			public List<String> sceneObjects() {
 				// Those are the only components which will be rendered/updated during this
 				// scene
-				return Arrays.asList(G3Demo.this.profilerIdentifier(), "background-clock", "main-menu-background", "play-button", "settings-button", "exit-button", "music-checkbox", "stars-background");
+				return Arrays.asList("background-clock", "main-menu-background", "play-button", "settings-button", "exit-button", "music-checkbox", "stars-background");
 			}
 
 			@Override
@@ -87,7 +87,6 @@ public class G3Demo extends Game {
 
 			@Override
 			public synchronized void update(final double delta, final Object... args) {
-				Registry.parameterize("stars-background", args);
 				super.update(delta, args);
 			}
 
@@ -101,10 +100,6 @@ public class G3Demo extends Game {
 			public void update(final double delta, final Object... args) {
 				Registry.parameterize("mouse-position-indicator", this.game.mouse().getX(), this.game.mouse().getY());
 				super.update(delta, args);
-				// Scene specific keyboard/mouse handling
-//				if (G3Demo.this.keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
-//					Scenes.setCurrent("main-menu");
-//				}
 			}
 
 			@Override
@@ -152,18 +147,18 @@ public class G3Demo extends Game {
 	@Override
 	public void loadResources() {
 		// Register some audio and some fonts
-		Audios.register("background", "res/audio/background.wav");
-		Fonts.register("lunchds", "res/font/lunchds.ttf");
-		Images.registerDirectory("ashe_%d", "res/sprite/ashe/");
-		Images.registerDirectory("campfire_%d", "res/sprite/campfire");
+		Audios.load("background", "res/audio/background.wav");
+		Fonts.load("lunchds", "res/font/lunchds.ttf");
+		Images.loadAll("ashe_%d", "res/sprite/ashe/");
+		Images.loadAll("campfire_%d", "res/sprite/campfire");
 	}
 
 	@Override
 	public void registerGameObjects() {
-		Registry.set("campfire-animation", new RandomizedAnimation(this, (G3Demo.WIDTH / 2) - 70, G3Demo.HEIGHT - 140, Sprite.fromImages(this, "campfire_%d", Images.getUniqueID("campfire")), new int[] { 8, 10, 12 }));
-		Registry.set("smoke-particles", new Particles(this, G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 5, 25, 40, 10, Sprite.fromImages(this, "ashe_%d", Images.getUniqueID("ashe")), Vector2.randomVectors(10, -1, 1, 0, -2), 1, 8));
-		Registry.set("stars-background", new Particles(this, G3Demo.WIDTH - 100, 0, 10, G3Demo.WIDTH + 10, 500, Sprite.fromImages(this, "ashe_%d", Images.getUniqueID("ashe")), Vector2.randomVectors(500, -1, -1, 1, 1), 5, 4));
-		Registry.set("fade-transition", new FadeTransition(this, 300, Color.BLACK));
+		Registry.register("campfire-animation", new RandomizedAnimation(this, (G3Demo.WIDTH / 2) - 70, G3Demo.HEIGHT - 140, Sprite.fromImages(this, "campfire_%d", Images.getUniqueID("campfire")), new int[] { 8, 10, 12 }));
+		Registry.register("smoke-particles", new Particles(this, G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 5, 25, 40, 10, Sprite.fromImages(this, "ashe_%d", Images.getUniqueID("ashe")), Vector2.randomVectors(10, -1, 1, 0, -2), 1, 8));
+		Registry.register("stars-background", new Particles(this, G3Demo.WIDTH - 100, 0, 10, G3Demo.WIDTH + 10, 500, Sprite.fromImages(this, "ashe_%d", Images.getUniqueID("ashe")), Vector2.randomVectors(500, -1, -1, 1, 1), 5, 4));
+		Registry.register("fade-transition", new FadeTransition(this, 300, Color.BLACK));
 	}
 
 	@Override
@@ -177,6 +172,8 @@ public class G3Demo extends Game {
 	@Override
 	public void postCreate() {
 		super.postCreate();
+		// Enable profiler
+		this.useProfiler();
 		// Set the current scene
 		Scenes.switchTo("main-menu");
 	}
@@ -240,7 +237,7 @@ public class G3Demo extends Game {
 	public static void main(final String[] args) {
 		// Set debugging messages
 		Logger.setDebuggingState(DebuggingType.CLASSIC, true);
-		Logger.setDebuggingState(DebuggingType.DEVELOPMENT, true);
+		Logger.setDebuggingState(DebuggingType.DEVELOPMENT, false);
 		new G3Demo().start();
 	}
 }

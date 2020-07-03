@@ -29,7 +29,7 @@ public class Sprite extends GameObject {
 		final Sprite[] array = new Sprite[images.length];
 		for (int i = 0; i < array.length; i += 1) {
 			array[i] = new Sprite(game, String.format(identifier, i), images[i], images[i].getWidth(), images[i].getHeight());
-			Registry.set(String.format(identifier, i), array[i]);
+			Registry.register(String.format(identifier, i), array[i]);
 		}
 		return array;
 	}
@@ -47,7 +47,7 @@ public class Sprite extends GameObject {
 		final AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, scaleMethod);
 		finalImage = affineTransformOp.filter(loadedImage, finalImage);
 		final Sprite sprite = new Sprite(game, identifier, finalImage, width, height);
-		Registry.set(identifier, sprite);
+		Registry.register(identifier, sprite);
 		return sprite;
 	}
 
