@@ -216,7 +216,9 @@ public class G3Demo extends Game {
 
 	@Override
 	public void registerBinds() {
-		Binds.registerBind("main-game", Keyboard.KEY_ESCAPE, Keyboard.KeyState.DOWN, args -> Scenes.switchTo("main-menu"));
+		Binds.registerBind("main-game", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, args -> Scenes.switchTo("main-menu"));
+		Binds.registerBind("settings", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, args -> Scenes.switchTo("main-menu"));
+		Binds.registerBind("main-menu", new Integer[] { Keyboard.KEY_ESCAPE, Keyboard.KEY_SPACE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN, Keyboard.KeyState.DOWN }, args -> this.stop());
 	}
 
 	@Override

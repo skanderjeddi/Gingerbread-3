@@ -30,6 +30,7 @@ public class Scenes {
 	 */
 	public static void register(final String identifier, final Scene scene) {
 		Scenes.scenesMap.put(identifier, scene);
+		Registry.register(identifier, scene);
 	}
 
 	/**

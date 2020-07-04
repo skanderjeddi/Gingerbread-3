@@ -16,6 +16,7 @@ import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.input.Mouse;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
+import com.skanderj.gingerbread3.scene.Scene;
 import com.skanderj.gingerbread3.scene.Scenes;
 
 /**
@@ -28,7 +29,7 @@ public final class Registry {
 	// All the game objects are stored here
 	private final static Map<String, GameObject> contents = new HashMap<String, GameObject>();
 	// Args for each object
-	private final static Map<String, Object[]> args = new HashMap<String, Object[]>();
+	private final static Map<String, Object[]> parameters = new HashMap<String, Object[]>();
 	// Game objects to be deleted on the next update
 	private final static Set<GameObject> deletions = new HashSet<GameObject>();
 	// Game objects to be skipped
@@ -84,7 +85,19 @@ public final class Registry {
 	 * Self explanatory.
 	 */
 	public static synchronized void register(final String identifier, final GameObject object) {
-		Logger.log(Registry.class, LogLevel.DEBUG, "Game object registered: <class : %s> -> \"%s\"", object.getClass().getSimpleName().equals("") ? object.getClass().getEnclosingClass().getSimpleName() + "#" : object.getClass().getSimpleName(), identifier);
+		String name = new String();
+		if (object instanceof Scene) {
+			name = "Scene";
+		} else if (object instanceof Updatable) {
+			name = "Updatable";
+		} else if (object instanceof Renderable) {
+			name = "Renderable";
+		} else if (object instanceof GameObject) {
+			name = "InnerGameObject";
+		} else {
+			name = object.getClass().getSimpleName();
+		}
+		Logger.log(Registry.class, LogLevel.DEBUG, "Game object registered: <class : %s> -> \"%s\"", object.getClass().getSimpleName().equals("") ? object.getClass().getEnclosingClass().getSimpleName() + "#" + name : object.getClass().getSimpleName(), identifier);
 		Registry.contents.put(identifier, object);
 	}
 
@@ -108,7 +121,7 @@ public final class Registry {
 	}
 
 	public static final void parameterize(final String identifier, final Object... args) {
-		Registry.args.put(identifier, args);
+		Registry.parameters.put(identifier, args);
 	}
 
 	/**
@@ -160,7 +173,7 @@ public final class Registry {
 					Components.giveFocus(component);
 				}
 			}
-			final Object[] objectArgs = Registry.args.get(Registry.identifier(object));
+			final Object[] objectArgs = Registry.parameters.get(Registry.identifier(object));
 			object.update(delta, objectArgs);
 		}
 	}

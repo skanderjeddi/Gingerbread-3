@@ -6,6 +6,8 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.skanderj.gingerbread3.input.boilerplates.AZERTYKeyboard;
+
 /**
  * A class representing an AZERTY (!!!) keyboard, although it can be used for
  * any type of keyboards if you exclude the
@@ -16,6 +18,9 @@ import java.util.List;
  *
  */
 public abstract class Keyboard extends KeyAdapter implements InputDevice {
+	// AZERTY keyboard constant
+	public static final Class<AZERTYKeyboard> AZERTY = AZERTYKeyboard.class;
+	
 	// Trying to hit absolutely every key - otherwise things crash
 	private static final int KEY_COUNT = 65536;
 
