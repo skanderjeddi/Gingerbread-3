@@ -27,7 +27,7 @@ public class AZERTYKeyboard extends Keyboard {
 	 */
 	@Override
 	public final String getKeyRepresentation(final int keycode, final boolean shiftDown, final boolean capsLocked, final boolean altGrDown) {
-		Logger.log(Keyboard.class, LogLevel.DEV_DEBUG, "Key %d has been pressed", keycode);
+		Logger.log(Keyboard.class, LogLevel.DEVELOPMENT, "Key %d has been pressed", keycode);
 		switch (keycode) {
 		case Keyboard.KEY_0:
 			if (altGrDown) {

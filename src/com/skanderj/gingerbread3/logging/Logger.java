@@ -71,7 +71,7 @@ public final class Logger {
 				if (Logger.DEBUG) {
 					Logger.defaultSystemOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + origin + " / " + logLevel.name() + "]: " + message + "\n", args);
 				}
-			} else if (logLevel == LogLevel.DEV_DEBUG) {
+			} else if (logLevel == LogLevel.DEVELOPMENT) {
 				if (Logger.DEV_DEBUG) {
 					Logger.defaultSystemOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + origin + " / " + logLevel.name() + "]: " + message + "\n", args);
 				}
@@ -98,6 +98,7 @@ public final class Logger {
 		case DEVELOPMENT:
 			Logger.log(Logger.class, LogLevel.INFO, "Enabled development debugging messages");
 			Logger.DEV_DEBUG = status;
+			break;
 		}
 	}
 
@@ -107,7 +108,7 @@ public final class Logger {
 	 *
 	 */
 	public enum LogLevel {
-		INFO, DEBUG, DEV_DEBUG, IGNORE, IGNORE_UNLESS_REPEATED, WARNING, SEVERE, ERROR, FATAL;
+		INFO, DEBUG, DEVELOPMENT, IGNORE, IGNORE_UNLESS_REPEATED, WARNING, SEVERE, ERROR, FATAL;
 	}
 
 	/**
@@ -133,106 +134,169 @@ public final class Logger {
 			this.printStream = printStream;
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public PrintStream printf(final String format, final Object... args) {
 			return this.printStream.printf(Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + format, args);
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public PrintStream printf(final Locale l, final String format, final Object... args) {
 			return this.printStream.printf(l, Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + format, args);
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public void print(final Object obj) {
 			this.printStream.print(Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + obj);
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public void print(final boolean b) {
 			this.print((Object) b);
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public void print(final char c) {
 			this.print((Object) c);
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public void print(final char[] s) {
 			this.print((Object) s);
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public void print(final double d) {
 			this.print((Object) d);
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public void print(final float f) {
 			this.print((Object) f);
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public void print(final int i) {
 			this.print((Object) i);
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public void print(final long l) {
 			this.print((Object) l);
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public void print(final String s) {
 			this.print((Object) s);
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public void println(final Object x) {
 			this.printStream.println(Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + x);
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public void println() {
 			this.printStream.println();
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public void println(final boolean x) {
 			this.println((Object) x);
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public void println(final char x) {
 			this.println((Object) x);
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public void println(final char[] x) {
 			this.println((Object) x);
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public void println(final double x) {
 			this.println((Object) x);
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public void println(final float x) {
 			this.println((Object) x);
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public void println(final int x) {
 			this.println((Object) x);
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public void println(final long x) {
 			this.println((Object) x);
 		}
 
+		/**
+		 * Self explanatory.
+		 */
 		@Override
 		public void println(final String x) {
 			this.println((Object) x);

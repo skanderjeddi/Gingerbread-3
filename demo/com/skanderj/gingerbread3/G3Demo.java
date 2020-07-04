@@ -72,7 +72,7 @@ public class G3Demo extends Game {
 			}
 
 			@Override
-			public void present() {
+			public void enter() {
 				// Play some audio
 				if (((Checkbox) Components.get("music-checkbox")).isChecked()) {
 					Audios.loop("background", -1, ((Slider) Components.get("main-menu-music-volume")).getValue() / 100.0F);
@@ -80,7 +80,7 @@ public class G3Demo extends Game {
 			}
 
 			@Override
-			public void remove() {
+			public void exit() {
 				// Stop the audio
 				Audios.stopAll();
 			}
@@ -113,7 +113,7 @@ public class G3Demo extends Game {
 			}
 
 			@Override
-			public void present() {
+			public void enter() {
 				/**
 				 * If you need to ignore a specific component (for special updates), you do it
 				 * here.
@@ -122,7 +122,7 @@ public class G3Demo extends Game {
 			}
 
 			@Override
-			public void remove() {
+			public void exit() {
 				Scenes.transition("fade-transition");
 			}
 		};
@@ -133,12 +133,12 @@ public class G3Demo extends Game {
 			}
 
 			@Override
-			public void remove() {
+			public void exit() {
 				Scenes.transition("fade-transition");
 			}
 
 			@Override
-			public void present() {
+			public void enter() {
 				Scenes.transition("fade-transition");
 			}
 		};
@@ -239,7 +239,7 @@ public class G3Demo extends Game {
 	public static void main(final String[] args) {
 		// Set debugging messages
 		Logger.setDebuggingState(DebuggingType.CLASSIC, true);
-		Logger.setDebuggingState(DebuggingType.DEVELOPMENT, false);
+		Logger.setDebuggingState(DebuggingType.DEVELOPMENT, true);
 		new G3Demo().start();
 	}
 }

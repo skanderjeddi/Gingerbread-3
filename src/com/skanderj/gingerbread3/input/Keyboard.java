@@ -20,7 +20,7 @@ import com.skanderj.gingerbread3.input.boilerplates.AZERTYKeyboard;
 public abstract class Keyboard extends KeyAdapter implements InputDevice {
 	// AZERTY keyboard constant
 	public static final Class<AZERTYKeyboard> AZERTY = AZERTYKeyboard.class;
-	
+
 	// Trying to hit absolutely every key - otherwise things crash
 	private static final int KEY_COUNT = 65536;
 

@@ -18,26 +18,44 @@ public final class VisualStringProperties {
 		this.color = color;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public VisualStringProperties build(final Color color) {
 		return new VisualStringProperties(this.font, color);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public VisualStringProperties build(final int fontSize) {
 		return new VisualStringProperties(this.font.deriveFont((float) fontSize), this.color);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public Font getFont() {
 		return this.font;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public Color getColor() {
 		return this.color;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public void setFont(final Font font) {
 		this.font = font;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public void setColor(final Color color) {
 		this.color = color;
 	}

@@ -37,12 +37,12 @@ public abstract class Scene extends GameObject {
 	/**
 	 * What to do when the scene is first called into effect.
 	 */
-	public abstract void present();
+	public abstract void enter();
 
 	/**
 	 * What to do when the scene is switched.
 	 */
-	public abstract void remove();
+	public abstract void exit();
 
 	@Override
 	public Priority priority() {

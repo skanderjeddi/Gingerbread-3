@@ -45,13 +45,13 @@ public class Scenes {
 	 */
 	public static void switchTo(final String identifier) {
 		if (Scenes.currentScene != null) {
-			Scenes.currentScene.remove();
+			Scenes.currentScene.exit();
 		}
 		Scenes.currentScene = Scenes.get(identifier);
 		Registry.newScene();
 		final List<String> gameObjects = Scenes.currentScene.sceneObjects();
 		Components.considerOnly(gameObjects);
-		Scenes.currentScene.present();
+		Scenes.currentScene.enter();
 	}
 
 	/**

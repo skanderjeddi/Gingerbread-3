@@ -8,7 +8,7 @@ import com.skanderj.gingerbread3.util.Utilities;
  *
  */
 public class Vector2 {
-	public float x, y;
+	public double x, y;
 
 	public static final Vector2[] randomVectors(final int count, final int xMin, final int xMax, final int yMin, final int yMax) {
 		final Vector2[] vects = new Vector2[count];
@@ -23,7 +23,7 @@ public class Vector2 {
 	/**
 	 * Self explanatory.
 	 */
-	public Vector2(final float x, final float y) {
+	public Vector2(final double x, final double y) {
 		this.x = x;
 		this.y = y;
 	}
