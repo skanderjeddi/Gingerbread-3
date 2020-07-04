@@ -77,14 +77,23 @@ public class Scenes {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public static void transition(final String identifier) {
 		Scenes.currentTransition = (Transition) Registry.get(identifier);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public static Scene scene() {
 		return Scenes.currentScene;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public static Transition transition() {
 		return Scenes.currentTransition;
 	}

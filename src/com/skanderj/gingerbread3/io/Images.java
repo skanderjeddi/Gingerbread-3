@@ -86,7 +86,7 @@ public final class Images {
 	/**
 	 * Self explanatory.
 	 */
-	public static BufferedImage[] getUniqueID(final String identifier) {
+	public static BufferedImage[] getCollectionByID(final String identifier) {
 		final List<BufferedImage> images = new ArrayList<BufferedImage>();
 		for (final String id : Images.imagesMap.keySet()) {
 			if (id.contains(identifier)) {

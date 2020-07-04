@@ -49,7 +49,8 @@ public final class Utilities {
 	}
 
 	/**
-	 * Used for map()
+	 * Used for {@link Utilities}{@link #map(float, float, float, float, float,
+	 * boolean))}
 	 */
 	private static float constraint(final float value, final float minimum, final float maximum) {
 		return Math.max(Math.min(value, maximum), minimum);

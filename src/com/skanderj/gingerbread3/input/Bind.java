@@ -1,7 +1,6 @@
-package com.skanderj.gingerbread3.input.binds;
+package com.skanderj.gingerbread3.input;
 
 import com.skanderj.gingerbread3.core.object.Action;
-import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.Keyboard.KeyState;
 
 /**
@@ -26,27 +25,27 @@ public class Bind {
 	 * Self explanatory.
 	 */
 	public String getTargetScene() {
-		return targetScene;
+		return this.targetScene;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public int getTargetKeycode() {
-		return targetKeycode;
+		return this.targetKeycode;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public Keyboard.KeyState getTargetKeyState() {
-		return targetKeyState;
+		return this.targetKeyState;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public Action getAction() {
-		return action;
+		return this.action;
 	}
 }

@@ -235,7 +235,7 @@ public class Matrix {
 			for (int column = 0; column < reducedMatrix.columns; column += 1) {
 				reducedMatrix.cells[line][column] = reducedLine[column];
 			}
-			invertedMatrix.cells[line] = invertedMatrix.scaleLine(line, 1 / factor);
+			invertedMatrix.cells[line] = invertedMatrix.scaleLine(line, 1.0F / factor);
 			cursor += 1;
 		}
 		cursor = this.lines - 1;

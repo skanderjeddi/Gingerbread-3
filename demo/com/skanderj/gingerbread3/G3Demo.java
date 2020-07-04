@@ -20,9 +20,9 @@ import com.skanderj.gingerbread3.component.boilerplates.GStraightEdgesButton;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
+import com.skanderj.gingerbread3.input.Binds;
 import com.skanderj.gingerbread3.input.Keyboard;
-import com.skanderj.gingerbread3.input.binds.Binds;
-import com.skanderj.gingerbread3.input.localized.AZERTYKeyboard;
+import com.skanderj.gingerbread3.input.boilerplates.AZERTYKeyboard;
 import com.skanderj.gingerbread3.io.Fonts;
 import com.skanderj.gingerbread3.io.Images;
 import com.skanderj.gingerbread3.logging.Logger;
@@ -155,9 +155,9 @@ public class G3Demo extends Game {
 
 	@Override
 	public void registerGameObjects() {
-		Registry.register("campfire-animation", new RandomizedAnimation(this, (G3Demo.WIDTH / 2) - 70, G3Demo.HEIGHT - 140, Sprite.fromImages(this, "campfire_%d", Images.getUniqueID("campfire")), new int[] { 8, 10, 12 }));
-		Registry.register("smoke-particles", new Particles(this, G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 5, 25, 40, 10, Sprite.fromImages(this, "ashe_%d", Images.getUniqueID("ashe")), Vector2.randomVectors(10, -1, 1, 0, -2), 1, 8));
-		Registry.register("stars-background", new Particles(this, G3Demo.WIDTH - 100, 0, 10, G3Demo.WIDTH + 10, 500, Sprite.fromImages(this, "ashe_%d", Images.getUniqueID("ashe")), Vector2.randomVectors(500, -1, -1, 1, 1), 5, 4));
+		Registry.register("campfire-animation", new RandomizedAnimation(this, (G3Demo.WIDTH / 2) - 70, G3Demo.HEIGHT - 140, Sprite.fromImages(this, "campfire_%d", Images.getCollectionByID("campfire")), new int[] { 8, 10, 12 }));
+		Registry.register("smoke-particles", new Particles(this, G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 5, 25, 40, 10, Sprite.fromImages(this, "ashe_%d", Images.getCollectionByID("ashe")), Vector2.randomVectors(10, -1, 1, 0, -2), 1, 8));
+		Registry.register("stars-background", new Particles(this, G3Demo.WIDTH - 100, 0, 10, G3Demo.WIDTH + 10, 500, Sprite.fromImages(this, "ashe_%d", Images.getCollectionByID("ashe")), Vector2.randomVectors(500, -1, -1, 1, 1), 5, 4));
 		Registry.register("fade-transition", new FadeTransition(this, 300, Color.BLACK));
 	}
 

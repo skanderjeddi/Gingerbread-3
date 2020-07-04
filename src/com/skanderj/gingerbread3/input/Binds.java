@@ -1,11 +1,10 @@
-package com.skanderj.gingerbread3.input.binds;
+package com.skanderj.gingerbread3.input;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.object.Action;
-import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 

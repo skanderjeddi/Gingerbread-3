@@ -1,4 +1,4 @@
-package com.skanderj.gingerbread3.input.localized;
+package com.skanderj.gingerbread3.input.boilerplates;
 
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.logging.Logger;
