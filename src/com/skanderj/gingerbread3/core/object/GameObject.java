@@ -20,8 +20,8 @@ public abstract class GameObject implements Comparable<GameObject> {
 		return new GameObject(game) {
 
 			@Override
-			public void update(final double delta, final Object... args) {
-				updatable.update(delta, args);
+			public void update(final double delta) {
+				updatable.update(delta);
 			}
 
 			@Override
@@ -43,7 +43,7 @@ public abstract class GameObject implements Comparable<GameObject> {
 		return new GameObject(game) {
 
 			@Override
-			public void update(final double delta, final Object... args) {
+			public void update(final double delta) {
 				return;
 			}
 
@@ -70,7 +70,7 @@ public abstract class GameObject implements Comparable<GameObject> {
 	/**
 	 * Updates the component - called by other classes.
 	 */
-	public abstract void update(double delta, Object... args);
+	public abstract void update(double delta);
 
 	/**
 	 * Renders the component - called by other classes.

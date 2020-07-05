@@ -25,7 +25,7 @@ public abstract class Transition extends GameObject {
 	 * Self explanatory.
 	 */
 	@Override
-	public void update(final double delta, final Object... args) {
+	public void update(final double delta) {
 		this.timer += 1;
 		if (this.timer >= this.duration) {
 			Registry.skip(Registry.identifier(this));

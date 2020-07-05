@@ -59,15 +59,12 @@ public class Sprite extends GameObject {
 		this.height = height;
 	}
 
-	private int x, y;
-
 	/**
 	 * Self explanatory.
 	 */
 	@Override
-	public synchronized void update(final double delta, final Object... args) {
-		this.x = (int) args[0];
-		this.y = (int) args[1];
+	public synchronized void update(final double delta) {
+		return;
 	}
 
 	/**
@@ -75,7 +72,7 @@ public class Sprite extends GameObject {
 	 */
 	@Override
 	public synchronized final void render(final Screen screen) {
-		screen.image(this.image, this.x, this.y, this.width, this.height);
+		return;
 	}
 
 	/**

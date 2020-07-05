@@ -18,7 +18,9 @@ import com.skanderj.gingerbread3.component.boilerplates.GSlider;
 import com.skanderj.gingerbread3.component.boilerplates.GSolidColorBackground;
 import com.skanderj.gingerbread3.component.boilerplates.GStraightEdgesButton;
 import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.object.GameObject;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.input.Binds;
 import com.skanderj.gingerbread3.input.Keyboard;
@@ -27,6 +29,7 @@ import com.skanderj.gingerbread3.io.Fonts;
 import com.skanderj.gingerbread3.io.Images;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.DebuggingType;
+import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 import com.skanderj.gingerbread3.math.Vector2;
 import com.skanderj.gingerbread3.particle.Particles;
 import com.skanderj.gingerbread3.scene.Scene;
@@ -61,6 +64,8 @@ public class G3Demo extends Game {
 	private final Scene mainGameScene;
 	private final Scene settingsScene;
 
+	private GameObject gameObject;
+
 	public G3Demo() {
 		super(G3Demo.IDENTIFIER, G3Demo.REFRESH_RATE, G3Demo.TITLE, G3Demo.WIDTH, G3Demo.HEIGHT, G3Demo.BUFFERS, AZERTYKeyboard.class);
 		this.mainMenuScene = new Scene(this) {
@@ -86,8 +91,9 @@ public class G3Demo extends Game {
 			}
 
 			@Override
-			public synchronized void update(final double delta, final Object... args) {
-				super.update(delta, args);
+			public synchronized void update(final double delta) {
+				Registry.parameterize("x-object", new String[] { "x-val" }, new Object[] { (int) Registry.parameters("x-object").get("x-val") + 1 });
+				super.update(delta);
 			}
 
 			@Override
@@ -97,9 +103,10 @@ public class G3Demo extends Game {
 		};
 		this.mainGameScene = new Scene(this) {
 			@Override
-			public void update(final double delta, final Object... args) {
-				Registry.parameterize("mouse-position-indicator", this.game.mouse().getX(), this.game.mouse().getY());
-				super.update(delta, args);
+			public void update(final double delta) {
+				Registry.parameterize("mouse-position-indicator", new String[] { "mouse-x", "mouse-y" }, new Object[] { this.game.mouse().getX(), this.game.mouse().getY() });
+				Registry.parameterize("x-object", new String[] { "x-val" }, new Object[] { (int) Registry.parameters("x-object").get("x-val") + 1 });
+				super.update(delta);
 			}
 
 			@Override
@@ -141,7 +148,31 @@ public class G3Demo extends Game {
 			public void enter() {
 				Scenes.transition("fade-transition");
 			}
+
+			@Override
+			public synchronized void update(final double delta) {
+				Registry.parameterize("x-object", new String[] { "x-val" }, new Object[] { (int) Registry.parameters("x-object").get("x-val") + 1 });
+				super.update(delta);
+			}
 		};
+		this.gameObject = new GameObject(this) {
+			@Override
+			public void update(final double delta) {
+				final int x = (int) Registry.parameters("x-object").get("x-val");
+				Logger.log(this.getClass(), LogLevel.INFO, "x is %d", x);
+			}
+
+			@Override
+			public void render(final Screen screen) {
+				return;
+			}
+
+			@Override
+			public Priority priority() {
+				return Priority.CRITICAL;
+			}
+		};
+		this.gameObject.setShouldSkipRegistryChecks(true);
 	}
 
 	@Override
@@ -159,6 +190,8 @@ public class G3Demo extends Game {
 		Registry.register("smoke-particles", new Particles(this, G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 5, 25, 40, 10, Sprite.fromImages(this, "ashe_%d", Images.getCollectionByID("ashe")), Vector2.randomVectors(10, -1, 1, 0, -2), 1, 8));
 		Registry.register("stars-background", new Particles(this, G3Demo.WIDTH - 100, 0, 10, G3Demo.WIDTH + 10, 500, Sprite.fromImages(this, "ashe_%d", Images.getCollectionByID("ashe")), Vector2.randomVectors(500, -1, -1, 1, 1), 5, 4));
 		Registry.register("fade-transition", new FadeTransition(this, 300, Color.BLACK));
+		Registry.register("x-object", this.gameObject);
+		Registry.parameterize("x-object", new String[] { "x-val" }, new Object[] { 0 });
 	}
 
 	@Override

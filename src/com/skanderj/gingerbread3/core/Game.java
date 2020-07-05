@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 import com.skanderj.gingerbread3.core.object.GameObject;
 import com.skanderj.gingerbread3.display.Screen;
@@ -51,14 +52,15 @@ public abstract class Game extends ThreadWrapper {
 			private int counter = 0;
 
 			@Override
-			public void update(final double delta, final Object... args) {
+			public void update(final double delta) {
 				this.counter += 1;
 				if ((this.counter % refreshRate) == 0) {
 					this.counter = 0;
+					final Map<String, Object> args = Registry.parameters(Game.this.profilerIdentifier());
 					if (args == null) {
 						Logger.log(this.getClass().getEnclosingClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
 					} else {
-						Logger.log(this.getClass().getEnclosingClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args[0], args[1]);
+						Logger.log(this.getClass().getEnclosingClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args.get("frames"), args.get("updates"));
 					}
 				}
 			}
@@ -88,14 +90,15 @@ public abstract class Game extends ThreadWrapper {
 			private int counter = 0;
 
 			@Override
-			public void update(final double delta, final Object... args) {
+			public void update(final double delta) {
 				this.counter += 1;
 				if ((this.counter % refreshRate) == 0) {
 					this.counter = 0;
+					final Map<String, Object> args = Registry.parameters(Game.this.profilerIdentifier());
 					if (args == null) {
 						Logger.log(this.getClass().getEnclosingClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
 					} else {
-						Logger.log(this.getClass().getEnclosingClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args[0], args[1]);
+						Logger.log(this.getClass().getEnclosingClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args.get("frames"), args.get("updates"));
 					}
 				}
 			}
@@ -222,7 +225,7 @@ public abstract class Game extends ThreadWrapper {
 			}
 			if ((System.currentTimeMillis() - resetTime) >= 1000) {
 				resetTime += 1000;
-				Registry.parameterize(this.profilerIdentifier(), frames, updates);
+				Registry.parameterize(this.profilerIdentifier(), new String[] { "frames", "updates" }, new Object[] { frames, updates });
 				frames = 0;
 				updates = 0;
 			}
@@ -259,12 +262,8 @@ public abstract class Game extends ThreadWrapper {
 	 * Called internally.
 	 */
 	private final void updateInputDevices() {
-		if (this.keyboard != null) {
-			this.keyboard.update();
-		}
-		if (this.mouse != null) {
-			this.mouse.update();
-		}
+		this.keyboard.update();
+		this.mouse.update();
 	}
 
 	/**

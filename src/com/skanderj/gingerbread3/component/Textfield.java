@@ -50,7 +50,7 @@ public abstract class Textfield extends Component {
 	}
 
 	@Override
-	public synchronized void update(final double delta, final Object... args) {
+	public synchronized void update(final double delta) {
 		// Check if the component has global focus
 		if (this.hasFocus) {
 			// Go through every keyboard key and retain those which are pressed at the

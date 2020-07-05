@@ -59,7 +59,7 @@ public final class Particles extends GameObject {
 	 * Self explanatory.
 	 */
 	@Override
-	public synchronized void update(final double delta, final Object... args) {
+	public synchronized void update(final double delta) {
 		this.updatesCounter += 1;
 		if ((this.updatesCounter % this.updateRate) == 0) {
 			for (final Particle particle : this.particles) {

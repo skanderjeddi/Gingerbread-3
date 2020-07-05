@@ -40,8 +40,8 @@ public final class GSlider extends Slider {
 	}
 
 	@Override
-	public synchronized void update(final double delta, final Object... args) {
-		super.update(delta, args);
+	public synchronized void update(final double delta) {
+		super.update(delta);
 		if (this.hasFocus) {
 			this.sliderX = (int) Utilities.map(this.game.mouse().getX(), this.x, this.x + this.getWidth(), this.x, this.x + this.getWidth(), true);
 		}

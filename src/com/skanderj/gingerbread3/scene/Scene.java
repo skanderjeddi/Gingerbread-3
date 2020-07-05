@@ -24,7 +24,7 @@ public abstract class Scene extends GameObject {
 
 	// Logic happens here
 	@Override
-	public synchronized void update(final double delta, final Object... args) {
+	public synchronized void update(final double delta) {
 		Registry.update(delta);
 	}
 

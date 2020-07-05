@@ -29,7 +29,7 @@ public final class Registry {
 	// All the game objects are stored here
 	private final static Map<String, GameObject> contents = new HashMap<String, GameObject>();
 	// Args for each object
-	private final static Map<String, Object[]> parameters = new HashMap<String, Object[]>();
+	private final static Map<String, Map<String, Object>> parameters = new HashMap<String, Map<String, Object>>();
 	// Game objects to be deleted on the next update
 	private final static Set<GameObject> deletions = new HashSet<GameObject>();
 	// Game objects to be skipped
@@ -120,8 +120,20 @@ public final class Registry {
 		return null;
 	}
 
-	public static final void parameterize(final String identifier, final Object... args) {
-		Registry.parameters.put(identifier, args);
+	public static void parameterize(final String identifier, final String[] identifiers, final Object[] args) {
+		if (identifiers.length != args.length) {
+			Logger.log(Registry.class, LogLevel.FATAL, "Size mismatch between identifiers and values (%d vs %d)", identifiers.length, args.length);
+		}
+		if (Registry.parameters.get(identifier) == null) {
+			Registry.parameters.put(identifier, new HashMap<String, Object>());
+		}
+		for (int i = 0; i < identifiers.length; i += 1) {
+			Registry.parameters.get(identifier).put(identifiers[i], args[i]);
+		}
+	}
+
+	public static Map<String, Object> parameters(final String identifier) {
+		return Registry.parameters.get(identifier);
 	}
 
 	/**
@@ -173,8 +185,7 @@ public final class Registry {
 					Components.giveFocus(component);
 				}
 			}
-			final Object[] objectArgs = Registry.parameters.get(Registry.identifier(object));
-			object.update(delta, objectArgs);
+			object.update(delta);
 		}
 	}
 
@@ -230,8 +241,8 @@ public final class Registry {
 	/**
 	 * Self explanatory.
 	 */
-	public static synchronized final void updateObject(final String identifier, final double delta, final Object... args) {
-		Registry.contents.get(identifier).update(delta, args);
+	public static synchronized void updateObject(final String identifier, final double delta) {
+		Registry.contents.get(identifier).update(delta);
 	}
 
 	/**

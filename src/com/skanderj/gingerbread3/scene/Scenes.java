@@ -57,12 +57,12 @@ public class Scenes {
 	/**
 	 * Self explanatory.
 	 */
-	public static void update(final double delta, final Object... args) {
+	public static void update(final double delta) {
 		if (Scenes.currentScene != null) {
-			Scenes.currentScene.update(delta, args);
+			Scenes.currentScene.update(delta);
 		}
 		if (Scenes.currentTransition != null) {
-			Scenes.currentTransition.update(delta, args);
+			Scenes.currentTransition.update(delta);
 		}
 	}
 

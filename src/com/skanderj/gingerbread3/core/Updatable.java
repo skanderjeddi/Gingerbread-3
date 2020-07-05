@@ -11,7 +11,7 @@ public interface Updatable extends Comparable<GameObject> {
 	/**
 	 * Self explanatory.
 	 */
-	void update(double delta, Object... args);
+	void update(double delta);
 
 	/**
 	 * Self explanatory.

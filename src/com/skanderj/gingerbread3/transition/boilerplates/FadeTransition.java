@@ -25,8 +25,8 @@ public class FadeTransition extends Transition {
 	 * Self explanatory.
 	 */
 	@Override
-	public void update(final double delta, final Object... args) {
-		super.update(delta, args);
+	public void update(final double delta) {
+		super.update(delta);
 	}
 
 	/**

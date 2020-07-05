@@ -1,11 +1,13 @@
 package com.skanderj.gingerbread3.component.boilerplates;
 
 import java.awt.Color;
+import java.util.Map;
 
 import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.Label;
 import com.skanderj.gingerbread3.core.Game;
 import com.skanderj.gingerbread3.core.Priority;
+import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.util.VisualString;
 import com.skanderj.gingerbread3.util.VisualStringProperties;
@@ -33,8 +35,15 @@ public final class GLabel extends Label {
 	 * No need for logic.
 	 */
 	@Override
-	public synchronized void update(final double delta, final Object... args) {
-		this.graphicString = new VisualString(String.format(this.format, args), new VisualStringProperties(this.graphicString.getFont(), this.graphicString.getColor()));
+	public synchronized void update(final double delta) {
+		final String identifier = Registry.identifier(this);
+		final Map<String, Object> parameters = Registry.parameters(identifier);
+		if (parameters != null) {
+			final Object[] args = parameters.values().toArray(new Object[parameters.size()]);
+			this.graphicString = new VisualString(String.format(this.format, args), new VisualStringProperties(this.graphicString.getFont(), this.graphicString.getColor()));
+		} else {
+			this.graphicString = new VisualString(String.format(this.format), new VisualStringProperties(this.graphicString.getFont(), this.graphicString.getColor()));
+		}
 	}
 
 	/**

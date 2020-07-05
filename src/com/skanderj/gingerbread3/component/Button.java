@@ -38,7 +38,7 @@ public abstract class Button extends Component {
 	 * button then run the appropriate button action accordingly.
 	 */
 	@Override
-	public void update(final double delta, final Object... args) {
+	public void update(final double delta) {
 		this.previousState = this.state;
 		final int mouseX = this.game.mouse().getX(), mouseY = this.game.mouse().getY();
 		final boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = this.game.mouse().isButtonDown(Mouse.BUTTON_LEFT);

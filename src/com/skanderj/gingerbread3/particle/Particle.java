@@ -29,7 +29,7 @@ public class Particle extends GameObject {
 	 * Self explanatory.
 	 */
 	@Override
-	public synchronized void update(final double delta, final Object... args) {
+	public synchronized void update(final double delta) {
 		final int limit = 40;
 		if (Math.abs(this.velocity.x) > limit) {
 			this.velocity.x = (int) (Math.signum(this.x) * limit);
@@ -39,7 +39,6 @@ public class Particle extends GameObject {
 		}
 		this.x += this.velocity.x;
 		this.y += this.velocity.y;
-		this.sprite.update(delta, this.x, this.y);
 	}
 
 	/**
@@ -47,7 +46,7 @@ public class Particle extends GameObject {
 	 */
 	@Override
 	public synchronized void render(final Screen screen) {
-		this.sprite.render(screen);
+		screen.image(this.sprite.getImage(), this.x, this.y, this.sprite.getWidth(), this.sprite.getHeight());
 	}
 
 	/**

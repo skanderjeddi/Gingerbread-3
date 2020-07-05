@@ -24,7 +24,7 @@ public class GImageBackground extends Background {
 	 * No need for logic.
 	 */
 	@Override
-	public void update(final double delta, final Object... args) {
+	public void update(final double delta) {
 		return;
 	}
 

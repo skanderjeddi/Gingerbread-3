@@ -102,7 +102,7 @@ public abstract class Selector extends Component {
 	 * selector arrows then run the appropriate action accordingly.
 	 */
 	@Override
-	public synchronized void update(final double delta, final Object... args) {
+	public synchronized void update(final double delta) {
 		// Set the previous state for each individual arrow on the last update
 		this.leftArrow.previousState = this.leftArrow.currentState;
 		this.rightArrow.previousState = this.rightArrow.currentState;
