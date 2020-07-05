@@ -1,5 +1,9 @@
 package com.skanderj.gingerbread3.logging;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
@@ -18,17 +22,21 @@ import com.skanderj.gingerbread3.Gingerbread3;
  */
 public final class Logger {
 	// Debuggings' states
-	private static boolean DEBUG = true, DEV_DEBUG = false;
+	private static boolean debug = true, developmentDebug = false, logToFile = false;
 
 	// References to the default system streams
-	private final static PrintStream defaultSystemOutput = System.out;
-	private final static PrintStream defaultSystemErrorOutput = System.err;
+	private final static PrintStream DEFAULT_SYSTEM_OUTPUT = System.out;
+	private final static PrintStream DEFAULT_SYSTEM_ERROR_OUTPUT = System.err;
 
 	// Date and time format, #TODO make it customizable
-	private final static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("[hh:mm:ss]");
+	private final static SimpleDateFormat LOG_DATE_FORMAT = new SimpleDateFormat("[hh:mm:ss]");
 
 	// Redirection currentState
 	private static boolean outputRedirected = false;
+
+	// Physical logging
+	private static final File LOG_FILE = new File("logs/" + new SimpleDateFormat("MM-dd-YYYY_hh-mm-ss").format(new Date()) + ".log");
+	private static BufferedWriter writer;
 
 	private Logger() {
 		return;
@@ -41,15 +49,37 @@ public final class Logger {
 		if (Logger.outputRedirected) {
 			return;
 		} else {
+			if (Logger.logToFile) {
+				Logger.LOG_FILE.getParentFile().mkdirs();
+				try {
+					Logger.writer = new BufferedWriter(new FileWriter(Logger.LOG_FILE));
+				} catch (final IOException ioException) {
+					Logger.log(Logger.class, LogLevel.SEVERE, "Coulnd't create log file! %s", ioException.getMessage());
+				}
+			}
 			// Display the Gingerbread version message
 			Logger.log(Gingerbread3.class, LogLevel.INFO, "Gingerbread-3 release %s - by SkanderJ", Gingerbread3.RELEASE);
-			System.setOut(new Logger.LoggerPrintStream(Logger.defaultSystemOutput, Logger.defaultSystemErrorOutput));
-			System.setErr(new Logger.LoggerPrintStream(Logger.defaultSystemErrorOutput, Logger.defaultSystemErrorOutput));
+			System.setOut(new Logger.LoggerPrintStream(Logger.DEFAULT_SYSTEM_OUTPUT, Logger.DEFAULT_SYSTEM_ERROR_OUTPUT));
+			System.setErr(new Logger.LoggerPrintStream(Logger.DEFAULT_SYSTEM_ERROR_OUTPUT, Logger.DEFAULT_SYSTEM_ERROR_OUTPUT));
 			Logger.outputRedirected = true;
 			Logger.log(Logger.class, LogLevel.DEBUG, "Successfully redirected default output streams");
-			Logger.DEBUG = false;
-			Logger.DEV_DEBUG = false;
+			Logger.debug = false;
+			Logger.developmentDebug = false;
 			Logger.log(Logger.class, LogLevel.INFO, "Disabled all debug messages");
+			if (Logger.logToFile) {
+				Logger.log(Logger.class, LogLevel.INFO, "Logging to %s!", Logger.LOG_FILE.getPath());
+			}
+		}
+	}
+
+	public static void cleanUp() {
+		if (Logger.logToFile) {
+			try {
+				Logger.writer.flush();
+				Logger.writer.close();
+			} catch (final IOException ioException) {
+				Logger.log(Logger.class, LogLevel.FATAL, "Could not write log to log file! (%s)", ioException.getMessage());
+			}
 		}
 	}
 
@@ -64,24 +94,34 @@ public final class Logger {
 		} else {
 			origin = clazz.getSimpleName();
 		}
+		String finalMessage = String.format(Logger.LOG_DATE_FORMAT.format(new Date()) + " [" + origin + " / " + logLevel.name() + "]: " + message + "\n", args);
 		if ((logLevel == LogLevel.SEVERE) || (logLevel == LogLevel.ERROR) || (logLevel == LogLevel.FATAL)) {
-			Logger.defaultSystemErrorOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + origin + " / " + logLevel.name() + "]: " + message + "\n", args);
+			Logger.DEFAULT_SYSTEM_ERROR_OUTPUT.printf(finalMessage);
 		} else {
 			if (logLevel == LogLevel.DEBUG) {
-				if (Logger.DEBUG) {
-					Logger.defaultSystemOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + origin + " / " + logLevel.name() + "]: " + message + "\n", args);
+				if (Logger.debug) {
+					Logger.DEFAULT_SYSTEM_OUTPUT.printf(finalMessage);
 				}
 			} else if (logLevel == LogLevel.DEVELOPMENT) {
-				if (Logger.DEV_DEBUG) {
-					Logger.defaultSystemOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + origin + " / " + logLevel.name() + "]: " + message + "\n", args);
+				if (Logger.developmentDebug) {
+					Logger.DEFAULT_SYSTEM_OUTPUT.printf(finalMessage);
 				}
 			} else {
-				Logger.defaultSystemOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + origin + " / " + logLevel.name() + "]: " + message + "\n", args);
+				Logger.DEFAULT_SYSTEM_OUTPUT.printf(finalMessage);
 			}
 		}
 		if (logLevel == LogLevel.FATAL) {
-			Logger.defaultSystemErrorOutput.printf(Logger.simpleDateFormat.format(new Date()) + " [" + Logger.class.getSimpleName() + " / " + LogLevel.FATAL.name() + "]: A fatal log has been submitted from %s.class, exiting all processes \n", clazz.getSimpleName());
+			finalMessage = String.format(Logger.LOG_DATE_FORMAT.format(new Date()) + " [" + Logger.class.getSimpleName() + " / " + LogLevel.FATAL.name() + "]: A fatal log has been submitted from %s.class, exiting all processes \n", clazz.getSimpleName());
+			Logger.DEFAULT_SYSTEM_ERROR_OUTPUT.printf(finalMessage);
+			Logger.cleanUp();
 			System.exit(-1);
+		}
+		if (Logger.logToFile) {
+			try {
+				Logger.writer.append(finalMessage);
+			} catch (final IOException ioException) {
+				Logger.log(Logger.class, LogLevel.SEVERE, "Could not write log to log file! (%s)", ioException.getMessage());
+			}
 		}
 	}
 
@@ -92,13 +132,26 @@ public final class Logger {
 		Logger.redirectSystemOutput();
 		switch (type) {
 		case CLASSIC:
-			Logger.DEBUG = status;
+			Logger.debug = status;
 			Logger.log(Logger.class, LogLevel.INFO, "Enabled regular debugging messages");
 			break;
 		case DEVELOPMENT:
 			Logger.log(Logger.class, LogLevel.INFO, "Enabled development debugging messages");
-			Logger.DEV_DEBUG = status;
+			Logger.developmentDebug = status;
 			break;
+		}
+	}
+
+	public static void toggleLoggingToFile() {
+		Logger.logToFile = !Logger.logToFile;
+		if (logToFile && writer == null) {
+			Logger.LOG_FILE.getParentFile().mkdirs();
+			try {
+				Logger.writer = new BufferedWriter(new FileWriter(Logger.LOG_FILE));
+			} catch (final IOException ioException) {
+				Logger.log(Logger.class, LogLevel.SEVERE, "Coulnd't create log file! %s", ioException.getMessage());
+			}
+			Logger.log(Logger.class, LogLevel.INFO, "Logging to %s!", Logger.LOG_FILE.getPath());
 		}
 	}
 
@@ -139,7 +192,15 @@ public final class Logger {
 		 */
 		@Override
 		public PrintStream printf(final String format, final Object... args) {
-			return this.printStream.printf(Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + format, args);
+			final String finalMessage = String.format(Logger.LOG_DATE_FORMAT.format(new Date()) + " [? / ?]: " + format, args);
+			if (Logger.logToFile) {
+				try {
+					Logger.writer.append(finalMessage);
+				} catch (final IOException ioException) {
+					Logger.log(Logger.class, LogLevel.SEVERE, "Could not write log to log file! (%s)", ioException.getMessage());
+				}
+			}
+			return this.printStream.printf(finalMessage);
 		}
 
 		/**
@@ -147,7 +208,15 @@ public final class Logger {
 		 */
 		@Override
 		public PrintStream printf(final Locale l, final String format, final Object... args) {
-			return this.printStream.printf(l, Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + format, args);
+			final String finalMessage = String.format(Logger.LOG_DATE_FORMAT.format(new Date()) + " [? / ?]: " + format, args);
+			if (Logger.logToFile) {
+				try {
+					Logger.writer.append(finalMessage);
+				} catch (final IOException ioException) {
+					Logger.log(Logger.class, LogLevel.SEVERE, "Could not write log to log file! (%s)", ioException.getMessage());
+				}
+			}
+			return this.printStream.printf(l, finalMessage);
 		}
 
 		/**
@@ -155,7 +224,15 @@ public final class Logger {
 		 */
 		@Override
 		public void print(final Object obj) {
-			this.printStream.print(Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + obj);
+			final String finalMessage = String.format(Logger.LOG_DATE_FORMAT.format(new Date()) + " [? / ?]: " + obj);
+			if (Logger.logToFile) {
+				try {
+					Logger.writer.append(finalMessage);
+				} catch (final IOException ioException) {
+					Logger.log(Logger.class, LogLevel.SEVERE, "Could not write log to log file! (%s)", ioException.getMessage());
+				}
+			}
+			this.printStream.print(finalMessage);
 		}
 
 		/**
@@ -227,7 +304,16 @@ public final class Logger {
 		 */
 		@Override
 		public void println(final Object x) {
-			this.printStream.println(Logger.simpleDateFormat.format(new Date()) + " [? / ?]: " + x);
+			final String finalMessage = String.format(Logger.LOG_DATE_FORMAT.format(new Date()) + " [? / ?]: " + x);
+			if (Logger.logToFile) {
+				try {
+					Logger.writer.append(finalMessage);
+				} catch (final IOException ioException) {
+					Logger.log(Logger.class, LogLevel.SEVERE, "Could not write log to log file! (%s)", ioException.getMessage());
+				}
+			}
+			this.printStream.println(finalMessage);
+
 		}
 
 		/**

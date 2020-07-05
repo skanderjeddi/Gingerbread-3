@@ -183,7 +183,7 @@ public class G3Demo extends Game {
 	}
 
 	@Override
-	public void cleanup() {
+	public void cleanUp() {
 		// TODO Auto-generated method stub
 	}
 
@@ -193,7 +193,7 @@ public class G3Demo extends Game {
 		// Register all the components here once and for all then manage them through
 		// scenes switching
 		Components.register("main-menu-background", new GSolidColorBackground(this, Screen.DEFAULT_ORIGIN_X, Screen.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.PINK));
-		Components.register("title", new GLabel(this, 0, 0, WIDTH, HEIGHT/3, new VisualString("G3DEMO", Color.BLACK, Fonts.get("lunchds", 72))));
+		Components.register("title", new GLabel(this, 0, 0, G3Demo.WIDTH, G3Demo.HEIGHT / 3, new VisualString("G3DEMO", Color.BLACK, Fonts.get("lunchds", 72))));
 		Components.register("play-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Play!", this.buttonProps), Color.BLACK, Color.WHITE));
 		Components.register("settings-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 130, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Settings", this.buttonProps), Color.BLACK, Color.WHITE));
 		Components.register("exit-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 210, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Exit", this.buttonProps), Color.BLACK, Color.WHITE));
@@ -243,6 +243,7 @@ public class G3Demo extends Game {
 
 	public static void main(final String[] args) {
 		// Set debugging messages
+		Logger.toggleLoggingToFile();
 		Logger.setDebuggingState(DebuggingType.CLASSIC, true);
 		Logger.setDebuggingState(DebuggingType.DEVELOPMENT, true);
 		new G3Demo().start();

@@ -179,7 +179,7 @@ public abstract class Game extends ThreadWrapper {
 	@Override
 	protected void destroy() {
 		this.window.hide();
-		this.cleanup();
+		this.cleanUp();
 		System.exit(0);
 	}
 
@@ -187,7 +187,7 @@ public abstract class Game extends ThreadWrapper {
 	 * Called after the window is disposed of but before the engine shuts down ---
 	 * here you can save progress.
 	 */
-	public abstract void cleanup();
+	public abstract void cleanUp();
 
 	@Override
 	protected final void loop() {
@@ -230,6 +230,7 @@ public abstract class Game extends ThreadWrapper {
 				updates = 0;
 			}
 		}
+		Logger.cleanUp();
 	}
 
 	protected synchronized final void useProfiler() {
