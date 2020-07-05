@@ -50,6 +50,8 @@ public class G3Demo extends Game {
 	public static final double REFRESH_RATE = 60.0D;
 	public static final int WIDTH = 1200, HEIGHT = (G3Demo.WIDTH / 16) * 9, BUFFERS = 2;
 
+	public static final int BACKGROUND_PARTICLES = 50;
+
 	// Constants for button until I implements a better system (how? I don't
 	// fucking have a clue)
 	public static final int B_WIDTH = 120, B_HEIGHT = (100 / 16) * 9;
@@ -161,7 +163,7 @@ public class G3Demo extends Game {
 	public void registerGameObjects() {
 		Registry.register("campfire-animation", new RandomizedAnimation(this, (G3Demo.WIDTH / 2) - 70, G3Demo.HEIGHT - 140, Sprite.fromImages(this, "campfire_%d", Images.getCollectionByID("campfire")), new int[] { 8, 10, 12 }));
 		Registry.register("smoke-particles", new Particles(this, G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 5, 25, 40, 10, Sprite.fromImages(this, "ashe_%d", Images.getCollectionByID("ashe")), Vector2.randomVectors(10, -1, 1, 0, -2), 1, 8));
-		Registry.register("stars-background", new Particles(this, G3Demo.WIDTH - 100, 0, 10, G3Demo.WIDTH + 10, 500, Sprite.fromImages(this, "ashe_%d", Images.getCollectionByID("ashe")), Vector2.randomVectors(500, -1, -1, 1, 1), 4, 2));
+		Registry.register("stars-background", new Particles(this, G3Demo.WIDTH / 2, 0, 10, 2 * G3Demo.HEIGHT, G3Demo.BACKGROUND_PARTICLES, Sprite.fromImages(this, "ashe_%d", Images.getCollectionByID("ashe")), Vector2.randomVectors(G3Demo.BACKGROUND_PARTICLES, -1, 1, 1, 1), 5, 2));
 		Registry.register("fade-transition", new FadeTransition(this, 60, Color.BLACK));
 	}
 

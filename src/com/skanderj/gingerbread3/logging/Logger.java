@@ -144,7 +144,7 @@ public final class Logger {
 
 	public static void toggleLoggingToFile() {
 		Logger.logToFile = !Logger.logToFile;
-		if (logToFile && writer == null) {
+		if (Logger.logToFile && (Logger.writer == null)) {
 			Logger.LOG_FILE.getParentFile().mkdirs();
 			try {
 				Logger.writer = new BufferedWriter(new FileWriter(Logger.LOG_FILE));

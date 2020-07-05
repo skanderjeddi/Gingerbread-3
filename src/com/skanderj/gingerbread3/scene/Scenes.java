@@ -15,7 +15,7 @@ import com.skanderj.gingerbread3.transition.Transition;
  * @author Skander
  *
  */
-public class Scenes {
+public final class Scenes {
 	// Scenes map to quickly retrieve a scene by its identifier
 	private static final Map<String, Scene> scenesMap = new HashMap<String, Scene>();
 	private static Scene currentScene;
