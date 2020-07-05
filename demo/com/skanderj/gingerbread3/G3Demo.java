@@ -18,18 +18,14 @@ import com.skanderj.gingerbread3.component.boilerplates.GSlider;
 import com.skanderj.gingerbread3.component.boilerplates.GSolidColorBackground;
 import com.skanderj.gingerbread3.component.boilerplates.GStraightEdgesButton;
 import com.skanderj.gingerbread3.core.Game;
-import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
-import com.skanderj.gingerbread3.core.object.GameObject;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.input.Binds;
 import com.skanderj.gingerbread3.input.Keyboard;
-import com.skanderj.gingerbread3.input.boilerplates.AZERTYKeyboard;
 import com.skanderj.gingerbread3.io.Fonts;
 import com.skanderj.gingerbread3.io.Images;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.DebuggingType;
-import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 import com.skanderj.gingerbread3.math.Vector2;
 import com.skanderj.gingerbread3.particle.Particles;
 import com.skanderj.gingerbread3.scene.Scene;
@@ -51,7 +47,7 @@ public class G3Demo extends Game {
 	 * nice.
 	 */
 	public static final String IDENTIFIER = "g3-d", TITLE = "Gingerbread-3 [DEMO]";
-	public static final double REFRESH_RATE = 144.0D;
+	public static final double REFRESH_RATE = 60.0D;
 	public static final int WIDTH = 1000, HEIGHT = (G3Demo.WIDTH / 16) * 9, BUFFERS = 2;
 
 	// Constants for button until I implements a better system (how? I don't
@@ -64,10 +60,8 @@ public class G3Demo extends Game {
 	private final Scene mainGameScene;
 	private final Scene settingsScene;
 
-	private GameObject gameObject;
-
 	public G3Demo() {
-		super(G3Demo.IDENTIFIER, G3Demo.REFRESH_RATE, G3Demo.TITLE, G3Demo.WIDTH, G3Demo.HEIGHT, G3Demo.BUFFERS, AZERTYKeyboard.class);
+		super(G3Demo.IDENTIFIER, G3Demo.REFRESH_RATE, G3Demo.TITLE, G3Demo.WIDTH, G3Demo.HEIGHT, G3Demo.BUFFERS, Keyboard.AZERTY);
 		this.mainMenuScene = new Scene(this) {
 			@Override
 			public List<String> sceneObjects() {
@@ -92,7 +86,6 @@ public class G3Demo extends Game {
 
 			@Override
 			public synchronized void update(final double delta) {
-				Registry.parameterize("x-object", new String[] { "x-val" }, new Object[] { (int) Registry.parameters("x-object").get("x-val") + 1 });
 				super.update(delta);
 			}
 
@@ -105,7 +98,6 @@ public class G3Demo extends Game {
 			@Override
 			public void update(final double delta) {
 				Registry.parameterize("mouse-position-indicator", new String[] { "mouse-x", "mouse-y" }, new Object[] { this.game.mouse().getX(), this.game.mouse().getY() });
-				Registry.parameterize("x-object", new String[] { "x-val" }, new Object[] { (int) Registry.parameters("x-object").get("x-val") + 1 });
 				super.update(delta);
 			}
 
@@ -151,28 +143,9 @@ public class G3Demo extends Game {
 
 			@Override
 			public synchronized void update(final double delta) {
-				Registry.parameterize("x-object", new String[] { "x-val" }, new Object[] { (int) Registry.parameters("x-object").get("x-val") + 1 });
 				super.update(delta);
 			}
 		};
-		this.gameObject = new GameObject(this) {
-			@Override
-			public void update(final double delta) {
-				final int x = (int) Registry.parameters("x-object").get("x-val");
-				Logger.log(this.getClass(), LogLevel.INFO, "x is %d", x);
-			}
-
-			@Override
-			public void render(final Screen screen) {
-				return;
-			}
-
-			@Override
-			public Priority priority() {
-				return Priority.CRITICAL;
-			}
-		};
-		this.gameObject.setShouldSkipRegistryChecks(true);
 	}
 
 	@Override
@@ -188,10 +161,8 @@ public class G3Demo extends Game {
 	public void registerGameObjects() {
 		Registry.register("campfire-animation", new RandomizedAnimation(this, (G3Demo.WIDTH / 2) - 70, G3Demo.HEIGHT - 140, Sprite.fromImages(this, "campfire_%d", Images.getCollectionByID("campfire")), new int[] { 8, 10, 12 }));
 		Registry.register("smoke-particles", new Particles(this, G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 5, 25, 40, 10, Sprite.fromImages(this, "ashe_%d", Images.getCollectionByID("ashe")), Vector2.randomVectors(10, -1, 1, 0, -2), 1, 8));
-		Registry.register("stars-background", new Particles(this, G3Demo.WIDTH - 100, 0, 10, G3Demo.WIDTH + 10, 500, Sprite.fromImages(this, "ashe_%d", Images.getCollectionByID("ashe")), Vector2.randomVectors(500, -1, -1, 1, 1), 5, 4));
-		Registry.register("fade-transition", new FadeTransition(this, 300, Color.BLACK));
-		Registry.register("x-object", this.gameObject);
-		Registry.parameterize("x-object", new String[] { "x-val" }, new Object[] { 0 });
+		Registry.register("stars-background", new Particles(this, G3Demo.WIDTH - 100, 0, 10, G3Demo.WIDTH + 10, 500, Sprite.fromImages(this, "ashe_%d", Images.getCollectionByID("ashe")), Vector2.randomVectors(500, -1, -1, 1, 1), 4, 2));
+		Registry.register("fade-transition", new FadeTransition(this, 60, Color.BLACK));
 	}
 
 	@Override
