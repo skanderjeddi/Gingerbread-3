@@ -2,7 +2,7 @@ package com.skanderj.gingerbread3.scene;
 
 import java.util.List;
 
-import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.core.object.GameObject;
@@ -15,11 +15,11 @@ import com.skanderj.gingerbread3.display.Screen;
  *
  */
 public abstract class Scene extends GameObject {
-	public Scene(final Game game) {
-		super(game);
+	public Scene(final Application application) {
+		super(application);
 	}
 
-	// Set the scene game objects
+	// Set the scene application objects
 	public abstract List<String> sceneObjects();
 
 	// Logic happens here

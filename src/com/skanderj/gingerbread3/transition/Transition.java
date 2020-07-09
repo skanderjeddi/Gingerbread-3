@@ -1,6 +1,6 @@
 package com.skanderj.gingerbread3.transition;
 
-import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.core.object.GameObject;
@@ -15,8 +15,8 @@ import com.skanderj.gingerbread3.scene.Scenes;
 public abstract class Transition extends GameObject {
 	protected int duration, timer;
 
-	public Transition(final Game game, final int duration) {
-		super(game);
+	public Transition(final Application application, final int duration) {
+		super(application);
 		this.duration = duration;
 		this.timer = 0;
 	}

@@ -1,6 +1,6 @@
 package com.skanderj.gingerbread3.component;
 
-import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.object.GameObject;
 
@@ -12,8 +12,8 @@ import com.skanderj.gingerbread3.core.object.GameObject;
  *
  */
 public abstract class Component extends GameObject {
-	public Component(final Game game) {
-		super(game);
+	public Component(final Application application) {
+		super(application);
 	}
 
 	@Override

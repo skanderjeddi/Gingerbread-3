@@ -3,7 +3,7 @@ package com.skanderj.gingerbread3.component;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.Keyboard.KeyState;
 
@@ -32,8 +32,8 @@ public abstract class Textfield extends Component {
 	protected int cursorPosition;
 
 	// Basic constructor: position
-	public Textfield(final Game game) {
-		super(game);
+	public Textfield(final Application application) {
+		super(application);
 		// No by default
 		this.hasFocus = false;
 		// Was a ^ typed last frame
@@ -55,7 +55,7 @@ public abstract class Textfield extends Component {
 		if (this.hasFocus) {
 			// Go through every keyboard key and retain those which are pressed at the
 			// current frame
-			for (final int keyCode : this.game.keyboard().getKeysByState(KeyState.DOWN_IN_FRAME)) {
+			for (final int keyCode : this.application.keyboard().getKeysByState(KeyState.DOWN_IN_FRAME)) {
 				// Left key handling, moves cursor to the left once
 				if (keyCode == Keyboard.KEY_LEFT) {
 					this.cursorPosition -= 1;
@@ -125,7 +125,7 @@ public abstract class Textfield extends Component {
 					}
 				}
 				// See Keyboard.getKeyRepresentation(), pretty self explanatory
-				String key = this.game.keyboard().getKeyRepresentation(keyCode, this.game.keyboard().isShiftDown(), this.game.keyboard().isCapsLocked(), this.game.keyboard().isAltGrDown());
+				String key = this.application.keyboard().getKeyRepresentation(keyCode, this.application.keyboard().isShiftDown(), this.application.keyboard().isCapsLocked(), this.application.keyboard().isAltGrDown());
 				{
 					if (key.equals("^") && !this.hatCarry) {
 						// A ^ was pressed to carry it to the next character

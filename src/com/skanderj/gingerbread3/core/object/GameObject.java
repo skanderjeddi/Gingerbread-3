@@ -1,13 +1,13 @@
 package com.skanderj.gingerbread3.core.object;
 
-import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Renderable;
 import com.skanderj.gingerbread3.core.Updatable;
 import com.skanderj.gingerbread3.display.Screen;
 
 /**
- * Represents a game object, the building blocks of any game.
+ * Represents a application object, the building blocks of any application.
  *
  * @author Skander
  *
@@ -16,8 +16,8 @@ public abstract class GameObject implements Comparable<GameObject> {
 	/**
 	 * Self explanatory.
 	 */
-	public static final GameObject constructFromUpdatable(final Game game, final Updatable updatable) {
-		return new GameObject(game) {
+	public static final GameObject constructFromUpdatable(final Application application, final Updatable updatable) {
+		return new GameObject(application) {
 
 			@Override
 			public void update(final double delta) {
@@ -39,8 +39,8 @@ public abstract class GameObject implements Comparable<GameObject> {
 	/**
 	 * Self explanatory.
 	 */
-	public static final GameObject constructFromRenderable(final Game game, final Renderable renderable) {
-		return new GameObject(game) {
+	public static final GameObject constructFromRenderable(final Application application, final Renderable renderable) {
+		return new GameObject(application) {
 
 			@Override
 			public void update(final double delta) {
@@ -59,11 +59,11 @@ public abstract class GameObject implements Comparable<GameObject> {
 		};
 	}
 
-	protected final Game game;
+	protected final Application application;
 	protected boolean shouldSkipRegistryChecks;
 
-	public GameObject(final Game game) {
-		this.game = game;
+	public GameObject(final Application application) {
+		this.application = application;
 		this.shouldSkipRegistryChecks = false;
 	}
 
@@ -81,8 +81,8 @@ public abstract class GameObject implements Comparable<GameObject> {
 		return;
 	}
 
-	public final Game getGame() {
-		return this.game;
+	public final Application getApplication() {
+		return this.application;
 	}
 
 	public abstract Priority priority();

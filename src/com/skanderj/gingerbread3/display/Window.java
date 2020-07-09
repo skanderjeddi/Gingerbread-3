@@ -14,7 +14,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 
-import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.input.InputDevice;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
@@ -39,7 +39,7 @@ public abstract class Window {
 	protected int width, height;
 
 	protected int buffers;
-	protected Game game;
+	protected Application application;
 
 	protected Frame frame;
 	protected Canvas canvas;
@@ -51,8 +51,8 @@ public abstract class Window {
 	/**
 	 * Self explanatory.
 	 */
-	public Window(final Game game, final String title, final int width, final int height, final int buffers) {
-		this.game = game;
+	public Window(final Application application, final String title, final int width, final int height, final int buffers) {
+		this.application = application;
 		this.title = title;
 		this.width = width;
 		this.height = height;
@@ -177,8 +177,8 @@ public abstract class Window {
 	/**
 	 * Useless for now
 	 */
-	public Game getGame() {
-		return this.game;
+	public Application getApplication() {
+		return this.application;
 	}
 
 	/**
@@ -199,8 +199,8 @@ public abstract class Window {
 	 *
 	 */
 	public static class Regular extends Window {
-		public Regular(final Game game, final String title, final int width, final int height, final int buffers) {
-			super(game, title, width, height, buffers);
+		public Regular(final Application application, final String title, final int width, final int height, final int buffers) {
+			super(application, title, width, height, buffers);
 		}
 
 		@Override
@@ -303,16 +303,16 @@ public abstract class Window {
 
 		private int deviceId;
 
-		public Fullscreen(final Game game, final String title, final int buffers) {
-			this(game, title, buffers, 0);
+		public Fullscreen(final Application application, final String title, final int buffers) {
+			this(application, title, buffers, 0);
 		}
 
-		public Fullscreen(final Game game, final String title, final int buffers, final int deviceId) {
-			this(game, title, buffers, deviceId, Fullscreen.DEFAULT_FALLBACK_DEVICE_ID);
+		public Fullscreen(final Application application, final String title, final int buffers, final int deviceId) {
+			this(application, title, buffers, deviceId, Fullscreen.DEFAULT_FALLBACK_DEVICE_ID);
 		}
 
-		public Fullscreen(final Game game, final String title, final int buffers, final int deviceId, final int fallback) {
-			super(game, title, Fullscreen.getDisplayMode(deviceId, fallback).getWidth(), Fullscreen.getDisplayMode(deviceId, fallback).getHeight(), buffers);
+		public Fullscreen(final Application application, final String title, final int buffers, final int deviceId, final int fallback) {
+			super(application, title, Fullscreen.getDisplayMode(deviceId, fallback).getWidth(), Fullscreen.getDisplayMode(deviceId, fallback).getHeight(), buffers);
 			if (Fullscreen.isValid(deviceId)) {
 				this.deviceId = deviceId;
 			} else {

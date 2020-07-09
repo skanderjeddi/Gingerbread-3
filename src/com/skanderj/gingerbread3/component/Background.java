@@ -1,10 +1,10 @@
 package com.skanderj.gingerbread3.component;
 
-import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Application;
 
 public abstract class Background extends Component {
-	public Background(final Game game) {
-		super(game);
+	public Background(final Application application) {
+		super(application);
 	}
 
 	/**

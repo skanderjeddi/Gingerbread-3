@@ -1,6 +1,6 @@
 package com.skanderj.gingerbread3.component;
 
-import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.input.Mouse;
 
 /**
@@ -18,8 +18,8 @@ public abstract class Slider extends Component {
 	/**
 	 * Basic constructor: position, size, minimum/maximum value, default value,
 	 */
-	public Slider(final Game game, final float min, final float max, final float defaultValue) {
-		super(game);
+	public Slider(final Application application, final float min, final float max, final float defaultValue) {
+		super(application);
 		this.minimumValue = Math.min(min, max);
 		this.maximumValue = Math.max(min, max);
 		this.hasFocus = false;
@@ -33,8 +33,8 @@ public abstract class Slider extends Component {
 	 */
 	@Override
 	public synchronized void update(final double delta) {
-		if ((this.containsMouse(this.game.mouse().getX(), this.game.mouse().getY()) || this.hasFocus) && this.globalFocus) {
-			if (this.game.mouse().isButtonDown(Mouse.BUTTON_LEFT)) {
+		if ((this.containsMouse(this.application.mouse().getX(), this.application.mouse().getY()) || this.hasFocus) && this.globalFocus) {
+			if (this.application.mouse().isButtonDown(Mouse.BUTTON_LEFT)) {
 				this.hasFocus = true;
 			} else {
 				this.hasFocus = false;

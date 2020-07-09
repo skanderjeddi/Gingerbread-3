@@ -20,19 +20,19 @@ import com.skanderj.gingerbread3.scene.Scene;
 import com.skanderj.gingerbread3.scene.Scenes;
 
 /**
- * Probably the most important class and handles all the game objects.
+ * Probably the most important class and handles all the application objects.
  *
  * @author Skander
  *
  */
 public final class Registry {
-	// All the game objects are stored here
+	// All the application objects are stored here
 	private final static Map<String, GameObject> contents = new HashMap<String, GameObject>();
 	// Args for each object
 	private final static Map<String, Map<String, Object>> parameters = new HashMap<String, Map<String, Object>>();
-	// Game objects to be deleted on the next update
+	// Application objects to be deleted on the next update
 	private final static Set<GameObject> deletions = new HashSet<GameObject>();
-	// Game objects to be skipped
+	// Application objects to be skipped
 	private final static Set<GameObject> skips = new HashSet<GameObject>();
 
 	private Registry() {
@@ -97,7 +97,7 @@ public final class Registry {
 		} else {
 			name = object.getClass().getSimpleName();
 		}
-		Logger.log(Registry.class, LogLevel.DEBUG, "Game object registered: <class : %s> -> \"%s\"", object.getClass().getSimpleName().equals("") ? object.getClass().getEnclosingClass().getSimpleName() + "#" + name : object.getClass().getSimpleName(), identifier);
+		Logger.log(Registry.class, LogLevel.DEBUG, "Application object registered: <class : %s> -> \"%s\"", object.getClass().getSimpleName().equals("") ? object.getClass().getEnclosingClass().getSimpleName() + "#" + name : object.getClass().getSimpleName(), identifier);
 		Registry.contents.put(identifier, object);
 	}
 
@@ -137,7 +137,7 @@ public final class Registry {
 	}
 
 	/**
-	 * Sorts then updates all the game components.
+	 * Sorts then updates all the application components.
 	 */
 	public static synchronized void update(final double delta) {
 		final List<GameObject> toUpdate = new ArrayList<GameObject>();
@@ -146,7 +146,7 @@ public final class Registry {
 				for (final String key : Registry.contents.keySet().toArray(new String[Registry.contents.size()])) {
 					if (Registry.contents.get(key) == object) {
 						Registry.contents.remove(key);
-						Logger.log(Registry.class, LogLevel.DEBUG, "Game object deleted: [\"%s\"]", key);
+						Logger.log(Registry.class, LogLevel.DEBUG, "Application object deleted: [\"%s\"]", key);
 						return;
 					}
 				}
@@ -181,7 +181,7 @@ public final class Registry {
 		for (final GameObject object : toUpdate) {
 			if (object instanceof Component) {
 				final Component component = (Component) object;
-				if (component.containsMouse(component.getGame().mouse.getX(), component.getGame().mouse.getY()) && component.getGame().mouse.isButtonDown(Mouse.BUTTON_LEFT)) {
+				if (component.containsMouse(component.getApplication().mouse.getX(), component.getApplication().mouse.getY()) && component.getApplication().mouse.isButtonDown(Mouse.BUTTON_LEFT)) {
 					Components.giveFocus(component);
 				}
 			}
@@ -190,7 +190,7 @@ public final class Registry {
 	}
 
 	/**
-	 * Sorts then renders all the game components.
+	 * Sorts then renders all the application components.
 	 */
 	public static synchronized void render(final Screen screen) {
 		final List<GameObject> toRender = new ArrayList<GameObject>();

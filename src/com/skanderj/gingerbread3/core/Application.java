@@ -17,13 +17,13 @@ import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 import com.skanderj.gingerbread3.scene.Scenes;
 
 /**
- * Most important class, all G3-based games must extend this class. Pretty self
+ * Most important class, all G3-based apps must extend this class. Pretty self
  * explanatory.
  *
  * @author Skander
  *
  */
-public abstract class Game extends ThreadWrapper {
+public abstract class Application extends ThreadWrapper {
 	public static final int DEFAULT_SIZE = 400, DEFAULT_BUFFERS = 2;
 
 	protected final double refreshRate;
@@ -37,7 +37,7 @@ public abstract class Game extends ThreadWrapper {
 	/**
 	 * Creates a fullscreen window on the requested screen (deviceId).
 	 */
-	public Game(final String identifier, final double refreshRate, final String title, final int buffers, final int deviceId, final Class<? extends Keyboard> localizedKeyboardClass) {
+	public Application(final String identifier, final double refreshRate, final String title, final int buffers, final int deviceId, final Class<? extends Keyboard> localizedKeyboardClass) {
 		super(identifier);
 		this.initializeEngine();
 		this.refreshRate = refreshRate;
@@ -45,7 +45,7 @@ public abstract class Game extends ThreadWrapper {
 		try {
 			this.keyboard = localizedKeyboardClass.getDeclaredConstructor().newInstance();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException exception) {
-			Logger.log(Game.class, LogLevel.FATAL, "Wrong class type for keyboard instantiation: %s", exception.getMessage());
+			Logger.log(Application.class, LogLevel.FATAL, "Wrong class type for keyboard instantiation: %s", exception.getMessage());
 		}
 		this.mouse = new Mouse();
 		this.profiler = new Updatable() {
@@ -56,7 +56,7 @@ public abstract class Game extends ThreadWrapper {
 				this.counter += 1;
 				if ((this.counter % refreshRate) == 0) {
 					this.counter = 0;
-					final Map<String, Object> args = Registry.parameters(Game.this.profilerIdentifier());
+					final Map<String, Object> args = Registry.parameters(Application.this.profilerIdentifier());
 					if (args == null) {
 						Logger.log(this.getClass().getEnclosingClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
 					} else {
@@ -75,7 +75,7 @@ public abstract class Game extends ThreadWrapper {
 	/**
 	 * Creates a regular window.
 	 */
-	public Game(final String identifier, final double refreshRate, final String title, final int width, final int height, final int buffers, final Class<? extends Keyboard> localizedKeyboardClass) {
+	public Application(final String identifier, final double refreshRate, final String title, final int width, final int height, final int buffers, final Class<? extends Keyboard> localizedKeyboardClass) {
 		super(identifier);
 		this.initializeEngine();
 		this.refreshRate = refreshRate;
@@ -83,7 +83,7 @@ public abstract class Game extends ThreadWrapper {
 		try {
 			this.keyboard = localizedKeyboardClass.getDeclaredConstructor().newInstance();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException exception) {
-			Logger.log(Game.class, LogLevel.FATAL, "Wrong class type for keyboard instantiation: %s", exception.getMessage());
+			Logger.log(Application.class, LogLevel.FATAL, "Wrong class type for keyboard instantiation: %s", exception.getMessage());
 		}
 		this.mouse = new Mouse();
 		this.profiler = new Updatable() {
@@ -94,7 +94,7 @@ public abstract class Game extends ThreadWrapper {
 				this.counter += 1;
 				if ((this.counter % refreshRate) == 0) {
 					this.counter = 0;
-					final Map<String, Object> args = Registry.parameters(Game.this.profilerIdentifier());
+					final Map<String, Object> args = Registry.parameters(Application.this.profilerIdentifier());
 					if (args == null) {
 						Logger.log(this.getClass().getEnclosingClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
 					} else {
@@ -136,7 +136,7 @@ public abstract class Game extends ThreadWrapper {
 	}
 
 	/**
-	 * Register game objects here.
+	 * Register application objects here.
 	 */
 	public abstract void registerGameObjects();
 
@@ -164,7 +164,7 @@ public abstract class Game extends ThreadWrapper {
 		this.window.show();
 		this.postCreate();
 		final long endTime = System.currentTimeMillis();
-		Logger.log(this.getClass(), LogLevel.DEBUG, "Game creation took %d ms", endTime - startTime);
+		Logger.log(this.getClass(), LogLevel.DEBUG, "Application creation took %d ms", endTime - startTime);
 	}
 
 	public void postCreate() {
@@ -216,6 +216,7 @@ public abstract class Game extends ThreadWrapper {
 			if (shouldRender) {
 				frames++;
 				this.bufferStrategy = this.window.getBufferStrategy();
+				this.screen().reset();
 				this.screen().clear(this.window, Color.BLACK);
 				this.render(this.screen());
 				this.screen().renderThrough((Graphics2D) this.bufferStrategy.getDrawGraphics());
@@ -242,7 +243,7 @@ public abstract class Game extends ThreadWrapper {
 	}
 
 	/**
-	 * Updates game logic
+	 * Updates application logic
 	 *
 	 * @param delta the delay between the current update and last update
 	 */
@@ -251,7 +252,7 @@ public abstract class Game extends ThreadWrapper {
 	}
 
 	/**
-	 * Renders the game
+	 * Renders the application
 	 *
 	 * @param screen used to draw the screen
 	 */
@@ -309,7 +310,7 @@ public abstract class Game extends ThreadWrapper {
 		try {
 			this.keyboard = targetKeyboardClass.getDeclaredConstructor().newInstance();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException exception) {
-			Logger.log(Game.class, LogLevel.FATAL, "Wrong class type for keyboard instantiation: %s", exception.getMessage());
+			Logger.log(Application.class, LogLevel.FATAL, "Wrong class type for keyboard instantiation: %s", exception.getMessage());
 		}
 	}
 }

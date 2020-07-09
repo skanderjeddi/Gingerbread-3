@@ -3,7 +3,7 @@ package com.skanderj.gingerbread3.component.boilerplates;
 import java.awt.image.BufferedImage;
 
 import com.skanderj.gingerbread3.component.Background;
-import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
 
@@ -11,8 +11,8 @@ public class GImageBackground extends Background {
 	private int x, y, width, height;
 	private BufferedImage image;
 
-	public GImageBackground(final Game game, final int x, final int y, final int width, final int height, final BufferedImage image) {
-		super(game);
+	public GImageBackground(final Application application, final int x, final int y, final int width, final int height, final BufferedImage image) {
+		super(application);
 		this.x = x;
 		this.y = y;
 		this.width = width;

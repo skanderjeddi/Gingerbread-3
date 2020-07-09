@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 
 import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.Selector;
-import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.io.Fonts;
@@ -26,15 +26,15 @@ public final class GSelector extends Selector {
 	/**
 	 * Self explanatory.
 	 */
-	public GSelector(final Game game, final int x, final int y, final int width, final int height, final int arrowSize, final VisualStringProperties properties, final String[] optionsArray) {
-		this(game, x, y, width, height, arrowSize, properties, optionsArray, optionsArray[0]);
+	public GSelector(final Application application, final int x, final int y, final int width, final int height, final int arrowSize, final VisualStringProperties properties, final String[] optionsArray) {
+		this(application, x, y, width, height, arrowSize, properties, optionsArray, optionsArray[0]);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public GSelector(final Game game, final int x, final int y, final int width, final int height, final int arrowSize, final VisualStringProperties properties, final String[] optionsArray, final String defaultOption) {
-		super(game, optionsArray, defaultOption);
+	public GSelector(final Application application, final int x, final int y, final int width, final int height, final int arrowSize, final VisualStringProperties properties, final String[] optionsArray, final String defaultOption) {
+		super(application, optionsArray, defaultOption);
 		this.x = x;
 		this.y = y;
 		this.properties = properties;

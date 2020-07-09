@@ -18,9 +18,7 @@ import java.awt.image.DataBufferInt;
 public class Screen {
 	public static final int DEFAULT_ORIGIN_X = 0, DEFAULT_ORIGIN_Y = 0;
 
-	private Graphics2D windowGraphics;
-
-	private final Graphics2D drawGraphics;
+	private Graphics2D windowGraphics, drawGraphics;
 	private final BufferedImage screenContent;
 
 	public Screen(final int width, final int height) {
@@ -73,6 +71,11 @@ public class Screen {
 	 */
 	public final void color(final Color color) {
 		this.drawGraphics.setColor(color);
+	}
+
+	public final void reset() {
+		this.drawGraphics.dispose();
+		this.drawGraphics = this.screenContent.createGraphics();
 	}
 
 	/**
@@ -146,6 +149,13 @@ public class Screen {
 			}
 		}
 		this.drawGraphics.setColor(tempColor);
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public final void translate(final int x, final int y) {
+		this.drawGraphics.translate(x, y);
 	}
 
 	/**

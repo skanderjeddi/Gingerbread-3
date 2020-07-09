@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 
 import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.Textfield;
-import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.util.Utilities;
@@ -34,16 +34,16 @@ public final class GTextfield extends Textfield {
 	 * Background color for rendering a simple box and text properties for the font
 	 * and color, by default can only display 1 line.
 	 */
-	public GTextfield(final Game game, final int x, final int y, final int width, final Color backgroundColor, final VisualStringProperties textProperties) {
-		this(game, x, y, width, backgroundColor, textProperties, 0);
+	public GTextfield(final Application application, final int x, final int y, final int width, final Color backgroundColor, final VisualStringProperties textProperties) {
+		this(application, x, y, width, backgroundColor, textProperties, 0);
 	}
 
 	/**
 	 * Background color for rendering a simple box, text properties for the font and
 	 * color, and amount maximumLines to display.
 	 */
-	public GTextfield(final Game game, final int x, final int y, final int width, final Color backgroundColor, final VisualStringProperties textProperties, final int lines) {
-		super(game);
+	public GTextfield(final Application application, final int x, final int y, final int width, final Color backgroundColor, final VisualStringProperties textProperties, final int lines) {
+		super(application);
 		this.x = x;
 		this.y = y;
 		this.width = width;

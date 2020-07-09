@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.core.object.Action;
 import com.skanderj.gingerbread3.input.Keyboard.KeyState;
@@ -45,8 +45,8 @@ public class Binds {
 	/**
 	 * Self explanatory. Logic happens here.
 	 */
-	public static synchronized final void update(final Game game, final double delta, final Object... args) {
-		final Keyboard keyboard = game.keyboard();
+	public static synchronized final void update(final Application application, final double delta, final Object... args) {
+		final Keyboard keyboard = application.keyboard();
 		if (keyboard != null) {
 			final Integer[] keysDown = keyboard.getKeysByState(Keyboard.KeyState.DOWN);
 			final Integer[] keysDownInFrame = keyboard.getKeysByState(Keyboard.KeyState.DOWN_IN_FRAME);

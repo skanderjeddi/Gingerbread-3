@@ -1,6 +1,6 @@
 package com.skanderj.gingerbread3.particle;
 
-import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.object.GameObject;
 import com.skanderj.gingerbread3.display.Screen;
@@ -17,8 +17,8 @@ public class Particle extends GameObject {
 	protected Sprite sprite;
 	protected Vector2 velocity;
 
-	public Particle(final Game game, final int x, final int y, final Sprite sprite, final Vector2 velocity) {
-		super(game);
+	public Particle(final Application application, final int x, final int y, final Sprite sprite, final Vector2 velocity) {
+		super(application);
 		this.x = x;
 		this.y = y;
 		this.sprite = sprite.copy();

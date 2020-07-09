@@ -1,6 +1,6 @@
 package com.skanderj.gingerbread3.animation;
 
-import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.object.GameObject;
 
 /**
@@ -10,7 +10,7 @@ import com.skanderj.gingerbread3.core.object.GameObject;
  *
  */
 public abstract class Animation extends GameObject {
-	public Animation(final Game game) {
-		super(game);
+	public Animation(final Application application) {
+		super(application);
 	}
 }

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.Label;
-import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
@@ -22,8 +22,8 @@ public final class GLabel extends Label {
 	private int x, y, width, height;
 	private final String format;
 
-	public GLabel(final Game game, final int x, final int y, final int width, final int height, final VisualString graphicString) {
-		super(game, graphicString);
+	public GLabel(final Application application, final int x, final int y, final int width, final int height, final VisualString graphicString) {
+		super(application, graphicString);
 		this.x = x;
 		this.y = y;
 		this.width = width;

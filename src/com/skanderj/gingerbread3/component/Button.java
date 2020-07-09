@@ -1,6 +1,6 @@
 package com.skanderj.gingerbread3.component;
 
-import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.object.Action;
 import com.skanderj.gingerbread3.input.Mouse;
 
@@ -20,8 +20,8 @@ public abstract class Button extends Component {
 	/**
 	 * Basic constructor: position.
 	 */
-	public Button(final Game game) {
-		super(game);
+	public Button(final Application application) {
+		super(application);
 		this.previousState = ComponentState.IDLE;
 		this.state = ComponentState.IDLE;
 		this.actions = new Action[4];
@@ -40,8 +40,8 @@ public abstract class Button extends Component {
 	@Override
 	public void update(final double delta) {
 		this.previousState = this.state;
-		final int mouseX = this.game.mouse().getX(), mouseY = this.game.mouse().getY();
-		final boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = this.game.mouse().isButtonDown(Mouse.BUTTON_LEFT);
+		final int mouseX = this.application.mouse().getX(), mouseY = this.application.mouse().getY();
+		final boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = this.application.mouse().isButtonDown(Mouse.BUTTON_LEFT);
 		if (mouseIn && mouseClicked && !this.hasFocus) {
 			this.hasFocus = true;
 		}

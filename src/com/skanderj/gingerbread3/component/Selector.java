@@ -3,7 +3,7 @@ package com.skanderj.gingerbread3.component;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.skanderj.gingerbread3.core.Game;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.object.Action;
 import com.skanderj.gingerbread3.input.Mouse;
 import com.skanderj.gingerbread3.logging.Logger;
@@ -64,15 +64,15 @@ public abstract class Selector extends Component {
 	 * Nothing to say, calls the 2nd constructor with the first element of the
 	 * options array as the default options.
 	 */
-	public Selector(final Game game, final String[] optionsArray) {
-		this(game, optionsArray, optionsArray[0]);
+	public Selector(final Application application, final String[] optionsArray) {
+		this(application, optionsArray, optionsArray[0]);
 	}
 
 	/**
 	 * Pretty self explanatory.
 	 */
-	public Selector(final Game game, final String[] optionsArray, final String defaultOption) {
-		super(game);
+	public Selector(final Application application, final String[] optionsArray, final String defaultOption) {
+		super(application);
 		this.options = new ArrayList<String>();
 		for (final String option : optionsArray) {
 			this.options.add(option);
@@ -107,11 +107,11 @@ public abstract class Selector extends Component {
 		this.leftArrow.previousState = this.leftArrow.currentState;
 		this.rightArrow.previousState = this.rightArrow.currentState;
 		// Get the mouse position
-		final int mouseX = this.game.mouse().getX(), mouseY = this.game.mouse().getY();
+		final int mouseX = this.application.mouse().getX(), mouseY = this.application.mouse().getY();
 		// Left arrow handling, this block magically works and it took me a lot of time
 		// but I couldn't for the life of me explain it..
 		{
-			final boolean mouseInLeft = this.leftArrowContainsMouse(mouseX, mouseY), mouseClicked = this.game.mouse().isButtonDown(Mouse.BUTTON_LEFT);
+			final boolean mouseInLeft = this.leftArrowContainsMouse(mouseX, mouseY), mouseClicked = this.application.mouse().isButtonDown(Mouse.BUTTON_LEFT);
 			if (mouseInLeft && mouseClicked && !this.leftArrow.hasFocus) {
 				this.leftArrow.hasFocus = true;
 			}
@@ -134,7 +134,7 @@ public abstract class Selector extends Component {
 		// Right arrow handling, this block magically works and it took me a lot of time
 		// but I couldn't for the life of me explain it..
 		{
-			final boolean mouseInRight = this.rightArrowContainsMouse(mouseX, mouseY), mouseClicked = this.game.mouse().isButtonDown(Mouse.BUTTON_LEFT);
+			final boolean mouseInRight = this.rightArrowContainsMouse(mouseX, mouseY), mouseClicked = this.application.mouse().isButtonDown(Mouse.BUTTON_LEFT);
 			if (mouseInRight && mouseClicked && !this.rightArrow.hasFocus) {
 				this.rightArrow.hasFocus = true;
 			}
