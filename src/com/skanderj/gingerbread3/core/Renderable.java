@@ -1,6 +1,6 @@
 package com.skanderj.gingerbread3.core;
 
-import com.skanderj.gingerbread3.core.object.GameObject;
+import com.skanderj.gingerbread3.core.object.G3Object;
 import com.skanderj.gingerbread3.display.Screen;
 
 /**
@@ -8,7 +8,7 @@ import com.skanderj.gingerbread3.display.Screen;
  * @author Skander
  *
  */
-public interface Renderable extends Comparable<GameObject> {
+public interface Renderable extends Comparable<G3Object> {
 	/**
 	 * Self explanatory.
 	 */
@@ -23,7 +23,7 @@ public interface Renderable extends Comparable<GameObject> {
 	 * Self explanatory.
 	 */
 	@Override
-	default int compareTo(final GameObject gameObject) {
-		return -(this.priority().priorityIndex - gameObject.priority().priorityIndex);
+	default int compareTo(final G3Object g3Object) {
+		return -(this.priority().priorityIndex - g3Object.priority().priorityIndex);
 	}
 }

@@ -2,7 +2,7 @@ package com.skanderj.gingerbread3.transition.boilerplates;
 
 import java.awt.Color;
 
-import com.skanderj.gingerbread3.core.Application;
+import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.transition.Transition;
 import com.skanderj.gingerbread3.util.Utilities;
@@ -16,8 +16,8 @@ import com.skanderj.gingerbread3.util.Utilities;
 public class FadeTransition extends Transition {
 	private final Color color;
 
-	public FadeTransition(final Application application, final int duration, final Color color) {
-		super(application, duration);
+	public FadeTransition(final G3Application g3Application, final int duration, final Color color) {
+		super(g3Application, duration);
 		this.color = color;
 	}
 
@@ -37,7 +37,7 @@ public class FadeTransition extends Transition {
 		int alpha = 0;
 		alpha = (int) Utilities.map(this.timer, 0, this.duration, 255, 0, false);
 		final Color newColor = new Color(this.color.getRed(), this.color.getBlue(), this.color.getGreen(), alpha);
-		screen.rectangle(newColor, 0, 0, this.application.window().getWidth(), this.application.window().getHeight(), true);
+		screen.rectangle(newColor, 0, 0, this.g3Application.window().getWidth(), this.g3Application.window().getHeight(), true);
 	}
 
 	/**

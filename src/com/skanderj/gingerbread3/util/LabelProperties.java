@@ -9,11 +9,11 @@ import java.awt.Font;
  * @author Skander
  *
  */
-public final class VisualStringProperties {
+public final class LabelProperties {
 	private Font font;
 	private Color color;
 
-	public VisualStringProperties(final Font font, final Color color) {
+	public LabelProperties(final Font font, final Color color) {
 		this.font = font;
 		this.color = color;
 	}
@@ -21,15 +21,15 @@ public final class VisualStringProperties {
 	/**
 	 * Self explanatory.
 	 */
-	public VisualStringProperties build(final Color color) {
-		return new VisualStringProperties(this.font, color);
+	public LabelProperties build(final Color color) {
+		return new LabelProperties(this.font, color);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public VisualStringProperties build(final int fontSize) {
-		return new VisualStringProperties(this.font.deriveFont((float) fontSize), this.color);
+	public LabelProperties build(final int fontSize) {
+		return new LabelProperties(this.font.deriveFont((float) fontSize), this.color);
 	}
 
 	/**

@@ -6,12 +6,12 @@ import java.awt.Rectangle;
 
 import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.Textfield;
-import com.skanderj.gingerbread3.core.Application;
+import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
+import com.skanderj.gingerbread3.util.Label;
+import com.skanderj.gingerbread3.util.LabelProperties;
 import com.skanderj.gingerbread3.util.Utilities;
-import com.skanderj.gingerbread3.util.VisualString;
-import com.skanderj.gingerbread3.util.VisualStringProperties;
 
 /**
  * A very basic textbox.
@@ -22,7 +22,7 @@ import com.skanderj.gingerbread3.util.VisualStringProperties;
 public final class GTextfield extends Textfield {
 	private int x, y, width, height;
 	private Color backgroundColor;
-	private final VisualStringProperties textProperties;
+	private final LabelProperties textProperties;
 	private final int maximumLines;
 	private int linesCounter;
 	// Does the cursor blink?
@@ -34,16 +34,16 @@ public final class GTextfield extends Textfield {
 	 * Background color for rendering a simple box and text properties for the font
 	 * and color, by default can only display 1 line.
 	 */
-	public GTextfield(final Application application, final int x, final int y, final int width, final Color backgroundColor, final VisualStringProperties textProperties) {
-		this(application, x, y, width, backgroundColor, textProperties, 0);
+	public GTextfield(final G3Application g3Application, final int x, final int y, final int width, final Color backgroundColor, final LabelProperties textProperties) {
+		this(g3Application, x, y, width, backgroundColor, textProperties, 0);
 	}
 
 	/**
 	 * Background color for rendering a simple box, text properties for the font and
 	 * color, and amount maximumLines to display.
 	 */
-	public GTextfield(final Application application, final int x, final int y, final int width, final Color backgroundColor, final VisualStringProperties textProperties, final int lines) {
-		super(application);
+	public GTextfield(final G3Application g3Application, final int x, final int y, final int width, final Color backgroundColor, final LabelProperties textProperties, final int lines) {
+		super(g3Application);
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -200,7 +200,7 @@ public final class GTextfield extends Textfield {
 			cursorHeight = (int) ((metrics.getDescent() / 2) + (metrics.getAscent() / 2) + Utilities.map(this.textProperties.getFont().getSize(), 0, 144, 0, 4, true));
 		} else {
 			// easy - maybe too memory heavy? might need a cache
-			new VisualString(this.currentLine, this.textProperties.getColor(), this.textProperties.getFont()).drawCenteredAbsolute(screen, this.x + 10, this.y, this.height);
+			new Label(this.currentLine, this.textProperties.getColor(), this.textProperties.getFont()).drawCenteredAbsolute(screen, this.x + 10, this.y, this.height);
 			// FIXED!
 			cursorY = this.y + 5;
 			// Here is a fixed x-offset - need to change that to scale with the font
@@ -281,7 +281,7 @@ public final class GTextfield extends Textfield {
 	/**
 	 * Self explanatory.
 	 */
-	public VisualStringProperties getTextProperties() {
+	public LabelProperties getTextProperties() {
 		return this.textProperties;
 	}
 

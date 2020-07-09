@@ -21,7 +21,7 @@ public final class Utilities {
 	/**
 	 * Self explanatory.
 	 */
-	public static final String fileNameCompatibleDateString() {
+	public static String fileNameCompatibleDateString() {
 		return new SimpleDateFormat("MM-dd-YYYY_hh-mm-ss").format(new Date());
 	}
 

@@ -1,6 +1,6 @@
 package com.skanderj.gingerbread3.animation;
 
-import com.skanderj.gingerbread3.core.Application;
+import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.sprite.Sprite;
@@ -18,8 +18,8 @@ public class RandomizedAnimation extends Animation {
 	private final int[] timers;
 	private int currentSpriteIndex, currentSpriteTimer;
 
-	public RandomizedAnimation(final Application application, final int x, final int y, final Sprite[] sprites, final int[] timers) {
-		super(application);
+	public RandomizedAnimation(final G3Application g3Application, final int x, final int y, final Sprite[] sprites, final int[] timers) {
+		super(g3Application);
 		this.x = x;
 		this.y = y;
 		this.sprites = sprites;

@@ -5,10 +5,10 @@ import java.awt.Rectangle;
 
 import com.skanderj.gingerbread3.component.Checkbox;
 import com.skanderj.gingerbread3.component.ComponentLabelPosition;
-import com.skanderj.gingerbread3.core.Application;
+import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
-import com.skanderj.gingerbread3.util.VisualString;
+import com.skanderj.gingerbread3.util.Label;
 
 /**
  * Represents a very basic checkbox with a label on on side.
@@ -18,12 +18,12 @@ import com.skanderj.gingerbread3.util.VisualString;
  */
 public class GCheckbox extends Checkbox {
 	private int x, y, width, height;
-	private VisualString label;
+	private Label label;
 	private Color backgroundColor, borderColor, crossColor;
 	private ComponentLabelPosition labelPosition;
 
-	public GCheckbox(final Application application, final int x, final int y, final int width, final int height, final VisualString label, final Color backgroundColor, final Color borderColor, final Color crossColor, final ComponentLabelPosition labelPosition) {
-		super(application);
+	public GCheckbox(final G3Application g3Application, final int x, final int y, final int width, final int height, final Label label, final Color backgroundColor, final Color borderColor, final Color crossColor, final ComponentLabelPosition labelPosition) {
+		super(g3Application);
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -112,7 +112,7 @@ public class GCheckbox extends Checkbox {
 	/**
 	 * Self explanatory.
 	 */
-	public VisualString getLabel() {
+	public Label getLabel() {
 		return this.label;
 	}
 
@@ -179,7 +179,7 @@ public class GCheckbox extends Checkbox {
 	/**
 	 * Self explanatory.
 	 */
-	public void setLabel(final VisualString label) {
+	public void setLabel(final Label label) {
 		this.label = label;
 	}
 

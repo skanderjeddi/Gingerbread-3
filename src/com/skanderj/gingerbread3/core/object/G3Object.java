@@ -1,23 +1,23 @@
 package com.skanderj.gingerbread3.core.object;
 
-import com.skanderj.gingerbread3.core.Application;
+import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Renderable;
 import com.skanderj.gingerbread3.core.Updatable;
 import com.skanderj.gingerbread3.display.Screen;
 
 /**
- * Represents a application object, the building blocks of any application.
+ * Represents a g3Application object, the building blocks of any g3Application.
  *
  * @author Skander
  *
  */
-public abstract class GameObject implements Comparable<GameObject> {
+public abstract class G3Object implements Comparable<G3Object> {
 	/**
 	 * Self explanatory.
 	 */
-	public static final GameObject constructFromUpdatable(final Application application, final Updatable updatable) {
-		return new GameObject(application) {
+	public static final G3Object constructFromUpdatable(final G3Application g3Application, final Updatable updatable) {
+		return new G3Object(g3Application) {
 
 			@Override
 			public void update(final double delta) {
@@ -39,8 +39,8 @@ public abstract class GameObject implements Comparable<GameObject> {
 	/**
 	 * Self explanatory.
 	 */
-	public static final GameObject constructFromRenderable(final Application application, final Renderable renderable) {
-		return new GameObject(application) {
+	public static final G3Object constructFromRenderable(final G3Application g3Application, final Renderable renderable) {
+		return new G3Object(g3Application) {
 
 			@Override
 			public void update(final double delta) {
@@ -59,11 +59,11 @@ public abstract class GameObject implements Comparable<GameObject> {
 		};
 	}
 
-	protected final Application application;
+	protected final G3Application g3Application;
 	protected boolean shouldSkipRegistryChecks;
 
-	public GameObject(final Application application) {
-		this.application = application;
+	public G3Object(final G3Application g3Application) {
+		this.g3Application = g3Application;
 		this.shouldSkipRegistryChecks = false;
 	}
 
@@ -81,16 +81,19 @@ public abstract class GameObject implements Comparable<GameObject> {
 		return;
 	}
 
-	public final Application getApplication() {
-		return this.application;
+	/**
+	 * Returns this object's app.
+	 */
+	public final G3Application application() {
+		return this.g3Application;
 	}
 
 	public abstract Priority priority();
 
 	// Priority comparison, could be nicer but flemme
 	@Override
-	public int compareTo(final GameObject gameObject) {
-		return -(this.priority().priorityIndex - gameObject.priority().priorityIndex);
+	public int compareTo(final G3Object g3Object) {
+		return -(this.priority().priorityIndex - g3Object.priority().priorityIndex);
 	}
 
 	/**

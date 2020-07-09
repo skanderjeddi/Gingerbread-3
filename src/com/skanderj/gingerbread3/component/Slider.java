@@ -1,11 +1,11 @@
 package com.skanderj.gingerbread3.component;
 
-import com.skanderj.gingerbread3.core.Application;
+import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.input.Mouse;
 
 /**
  * Represents an abstract slider, basis for other slider classes which can
- * implements their rendering the way they please. See G3Slider for a basic,
+ * implements their rendering the way they please. See GSlider for a basic,
  * ready-to-be-used example.
  *
  * @author Skander
@@ -18,8 +18,8 @@ public abstract class Slider extends Component {
 	/**
 	 * Basic constructor: position, size, minimum/maximum value, default value,
 	 */
-	public Slider(final Application application, final float min, final float max, final float defaultValue) {
-		super(application);
+	public Slider(final G3Application g3Application, final float min, final float max, final float defaultValue) {
+		super(g3Application);
 		this.minimumValue = Math.min(min, max);
 		this.maximumValue = Math.max(min, max);
 		this.hasFocus = false;
@@ -33,8 +33,8 @@ public abstract class Slider extends Component {
 	 */
 	@Override
 	public synchronized void update(final double delta) {
-		if ((this.containsMouse(this.application.mouse().getX(), this.application.mouse().getY()) || this.hasFocus) && this.globalFocus) {
-			if (this.application.mouse().isButtonDown(Mouse.BUTTON_LEFT)) {
+		if ((this.containsMouse(this.g3Application.mouse().getX(), this.g3Application.mouse().getY()) || this.hasFocus) && this.globalFocus) {
+			if (this.g3Application.mouse().isButtonDown(Mouse.BUTTON_LEFT)) {
 				this.hasFocus = true;
 			} else {
 				this.hasFocus = false;

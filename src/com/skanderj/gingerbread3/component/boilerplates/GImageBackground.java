@@ -3,16 +3,22 @@ package com.skanderj.gingerbread3.component.boilerplates;
 import java.awt.image.BufferedImage;
 
 import com.skanderj.gingerbread3.component.Background;
-import com.skanderj.gingerbread3.core.Application;
+import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
 
+/**
+ * Represents a basic image background.
+ *
+ * @author Skander
+ *
+ */
 public class GImageBackground extends Background {
 	private int x, y, width, height;
 	private BufferedImage image;
 
-	public GImageBackground(final Application application, final int x, final int y, final int width, final int height, final BufferedImage image) {
-		super(application);
+	public GImageBackground(final G3Application g3Application, final int x, final int y, final int width, final int height, final BufferedImage image) {
+		super(g3Application);
 		this.x = x;
 		this.y = y;
 		this.width = width;

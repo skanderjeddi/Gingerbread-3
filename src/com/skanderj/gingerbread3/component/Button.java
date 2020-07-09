@@ -1,13 +1,13 @@
 package com.skanderj.gingerbread3.component;
 
-import com.skanderj.gingerbread3.core.Application;
+import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.object.Action;
 import com.skanderj.gingerbread3.input.Mouse;
 
 /**
  * Represents an abstract button, basis for other button classes which can
- * implement their rendering the way they please. See G3StraightEdgesButton and
- * G3RoundEdgesButton for basic, ready-to-be-used examples.
+ * implement their rendering the way they please. See GStraightEdgesButton and
+ * GRoundEdgesButton for basic, ready-to-be-used examples.
  *
  * @author Skander
  *
@@ -20,8 +20,8 @@ public abstract class Button extends Component {
 	/**
 	 * Basic constructor: position.
 	 */
-	public Button(final Application application) {
-		super(application);
+	public Button(final G3Application g3Application) {
+		super(g3Application);
 		this.previousState = ComponentState.IDLE;
 		this.state = ComponentState.IDLE;
 		this.actions = new Action[4];
@@ -40,8 +40,8 @@ public abstract class Button extends Component {
 	@Override
 	public void update(final double delta) {
 		this.previousState = this.state;
-		final int mouseX = this.application.mouse().getX(), mouseY = this.application.mouse().getY();
-		final boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = this.application.mouse().isButtonDown(Mouse.BUTTON_LEFT);
+		final int mouseX = this.g3Application.mouse().getX(), mouseY = this.g3Application.mouse().getY();
+		final boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = this.g3Application.mouse().isButtonDown(Mouse.BUTTON_LEFT);
 		if (mouseIn && mouseClicked && !this.hasFocus) {
 			this.hasFocus = true;
 		}

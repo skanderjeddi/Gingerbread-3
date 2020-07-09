@@ -1,17 +1,23 @@
 package com.skanderj.gingerbread3.component;
 
-import com.skanderj.gingerbread3.core.Application;
+import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.object.Action;
 import com.skanderj.gingerbread3.input.Mouse;
 
+/**
+ * Represents an abstract checkbox. See GCheckbox for an actual implementation.
+ *
+ * @author Skander
+ *
+ */
 public abstract class Checkbox extends Component {
 	protected ComponentState previousState, state;
 	protected boolean isChecked;
 	protected boolean hasFocus, mouseWasIn;
 	protected Action[] actions;
 
-	public Checkbox(final Application application) {
-		super(application);
+	public Checkbox(final G3Application g3Application) {
+		super(g3Application);
 		this.isChecked = false;
 		this.previousState = ComponentState.IDLE;
 		this.state = ComponentState.IDLE;
@@ -26,8 +32,8 @@ public abstract class Checkbox extends Component {
 	@Override
 	public void update(final double delta) {
 		this.previousState = this.state;
-		final int mouseX = this.application.mouse().getX(), mouseY = this.application.mouse().getY();
-		final boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = this.application.mouse().isButtonDown(Mouse.BUTTON_LEFT);
+		final int mouseX = this.g3Application.mouse().getX(), mouseY = this.g3Application.mouse().getY();
+		final boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = this.g3Application.mouse().isButtonDown(Mouse.BUTTON_LEFT);
 		if (mouseIn && mouseClicked && !this.hasFocus) {
 			this.hasFocus = true;
 		}

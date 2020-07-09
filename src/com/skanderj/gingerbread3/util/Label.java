@@ -13,24 +13,24 @@ import com.skanderj.gingerbread3.display.Screen;
  * @author Skander
  *
  */
-public final class VisualString {
+public final class Label {
 	private String content;
 	private Color color, shadeColor;
 	private Font font;
 
-	public VisualString(final String content, final VisualStringProperties properties) {
+	public Label(final String content, final LabelProperties properties) {
 		this(content, properties.getColor(), properties.getFont());
 	}
 
-	public VisualString(final String content, final VisualStringProperties properties, final Color shadeColor) {
+	public Label(final String content, final LabelProperties properties, final Color shadeColor) {
 		this(content, properties.getColor(), properties.getFont(), shadeColor);
 	}
 
-	public VisualString(final String content, final Color color, final Font font) {
+	public Label(final String content, final Color color, final Font font) {
 		this(content, color, font, null);
 	}
 
-	public VisualString(final String content, final Color color, final Font font, final Color shadeColor) {
+	public Label(final String content, final Color color, final Font font, final Color shadeColor) {
 		this.content = content;
 		this.color = color;
 		this.font = font;
@@ -72,35 +72,35 @@ public final class VisualString {
 	 * Self explanatory.
 	 */
 	public final void draw(final Screen screen, final int x0, final int y0, final Object... args) {
-		VisualString.drawString(screen, x0, y0, this, args);
+		Label.drawString(screen, x0, y0, this, args);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public final void drawCentered(final Screen screen, final int x0, final int y0, final int width, final int height, final Object... args) {
-		VisualString.drawCenteredString(screen, x0, y0, width, height, this, args);
+		Label.drawCenteredString(screen, x0, y0, width, height, this, args);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public final void drawCenteredWidthless(final Screen screen, final int x0, final int y0, final int height, final Object... args) {
-		VisualString.drawCenteredStringWidthless(screen, x0, y0, height, this, args);
+		Label.drawCenteredStringWidthless(screen, x0, y0, height, this, args);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public final int drawCenteredAbsolute(final Screen screen, final int x0, final int y0, final int height, final Object... args) {
-		return VisualString.drawCenteredStringAbsolute(screen, x0, y0, height, this, args);
+		return Label.drawCenteredStringAbsolute(screen, x0, y0, height, this, args);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	private static final void drawString(final Screen screen, final int x0, final int y0, final VisualString string, final Object... args) {
-		final VisualString formatted = new VisualString(args.length > 0 ? String.format(string.content, args) : string.content, string.color, string.font);
+	private static final void drawString(final Screen screen, final int x0, final int y0, final Label string, final Object... args) {
+		final Label formatted = new Label(args.length > 0 ? String.format(string.content, args) : string.content, string.color, string.font);
 		if (formatted.shadeColor == null) {
 			screen.color(formatted.color);
 			screen.font(formatted.font);
@@ -116,8 +116,8 @@ public final class VisualString {
 	/**
 	 * Self explanatory.
 	 */
-	private static final void drawCenteredString(final Screen screen, final int x0, final int y0, final int width, final int height, final VisualString string, final Object... args) {
-		final VisualString formatted = new VisualString(args.length > 0 ? String.format(string.content, args) : string.content, string.color, string.font);
+	private static final void drawCenteredString(final Screen screen, final int x0, final int y0, final int width, final int height, final Label string, final Object... args) {
+		final Label formatted = new Label(args.length > 0 ? String.format(string.content, args) : string.content, string.color, string.font);
 		screen.font(string.font);
 		screen.color(string.color);
 		final FontMetrics fontMetrics = screen.fontMetrics();
@@ -137,8 +137,8 @@ public final class VisualString {
 	/**
 	 * Self explanatory.
 	 */
-	private static final int drawCenteredStringWidthless(final Screen screen, final int x0, final int y0, final int height, final VisualString string, final Object... args) {
-		final VisualString formatted = new VisualString(args.length > 0 ? String.format(string.content, args) : string.content, string.color, string.font);
+	private static final int drawCenteredStringWidthless(final Screen screen, final int x0, final int y0, final int height, final Label string, final Object... args) {
+		final Label formatted = new Label(args.length > 0 ? String.format(string.content, args) : string.content, string.color, string.font);
 		screen.font(formatted.font);
 		screen.color(formatted.color);
 		final FontMetrics fontMetrics = screen.fontMetrics();
@@ -158,8 +158,8 @@ public final class VisualString {
 	/**
 	 * Self explanatory.
 	 */
-	private static final int drawCenteredStringAbsolute(final Screen screen, final int x0, final int y0, final int height, final VisualString string, final Object... args) {
-		final VisualString formatted = new VisualString(args.length > 0 ? String.format(string.content, args) : string.content, string.color, string.font);
+	private static final int drawCenteredStringAbsolute(final Screen screen, final int x0, final int y0, final int height, final Label string, final Object... args) {
+		final Label formatted = new Label(args.length > 0 ? String.format(string.content, args) : string.content, string.color, string.font);
 		screen.font(formatted.font);
 		screen.color(formatted.color);
 		final FontMetrics metrics = screen.fontMetrics();

@@ -5,10 +5,10 @@ import java.awt.Rectangle;
 
 import com.skanderj.gingerbread3.component.Button;
 import com.skanderj.gingerbread3.component.Components;
-import com.skanderj.gingerbread3.core.Application;
+import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
-import com.skanderj.gingerbread3.util.VisualString;
+import com.skanderj.gingerbread3.util.Label;
 
 /**
  * A straight edges version of the button. Very basic.
@@ -18,11 +18,11 @@ import com.skanderj.gingerbread3.util.VisualString;
  */
 public final class GStraightEdgesButton extends Button {
 	private int x, y, width, height;
-	private VisualString label;
+	private Label label;
 	private Color backgroundColor, borderColor;
 
-	public GStraightEdgesButton(final Application application, final int x, final int y, final int width, final int height, final VisualString label, final Color backgroundColor, final Color borderColor) {
-		super(application);
+	public GStraightEdgesButton(final G3Application g3Application, final int x, final int y, final int width, final int height, final Label label, final Color backgroundColor, final Color borderColor) {
+		super(g3Application);
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -88,7 +88,7 @@ public final class GStraightEdgesButton extends Button {
 	/**
 	 * Self explanatory.
 	 */
-	public VisualString getLabel() {
+	public Label getLabel() {
 		return this.label;
 	}
 
@@ -141,7 +141,7 @@ public final class GStraightEdgesButton extends Button {
 	/**
 	 * Self explanatory.
 	 */
-	public void setLabel(final VisualString label) {
+	public void setLabel(final Label label) {
 		this.label = label;
 	}
 

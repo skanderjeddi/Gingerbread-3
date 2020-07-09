@@ -13,11 +13,11 @@ import com.skanderj.gingerbread3.component.ComponentState;
 import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.Slider;
 import com.skanderj.gingerbread3.component.boilerplates.GCheckbox;
-import com.skanderj.gingerbread3.component.boilerplates.GLabel;
 import com.skanderj.gingerbread3.component.boilerplates.GSlider;
 import com.skanderj.gingerbread3.component.boilerplates.GSolidColorBackground;
 import com.skanderj.gingerbread3.component.boilerplates.GStraightEdgesButton;
-import com.skanderj.gingerbread3.core.Application;
+import com.skanderj.gingerbread3.component.boilerplates.GText;
+import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.input.Binds;
@@ -32,8 +32,8 @@ import com.skanderj.gingerbread3.scene.Scene;
 import com.skanderj.gingerbread3.scene.Scenes;
 import com.skanderj.gingerbread3.sprite.Sprite;
 import com.skanderj.gingerbread3.transition.boilerplates.FadeTransition;
-import com.skanderj.gingerbread3.util.VisualString;
-import com.skanderj.gingerbread3.util.VisualStringProperties;
+import com.skanderj.gingerbread3.util.Label;
+import com.skanderj.gingerbread3.util.LabelProperties;
 
 /**
  * Demo class for the G3 engine.
@@ -41,10 +41,10 @@ import com.skanderj.gingerbread3.util.VisualStringProperties;
  * @author Skander
  *
  */
-public class G3Demo extends Application {
+public class G3Demo extends G3Application {
 	/**
-	 * Application constants, you don't necessarily need them as constants but it's
-	 * pretty nice.
+	 * G3Application constants, you don't necessarily need them as constants but
+	 * it's pretty nice.
 	 */
 	public static final String IDENTIFIER = "g3-d", TITLE = "Gingerbread-3 [DEMO]";
 	public static final double REFRESH_RATE = 60.0D;
@@ -55,9 +55,9 @@ public class G3Demo extends Application {
 	// Constants for button until I implements a better system (how? I don't
 	// fucking have a clue)
 	public static final int B_WIDTH = 120, B_HEIGHT = (100 / 16) * 9;
-	private VisualStringProperties buttonProps;
+	private LabelProperties buttonProps;
 
-	// Application scenes
+	// G3Application scenes
 	private final Scene mainMenuScene;
 	private final Scene mainGameScene;
 	private final Scene settingsScene;
@@ -99,7 +99,7 @@ public class G3Demo extends Application {
 		this.mainGameScene = new Scene(this) {
 			@Override
 			public void update(final double delta) {
-				Registry.parameterize("mouse-position-indicator", new String[] { "mouse-x", "mouse-y" }, new Object[] { this.application.mouse().getX(), this.application.mouse().getY() });
+				Registry.parameterize("mouse-position-indicator", new String[] { "mouse-x", "mouse-y" }, new Object[] { this.g3Application.mouse().getX(), this.g3Application.mouse().getY() });
 				super.update(delta);
 			}
 
@@ -110,7 +110,7 @@ public class G3Demo extends Application {
 
 			@Override
 			public List<String> sceneObjects() {
-				return Arrays.asList("main-application-background", "instructions-label", "mouse-position-indicator");
+				return Arrays.asList("main-g3Application-background", "instructions-label", "mouse-position-indicator");
 			}
 
 			@Override
@@ -171,7 +171,7 @@ public class G3Demo extends Application {
 	public void registerScenes() {
 		// Register all the scenes in advance to quickly retrieve them later
 		Scenes.register("main-menu", this.mainMenuScene);
-		Scenes.register("main-application", this.mainGameScene);
+		Scenes.register("main-g3Application", this.mainGameScene);
 		Scenes.register("settings", this.settingsScene);
 	}
 
@@ -191,22 +191,22 @@ public class G3Demo extends Application {
 
 	@Override
 	public void createComponents() {
-		this.buttonProps = new VisualStringProperties(Fonts.get("lunchds", 16), Color.WHITE);
+		this.buttonProps = new LabelProperties(Fonts.get("lunchds", 16), Color.WHITE);
 		// Register all the components here once and for all then manage them through
 		// scenes switching
 		Components.register("main-menu-background", new GSolidColorBackground(this, Screen.DEFAULT_ORIGIN_X, Screen.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.PINK));
-		Components.register("title", new GLabel(this, 0, 0, G3Demo.WIDTH, G3Demo.HEIGHT / 3, new VisualString("G3DEMO", Color.BLACK, Fonts.get("lunchds", 72))));
-		Components.register("play-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Play!", this.buttonProps), Color.BLACK, Color.WHITE));
-		Components.register("settings-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 130, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Settings", this.buttonProps), Color.BLACK, Color.WHITE));
-		Components.register("exit-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 210, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Exit", this.buttonProps), Color.BLACK, Color.WHITE));
-		Components.register("main-application-background", new GSolidColorBackground(this, Screen.DEFAULT_ORIGIN_X, Screen.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.PINK));
-		Components.register("instructions-label", new GLabel(this, Screen.DEFAULT_ORIGIN_X, (G3Demo.HEIGHT / 2) - 50, G3Demo.WIDTH - 1, 100, new VisualString("Press escape to return to the main menu", this.buttonProps.build(28).build(Color.BLACK))));
-		Components.register("main-menu-music-volume", new GSlider(this, (G3Demo.WIDTH / 2) - 150, (G3Demo.HEIGHT / 2) - 100, 300, 20, 6, 6, 0, 100, 50, Color.GRAY, new VisualString("Main menu music (%.2f%%)", Color.PINK, Fonts.get("lunchds", 14)), ComponentLabelPosition.TOP));
-		Components.register("back-to-main-menu-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), G3Demo.HEIGHT - (2 * G3Demo.B_HEIGHT), G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new VisualString("Back", this.buttonProps.build(Color.PINK)), Color.BLACK, Color.DARK_GRAY));
-		Components.register("music-checkbox", new GCheckbox(this, G3Demo.WIDTH - 90, G3Demo.HEIGHT - 45, 20, 20, new VisualString("Music", Color.BLACK, Fonts.get("lunchds", 14)), Color.GRAY, Color.DARK_GRAY, Color.PINK.darker(), ComponentLabelPosition.RIGHT));
-		Components.register("mouse-position-indicator", new GLabel(this, G3Demo.WIDTH - 175, G3Demo.HEIGHT - 40, 100, 30, new VisualString("Mouse position: (%d ; %d)", this.buttonProps.build(14).build(Color.BLACK))));
+		Components.register("title", new GText(this, 0, 0, G3Demo.WIDTH, G3Demo.HEIGHT / 3, new Label("G3DEMO", Color.BLACK, Fonts.get("lunchds", 72))));
+		Components.register("play-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new Label("Play!", this.buttonProps), Color.BLACK, Color.WHITE));
+		Components.register("settings-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 130, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new Label("Settings", this.buttonProps), Color.BLACK, Color.WHITE));
+		Components.register("exit-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 210, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new Label("Exit", this.buttonProps), Color.BLACK, Color.WHITE));
+		Components.register("main-g3Application-background", new GSolidColorBackground(this, Screen.DEFAULT_ORIGIN_X, Screen.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.PINK));
+		Components.register("instructions-label", new GText(this, Screen.DEFAULT_ORIGIN_X, (G3Demo.HEIGHT / 2) - 50, G3Demo.WIDTH - 1, 100, new Label("Press escape to return to the main menu", this.buttonProps.build(28).build(Color.BLACK))));
+		Components.register("main-menu-music-volume", new GSlider(this, (G3Demo.WIDTH / 2) - 150, (G3Demo.HEIGHT / 2) - 100, 300, 20, 6, 6, 0, 100, 50, Color.GRAY, new Label("Main menu music (%.2f%%)", Color.PINK, Fonts.get("lunchds", 14)), ComponentLabelPosition.TOP));
+		Components.register("back-to-main-menu-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), G3Demo.HEIGHT - (2 * G3Demo.B_HEIGHT), G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new Label("Back", this.buttonProps.build(Color.PINK)), Color.BLACK, Color.DARK_GRAY));
+		Components.register("music-checkbox", new GCheckbox(this, G3Demo.WIDTH - 90, G3Demo.HEIGHT - 45, 20, 20, new Label("Music", Color.BLACK, Fonts.get("lunchds", 14)), Color.GRAY, Color.DARK_GRAY, Color.PINK.darker(), ComponentLabelPosition.RIGHT));
+		Components.register("mouse-position-indicator", new GText(this, G3Demo.WIDTH - 175, G3Demo.HEIGHT - 40, 100, 30, new Label("Mouse position: (%d ; %d)", this.buttonProps.build(14).build(Color.BLACK))));
 		// Button actions
-		((Button) Components.get("play-button")).setActionForState(ComponentState.ACTIVE, args -> Scenes.switchTo("main-application"));
+		((Button) Components.get("play-button")).setActionForState(ComponentState.ACTIVE, args -> Scenes.switchTo("main-g3Application"));
 		((Button) Components.get("settings-button")).setActionForState(ComponentState.ACTIVE, args -> Scenes.switchTo("settings"));
 		((Button) Components.get("back-to-main-menu-button")).setActionForState(ComponentState.ACTIVE, args -> Scenes.switchTo("main-menu"));
 		((Button) Components.get("exit-button")).setActionForState(ComponentState.ACTIVE, args -> this.stop());
@@ -223,7 +223,7 @@ public class G3Demo extends Application {
 
 	@Override
 	public void registerBinds() {
-		Binds.registerBind("main-application", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, args -> Scenes.switchTo("main-menu"));
+		Binds.registerBind("main-g3Application", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, args -> Scenes.switchTo("main-menu"));
 		Binds.registerBind("settings", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, args -> Scenes.switchTo("main-menu"));
 		Binds.registerBind("main-menu", new Integer[] { Keyboard.KEY_ESCAPE, Keyboard.KEY_SPACE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN, Keyboard.KeyState.DOWN }, args -> this.stop());
 	}

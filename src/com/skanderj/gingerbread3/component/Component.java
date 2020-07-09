@@ -1,8 +1,8 @@
 package com.skanderj.gingerbread3.component;
 
-import com.skanderj.gingerbread3.core.Application;
+import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.core.object.GameObject;
+import com.skanderj.gingerbread3.core.object.G3Object;
 
 /**
  * Represents a custom graphic component. Placeholder interface for batch
@@ -11,9 +11,9 @@ import com.skanderj.gingerbread3.core.object.GameObject;
  * @author Skander
  *
  */
-public abstract class Component extends GameObject {
-	public Component(final Application application) {
-		super(application);
+public abstract class Component extends G3Object {
+	public Component(final G3Application g3Application) {
+		super(g3Application);
 	}
 
 	@Override

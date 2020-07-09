@@ -10,7 +10,7 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import com.skanderj.gingerbread3.core.object.GameObject;
+import com.skanderj.gingerbread3.core.object.G3Object;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.display.Window;
 import com.skanderj.gingerbread3.input.Binds;
@@ -27,7 +27,7 @@ import com.skanderj.gingerbread3.scene.Scenes;
  * @author Skander
  *
  */
-public abstract class Application extends ThreadWrapper {
+public abstract class G3Application extends ThreadWrapper {
 	public static final int DEFAULT_SIZE = 400, DEFAULT_BUFFERS = 2;
 
 	protected final double refreshRate;
@@ -41,7 +41,7 @@ public abstract class Application extends ThreadWrapper {
 	/**
 	 * Creates a fullscreen window on the requested screen (deviceId).
 	 */
-	public Application(final String identifier, final double refreshRate, final String title, final int buffers, final int deviceId, final Class<? extends Keyboard> localizedKeyboardClass) {
+	public G3Application(final String identifier, final double refreshRate, final String title, final int buffers, final int deviceId, final Class<? extends Keyboard> localizedKeyboardClass) {
 		super(identifier);
 		this.initializeEngine();
 		this.refreshRate = refreshRate;
@@ -49,7 +49,7 @@ public abstract class Application extends ThreadWrapper {
 		try {
 			this.keyboard = localizedKeyboardClass.getDeclaredConstructor().newInstance();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException exception) {
-			Logger.log(Application.class, LogLevel.FATAL, "Wrong class type for keyboard instantiation: %s", exception.getMessage());
+			Logger.log(this.getClass(), LogLevel.FATAL, "Wrong class type for keyboard instantiation: %s", exception.getMessage());
 		}
 		this.mouse = new Mouse();
 		this.profiler = new Updatable() {
@@ -60,11 +60,11 @@ public abstract class Application extends ThreadWrapper {
 				this.counter += 1;
 				if ((this.counter % refreshRate) == 0) {
 					this.counter = 0;
-					final Map<String, Object> args = Registry.parameters(Application.this.profilerIdentifier());
+					final Map<String, Object> args = Registry.parameters(G3Application.this.profilerIdentifier());
 					if (args == null) {
-						Logger.log(this.application().getClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
+						Logger.log(this.g3Application().getClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
 					} else {
-						Logger.log(this.application().getClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args.get("frames"), args.get("updates"));
+						Logger.log(this.g3Application().getClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args.get("frames"), args.get("updates"));
 					}
 				}
 			}
@@ -75,8 +75,8 @@ public abstract class Application extends ThreadWrapper {
 			}
 
 			@Override
-			public Application application() {
-				return Application.this;
+			public G3Application g3Application() {
+				return G3Application.this;
 			}
 		};
 	}
@@ -84,7 +84,7 @@ public abstract class Application extends ThreadWrapper {
 	/**
 	 * Creates a regular window.
 	 */
-	public Application(final String identifier, final double refreshRate, final String title, final int width, final int height, final int buffers, final Class<? extends Keyboard> localizedKeyboardClass) {
+	public G3Application(final String identifier, final double refreshRate, final String title, final int width, final int height, final int buffers, final Class<? extends Keyboard> localizedKeyboardClass) {
 		super(identifier);
 		this.initializeEngine();
 		this.refreshRate = refreshRate;
@@ -92,7 +92,7 @@ public abstract class Application extends ThreadWrapper {
 		try {
 			this.keyboard = localizedKeyboardClass.getDeclaredConstructor().newInstance();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException exception) {
-			Logger.log(Application.class, LogLevel.FATAL, "Wrong class type for keyboard instantiation: %s", exception.getMessage());
+			Logger.log(G3Application.class, LogLevel.FATAL, "Wrong class type for keyboard instantiation: %s", exception.getMessage());
 		}
 		this.mouse = new Mouse();
 		this.profiler = new Updatable() {
@@ -103,11 +103,11 @@ public abstract class Application extends ThreadWrapper {
 				this.counter += 1;
 				if ((this.counter % refreshRate) == 0) {
 					this.counter = 0;
-					final Map<String, Object> args = Registry.parameters(Application.this.profilerIdentifier());
+					final Map<String, Object> args = Registry.parameters(G3Application.this.profilerIdentifier());
 					if (args == null) {
-						Logger.log(this.application().getClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
+						Logger.log(this.g3Application().getClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
 					} else {
-						Logger.log(this.application().getClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args.get("frames"), args.get("updates"));
+						Logger.log(this.g3Application().getClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args.get("frames"), args.get("updates"));
 					}
 				}
 			}
@@ -118,8 +118,8 @@ public abstract class Application extends ThreadWrapper {
 			}
 
 			@Override
-			public Application application() {
-				return Application.this;
+			public G3Application g3Application() {
+				return G3Application.this;
 			}
 		};
 	}
@@ -150,7 +150,7 @@ public abstract class Application extends ThreadWrapper {
 	}
 
 	/**
-	 * Register application objects here.
+	 * Register g3Application objects here.
 	 */
 	public abstract void registerGameObjects();
 
@@ -178,12 +178,12 @@ public abstract class Application extends ThreadWrapper {
 		this.window.show();
 		this.postCreate();
 		final long endTime = System.currentTimeMillis();
-		Logger.log(this.getClass(), LogLevel.DEBUG, "Application creation took %d ms", endTime - startTime);
+		Logger.log(this.getClass(), LogLevel.DEBUG, "G3Application creation took %d ms", endTime - startTime);
 	}
 
 	public void postCreate() {
 		this.registerGameObjects();
-		Registry.register(this.profilerIdentifier(), GameObject.constructFromUpdatable(this, this.profiler));
+		Registry.register(this.profilerIdentifier(), G3Object.constructFromUpdatable(this, this.profiler));
 		this.createComponents();
 		this.registerScenes();
 		this.registerBinds();
@@ -273,7 +273,7 @@ public abstract class Application extends ThreadWrapper {
 	}
 
 	/**
-	 * Updates application logic
+	 * Updates g3Application logic
 	 *
 	 * @param delta the delay between the current update and last update
 	 */
@@ -282,7 +282,7 @@ public abstract class Application extends ThreadWrapper {
 	}
 
 	/**
-	 * Renders the application
+	 * Renders the g3Application
 	 *
 	 * @param screen used to draw the screen
 	 */
@@ -340,7 +340,7 @@ public abstract class Application extends ThreadWrapper {
 		try {
 			this.keyboard = targetKeyboardClass.getDeclaredConstructor().newInstance();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException exception) {
-			Logger.log(Application.class, LogLevel.FATAL, "Wrong class type for keyboard instantiation: %s", exception.getMessage());
+			Logger.log(G3Application.class, LogLevel.FATAL, "Wrong class type for keyboard instantiation: %s", exception.getMessage());
 		}
 	}
 }

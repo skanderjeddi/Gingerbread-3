@@ -5,12 +5,12 @@ import java.awt.Rectangle;
 
 import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.Selector;
-import com.skanderj.gingerbread3.core.Application;
+import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.io.Fonts;
-import com.skanderj.gingerbread3.util.VisualString;
-import com.skanderj.gingerbread3.util.VisualStringProperties;
+import com.skanderj.gingerbread3.util.Label;
+import com.skanderj.gingerbread3.util.LabelProperties;
 
 /**
  * A basic selector with rectangle arrows.
@@ -20,21 +20,21 @@ import com.skanderj.gingerbread3.util.VisualStringProperties;
  */
 public final class GSelector extends Selector {
 	private int x, y, width, height;
-	private VisualStringProperties properties;
+	private LabelProperties properties;
 	private int arrowSize;
 
 	/**
 	 * Self explanatory.
 	 */
-	public GSelector(final Application application, final int x, final int y, final int width, final int height, final int arrowSize, final VisualStringProperties properties, final String[] optionsArray) {
-		this(application, x, y, width, height, arrowSize, properties, optionsArray, optionsArray[0]);
+	public GSelector(final G3Application g3Application, final int x, final int y, final int width, final int height, final int arrowSize, final LabelProperties properties, final String[] optionsArray) {
+		this(g3Application, x, y, width, height, arrowSize, properties, optionsArray, optionsArray[0]);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public GSelector(final Application application, final int x, final int y, final int width, final int height, final int arrowSize, final VisualStringProperties properties, final String[] optionsArray, final String defaultOption) {
-		super(application, optionsArray, defaultOption);
+	public GSelector(final G3Application g3Application, final int x, final int y, final int width, final int height, final int arrowSize, final LabelProperties properties, final String[] optionsArray, final String defaultOption) {
+		super(g3Application, optionsArray, defaultOption);
 		this.x = x;
 		this.y = y;
 		this.properties = properties;
@@ -49,17 +49,17 @@ public final class GSelector extends Selector {
 	 */
 	public synchronized void render(final Screen screen) {
 		screen.rectangle(Color.WHITE, this.x + 10 + this.arrowSize, this.y, this.width, this.height, true, 0, 0);
-		new VisualString(this.currentOption, this.properties, this.properties.getColor().darker().darker()).drawCentered(screen, this.x + 10 + this.arrowSize, this.y, this.width, this.height);
+		new Label(this.currentOption, this.properties, this.properties.getColor().darker().darker()).drawCentered(screen, this.x + 10 + this.arrowSize, this.y, this.width, this.height);
 		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x + 10 + this.arrowSize, this.y, this.width, this.height, false, 0, 0);
 		}
 		screen.rectangle(Color.WHITE, this.x, this.y, this.arrowSize, this.height, true, 0, 0);
-		new VisualString("<", Color.BLACK, Fonts.get("lunchtime", 24)).drawCentered(screen, this.x, this.y, this.arrowSize, this.height);
+		new Label("<", Color.BLACK, Fonts.get("lunchtime", 24)).drawCentered(screen, this.x, this.y, this.arrowSize, this.height);
 		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x, this.y, this.arrowSize, this.height, false, 0, 0);
 		}
 		screen.rectangle(Color.WHITE, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height, true, 0, 0);
-		new VisualString(">", Color.BLACK, Fonts.get("lunchtime", 24)).drawCentered(screen, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height);
+		new Label(">", Color.BLACK, Fonts.get("lunchtime", 24)).drawCentered(screen, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height);
 		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height, false, 0, 0);
 		}
@@ -100,7 +100,7 @@ public final class GSelector extends Selector {
 	/**
 	 * Self explanatory.
 	 */
-	public VisualStringProperties getProperties() {
+	public LabelProperties getProperties() {
 		return this.properties;
 	}
 
@@ -162,7 +162,7 @@ public final class GSelector extends Selector {
 	/**
 	 * Self explanatory.
 	 */
-	public void setProperties(final VisualStringProperties properties) {
+	public void setProperties(final LabelProperties properties) {
 		this.properties = properties;
 	}
 

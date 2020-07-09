@@ -3,7 +3,7 @@ package com.skanderj.gingerbread3.component.boilerplates;
 import java.awt.Color;
 
 import com.skanderj.gingerbread3.component.Background;
-import com.skanderj.gingerbread3.core.Application;
+import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
 
@@ -17,8 +17,8 @@ public class GSolidColorBackground extends Background {
 	private int x, y, width, height;
 	private Color color;
 
-	public GSolidColorBackground(final Application application, final int x, final int y, final int width, final int height, final Color color) {
-		super(application);
+	public GSolidColorBackground(final G3Application g3Application, final int x, final int y, final int width, final int height, final Color color) {
+		super(g3Application);
 		this.x = x;
 		this.y = y;
 		this.width = width;

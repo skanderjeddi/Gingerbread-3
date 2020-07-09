@@ -11,7 +11,7 @@ import java.util.Set;
 
 import com.skanderj.gingerbread3.component.Component;
 import com.skanderj.gingerbread3.component.Components;
-import com.skanderj.gingerbread3.core.object.GameObject;
+import com.skanderj.gingerbread3.core.object.G3Object;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.input.Mouse;
 import com.skanderj.gingerbread3.logging.Logger;
@@ -20,20 +20,20 @@ import com.skanderj.gingerbread3.scene.Scene;
 import com.skanderj.gingerbread3.scene.Scenes;
 
 /**
- * Probably the most important class and handles all the application objects.
+ * Probably the most important class and handles all the g3Application objects.
  *
  * @author Skander
  *
  */
 public final class Registry {
-	// All the application objects are stored here
-	private final static Map<String, GameObject> contents = new HashMap<String, GameObject>();
+	// All the g3Application objects are stored here
+	private final static Map<String, G3Object> contents = new HashMap<String, G3Object>();
 	// Args for each object
 	private final static Map<String, Map<String, Object>> parameters = new HashMap<String, Map<String, Object>>();
-	// Application objects to be deleted on the next update
-	private final static Set<GameObject> deletions = new HashSet<GameObject>();
-	// Application objects to be skipped
-	private final static Set<GameObject> skips = new HashSet<GameObject>();
+	// G3Application objects to be deleted on the next update
+	private final static Set<G3Object> deletions = new HashSet<G3Object>();
+	// G3Application objects to be skipped
+	private final static Set<G3Object> skips = new HashSet<G3Object>();
 
 	private Registry() {
 		return;
@@ -49,7 +49,7 @@ public final class Registry {
 	/**
 	 * Self explanatory.
 	 */
-	private static synchronized void skip(final GameObject object) {
+	private static synchronized void skip(final G3Object object) {
 		Registry.skips.add(object);
 	}
 
@@ -63,7 +63,7 @@ public final class Registry {
 	/**
 	 * Self explanatory.
 	 */
-	private static synchronized void unskip(final GameObject object) {
+	private static synchronized void unskip(final G3Object object) {
 		Registry.skips.remove(object);
 	}
 
@@ -77,14 +77,14 @@ public final class Registry {
 	/**
 	 * Self explanatory.
 	 */
-	private static synchronized void markForDeletion(final GameObject object) {
+	private static synchronized void markForDeletion(final G3Object object) {
 		Registry.deletions.add(object);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public static synchronized void register(final String identifier, final GameObject object) {
+	public static synchronized void register(final String identifier, final G3Object object) {
 		String name = new String();
 		if (object instanceof Scene) {
 			name = "Scene";
@@ -92,26 +92,26 @@ public final class Registry {
 			name = "Updatable";
 		} else if (object instanceof Renderable) {
 			name = "Renderable";
-		} else if (object instanceof GameObject) {
-			name = "InnerGameObject";
+		} else if (object instanceof G3Object) {
+			name = "InnerG3Object";
 		} else {
 			name = object.getClass().getSimpleName();
 		}
-		Logger.log(Registry.class, LogLevel.DEBUG, "Application object registered: <class : %s> -> \"%s\"", object.getClass().getSimpleName().equals("") ? object.getClass().getEnclosingClass().getSimpleName() + "#" + name : object.getClass().getSimpleName(), identifier);
+		Logger.log(Registry.class, LogLevel.DEBUG, "G3Object registered: <class : %s> -> \"%s\"", object.getClass().getSimpleName().equals("") ? object.getClass().getEnclosingClass().getSimpleName() + "#" + name : object.getClass().getSimpleName(), identifier);
 		Registry.contents.put(identifier, object);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public static synchronized GameObject get(final String identifier) {
+	public static synchronized G3Object get(final String identifier) {
 		return Registry.contents.getOrDefault(identifier, null);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public static synchronized String identifier(final GameObject object) {
+	public static synchronized String identifier(final G3Object object) {
 		for (final String identifier : Registry.contents.keySet()) {
 			if (Registry.contents.get(identifier) == object) {
 				return identifier;
@@ -137,16 +137,16 @@ public final class Registry {
 	}
 
 	/**
-	 * Sorts then updates all the application components.
+	 * Sorts then updates all the g3Application components.
 	 */
 	public static synchronized void update(final double delta) {
-		final List<GameObject> toUpdate = new ArrayList<GameObject>();
+		final List<G3Object> toUpdate = new ArrayList<G3Object>();
 		if (!Registry.deletions.isEmpty()) {
-			for (final GameObject object : Registry.deletions) {
+			for (final G3Object object : Registry.deletions) {
 				for (final String key : Registry.contents.keySet().toArray(new String[Registry.contents.size()])) {
 					if (Registry.contents.get(key) == object) {
 						Registry.contents.remove(key);
-						Logger.log(Registry.class, LogLevel.DEBUG, "Application object deleted: [\"%s\"]", key);
+						Logger.log(Registry.class, LogLevel.DEBUG, "G3Object deleted: [\"%s\"]", key);
 						return;
 					}
 				}
@@ -158,7 +158,7 @@ public final class Registry {
 			allowedComponents.addAll(Scenes.scene().sceneObjects());
 		}
 		for (final String identifier : Registry.contents.keySet()) {
-			final GameObject object = Registry.contents.get(identifier);
+			final G3Object object = Registry.contents.get(identifier);
 			if (object != null) {
 				if (object.shouldSkipRegistryChecks()) {
 					toUpdate.add(object);
@@ -178,10 +178,10 @@ public final class Registry {
 		}
 		toUpdate.addAll(Components.activeComponents());
 		Collections.sort(toUpdate);
-		for (final GameObject object : toUpdate) {
+		for (final G3Object object : toUpdate) {
 			if (object instanceof Component) {
 				final Component component = (Component) object;
-				if (component.containsMouse(component.getApplication().mouse.getX(), component.getApplication().mouse.getY()) && component.getApplication().mouse.isButtonDown(Mouse.BUTTON_LEFT)) {
+				if (component.containsMouse(component.application().mouse.getX(), component.application().mouse.getY()) && component.application().mouse.isButtonDown(Mouse.BUTTON_LEFT)) {
 					Components.giveFocus(component);
 				}
 			}
@@ -190,16 +190,16 @@ public final class Registry {
 	}
 
 	/**
-	 * Sorts then renders all the application components.
+	 * Sorts then renders all the g3Application components.
 	 */
 	public static synchronized void render(final Screen screen) {
-		final List<GameObject> toRender = new ArrayList<GameObject>();
+		final List<G3Object> toRender = new ArrayList<G3Object>();
 		final List<String> allowedComponents = new ArrayList<String>();
 		if (Scenes.scene() != null) {
 			allowedComponents.addAll(Scenes.scene().sceneObjects());
 		}
 		for (final String identifier : Registry.contents.keySet()) {
-			final GameObject object = Registry.contents.get(identifier);
+			final G3Object object = Registry.contents.get(identifier);
 			if (object != null) {
 				if (object.shouldSkipRegistryChecks()) {
 					toRender.add(object);
@@ -219,7 +219,7 @@ public final class Registry {
 		}
 		toRender.addAll(Components.activeComponents());
 		Collections.sort(toRender);
-		for (final GameObject object : toRender) {
+		for (final G3Object object : toRender) {
 			object.render(screen);
 		}
 	}
@@ -229,7 +229,7 @@ public final class Registry {
 	 */
 	public static synchronized void newScene() {
 		for (final String identifier : Registry.contents.keySet()) {
-			final GameObject object = Registry.contents.get(identifier);
+			final G3Object object = Registry.contents.get(identifier);
 			if (object != null) {
 				object.sceneChange();
 			}
@@ -255,7 +255,7 @@ public final class Registry {
 	/**
 	 * Self explanatory.
 	 */
-	public static synchronized Collection<GameObject> getObjects() {
+	public static synchronized Collection<G3Object> getObjects() {
 		return Registry.contents.values();
 	}
 }

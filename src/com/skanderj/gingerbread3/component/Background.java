@@ -1,10 +1,15 @@
 package com.skanderj.gingerbread3.component;
 
-import com.skanderj.gingerbread3.core.Application;
+import com.skanderj.gingerbread3.core.G3Application;
 
+/**
+ *
+ * @author Skander
+ *
+ */
 public abstract class Background extends Component {
-	public Background(final Application application) {
-		super(application);
+	public Background(final G3Application g3Application) {
+		super(g3Application);
 	}
 
 	/**
