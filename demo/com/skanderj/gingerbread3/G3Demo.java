@@ -43,8 +43,8 @@ import com.skanderj.gingerbread3.util.VisualStringProperties;
  */
 public class G3Demo extends Application {
 	/**
-	 * Application constants, you don't necessarily need them as constants but it's pretty
-	 * nice.
+	 * Application constants, you don't necessarily need them as constants but it's
+	 * pretty nice.
 	 */
 	public static final String IDENTIFIER = "g3-d", TITLE = "Gingerbread-3 [DEMO]";
 	public static final double REFRESH_RATE = 60.0D;

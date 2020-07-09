@@ -3,8 +3,12 @@ package com.skanderj.gingerbread3.core;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import com.skanderj.gingerbread3.core.object.GameObject;
 import com.skanderj.gingerbread3.display.Screen;
@@ -58,9 +62,9 @@ public abstract class Application extends ThreadWrapper {
 					this.counter = 0;
 					final Map<String, Object> args = Registry.parameters(Application.this.profilerIdentifier());
 					if (args == null) {
-						Logger.log(this.getClass().getEnclosingClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
+						Logger.log(this.application().getClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
 					} else {
-						Logger.log(this.getClass().getEnclosingClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args.get("frames"), args.get("updates"));
+						Logger.log(this.application().getClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args.get("frames"), args.get("updates"));
 					}
 				}
 			}
@@ -68,6 +72,11 @@ public abstract class Application extends ThreadWrapper {
 			@Override
 			public Priority priority() {
 				return Priority.CRITICAL;
+			}
+
+			@Override
+			public Application application() {
+				return Application.this;
 			}
 		};
 	}
@@ -96,9 +105,9 @@ public abstract class Application extends ThreadWrapper {
 					this.counter = 0;
 					final Map<String, Object> args = Registry.parameters(Application.this.profilerIdentifier());
 					if (args == null) {
-						Logger.log(this.getClass().getEnclosingClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
+						Logger.log(this.application().getClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
 					} else {
-						Logger.log(this.getClass().getEnclosingClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args.get("frames"), args.get("updates"));
+						Logger.log(this.application().getClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args.get("frames"), args.get("updates"));
 					}
 				}
 			}
@@ -106,6 +115,11 @@ public abstract class Application extends ThreadWrapper {
 			@Override
 			public Priority priority() {
 				return Priority.CRITICAL;
+			}
+
+			@Override
+			public Application application() {
+				return Application.this;
 			}
 		};
 	}
@@ -232,6 +246,22 @@ public abstract class Application extends ThreadWrapper {
 			}
 		}
 		Logger.cleanUp();
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public final void screenshot(final String path) {
+		final File outputFile = new File(path);
+		try {
+			outputFile.getParentFile().mkdirs();
+			if (outputFile.createNewFile()) {
+				ImageIO.write(this.screen().screenContentOnFrame(), "png", outputFile);
+				Logger.log(this.getClass(), LogLevel.INFO, "Successfully saved screenshot to %s", path);
+			}
+		} catch (final IOException ioException) {
+			Logger.log(this.getClass(), LogLevel.ERROR, "Couldn't save screenshot: %s", ioException.getMessage());
+		}
 	}
 
 	protected synchronized final void useProfiler() {

@@ -20,15 +20,15 @@ import com.skanderj.gingerbread3.util.VisualStringProperties;
  */
 public final class GLabel extends Label {
 	private int x, y, width, height;
-	private final String format;
+	private String format;
 
-	public GLabel(final Application application, final int x, final int y, final int width, final int height, final VisualString graphicString) {
-		super(application, graphicString);
+	public GLabel(final Application application, final int x, final int y, final int width, final int height, final VisualString visualString) {
+		super(application, visualString);
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.format = graphicString.getContent();
+		this.format = visualString.getContent();
 	}
 
 	/**
@@ -36,13 +36,16 @@ public final class GLabel extends Label {
 	 */
 	@Override
 	public synchronized void update(final double delta) {
+		if (!this.format.equals(this.visualString.getContent())) {
+			this.format = this.visualString.getContent();
+		}
 		final String identifier = Registry.identifier(this);
 		final Map<String, Object> parameters = Registry.parameters(identifier);
 		if (parameters != null) {
 			final Object[] args = parameters.values().toArray(new Object[parameters.size()]);
-			this.graphicString = new VisualString(String.format(this.format, args), new VisualStringProperties(this.graphicString.getFont(), this.graphicString.getColor()));
+			this.visualString = new VisualString(String.format(this.format, args), new VisualStringProperties(this.visualString.getFont(), this.visualString.getColor()));
 		} else {
-			this.graphicString = new VisualString(String.format(this.format), new VisualStringProperties(this.graphicString.getFont(), this.graphicString.getColor()));
+			this.visualString = new VisualString(String.format(this.format), new VisualStringProperties(this.visualString.getFont(), this.visualString.getColor()));
 		}
 	}
 
@@ -51,7 +54,7 @@ public final class GLabel extends Label {
 	 */
 	@Override
 	public synchronized void render(final Screen screen) {
-		this.graphicString.drawCentered(screen, this.x, this.y, this.width, this.height);
+		this.visualString.drawCentered(screen, this.x, this.y, this.width, this.height);
 		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, 0, 0);
 		}

@@ -12,14 +12,14 @@ import com.skanderj.gingerbread3.util.VisualString;
  *
  */
 public abstract class Label extends Component {
-	protected VisualString graphicString;
+	protected VisualString visualString;
 
 	/**
 	 * Very basic constructor.
 	 */
-	public Label(final Application application, final VisualString graphicString) {
+	public Label(final Application application, final VisualString visualString) {
 		super(application);
-		this.graphicString = graphicString;
+		this.visualString = visualString;
 	}
 
 	/**
@@ -49,14 +49,14 @@ public abstract class Label extends Component {
 	/**
 	 * Self explanatory.
 	 */
-	public VisualString getGraphicString() {
-		return this.graphicString;
+	public VisualString getVisualString() {
+		return this.visualString;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setGraphicString(final VisualString graphicString) {
-		this.graphicString = graphicString;
+	public void setVisualString(final VisualString visualString) {
+		this.visualString = visualString;
 	}
 }

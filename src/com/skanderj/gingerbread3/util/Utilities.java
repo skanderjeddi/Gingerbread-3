@@ -1,6 +1,8 @@
 package com.skanderj.gingerbread3.util;
 
 import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -14,6 +16,13 @@ public final class Utilities {
 
 	private Utilities() {
 		return;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public static final String fileNameCompatibleDateString() {
+		return new SimpleDateFormat("MM-dd-YYYY_hh-mm-ss").format(new Date());
 	}
 
 	/**

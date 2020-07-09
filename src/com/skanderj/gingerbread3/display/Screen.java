@@ -18,6 +18,8 @@ import java.awt.image.DataBufferInt;
 public class Screen {
 	public static final int DEFAULT_ORIGIN_X = 0, DEFAULT_ORIGIN_Y = 0;
 
+	public static final Color HALF_WHITE = new Color(1f, 1f, 1f, 0.5f);
+
 	private Graphics2D windowGraphics, drawGraphics;
 	private final BufferedImage screenContent;
 
