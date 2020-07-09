@@ -44,10 +44,11 @@ public final class Scenes {
 	 * Self explanatory.
 	 */
 	public static void switchTo(final String identifier) {
-		if (Scenes.currentScene != null) {
-			Scenes.currentScene.exit();
-		}
+		Scene previous = Scenes.currentScene;
 		Scenes.currentScene = Scenes.get(identifier);
+		if (previous != null) {
+			previous.exit();
+		}
 		Registry.newScene();
 		final List<String> gameObjects = Scenes.currentScene.sceneObjects();
 		Components.considerOnly(gameObjects);

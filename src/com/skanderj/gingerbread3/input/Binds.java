@@ -51,14 +51,14 @@ public class Binds {
 			final Integer[] keysDown = keyboard.getKeysByState(Keyboard.KeyState.DOWN);
 			final Integer[] keysDownInFrame = keyboard.getKeysByState(Keyboard.KeyState.DOWN_IN_FRAME);
 			final Map<Integer, KeyState> states = new HashMap<Integer, KeyState>();
-			for (final int i : keysDown) {
-				states.put(i, KeyState.DOWN);
+			for (final int key : keysDown) {
+				states.put(key, KeyState.DOWN);
 			}
-			for (final int i : keysDownInFrame) {
-				states.put(i, KeyState.DOWN_IN_FRAME);
+			for (final int key : keysDownInFrame) {
+				states.put(key, KeyState.DOWN_IN_FRAME);
 			}
 			for (final Bind bind : Binds.binds) {
-				if (Scenes.scene() == bind.targetScene()) {
+				if (Registry.identifier(Scenes.scene()).equals(Registry.identifier(bind.targetScene())) || bind.skipChecks()) {
 					boolean execute = true;
 					for (int i = 0; i < bind.targetKeyCodes().length; i += 1) {
 						final int target = bind.targetKeyCodes()[i];

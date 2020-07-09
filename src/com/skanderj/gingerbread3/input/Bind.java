@@ -21,16 +21,21 @@ public class Bind {
 	private final Integer[] targetKeycodes;
 	private final Keyboard.KeyState[] targetKeyStates;
 	private final Task task;
+	private boolean skipChecks;
 
 	public Bind(final Scene scene, final Map<Integer, KeyState> mappings, final Task task) {
 		this.targetScene = scene;
 		this.targetKeycodes = mappings.keySet().toArray(new Integer[mappings.size()]);
 		this.targetKeyStates = mappings.values().toArray(new KeyState[mappings.size()]);
 		this.task = task;
+		this.skipChecks = (scene == null);
+		Logger.log(Bind.class, LogLevel.DEBUG, "Skip checks (C1)? " + skipChecks);
 	}
 
 	public Bind(final String sceneIdentifier, final Integer[] keycodes, final KeyState[] states, final Task task) {
 		this(Scenes.get(sceneIdentifier), keycodes, states, task);
+		this.skipChecks = sceneIdentifier.equals("*") || Scenes.get(sceneIdentifier) == null;
+		Logger.log(Bind.class, LogLevel.DEBUG, "Skip checks (C2)? " + skipChecks + ", " + Scenes.get(sceneIdentifier));
 	}
 
 	public Bind(final Scene scene, final Integer[] keycodes, final KeyState[] states, final Task task) {
@@ -41,6 +46,8 @@ public class Bind {
 		this.targetKeycodes = keycodes;
 		this.targetKeyStates = states;
 		this.task = task;
+		this.skipChecks = (scene == null);
+		Logger.log(Bind.class, LogLevel.DEBUG, "Skip checks (C3)? " + skipChecks);
 	}
 
 	/**
@@ -69,6 +76,13 @@ public class Bind {
 	 */
 	public Task task() {
 		return this.task;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public boolean skipChecks() {
+		return this.skipChecks;
 	}
 
 	@Override

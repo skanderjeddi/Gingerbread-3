@@ -22,6 +22,7 @@ import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.input.Binds;
 import com.skanderj.gingerbread3.input.Keyboard;
+import com.skanderj.gingerbread3.input.Keyboard.KeyState;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.DebuggingType;
 import com.skanderj.gingerbread3.math.Vector2;
@@ -34,6 +35,7 @@ import com.skanderj.gingerbread3.sprite.Sprite;
 import com.skanderj.gingerbread3.transition.boilerplates.FadeTransition;
 import com.skanderj.gingerbread3.util.Label;
 import com.skanderj.gingerbread3.util.LabelProperties;
+import com.skanderj.gingerbread3.util.Utilities;
 
 /**
  * Demo class for the G3 engine.
@@ -110,7 +112,7 @@ public class G3Demo extends G3Application {
 
 			@Override
 			public List<String> sceneObjects() {
-				return Arrays.asList("main-g3Application-background", "instructions-label", "mouse-position-indicator");
+				return Arrays.asList("in-game-background", "instructions-label", "mouse-position-indicator");
 			}
 
 			@Override
@@ -171,8 +173,10 @@ public class G3Demo extends G3Application {
 	public void registerScenes() {
 		// Register all the scenes in advance to quickly retrieve them later
 		Scenes.register("main-menu", this.mainMenuScene);
-		Scenes.register("main-g3Application", this.mainGameScene);
+		Scenes.register("in-game", this.mainGameScene);
 		Scenes.register("settings", this.settingsScene);
+		// Set the current scene
+		Scenes.switchTo("main-menu");
 	}
 
 	@Override
@@ -180,8 +184,6 @@ public class G3Demo extends G3Application {
 		super.postCreate();
 		// Enable profiler
 		this.useProfiler();
-		// Set the current scene
-		Scenes.switchTo("main-menu");
 	}
 
 	@Override
@@ -199,14 +201,14 @@ public class G3Demo extends G3Application {
 		Components.register("play-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new Label("Play!", this.buttonProps), Color.BLACK, Color.WHITE));
 		Components.register("settings-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 130, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new Label("Settings", this.buttonProps), Color.BLACK, Color.WHITE));
 		Components.register("exit-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 210, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new Label("Exit", this.buttonProps), Color.BLACK, Color.WHITE));
-		Components.register("main-g3Application-background", new GSolidColorBackground(this, Screen.DEFAULT_ORIGIN_X, Screen.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.PINK));
+		Components.register("in-game-background", new GSolidColorBackground(this, Screen.DEFAULT_ORIGIN_X, Screen.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.PINK));
 		Components.register("instructions-label", new GText(this, Screen.DEFAULT_ORIGIN_X, (G3Demo.HEIGHT / 2) - 50, G3Demo.WIDTH - 1, 100, new Label("Press escape to return to the main menu", this.buttonProps.build(28).build(Color.BLACK))));
 		Components.register("main-menu-music-volume", new GSlider(this, (G3Demo.WIDTH / 2) - 150, (G3Demo.HEIGHT / 2) - 100, 300, 20, 6, 6, 0, 100, 50, Color.GRAY, new Label("Main menu music (%.2f%%)", Color.PINK, Fonts.get("lunchds", 14)), ComponentLabelPosition.TOP));
 		Components.register("back-to-main-menu-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), G3Demo.HEIGHT - (2 * G3Demo.B_HEIGHT), G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new Label("Back", this.buttonProps.build(Color.PINK)), Color.BLACK, Color.DARK_GRAY));
 		Components.register("music-checkbox", new GCheckbox(this, G3Demo.WIDTH - 90, G3Demo.HEIGHT - 45, 20, 20, new Label("Music", Color.BLACK, Fonts.get("lunchds", 14)), Color.GRAY, Color.DARK_GRAY, Color.PINK.darker(), ComponentLabelPosition.RIGHT));
 		Components.register("mouse-position-indicator", new GText(this, G3Demo.WIDTH - 175, G3Demo.HEIGHT - 40, 100, 30, new Label("Mouse position: (%d ; %d)", this.buttonProps.build(14).build(Color.BLACK))));
 		// Button tasks
-		((Button) Components.get("play-button")).setTaskForState(ComponentState.ACTIVE, args -> Scenes.switchTo("main-g3Application"));
+		((Button) Components.get("play-button")).setTaskForState(ComponentState.ACTIVE, args -> Scenes.switchTo("in-game"));
 		((Button) Components.get("settings-button")).setTaskForState(ComponentState.ACTIVE, args -> Scenes.switchTo("settings"));
 		((Button) Components.get("back-to-main-menu-button")).setTaskForState(ComponentState.ACTIVE, args -> Scenes.switchTo("main-menu"));
 		((Button) Components.get("exit-button")).setTaskForState(ComponentState.ACTIVE, args -> this.stop());
@@ -223,9 +225,10 @@ public class G3Demo extends G3Application {
 
 	@Override
 	public void registerBinds() {
-		Binds.registerBind("main-g3Application", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, args -> Scenes.switchTo("main-menu"));
+		Binds.registerBind("in-game", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, args -> Scenes.switchTo("main-menu"));
 		Binds.registerBind("settings", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, args -> Scenes.switchTo("main-menu"));
 		Binds.registerBind("main-menu", new Integer[] { Keyboard.KEY_ESCAPE, Keyboard.KEY_SPACE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN, Keyboard.KeyState.DOWN }, args -> this.stop());
+		Binds.registerBind("*", new Integer[] { Keyboard.KEY_F5 }, new KeyState[] { KeyState.DOWN_IN_FRAME }, args -> this.screenshot("scr/" + Utilities.fileNameCompatibleDateString() + ".png"));
 	}
 
 	@Override

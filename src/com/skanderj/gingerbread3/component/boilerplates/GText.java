@@ -20,7 +20,7 @@ import com.skanderj.gingerbread3.util.LabelProperties;
  */
 public final class GText extends Text {
 	private int x, y, width, height;
-	private String format;
+	private final String format;
 
 	public GText(final G3Application g3Application, final int x, final int y, final int width, final int height, final Label label) {
 		super(g3Application, label);
@@ -36,9 +36,6 @@ public final class GText extends Text {
 	 */
 	@Override
 	public synchronized void update() {
-		if (!this.format.equals(this.label.getContent())) {
-			this.format = this.label.getContent();
-		}
 		final String identifier = Registry.identifier(this);
 		final Map<String, Object> parameters = Registry.parameters(identifier);
 		if (parameters != null) {
