@@ -24,8 +24,8 @@ public abstract class Scene extends G3Object {
 
 	// Logic happens here
 	@Override
-	public synchronized void update(final double delta) {
-		Registry.update(delta);
+	public synchronized void update() {
+		Registry.update();
 	}
 
 	// Rendering happens here

@@ -36,8 +36,8 @@ public class GCheckbox extends Checkbox {
 	}
 
 	@Override
-	public synchronized void update(final double delta) {
-		super.update(delta);
+	public synchronized void update() {
+		super.update();
 	}
 
 	/**

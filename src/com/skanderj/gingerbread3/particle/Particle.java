@@ -29,7 +29,7 @@ public class Particle extends G3Object {
 	 * Self explanatory.
 	 */
 	@Override
-	public synchronized void update(final double delta) {
+	public synchronized void update() {
 		final int limit = 40;
 		if (Math.abs(this.velocity.x) > limit) {
 			this.velocity.x = (int) (Math.signum(this.x) * limit);

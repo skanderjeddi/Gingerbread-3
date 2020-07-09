@@ -32,7 +32,7 @@ public abstract class Slider extends Component {
 	 * slider then move the slider accordingly.
 	 */
 	@Override
-	public synchronized void update(final double delta) {
+	public synchronized void update() {
 		if ((this.containsMouse(this.g3Application.mouse().getX(), this.g3Application.mouse().getY()) || this.hasFocus) && this.globalFocus) {
 			if (this.g3Application.mouse().isButtonDown(Mouse.BUTTON_LEFT)) {
 				this.hasFocus = true;

@@ -62,8 +62,8 @@ public final class GTextfield extends Textfield {
 	}
 
 	@Override
-	public synchronized void update(final double delta) {
-		super.update(delta);
+	public synchronized void update() {
+		super.update();
 		// Cursor blinking timer
 		{
 			this.blinkTimer += 1;

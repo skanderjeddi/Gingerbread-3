@@ -30,7 +30,7 @@ public class GSolidColorBackground extends Background {
 	 * No need for logic.
 	 */
 	@Override
-	public synchronized void update(final double delta) {
+	public synchronized void update() {
 		return;
 	}
 

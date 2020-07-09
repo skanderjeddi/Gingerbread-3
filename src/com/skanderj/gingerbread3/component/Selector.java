@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.skanderj.gingerbread3.core.G3Application;
-import com.skanderj.gingerbread3.core.object.Action;
 import com.skanderj.gingerbread3.input.Mouse;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
+import com.skanderj.gingerbread3.scheduler.Task;
 
 /**
  * Represents an abstract selector, basis for other selector classes which can
@@ -28,25 +28,25 @@ public abstract class Selector extends Component {
 		protected ComponentState currentState, previousState;
 		protected boolean hasFocus;
 		protected boolean mouseWasIn;
-		private final Action[] actions;
+		private final Task[] tasks;
 
 		public SelectorArrow() {
 			this.currentState = ComponentState.IDLE;
 			this.previousState = ComponentState.IDLE;
 			this.hasFocus = false;
 			this.mouseWasIn = false;
-			this.actions = new Action[4];
+			this.tasks = new Task[4];
 			// Set default action (do nothing) for every currentState
-			for (int index = 0; index < this.actions.length; index += 1) {
-				this.actions[index] = new Action.DefaultAction();
+			for (int index = 0; index < this.tasks.length; index += 1) {
+				this.tasks[index] = Task.DEFAULT_DO_NOTHING;
 			}
 		}
 
-		public final void setAction(final ComponentState state, final Action action) {
+		public final void setTask(final ComponentState state, final Task task) {
 			if (state == ComponentState.ACTIVE) {
 				Logger.log(Selector.SelectorArrow.class, LogLevel.ERROR, "Can't change the on click behavior of a selector arrow");
 			} else {
-				this.actions[state.getIdentifier()] = action;
+				this.tasks[state.getIdentifier()] = task;
 			}
 		}
 	}
@@ -84,13 +84,13 @@ public abstract class Selector extends Component {
 		this.currentOptionIndex = this.options.lastIndexOf(defaultOption);
 		this.leftArrow = new SelectorArrow();
 		this.rightArrow = new SelectorArrow();
-		this.leftArrow.actions[ComponentState.ACTIVE.getIdentifier()] = args -> {
+		this.leftArrow.tasks[ComponentState.ACTIVE.getIdentifier()] = args -> {
 			Selector.this.currentOptionIndex -= 1;
 			if (Selector.this.currentOptionIndex < 0) {
 				Selector.this.currentOptionIndex = Selector.this.options.size() - 1;
 			}
 		};
-		this.rightArrow.actions[ComponentState.ACTIVE.getIdentifier()] = args -> {
+		this.rightArrow.tasks[ComponentState.ACTIVE.getIdentifier()] = args -> {
 			Selector.this.currentOptionIndex += 1;
 			Selector.this.currentOptionIndex %= Selector.this.options.size();
 		};
@@ -102,7 +102,7 @@ public abstract class Selector extends Component {
 	 * selector arrows then run the appropriate action accordingly.
 	 */
 	@Override
-	public synchronized void update(final double delta) {
+	public synchronized void update() {
 		// Set the previous state for each individual arrow on the last update
 		this.leftArrow.previousState = this.leftArrow.currentState;
 		this.rightArrow.previousState = this.rightArrow.currentState;
@@ -154,8 +154,8 @@ public abstract class Selector extends Component {
 				this.rightArrow.currentState = ComponentState.ACTIVE;
 			}
 		}
-		this.leftArrow.actions[this.leftArrow.currentState.getIdentifier()].execute(delta);
-		this.rightArrow.actions[this.rightArrow.currentState.getIdentifier()].execute(delta);
+		this.leftArrow.tasks[this.leftArrow.currentState.getIdentifier()].execute();
+		this.rightArrow.tasks[this.rightArrow.currentState.getIdentifier()].execute();
 		this.currentOption = this.options.get(this.currentOptionIndex);
 	}
 

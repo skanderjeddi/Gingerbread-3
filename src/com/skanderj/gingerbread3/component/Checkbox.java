@@ -1,8 +1,8 @@
 package com.skanderj.gingerbread3.component;
 
 import com.skanderj.gingerbread3.core.G3Application;
-import com.skanderj.gingerbread3.core.object.Action;
 import com.skanderj.gingerbread3.input.Mouse;
+import com.skanderj.gingerbread3.scheduler.Task;
 
 /**
  * Represents an abstract checkbox. See GCheckbox for an actual implementation.
@@ -14,23 +14,23 @@ public abstract class Checkbox extends Component {
 	protected ComponentState previousState, state;
 	protected boolean isChecked;
 	protected boolean hasFocus, mouseWasIn;
-	protected Action[] actions;
+	protected Task[] tasks;
 
 	public Checkbox(final G3Application g3Application) {
 		super(g3Application);
 		this.isChecked = false;
 		this.previousState = ComponentState.IDLE;
 		this.state = ComponentState.IDLE;
-		this.actions = new Action[5];
+		this.tasks = new Task[5];
 		// Set default action (do nothing) for every currentState
-		for (int index = 0; index < this.actions.length; index += 1) {
-			this.actions[index] = new Action.DefaultAction();
+		for (int index = 0; index < this.tasks.length; index += 1) {
+			this.tasks[index] = Task.DEFAULT_DO_NOTHING;
 		}
 		this.hasFocus = false;
 	}
 
 	@Override
-	public void update(final double delta) {
+	public void update() {
 		this.previousState = this.state;
 		final int mouseX = this.g3Application.mouse().getX(), mouseY = this.g3Application.mouse().getY();
 		final boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = this.g3Application.mouse().isButtonDown(Mouse.BUTTON_LEFT);
@@ -54,17 +54,17 @@ public abstract class Checkbox extends Component {
 		}
 		if (this.state == ComponentState.ACTIVE) {
 			this.isChecked = !this.isChecked;
-			this.actions[4].execute(this.isChecked);
+			this.tasks[4].execute(this.isChecked);
 		}
-		this.actions[this.state.getIdentifier()].execute(delta);
+		this.tasks[this.state.getIdentifier()].execute();
 	}
 
 	/**
 	 * Sets the component action that will be executed when the provided
 	 * currentState is the current currentState.
 	 */
-	public void setActionForState(final ComponentState state, final Action action) {
-		this.actions[state.getIdentifier()] = action;
+	public void setTaskForState(final ComponentState state, final Task task) {
+		this.tasks[state.getIdentifier()] = task;
 	}
 
 	/**
@@ -97,15 +97,15 @@ public abstract class Checkbox extends Component {
 	/**
 	 * Self explanatory.
 	 */
-	public Action[] getActions() {
-		return this.actions;
+	public Task[] getTasks() {
+		return this.tasks;
 	}
 
 	/**
-	 * Self explanatory. Can be used to set multiple actions at once.
+	 * Self explanatory. Can be used to set multiple tasks at once.
 	 */
-	public void setActions(final Action[] actions) {
-		this.actions = actions;
+	public void setActions(final Task[] actions) {
+		this.tasks = actions;
 	}
 
 	/**
@@ -125,7 +125,7 @@ public abstract class Checkbox extends Component {
 	/**
 	 * Self explanatory.
 	 */
-	public void setOnSwitchAction(final Action onSwitchAction) {
-		this.actions[4] = onSwitchAction;
+	public void setOnSwitchTask(final Task onSwitchTask) {
+		this.tasks[4] = onSwitchTask;
 	}
 }

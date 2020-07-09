@@ -32,7 +32,7 @@ public class RandomizedAnimation extends Animation {
 	 * Self explanatory.
 	 */
 	@Override
-	public synchronized void update(final double delta) {
+	public synchronized void update() {
 		this.currentSpriteTimer += 1;
 		if (this.currentSpriteTimer >= this.timers[this.currentSpriteIndex]) {
 			this.currentSpriteIndex = this.newRandomSprite(this.currentSpriteIndex);

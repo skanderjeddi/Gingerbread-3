@@ -59,13 +59,13 @@ public final class Particles extends G3Object {
 	 * Self explanatory.
 	 */
 	@Override
-	public synchronized void update(final double delta) {
+	public synchronized void update() {
 		this.updatesCounter += 1;
 		if ((this.updatesCounter % this.updateRate) == 0) {
 			for (final Particle particle : this.particles) {
 				particle.velocity.x = particle.velocity.x + Utilities.randomInteger(-this.chaosValue, this.chaosValue);
 				particle.velocity.y = particle.velocity.y + Utilities.randomInteger(-this.chaosValue, this.chaosValue);
-				particle.update(delta);
+				particle.update();
 				if ((particle.x > (this.centerX + this.maxRadius)) || (particle.x < (this.centerX - this.maxRadius))) {
 					final int randomX = this.centerX + Utilities.randomInteger(-this.radius, this.radius);
 					particle.x = randomX;

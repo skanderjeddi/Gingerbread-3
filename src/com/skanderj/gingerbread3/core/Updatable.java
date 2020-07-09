@@ -11,7 +11,7 @@ public interface Updatable extends Comparable<G3Object> {
 	/**
 	 * Self explanatory.
 	 */
-	void update(double delta);
+	void update();
 
 	/**
 	 * Self explanatory.
@@ -21,7 +21,7 @@ public interface Updatable extends Comparable<G3Object> {
 	/**
 	 * Self explanatory.
 	 */
-	G3Application g3Application();
+	G3Application application();
 
 	/**
 	 * Self explanatory.

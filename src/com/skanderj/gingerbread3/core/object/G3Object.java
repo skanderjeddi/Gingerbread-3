@@ -20,8 +20,8 @@ public abstract class G3Object implements Comparable<G3Object> {
 		return new G3Object(g3Application) {
 
 			@Override
-			public void update(final double delta) {
-				updatable.update(delta);
+			public void update() {
+				updatable.update();
 			}
 
 			@Override
@@ -43,7 +43,7 @@ public abstract class G3Object implements Comparable<G3Object> {
 		return new G3Object(g3Application) {
 
 			@Override
-			public void update(final double delta) {
+			public void update() {
 				return;
 			}
 
@@ -70,7 +70,7 @@ public abstract class G3Object implements Comparable<G3Object> {
 	/**
 	 * Updates the component - called by other classes.
 	 */
-	public abstract void update(double delta);
+	public abstract void update();
 
 	/**
 	 * Renders the component - called by other classes.

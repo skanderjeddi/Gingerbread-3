@@ -87,8 +87,8 @@ public class G3Demo extends G3Application {
 			}
 
 			@Override
-			public synchronized void update(final double delta) {
-				super.update(delta);
+			public synchronized void update() {
+				super.update();
 			}
 
 			@Override
@@ -98,9 +98,9 @@ public class G3Demo extends G3Application {
 		};
 		this.mainGameScene = new Scene(this) {
 			@Override
-			public void update(final double delta) {
+			public void update() {
 				Registry.parameterize("mouse-position-indicator", new String[] { "mouse-x", "mouse-y" }, new Object[] { this.g3Application.mouse().getX(), this.g3Application.mouse().getY() });
-				super.update(delta);
+				super.update();
 			}
 
 			@Override
@@ -144,8 +144,8 @@ public class G3Demo extends G3Application {
 			}
 
 			@Override
-			public synchronized void update(final double delta) {
-				super.update(delta);
+			public synchronized void update() {
+				super.update();
 			}
 		};
 	}
@@ -205,12 +205,12 @@ public class G3Demo extends G3Application {
 		Components.register("back-to-main-menu-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), G3Demo.HEIGHT - (2 * G3Demo.B_HEIGHT), G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new Label("Back", this.buttonProps.build(Color.PINK)), Color.BLACK, Color.DARK_GRAY));
 		Components.register("music-checkbox", new GCheckbox(this, G3Demo.WIDTH - 90, G3Demo.HEIGHT - 45, 20, 20, new Label("Music", Color.BLACK, Fonts.get("lunchds", 14)), Color.GRAY, Color.DARK_GRAY, Color.PINK.darker(), ComponentLabelPosition.RIGHT));
 		Components.register("mouse-position-indicator", new GText(this, G3Demo.WIDTH - 175, G3Demo.HEIGHT - 40, 100, 30, new Label("Mouse position: (%d ; %d)", this.buttonProps.build(14).build(Color.BLACK))));
-		// Button actions
-		((Button) Components.get("play-button")).setActionForState(ComponentState.ACTIVE, args -> Scenes.switchTo("main-g3Application"));
-		((Button) Components.get("settings-button")).setActionForState(ComponentState.ACTIVE, args -> Scenes.switchTo("settings"));
-		((Button) Components.get("back-to-main-menu-button")).setActionForState(ComponentState.ACTIVE, args -> Scenes.switchTo("main-menu"));
-		((Button) Components.get("exit-button")).setActionForState(ComponentState.ACTIVE, args -> this.stop());
-		((Checkbox) Components.get("music-checkbox")).setOnSwitchAction(args -> {
+		// Button tasks
+		((Button) Components.get("play-button")).setTaskForState(ComponentState.ACTIVE, args -> Scenes.switchTo("main-g3Application"));
+		((Button) Components.get("settings-button")).setTaskForState(ComponentState.ACTIVE, args -> Scenes.switchTo("settings"));
+		((Button) Components.get("back-to-main-menu-button")).setTaskForState(ComponentState.ACTIVE, args -> Scenes.switchTo("main-menu"));
+		((Button) Components.get("exit-button")).setTaskForState(ComponentState.ACTIVE, args -> this.stop());
+		((Checkbox) Components.get("music-checkbox")).setOnSwitchTask(args -> {
 			final boolean state = (boolean) args[0];
 			if (state) {
 				Audios.stop("background");
@@ -229,9 +229,9 @@ public class G3Demo extends G3Application {
 	}
 
 	@Override
-	public synchronized void update(final double delta) {
+	public synchronized void update() {
 		// VERY IMPORTANT TO CALL
-		super.update(delta);
+		super.update();
 		// Scene-independent updating --- not recommended, but flexibility
 	}
 

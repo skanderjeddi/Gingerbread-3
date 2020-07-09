@@ -139,7 +139,7 @@ public final class Registry {
 	/**
 	 * Sorts then updates all the g3Application components.
 	 */
-	public static synchronized void update(final double delta) {
+	public static synchronized void update() {
 		final List<G3Object> toUpdate = new ArrayList<G3Object>();
 		if (!Registry.deletions.isEmpty()) {
 			for (final G3Object object : Registry.deletions) {
@@ -185,7 +185,7 @@ public final class Registry {
 					Components.giveFocus(component);
 				}
 			}
-			object.update(delta);
+			object.update();
 		}
 	}
 
@@ -242,7 +242,7 @@ public final class Registry {
 	 * Self explanatory.
 	 */
 	public static synchronized void updateObject(final String identifier, final double delta) {
-		Registry.contents.get(identifier).update(delta);
+		Registry.contents.get(identifier).update();
 	}
 
 	/**

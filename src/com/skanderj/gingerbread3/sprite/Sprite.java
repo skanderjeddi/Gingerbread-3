@@ -63,7 +63,7 @@ public class Sprite extends G3Object {
 	 * Self explanatory.
 	 */
 	@Override
-	public synchronized void update(final double delta) {
+	public synchronized void update() {
 		return;
 	}
 

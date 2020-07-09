@@ -54,15 +54,15 @@ public abstract class G3Application extends ThreadWrapper {
 			private int counter = 0;
 
 			@Override
-			public void update(final double delta) {
+			public void update() {
 				this.counter += 1;
 				if ((this.counter % refreshRate) == 0) {
 					this.counter = 0;
 					final Map<String, Object> args = Registry.parameters(G3Application.this.profilerIdentifier());
 					if (args == null) {
-						Logger.log(this.g3Application().getClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
+						Logger.log(this.application().getClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
 					} else {
-						Logger.log(this.g3Application().getClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args.get("frames"), args.get("updates"));
+						Logger.log(this.application().getClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args.get("frames"), args.get("updates"));
 					}
 				}
 			}
@@ -73,7 +73,7 @@ public abstract class G3Application extends ThreadWrapper {
 			}
 
 			@Override
-			public G3Application g3Application() {
+			public G3Application application() {
 				return G3Application.this;
 			}
 		};
@@ -97,15 +97,15 @@ public abstract class G3Application extends ThreadWrapper {
 			private int counter = 0;
 
 			@Override
-			public void update(final double delta) {
+			public void update() {
 				this.counter += 1;
 				if ((this.counter % refreshRate) == 0) {
 					this.counter = 0;
 					final Map<String, Object> args = Registry.parameters(G3Application.this.profilerIdentifier());
 					if (args == null) {
-						Logger.log(this.g3Application().getClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
+						Logger.log(this.application().getClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
 					} else {
-						Logger.log(this.g3Application().getClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args.get("frames"), args.get("updates"));
+						Logger.log(this.application().getClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args.get("frames"), args.get("updates"));
 					}
 				}
 			}
@@ -116,7 +116,7 @@ public abstract class G3Application extends ThreadWrapper {
 			}
 
 			@Override
-			public G3Application g3Application() {
+			public G3Application application() {
 				return G3Application.this;
 			}
 		};
@@ -216,11 +216,11 @@ public abstract class G3Application extends ThreadWrapper {
 			boolean shouldRender = false;
 			while (delta >= 1) {
 				updates++;
-				this.update(delta);
+				this.update();
 				if (this.window.isCloseRequested()) {
 					this.stop();
 				}
-				Binds.update(this, delta);
+				Binds.update(this);
 				this.updateInputDevices();
 				delta -= 1;
 				shouldRender = true;
@@ -275,8 +275,8 @@ public abstract class G3Application extends ThreadWrapper {
 	 *
 	 * @param delta the delay between the current update and last update
 	 */
-	protected synchronized void update(final double delta) {
-		Scenes.update(delta);
+	protected synchronized void update() {
+		Scenes.update();
 	}
 
 	/**

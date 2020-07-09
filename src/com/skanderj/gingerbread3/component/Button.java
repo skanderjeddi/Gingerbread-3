@@ -1,8 +1,8 @@
 package com.skanderj.gingerbread3.component;
 
 import com.skanderj.gingerbread3.core.G3Application;
-import com.skanderj.gingerbread3.core.object.Action;
 import com.skanderj.gingerbread3.input.Mouse;
+import com.skanderj.gingerbread3.scheduler.Task;
 
 /**
  * Represents an abstract button, basis for other button classes which can
@@ -14,7 +14,7 @@ import com.skanderj.gingerbread3.input.Mouse;
  */
 public abstract class Button extends Component {
 	protected ComponentState previousState, state;
-	protected Action[] actions;
+	protected Task[] tasks;
 	protected boolean hasFocus, mouseWasIn;
 
 	/**
@@ -24,10 +24,10 @@ public abstract class Button extends Component {
 		super(g3Application);
 		this.previousState = ComponentState.IDLE;
 		this.state = ComponentState.IDLE;
-		this.actions = new Action[4];
+		this.tasks = new Task[4];
 		// Set default action (do nothing) for every currentState
-		for (int index = 0; index < this.actions.length; index += 1) {
-			this.actions[index] = new Action.DefaultAction();
+		for (int index = 0; index < this.tasks.length; index += 1) {
+			this.tasks[index] = Task.DEFAULT_DO_NOTHING;
 		}
 		this.hasFocus = false;
 	}
@@ -38,7 +38,7 @@ public abstract class Button extends Component {
 	 * button then run the appropriate button action accordingly.
 	 */
 	@Override
-	public void update(final double delta) {
+	public void update() {
 		this.previousState = this.state;
 		final int mouseX = this.g3Application.mouse().getX(), mouseY = this.g3Application.mouse().getY();
 		final boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = this.g3Application.mouse().isButtonDown(Mouse.BUTTON_LEFT);
@@ -60,15 +60,15 @@ public abstract class Button extends Component {
 		if ((this.previousState == ComponentState.HELD) && ((this.state == ComponentState.IDLE) || (this.state == ComponentState.HOVERED)) && mouseIn) {
 			this.state = ComponentState.ACTIVE;
 		}
-		this.actions[this.state.getIdentifier()].execute(delta);
+		this.tasks[this.state.getIdentifier()].execute();
 	}
 
 	/**
 	 * Sets the button action that will be executed when the provided currentState
 	 * is the current currentState.
 	 */
-	public void setActionForState(final ComponentState state, final Action action) {
-		this.actions[state.getIdentifier()] = action;
+	public void setTaskForState(final ComponentState state, final Task task) {
+		this.tasks[state.getIdentifier()] = task;
 	}
 
 	/**
@@ -101,14 +101,14 @@ public abstract class Button extends Component {
 	/**
 	 * Self explanatory.
 	 */
-	public Action[] getActions() {
-		return this.actions;
+	public Task[] getTasks() {
+		return this.tasks;
 	}
 
 	/**
-	 * Self explanatory. Can be used to set multiple actions at once.
+	 * Self explanatory. Can be used to set multiple tasks at once.
 	 */
-	public void setActions(final Action[] actions) {
-		this.actions = actions;
+	public void setActions(final Task[] actions) {
+		this.tasks = actions;
 	}
 }
