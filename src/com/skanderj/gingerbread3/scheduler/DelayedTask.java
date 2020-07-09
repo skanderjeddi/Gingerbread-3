@@ -2,6 +2,8 @@ package com.skanderj.gingerbread3.scheduler;
 
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.core.Updatable;
+import com.skanderj.gingerbread3.logging.Logger;
+import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 
 public abstract class DelayedTask implements Updatable, Task {
 	private final String identifier;
@@ -18,9 +20,14 @@ public abstract class DelayedTask implements Updatable, Task {
 	public void update() {
 		this.timer += 1;
 		if (this.timer >= this.executeAfter) {
+			Logger.log(Scheduler.class, LogLevel.DEBUG, "Executing task %s", identifier);
 			this.execute();
 			Registry.markForDeletion(this.identifier);
 			Scheduler.delete(this);
 		}
+	}
+	
+	public String getIdentifier() {
+		return identifier;
 	}
 }

@@ -19,6 +19,7 @@ import com.skanderj.gingerbread3.input.Mouse;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 import com.skanderj.gingerbread3.scene.Scenes;
+import com.skanderj.gingerbread3.scheduler.Scheduler;
 
 /**
  * Most important class, all G3-based apps must extend this class. Pretty self
@@ -220,7 +221,6 @@ public abstract class G3Application extends ThreadWrapper {
 				if (this.window.isCloseRequested()) {
 					this.stop();
 				}
-				Binds.update(this);
 				this.updateInputDevices();
 				delta -= 1;
 				shouldRender = true;
@@ -276,6 +276,8 @@ public abstract class G3Application extends ThreadWrapper {
 	 * @param delta the delay between the current update and last update
 	 */
 	protected synchronized void update() {
+		Binds.update(this);
+		Scheduler.update();
 		Scenes.update();
 	}
 

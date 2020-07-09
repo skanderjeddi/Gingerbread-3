@@ -3,6 +3,10 @@ package com.skanderj.gingerbread3.scheduler;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.skanderj.gingerbread3.core.G3Application;
+import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.object.G3Object;
+
 /**
  * Name is self explanatory.
  *
@@ -15,6 +19,14 @@ public final class Scheduler {
 
 	private Scheduler() {
 		return;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public static synchronized void schedule(final G3Application g3Application, final DelayedTask task) {
+		Registry.register(task.getIdentifier(), G3Object.constructFromUpdatable(g3Application, task));
+		Scheduler.schedule.add(task);
 	}
 
 	/**
