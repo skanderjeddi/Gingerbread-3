@@ -28,8 +28,6 @@ import com.skanderj.gingerbread3.scene.Scenes;
  *
  */
 public abstract class G3Application extends ThreadWrapper {
-	public static final int DEFAULT_SIZE = 400, DEFAULT_BUFFERS = 2;
-
 	protected final double refreshRate;
 	protected final Window window;
 	protected Keyboard keyboard;
