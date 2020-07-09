@@ -9,7 +9,7 @@ import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.core.object.G3Object;
 import com.skanderj.gingerbread3.display.Screen;
-import com.skanderj.gingerbread3.io.Images;
+import com.skanderj.gingerbread3.resources.Images;
 
 /**
  * Represents a simple sprite.

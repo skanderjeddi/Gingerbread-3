@@ -8,7 +8,7 @@ import com.skanderj.gingerbread3.component.Selector;
 import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
-import com.skanderj.gingerbread3.io.Fonts;
+import com.skanderj.gingerbread3.resources.Fonts;
 import com.skanderj.gingerbread3.util.Label;
 import com.skanderj.gingerbread3.util.LabelProperties;
 

@@ -1,4 +1,4 @@
-package com.skanderj.gingerbread3.io;
+package com.skanderj.gingerbread3.resources;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
