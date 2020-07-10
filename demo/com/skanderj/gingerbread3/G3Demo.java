@@ -49,7 +49,7 @@ public class G3Demo extends G3Application {
 	 * it's pretty nice.
 	 */
 	public static final String IDENTIFIER = "g3-d", TITLE = "Gingerbread-3 [DEMO]";
-	public static final double REFRESH_RATE = 60.0D;
+	public static final double REFRESH_RATE = 144.0D;
 	public static final int WIDTH = 1200, HEIGHT = (G3Demo.WIDTH / 16) * 9, BUFFERS = 2;
 
 	public static final int BACKGROUND_PARTICLES = 50;
@@ -207,13 +207,13 @@ public class G3Demo extends G3Application {
 		Components.register("back-to-main-menu-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), G3Demo.HEIGHT - (2 * G3Demo.B_HEIGHT), G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new Label("Back", this.buttonProps.build(Color.PINK)), Color.BLACK, Color.DARK_GRAY));
 		Components.register("music-checkbox", new GCheckbox(this, G3Demo.WIDTH - 90, G3Demo.HEIGHT - 45, 20, 20, new Label("Music", Color.BLACK, Fonts.get("lunchds", 14)), Color.GRAY, Color.DARK_GRAY, Color.PINK.darker(), ComponentLabelPosition.RIGHT));
 		Components.register("mouse-position-indicator", new GText(this, G3Demo.WIDTH - 175, G3Demo.HEIGHT - 40, 100, 30, new Label("Mouse position: (%d ; %d)", this.buttonProps.build(14).build(Color.BLACK))));
-		// Button tasks
-		((Button) Components.get("play-button")).setTaskForState(ComponentState.ACTIVE, args -> Scenes.switchTo("in-game"));
-		((Button) Components.get("settings-button")).setTaskForState(ComponentState.ACTIVE, args -> Scenes.switchTo("settings"));
-		((Button) Components.get("back-to-main-menu-button")).setTaskForState(ComponentState.ACTIVE, args -> Scenes.switchTo("main-menu"));
-		((Button) Components.get("exit-button")).setTaskForState(ComponentState.ACTIVE, args -> this.stop());
-		((Checkbox) Components.get("music-checkbox")).setOnSwitchTask(args -> {
-			final boolean state = (boolean) args[0];
+		// Button actions
+		((Button) Components.get("play-button")).setG3ActionForState(ComponentState.ACTIVE, () -> Scenes.switchTo("in-game"));
+		((Button) Components.get("settings-button")).setG3ActionForState(ComponentState.ACTIVE, () -> Scenes.switchTo("settings"));
+		((Button) Components.get("back-to-main-menu-button")).setG3ActionForState(ComponentState.ACTIVE, () -> Scenes.switchTo("main-menu"));
+		((Button) Components.get("exit-button")).setG3ActionForState(ComponentState.ACTIVE, () -> this.stop());
+		((Checkbox) Components.get("music-checkbox")).onSwitch(() -> {
+			final boolean state = ((Checkbox) Components.get("music-checkbox")).isChecked();
 			if (state) {
 				Audios.stop("background");
 				Audios.loop("background", -1, ((Slider) Components.get("main-menu-music-volume")).getValue() / 100.0F);
@@ -225,10 +225,10 @@ public class G3Demo extends G3Application {
 
 	@Override
 	public void registerBinds() {
-		Binds.registerBind("in-game", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, args -> Scenes.switchTo("main-menu"));
-		Binds.registerBind("settings", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, args -> Scenes.switchTo("main-menu"));
-		Binds.registerBind("main-menu", new Integer[] { Keyboard.KEY_ESCAPE, Keyboard.KEY_SPACE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN, Keyboard.KeyState.DOWN }, args -> this.stop());
-		Binds.registerBind("*", new Integer[] { Keyboard.KEY_F5 }, new KeyState[] { KeyState.DOWN_IN_FRAME }, args -> this.screenshot("scr/" + Utilities.fileNameCompatibleDateString() + ".png"));
+		Binds.registerBind("in-game", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, () -> Scenes.switchTo("main-menu"));
+		Binds.registerBind("settings", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, () -> Scenes.switchTo("main-menu"));
+		Binds.registerBind("main-menu", new Integer[] { Keyboard.KEY_ESCAPE, Keyboard.KEY_SPACE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN, Keyboard.KeyState.DOWN }, () -> this.stop());
+		Binds.registerBind("*", new Integer[] { Keyboard.KEY_F5 }, new KeyState[] { KeyState.DOWN_IN_FRAME }, () -> this.screenshot("scr/" + Utilities.fileNameCompatibleDateString() + ".png"));
 	}
 
 	@Override
@@ -250,7 +250,7 @@ public class G3Demo extends G3Application {
 		// Set debugging messages
 		Logger.toggleLoggingToFile();
 		Logger.setDebuggingState(DebuggingType.CLASSIC, true);
-		Logger.setDebuggingState(DebuggingType.DEVELOPMENT, true);
+		Logger.setDebuggingState(DebuggingType.DEVELOPMENT, false);
 		new G3Demo().start();
 	}
 }

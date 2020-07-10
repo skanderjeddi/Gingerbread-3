@@ -8,11 +8,11 @@ import java.util.Set;
 
 import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.object.G3Action;
 import com.skanderj.gingerbread3.input.Keyboard.KeyState;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 import com.skanderj.gingerbread3.scene.Scenes;
-import com.skanderj.gingerbread3.scheduler.Task;
 
 /**
  *
@@ -29,8 +29,8 @@ public class Binds {
 	/**
 	 * Self explanatory.
 	 */
-	public static synchronized final void registerBind(final String targetScene, final Integer[] targetKeycodes, final Keyboard.KeyState[] targetState, final Task task) {
-		Binds.registerBind(new Bind(targetScene, targetKeycodes, targetState, task));
+	public static synchronized final void registerBind(final String targetScene, final Integer[] targetKeycodes, final Keyboard.KeyState[] targetState, final G3Action g3Action) {
+		Binds.registerBind(new Bind(targetScene, targetKeycodes, targetState, g3Action));
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class Binds {
 	/**
 	 * Self explanatory. Logic happens here.
 	 */
-	public static synchronized final void update(final G3Application g3Application, final Object... args) {
+	public static synchronized final void update(final G3Application g3Application) {
 		final Keyboard keyboard = g3Application.keyboard();
 		if (keyboard != null) {
 			final Integer[] keysDown = keyboard.getKeysByState(Keyboard.KeyState.DOWN);
@@ -68,7 +68,7 @@ public class Binds {
 						}
 					}
 					if (execute) {
-						bind.task().execute(args);
+						bind.g3Action().execute();
 						Logger.log(Binds.class, LogLevel.DEBUG, "Executing bind %s", bind.toString());
 					}
 				}

@@ -94,6 +94,12 @@ public abstract class Window {
 		}
 	}
 
+	public final void enableOpenGL() {
+		System.setProperty("sun.java2d.opengl", "True");
+		System.setProperty("sun.java2d.accthreshold", "0");
+		System.setProperty("java.awt.headless", "false");
+	}
+
 	/**
 	 * Asks the window to close (maybe on a keypress?).
 	 */

@@ -6,7 +6,7 @@ package com.skanderj.gingerbread3.component;
  * no focus yet. HELD: mouse is over the button and clicked or mouse is clicked
  * and focus is on the button. Basically means you can click and leave the
  * button area to cancel your click. ACTIVE: On the transition between HELD and
- * IDLE or between HELD and HOVERED, where you should assign the actual action
+ * IDLE or between HELD and HOVERED, where you should assign the actual actions
  * to your button.
  *
  * @author Skander

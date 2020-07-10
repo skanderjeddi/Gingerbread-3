@@ -10,7 +10,6 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import com.skanderj.gingerbread3.core.object.G3Object;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.display.Window;
 import com.skanderj.gingerbread3.input.Binds;
@@ -20,6 +19,7 @@ import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 import com.skanderj.gingerbread3.scene.Scenes;
 import com.skanderj.gingerbread3.scheduler.Scheduler;
+import com.skanderj.gingerbread3.scheduler.tasks.RecurrentTask;
 
 /**
  * Most important class, all G3-based apps must extend this class. Pretty self
@@ -33,7 +33,6 @@ public abstract class G3Application extends ThreadWrapper {
 	protected final Window window;
 	protected Keyboard keyboard;
 	protected final Mouse mouse;
-	protected final Updatable profiler;
 
 	private BufferStrategy bufferStrategy;
 
@@ -51,33 +50,6 @@ public abstract class G3Application extends ThreadWrapper {
 			Logger.log(this.getClass(), LogLevel.FATAL, "Wrong class type for keyboard instantiation: %s", exception.getMessage());
 		}
 		this.mouse = new Mouse();
-		this.profiler = new Updatable() {
-			private int counter = 0;
-
-			@Override
-			public void update() {
-				this.counter += 1;
-				if ((this.counter % refreshRate) == 0) {
-					this.counter = 0;
-					final Map<String, Object> args = Registry.parameters(G3Application.this.profilerIdentifier());
-					if (args == null) {
-						Logger.log(this.application().getClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
-					} else {
-						Logger.log(this.application().getClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args.get("frames"), args.get("updates"));
-					}
-				}
-			}
-
-			@Override
-			public Priority priority() {
-				return Priority.CRITICAL;
-			}
-
-			@Override
-			public G3Application application() {
-				return G3Application.this;
-			}
-		};
 	}
 
 	/**
@@ -94,33 +66,6 @@ public abstract class G3Application extends ThreadWrapper {
 			Logger.log(G3Application.class, LogLevel.FATAL, "Wrong class type for keyboard instantiation: %s", exception.getMessage());
 		}
 		this.mouse = new Mouse();
-		this.profiler = new Updatable() {
-			private int counter = 0;
-
-			@Override
-			public void update() {
-				this.counter += 1;
-				if ((this.counter % refreshRate) == 0) {
-					this.counter = 0;
-					final Map<String, Object> args = Registry.parameters(G3Application.this.profilerIdentifier());
-					if (args == null) {
-						Logger.log(this.application().getClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
-					} else {
-						Logger.log(this.application().getClass(), LogLevel.DEBUG, "%d frames last second for %d updates", args.get("frames"), args.get("updates"));
-					}
-				}
-			}
-
-			@Override
-			public Priority priority() {
-				return Priority.CRITICAL;
-			}
-
-			@Override
-			public G3Application application() {
-				return G3Application.this;
-			}
-		};
 	}
 
 	/**
@@ -182,7 +127,6 @@ public abstract class G3Application extends ThreadWrapper {
 
 	public void postCreate() {
 		this.registerGameObjects();
-		Registry.register(this.profilerIdentifier(), G3Object.constructFromUpdatable(this, this.profiler));
 		this.createComponents();
 		this.registerScenes();
 		this.registerBinds();
@@ -263,7 +207,27 @@ public abstract class G3Application extends ThreadWrapper {
 	}
 
 	protected synchronized final void useProfiler() {
-		Registry.get(this.profilerIdentifier()).setShouldSkipRegistryChecks(true);
+		Scheduler.scheduleTask(this, new RecurrentTask(this.profilerIdentifier(), (int) this.refreshRate, RecurrentTask.REPEAT_INDEFINITELY, true) {
+			@Override
+			public Priority priority() {
+				return Priority.EXTREMELY_HIGH;
+			}
+
+			@Override
+			public G3Application application() {
+				return G3Application.this;
+			}
+
+			@Override
+			public void execute() {
+				final Map<String, Object> argsMap = Registry.parameters(G3Application.this.profilerIdentifier());
+				if (argsMap == null) {
+					Logger.log(this.application().getClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
+				} else {
+					Logger.log(this.application().getClass(), LogLevel.DEBUG, "%d frames last second for %d updates", argsMap.get("frames"), argsMap.get("updates"));
+				}
+			}
+		});
 	}
 
 	protected synchronized final String profilerIdentifier() {

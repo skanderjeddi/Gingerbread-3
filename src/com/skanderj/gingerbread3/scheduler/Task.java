@@ -1,16 +1,13 @@
 package com.skanderj.gingerbread3.scheduler;
 
+import com.skanderj.gingerbread3.core.Updatable;
+import com.skanderj.gingerbread3.core.object.G3Action;
+
 /**
- * Represents an action that will be executed.
- *
- * @author Skander
+ * 
+ * @author Skander TODO
  *
  */
-public interface Task {
-	Task DEFAULT_DO_NOTHING = args -> {
-		return;
-	};
-
-	// Do what's here
-	void execute(Object... args);
+public interface Task extends G3Action, Updatable {
+	String identifier();
 }

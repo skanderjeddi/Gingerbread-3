@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.skanderj.gingerbread3.core.G3Application;
+import com.skanderj.gingerbread3.core.object.G3Action;
 import com.skanderj.gingerbread3.input.Mouse;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
-import com.skanderj.gingerbread3.scheduler.Task;
 
 /**
  * Represents an abstract selector, basis for other selector classes which can
@@ -28,25 +28,25 @@ public abstract class Selector extends Component {
 		protected ComponentState currentState, previousState;
 		protected boolean hasFocus;
 		protected boolean mouseWasIn;
-		private final Task[] tasks;
+		private final G3Action[] g3Actions;
 
 		public SelectorArrow() {
 			this.currentState = ComponentState.IDLE;
 			this.previousState = ComponentState.IDLE;
 			this.hasFocus = false;
 			this.mouseWasIn = false;
-			this.tasks = new Task[4];
-			// Set default action (do nothing) for every currentState
-			for (int index = 0; index < this.tasks.length; index += 1) {
-				this.tasks[index] = Task.DEFAULT_DO_NOTHING;
+			this.g3Actions = new G3Action[4];
+			// Set default actions (do nothing) for every currentState
+			for (int index = 0; index < this.g3Actions.length; index += 1) {
+				this.g3Actions[index] = G3Action.DEFAULT_DO_NOTHING;
 			}
 		}
 
-		public final void setTask(final ComponentState state, final Task task) {
+		public final void setG3Action(final ComponentState state, final G3Action g3Action) {
 			if (state == ComponentState.ACTIVE) {
 				Logger.log(Selector.SelectorArrow.class, LogLevel.ERROR, "Can't change the on click behavior of a selector arrow");
 			} else {
-				this.tasks[state.getIdentifier()] = task;
+				this.g3Actions[state.getIdentifier()] = g3Action;
 			}
 		}
 	}
@@ -84,13 +84,13 @@ public abstract class Selector extends Component {
 		this.currentOptionIndex = this.options.lastIndexOf(defaultOption);
 		this.leftArrow = new SelectorArrow();
 		this.rightArrow = new SelectorArrow();
-		this.leftArrow.tasks[ComponentState.ACTIVE.getIdentifier()] = args -> {
+		this.leftArrow.g3Actions[ComponentState.ACTIVE.getIdentifier()] = () -> {
 			Selector.this.currentOptionIndex -= 1;
 			if (Selector.this.currentOptionIndex < 0) {
 				Selector.this.currentOptionIndex = Selector.this.options.size() - 1;
 			}
 		};
-		this.rightArrow.tasks[ComponentState.ACTIVE.getIdentifier()] = args -> {
+		this.rightArrow.g3Actions[ComponentState.ACTIVE.getIdentifier()] = () -> {
 			Selector.this.currentOptionIndex += 1;
 			Selector.this.currentOptionIndex %= Selector.this.options.size();
 		};
@@ -99,7 +99,7 @@ public abstract class Selector extends Component {
 	/**
 	 * This is where all the logic of the selector happens. We check the mouse
 	 * position and the mouse left click, and we deduce the currentState of the
-	 * selector arrows then run the appropriate action accordingly.
+	 * selector arrows then run the appropriate actions accordingly.
 	 */
 	@Override
 	public synchronized void update() {
@@ -154,8 +154,8 @@ public abstract class Selector extends Component {
 				this.rightArrow.currentState = ComponentState.ACTIVE;
 			}
 		}
-		this.leftArrow.tasks[this.leftArrow.currentState.getIdentifier()].execute();
-		this.rightArrow.tasks[this.rightArrow.currentState.getIdentifier()].execute();
+		this.leftArrow.g3Actions[this.leftArrow.currentState.getIdentifier()].execute();
+		this.rightArrow.g3Actions[this.rightArrow.currentState.getIdentifier()].execute();
 		this.currentOption = this.options.get(this.currentOptionIndex);
 	}
 

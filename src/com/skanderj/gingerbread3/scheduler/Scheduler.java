@@ -6,6 +6,8 @@ import java.util.Set;
 import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.core.object.G3Object;
+import com.skanderj.gingerbread3.logging.Logger;
+import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 
 /**
  * Name is self explanatory.
@@ -14,8 +16,8 @@ import com.skanderj.gingerbread3.core.object.G3Object;
  *
  */
 public final class Scheduler {
-	// All scheduled tasks
-	private static final Set<DelayedTask> schedule = new HashSet<DelayedTask>();
+	// All scheduled actions
+	private static final Set<Task> schedule = new HashSet<>();
 
 	private Scheduler() {
 		return;
@@ -24,21 +26,22 @@ public final class Scheduler {
 	/**
 	 * Self explanatory.
 	 */
-	public static synchronized void schedule(final G3Application g3Application, final DelayedTask task) {
-		Registry.register(task.getIdentifier(), G3Object.constructFromUpdatable(g3Application, task));
+	public static synchronized void scheduleTask(final G3Application g3Application, final Task task) {
+		Registry.register(task.identifier(), G3Object.constructFromUpdatable(g3Application, task));
 		Scheduler.schedule.add(task);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public static synchronized void delete(final DelayedTask task) {
+	public static synchronized void delete(final Task task) {
 		Scheduler.schedule.remove(task);
 	}
 
 	public static void update() {
-		for (final DelayedTask delayedTask : Scheduler.schedule) {
-			delayedTask.update();
+		for (final Task task : Scheduler.schedule) {
+			Logger.log(Scheduler.class, LogLevel.DEVELOPMENT, "Executing task %s", task.identifier());
+			task.update();
 		}
 	}
 }
