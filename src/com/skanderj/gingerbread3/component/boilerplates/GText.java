@@ -10,7 +10,6 @@ import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.util.Label;
-import com.skanderj.gingerbread3.util.LabelProperties;
 
 /**
  * Represents a simple label centered inside a rectangle.
@@ -20,7 +19,6 @@ import com.skanderj.gingerbread3.util.LabelProperties;
  */
 public final class GText extends Text {
 	private int x, y, width, height;
-	private final String format;
 
 	public GText(final G3Application g3Application, final int x, final int y, final int width, final int height, final Label label) {
 		super(g3Application, label);
@@ -28,7 +26,6 @@ public final class GText extends Text {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.format = label.getContent();
 	}
 
 	/**
@@ -36,14 +33,7 @@ public final class GText extends Text {
 	 */
 	@Override
 	public synchronized void update() {
-		final String identifier = Registry.identifier(this);
-		final Map<String, Object> parameters = Registry.parameters(identifier);
-		if (parameters != null) {
-			final Object[] args = parameters.values().toArray(new Object[parameters.size()]);
-			this.label = new Label(String.format(this.format, args), new LabelProperties(this.label.getFont(), this.label.getColor()));
-		} else {
-			this.label = new Label(String.format(this.format), new LabelProperties(this.label.getFont(), this.label.getColor()));
-		}
+		return;
 	}
 
 	/**
@@ -51,7 +41,14 @@ public final class GText extends Text {
 	 */
 	@Override
 	public synchronized void render(final Screen screen) {
-		this.label.drawCentered(screen, this.x, this.y, this.width, this.height);
+		final String identifier = Registry.identifier(this);
+		final Map<String, Object> parameters = Registry.parameters(identifier);
+		if (parameters != null) {
+			final Object[] args = parameters.values().toArray(new Object[parameters.size()]);
+			this.label.drawCentered(screen, this.x, this.y, this.width, this.height, args);
+		} else {
+			this.label.drawCentered(screen, this.x, this.y, this.width, this.height);
+		}
 		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, 0, 0);
 		}

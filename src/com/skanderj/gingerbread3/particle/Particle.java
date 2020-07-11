@@ -46,7 +46,7 @@ public class Particle extends G3Object {
 	 */
 	@Override
 	public synchronized void render(final Screen screen) {
-		screen.image(this.sprite.getImage(), this.x, this.y, this.sprite.getWidth(), this.sprite.getHeight());
+		screen.image(this.sprite.image(), this.x, this.y, this.sprite.getWidth(), this.sprite.getHeight());
 	}
 
 	/**

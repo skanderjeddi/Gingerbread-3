@@ -162,7 +162,7 @@ public abstract class G3Application extends ThreadWrapper {
 			while (delta >= 1) {
 				updates++;
 				this.update();
-				if (this.window.isCloseRequested()) {
+				if (this.window.closeRequested()) {
 					this.stop();
 				}
 				this.updateInputDevices();
@@ -230,7 +230,7 @@ public abstract class G3Application extends ThreadWrapper {
 		});
 	}
 
-	protected synchronized final String profilerIdentifier() {
+	private synchronized final String profilerIdentifier() {
 		return this.identifier + "-profiler";
 	}
 
@@ -293,7 +293,7 @@ public abstract class G3Application extends ThreadWrapper {
 	/**
 	 * Self explanatory.
 	 */
-	public double getRefreshRate() {
+	public double refreshRate() {
 		return this.refreshRate;
 	}
 

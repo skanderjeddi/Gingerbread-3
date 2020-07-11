@@ -69,7 +69,7 @@ public final class Translations {
 	/**
 	 * Self explanatory.
 	 */
-	public static final String getKey(final String key, final Object... args) {
+	public static final String get(final String key, final Object... args) {
 		if (Translations.languageMap.isEmpty()) {
 			Translations.loadDefaultLanguage();
 		}

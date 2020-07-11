@@ -128,7 +128,7 @@ public final class Logger {
 	/**
 	 * Self explanatory.
 	 */
-	public static void setDebuggingState(final DebuggingType type, final boolean status) {
+	public static void setStateForDebuggingType(final DebuggingType type, final boolean status) {
 		Logger.redirectSystemOutput();
 		switch (type) {
 		case CLASSIC:

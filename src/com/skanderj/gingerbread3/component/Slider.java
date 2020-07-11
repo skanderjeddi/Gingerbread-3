@@ -71,19 +71,19 @@ public abstract class Slider extends Component {
 	/**
 	 * Self explanatory
 	 */
-	public abstract float getValue();
+	public abstract float value();
 
 	/**
 	 * Self explanatory.
 	 */
-	public float getMinimumValue() {
+	public float minimumValue() {
 		return this.minimumValue;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public float getMaximumValue() {
+	public float maximumValue() {
 		return this.maximumValue;
 	}
 

@@ -46,7 +46,7 @@ public abstract class Selector extends Component {
 			if (state == ComponentState.ACTIVE) {
 				Logger.log(Selector.SelectorArrow.class, LogLevel.ERROR, "Can't change the on click behavior of a selector arrow");
 			} else {
-				this.g3Actions[state.getIdentifier()] = g3Action;
+				this.g3Actions[state.identifier()] = g3Action;
 			}
 		}
 	}
@@ -84,13 +84,13 @@ public abstract class Selector extends Component {
 		this.currentOptionIndex = this.options.lastIndexOf(defaultOption);
 		this.leftArrow = new SelectorArrow();
 		this.rightArrow = new SelectorArrow();
-		this.leftArrow.g3Actions[ComponentState.ACTIVE.getIdentifier()] = () -> {
+		this.leftArrow.g3Actions[ComponentState.ACTIVE.identifier()] = () -> {
 			Selector.this.currentOptionIndex -= 1;
 			if (Selector.this.currentOptionIndex < 0) {
 				Selector.this.currentOptionIndex = Selector.this.options.size() - 1;
 			}
 		};
-		this.rightArrow.g3Actions[ComponentState.ACTIVE.getIdentifier()] = () -> {
+		this.rightArrow.g3Actions[ComponentState.ACTIVE.identifier()] = () -> {
 			Selector.this.currentOptionIndex += 1;
 			Selector.this.currentOptionIndex %= Selector.this.options.size();
 		};
@@ -154,8 +154,8 @@ public abstract class Selector extends Component {
 				this.rightArrow.currentState = ComponentState.ACTIVE;
 			}
 		}
-		this.leftArrow.g3Actions[this.leftArrow.currentState.getIdentifier()].execute();
-		this.rightArrow.g3Actions[this.rightArrow.currentState.getIdentifier()].execute();
+		this.leftArrow.g3Actions[this.leftArrow.currentState.identifier()].execute();
+		this.rightArrow.g3Actions[this.rightArrow.currentState.identifier()].execute();
 		this.currentOption = this.options.get(this.currentOptionIndex);
 	}
 
@@ -203,42 +203,42 @@ public abstract class Selector extends Component {
 	/**
 	 * Self explanatory.
 	 */
-	public List<String> getOptions() {
+	public List<String> selections() {
 		return this.options;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public String getDefaultOption() {
+	public String defaultSelection() {
 		return this.defaultOption;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public String getCurrentOption() {
+	public String currentSelection() {
 		return this.currentOption;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public int getCurrentOptionIndex() {
+	public int currentSelectionIndex() {
 		return this.currentOptionIndex;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public SelectorArrow getLeftArrow() {
+	public SelectorArrow leftArrow() {
 		return this.leftArrow;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public SelectorArrow getRightArrow() {
+	public SelectorArrow rightArrow() {
 		return this.rightArrow;
 	}
 

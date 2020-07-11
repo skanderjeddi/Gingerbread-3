@@ -55,7 +55,7 @@ public abstract class Textfield extends Component {
 		if (this.hasFocus) {
 			// Go through every keyboard key and retain those which are pressed at the
 			// current frame
-			for (final int keyCode : this.g3Application.keyboard().getKeysByState(KeyState.DOWN_IN_FRAME)) {
+			for (final int keyCode : this.g3Application.keyboard().getKeysByState(KeyState.DOWN_IN_CURRENT_FRAME)) {
 				// Left key handling, moves cursor to the left once
 				if (keyCode == Keyboard.KEY_LEFT) {
 					this.cursorPosition -= 1;
@@ -266,21 +266,21 @@ public abstract class Textfield extends Component {
 	/**
 	 * Self explanatory.
 	 */
-	public List<String> getText() {
+	public List<String> text() {
 		return this.text;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public String getCurrentLine() {
+	public String currentLine() {
 		return this.currentLine;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public int getCursorPosition() {
+	public int cursorPosition() {
 		return this.cursorPosition;
 	}
 

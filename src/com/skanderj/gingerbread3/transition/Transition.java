@@ -38,7 +38,7 @@ public abstract class Transition extends G3Object {
 	/**
 	 * Self explanatory.
 	 */
-	public final int getDuration() {
+	public final int duration() {
 		return this.duration;
 	}
 

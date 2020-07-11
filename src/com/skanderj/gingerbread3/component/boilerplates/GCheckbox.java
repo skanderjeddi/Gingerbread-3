@@ -112,35 +112,35 @@ public class GCheckbox extends Checkbox {
 	/**
 	 * Self explanatory.
 	 */
-	public Label getLabel() {
+	public Label label() {
 		return this.label;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public Color getBackgroundColor() {
+	public Color backgroundColor() {
 		return this.backgroundColor;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public Color getBorderColor() {
+	public Color borderColor() {
 		return this.borderColor;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public Color getCrossColor() {
+	public Color crossColor() {
 		return this.crossColor;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public ComponentLabelPosition getLabelPosition() {
+	public ComponentLabelPosition labelPosition() {
 		return this.labelPosition;
 	}
 

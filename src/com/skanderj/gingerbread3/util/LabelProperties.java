@@ -10,8 +10,8 @@ import java.awt.Font;
  *
  */
 public final class LabelProperties {
-	private Font font;
-	private Color color;
+	public Font font;
+	public Color color;
 
 	public LabelProperties(final Font font, final Color color) {
 		this.font = font;
@@ -30,33 +30,5 @@ public final class LabelProperties {
 	 */
 	public LabelProperties build(final int fontSize) {
 		return new LabelProperties(this.font.deriveFont((float) fontSize), this.color);
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public Font getFont() {
-		return this.font;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public Color getColor() {
-		return this.color;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public void setFont(final Font font) {
-		this.font = font;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public void setColor(final Color color) {
-		this.color = color;
 	}
 }

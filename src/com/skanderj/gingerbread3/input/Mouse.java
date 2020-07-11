@@ -48,7 +48,7 @@ public class Mouse extends MouseAdapter implements InputDevice {
 		for (int index = 0; index < Mouse.BUTTON_COUNT; index++) {
 			if (this.cache[index] == true) {
 				if (this.buttonsStates[index] == MouseState.UP) {
-					this.buttonsStates[index] = MouseState.DOWN_IN_FRAME;
+					this.buttonsStates[index] = MouseState.DOWN_IN_CURRENT_FRAME;
 				} else {
 					this.buttonsStates[index] = MouseState.DOWN;
 				}
@@ -75,15 +75,15 @@ public class Mouse extends MouseAdapter implements InputDevice {
 	/**
 	 * Self explanatory.
 	 */
-	public boolean isButtonDownInFrame(final int button) {
-		return this.buttonsStates[button - 1] == MouseState.DOWN_IN_FRAME;
+	public boolean isButtonDownInCurrentFrame(final int button) {
+		return this.buttonsStates[button - 1] == MouseState.DOWN_IN_CURRENT_FRAME;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public boolean isButtonDown(final int button) {
-		return (this.buttonsStates[button - 1] == MouseState.DOWN_IN_FRAME) || (this.buttonsStates[button - 1] == MouseState.DOWN);
+		return (this.buttonsStates[button - 1] == MouseState.DOWN_IN_CURRENT_FRAME) || (this.buttonsStates[button - 1] == MouseState.DOWN);
 	}
 
 	/**
@@ -142,14 +142,14 @@ public class Mouse extends MouseAdapter implements InputDevice {
 	 *
 	 */
 	private enum MouseState {
-		UP, DOWN, DOWN_IN_FRAME;
+		UP, DOWN, DOWN_IN_CURRENT_FRAME;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	@Override
-	public InputDeviceType getType() {
+	public InputDeviceType type() {
 		return InputDeviceType.MOUSE;
 	}
 }

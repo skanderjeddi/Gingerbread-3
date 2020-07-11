@@ -22,7 +22,7 @@ public enum ComponentState {
 		this.identifier = identifier;
 	}
 
-	public final int getIdentifier() {
+	public final int identifier() {
 		return this.identifier;
 	}
 }

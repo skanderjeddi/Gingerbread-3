@@ -240,7 +240,7 @@ public abstract class Keyboard extends KeyAdapter implements InputDevice {
 		for (int index = 0; index < Keyboard.KEY_COUNT; index++) {
 			if (this.cache[index] == true) {
 				if (this.keysStates[index] == KeyState.UP) {
-					this.keysStates[index] = KeyState.DOWN_IN_FRAME;
+					this.keysStates[index] = KeyState.DOWN_IN_CURRENT_FRAME;
 				} else {
 					this.keysStates[index] = KeyState.DOWN;
 				}
@@ -254,14 +254,14 @@ public abstract class Keyboard extends KeyAdapter implements InputDevice {
 	 * Self explanatory.
 	 */
 	public boolean isKeyDown(final int keyCode) {
-		return (this.keysStates[keyCode] == KeyState.DOWN_IN_FRAME) || (this.keysStates[keyCode] == KeyState.DOWN);
+		return (this.keysStates[keyCode] == KeyState.DOWN_IN_CURRENT_FRAME) || (this.keysStates[keyCode] == KeyState.DOWN);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public boolean isKeyDownInFrame(final int keyCode) {
-		return this.keysStates[keyCode] == KeyState.DOWN_IN_FRAME;
+	public boolean isKeyDownInCurrentFrame(final int keyCode) {
+		return this.keysStates[keyCode] == KeyState.DOWN_IN_CURRENT_FRAME;
 	}
 
 	/**
@@ -309,7 +309,7 @@ public abstract class Keyboard extends KeyAdapter implements InputDevice {
 	 *
 	 */
 	public enum KeyState {
-		UP, DOWN, DOWN_IN_FRAME;
+		UP, DOWN, DOWN_IN_CURRENT_FRAME;
 	}
 
 	/**
@@ -325,16 +325,16 @@ public abstract class Keyboard extends KeyAdapter implements InputDevice {
 				}
 			}
 			return keys.toArray(new Integer[keys.size()]);
-		case DOWN_IN_FRAME:
+		case DOWN_IN_CURRENT_FRAME:
 			for (int keycode = 0; keycode < Keyboard.KEY_COUNT; keycode += 1) {
-				if (this.isKeyDownInFrame(keycode)) {
+				if (this.isKeyDownInCurrentFrame(keycode)) {
 					keys.add(keycode);
 				}
 			}
 			return keys.toArray(new Integer[keys.size()]);
 		case UP:
 			for (int keycode = 0; keycode < Keyboard.KEY_COUNT; keycode += 1) {
-				if (!this.isKeyDown(keycode) && !this.isKeyDownInFrame(keycode)) {
+				if (!this.isKeyDown(keycode) && !this.isKeyDownInCurrentFrame(keycode)) {
 					keys.add(keycode);
 				}
 			}
@@ -459,7 +459,7 @@ public abstract class Keyboard extends KeyAdapter implements InputDevice {
 	 * Self explanatory.
 	 */
 	@Override
-	public InputDeviceType getType() {
+	public InputDeviceType type() {
 		return InputDeviceType.KEYBOARD;
 	}
 }

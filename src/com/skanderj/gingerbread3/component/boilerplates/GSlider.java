@@ -58,16 +58,16 @@ public final class GSlider extends Slider {
 		if (!this.label.isEmpty()) {
 			switch (this.labelPosition) {
 			case TOP:
-				this.label.draw(screen, this.x, this.y - this.label.getHeight(screen), this.getValue());
+				this.label.draw(screen, this.x, this.y - this.label.getHeight(screen), this.value());
 				break;
 			case BOTTOM:
-				this.label.draw(screen, this.x, this.y + this.height + this.label.getAugmentedHeight(screen), this.getValue());
+				this.label.draw(screen, this.x, this.y + this.height + this.label.getAugmentedHeight(screen), this.value());
 				break;
 			case LEFT:
-				this.label.drawCenteredWidthless(screen, this.x - 10 - this.label.getWidth(screen), this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.getValue());
+				this.label.drawCenteredWidthless(screen, this.x - 10 - this.label.getWidth(screen), this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.value());
 				break;
 			case RIGHT:
-				this.label.drawCenteredWidthless(screen, this.x + this.width + 10, this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.getValue());
+				this.label.drawCenteredWidthless(screen, this.x + this.width + 10, this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.value());
 				break;
 			}
 		}
@@ -88,7 +88,7 @@ public final class GSlider extends Slider {
 	 * Boxes the current value between the minimum and maximum and returns it.
 	 */
 	@Override
-	public float getValue() {
+	public float value() {
 		return Utilities.map(this.sliderX, this.x, this.x + this.getWidth(), this.minimumValue, this.maximumValue, true);
 	}
 
@@ -127,42 +127,42 @@ public final class GSlider extends Slider {
 	/**
 	 * Self explanatory.
 	 */
-	public int getSliderX() {
+	public int sliderX() {
 		return this.sliderX;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public int getSliderWidth() {
+	public int sliderWidth() {
 		return this.sliderWidth;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public int getSliderHeight() {
+	public int sliderHeight() {
 		return this.sliderHeight;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public Label getLabel() {
+	public Label label() {
 		return this.label;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public ComponentLabelPosition getLabelPosition() {
+	public ComponentLabelPosition labelPosition() {
 		return this.labelPosition;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public Color getColor() {
+	public Color color() {
 		return this.color;
 	}
 

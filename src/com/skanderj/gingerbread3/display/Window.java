@@ -78,8 +78,8 @@ public abstract class Window {
 	 * Self explanatory.
 	 */
 	public void registerInput(final InputDevice device) {
-		Logger.log(Window.class, LogLevel.DEVELOPMENT, "Input device registered <type : %s | class : %s>", device.getType().name(), device.getClass().getSimpleName());
-		switch (device.getType()) {
+		Logger.log(Window.class, LogLevel.DEVELOPMENT, "Input device registered <type : %s | class : %s>", device.type().name(), device.getClass().getSimpleName());
+		switch (device.type()) {
 		case KEYBOARD:
 			this.canvas.addKeyListener((KeyListener) device);
 			this.canvas.setFocusTraversalKeysEnabled(false);
@@ -131,7 +131,7 @@ public abstract class Window {
 	/**
 	 * Self explanatory.
 	 */
-	public String getTitle() {
+	public String title() {
 		return this.title;
 	}
 
@@ -176,21 +176,21 @@ public abstract class Window {
 	/**
 	 * Self explanatory.
 	 */
-	public int getBuffers() {
+	public int buffers() {
 		return this.buffers;
 	}
 
 	/**
-	 * Useless for now
+	 * Self explanatory.
 	 */
-	public G3Application getG3Application() {
+	public G3Application application() {
 		return this.g3Application;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public boolean isCloseRequested() {
+	public boolean closeRequested() {
 		return this.closeRequested;
 	}
 

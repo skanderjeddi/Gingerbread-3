@@ -28,7 +28,7 @@ public final class GTextfield extends Textfield {
 	// Does the cursor blink?
 	protected boolean cursorBlink;
 	// Cursor's blink related
-	protected int blinkRate, blinkTimer;
+	protected int blinkDelay, blinkTimer;
 
 	/**
 	 * Background color for rendering a simple box and text properties for the font
@@ -56,7 +56,7 @@ public final class GTextfield extends Textfield {
 		// Cursor always blinks by default, I mean why not
 		this.cursorBlink = true;
 		// Cursor will blink 60/15 times per second (=4)
-		this.blinkRate = 5;
+		this.blinkDelay = 5;
 		// Timer, pretty basic
 		this.blinkTimer = 0;
 	}
@@ -67,7 +67,7 @@ public final class GTextfield extends Textfield {
 		// Cursor blinking timer
 		{
 			this.blinkTimer += 1;
-			if ((this.blinkTimer % this.blinkRate) == 0) {
+			if ((this.blinkTimer % this.blinkDelay) == 0) {
 				this.cursorBlink = !this.cursorBlink;
 			}
 		}
@@ -78,7 +78,7 @@ public final class GTextfield extends Textfield {
 	 */
 	@Override
 	public synchronized void render(final Screen screen) {
-		screen.font(this.textProperties.getFont());
+		screen.font(this.textProperties.font);
 		final FontMetrics metrics = screen.fontMetrics();
 		final int fontHeight = metrics.getHeight();
 		// Determine height if not done before (= 0)
@@ -97,8 +97,8 @@ public final class GTextfield extends Textfield {
 		}
 		// Text color & font
 		{
-			screen.color(this.textProperties.getColor());
-			screen.font(this.textProperties.getFont());
+			screen.color(this.textProperties.color);
+			screen.font(this.textProperties.font);
 		}
 		// Line counter
 		this.linesCounter = 0;
@@ -189,24 +189,24 @@ public final class GTextfield extends Textfield {
 			// Compute cursor position
 			cursorY = this.y + (fontHeight * this.linesCounter) + (metrics.getAscent() / 2) + (metrics.getDescent() / 2);
 			// Here is a fixed x-offset - need to change that to scale with the font
-			cursorX = this.x + this.stringWidth(metrics, this.currentLine, this.cursorPosition) + (this.textProperties.getFont().getSize() / 5);
+			cursorX = this.x + this.stringWidth(metrics, this.currentLine, this.cursorPosition) + (this.textProperties.font.getSize() / 5);
 			// Constant width, 2/4 looks good IMO
-			if (this.textProperties.getFont().isBold()) {
+			if (this.textProperties.font.isBold()) {
 				cursorWidth = 6;
 			} else {
 				cursorWidth = 2;
 			}
 			// Cursor height - again, don't know why it works but it does
-			cursorHeight = (int) ((metrics.getDescent() / 2) + (metrics.getAscent() / 2) + Utilities.map(this.textProperties.getFont().getSize(), 0, 144, 0, 4, true));
+			cursorHeight = (int) ((metrics.getDescent() / 2) + (metrics.getAscent() / 2) + Utilities.map(this.textProperties.font.getSize(), 0, 144, 0, 4, true));
 		} else {
 			// easy - maybe too memory heavy? might need a cache
-			new Label(this.currentLine, this.textProperties.getColor(), this.textProperties.getFont()).drawCenteredAbsolute(screen, this.x + 10, this.y, this.height);
+			new Label(this.currentLine, this.textProperties.color, this.textProperties.font).drawCenteredAbsolute(screen, this.x + 10, this.y, this.height);
 			// FIXED!
 			cursorY = this.y + 5;
 			// Here is a fixed x-offset - need to change that to scale with the font
-			cursorX = this.x + this.stringWidth(metrics, this.currentLine, this.cursorPosition) + (this.textProperties.getFont().getSize() / 5);
+			cursorX = this.x + this.stringWidth(metrics, this.currentLine, this.cursorPosition) + (this.textProperties.font.getSize() / 5);
 			// Constant width, 2/4 looks good IMO
-			if (this.textProperties.getFont().isBold()) {
+			if (this.textProperties.font.isBold()) {
 				cursorWidth = 6;
 			} else {
 				cursorWidth = 2;
@@ -274,29 +274,29 @@ public final class GTextfield extends Textfield {
 	/**
 	 * Self explanatory.
 	 */
-	public Color getBackgroundColor() {
+	public Color backgroundColor() {
 		return this.backgroundColor;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public LabelProperties getTextProperties() {
+	public LabelProperties textProperties() {
 		return this.textProperties;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public int getMaximumLines() {
+	public int maximumLines() {
 		return this.maximumLines;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public int getBlinkRate() {
-		return this.blinkRate;
+	public int blinkDelay() {
+		return this.blinkDelay;
 	}
 
 	/**

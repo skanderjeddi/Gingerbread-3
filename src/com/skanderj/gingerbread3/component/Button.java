@@ -60,7 +60,7 @@ public abstract class Button extends Component {
 		if ((this.previousState == ComponentState.HELD) && ((this.state == ComponentState.IDLE) || (this.state == ComponentState.HOVERED)) && mouseIn) {
 			this.state = ComponentState.ACTIVE;
 		}
-		this.g3Actions[this.state.getIdentifier()].execute();
+		this.g3Actions[this.state.identifier()].execute();
 	}
 
 	/**
@@ -68,7 +68,7 @@ public abstract class Button extends Component {
 	 * is the current currentState.
 	 */
 	public void setG3ActionForState(final ComponentState state, final G3Action g3Action) {
-		this.g3Actions[state.getIdentifier()] = g3Action;
+		this.g3Actions[state.identifier()] = g3Action;
 	}
 
 	/**
@@ -101,7 +101,7 @@ public abstract class Button extends Component {
 	/**
 	 * Self explanatory.
 	 */
-	public G3Action[] getG3Actions() {
+	public G3Action[] actions() {
 		return this.g3Actions;
 	}
 

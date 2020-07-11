@@ -74,7 +74,7 @@ public class Bind {
 	/**
 	 * Self explanatory.
 	 */
-	public G3Action g3Action() {
+	public G3Action action() {
 		return this.g3Action;
 	}
 

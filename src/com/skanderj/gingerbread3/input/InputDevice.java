@@ -8,7 +8,7 @@ package com.skanderj.gingerbread3.input;
  *
  */
 public interface InputDevice {
-	InputDeviceType getType();
+	InputDeviceType type();
 
 	enum InputDeviceType {
 		KEYBOARD, MOUSE;

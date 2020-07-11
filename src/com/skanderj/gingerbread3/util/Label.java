@@ -14,16 +14,16 @@ import com.skanderj.gingerbread3.display.Screen;
  *
  */
 public final class Label {
-	private String content;
-	private Color color, shadeColor;
-	private Font font;
+	public String content;
+	public Color color, shadeColor;
+	public Font font;
 
 	public Label(final String content, final LabelProperties properties) {
-		this(content, properties.getColor(), properties.getFont());
+		this(content, properties.color, properties.font);
 	}
 
 	public Label(final String content, final LabelProperties properties, final Color shadeColor) {
-		this(content, properties.getColor(), properties.getFont(), shadeColor);
+		this(content, properties.color, properties.font, shadeColor);
 	}
 
 	public Label(final String content, final Color color, final Font font) {
@@ -168,61 +168,5 @@ public final class Label {
 		y = ((height - metrics.getHeight()) / 2) + metrics.getAscent();
 		screen.string(formatted.content, x0, y + y0);
 		return y0;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public String getContent() {
-		return this.content;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public Color getColor() {
-		return this.color;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public Color getShadeColor() {
-		return this.shadeColor;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public Font getFont() {
-		return this.font;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public void setContent(final String content) {
-		this.content = content;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public void setColor(final Color color) {
-		this.color = color;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public void setShadeColor(final Color shadeColor) {
-		this.shadeColor = shadeColor;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public void setFont(final Font font) {
-		this.font = font;
 	}
 }

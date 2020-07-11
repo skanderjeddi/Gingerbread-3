@@ -56,7 +56,7 @@ public abstract class Checkbox extends Component {
 			this.isChecked = !this.isChecked;
 			this.actions[4].execute();
 		}
-		this.actions[this.state.getIdentifier()].execute();
+		this.actions[this.state.identifier()].execute();
 	}
 
 	/**
@@ -64,7 +64,7 @@ public abstract class Checkbox extends Component {
 	 * currentState is the current currentState.
 	 */
 	public void mapAction(final ComponentState state, final G3Action g3Action) {
-		this.actions[state.getIdentifier()] = g3Action;
+		this.actions[state.identifier()] = g3Action;
 	}
 
 	/**

@@ -57,7 +57,7 @@ public class RandomizedAnimation extends Animation {
 	 */
 	@Override
 	public synchronized void render(final Screen screen) {
-		screen.image(this.sprites[this.currentSpriteIndex].getImage(), this.x, this.y, this.sprites[this.currentSpriteIndex].getWidth(), this.sprites[this.currentSpriteIndex].getHeight());
+		screen.image(this.sprites[this.currentSpriteIndex].image(), this.x, this.y, this.sprites[this.currentSpriteIndex].getWidth(), this.sprites[this.currentSpriteIndex].getHeight());
 	}
 
 	/**
@@ -77,14 +77,14 @@ public class RandomizedAnimation extends Animation {
 	/**
 	 * Self explanatory.
 	 */
-	public Sprite[] getSprites() {
+	public Sprite[] sprites() {
 		return this.sprites;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public int[] getTimers() {
+	public int[] timers() {
 		return this.timers;
 	}
 

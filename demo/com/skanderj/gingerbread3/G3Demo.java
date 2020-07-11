@@ -78,7 +78,7 @@ public class G3Demo extends G3Application {
 			public void enter() {
 				// Play some audio
 				if (((Checkbox) Components.get("music-checkbox")).isChecked()) {
-					Audios.loop("background", -1, ((Slider) Components.get("main-menu-music-volume")).getValue() / 100.0F);
+					Audios.loop("background", -1, ((Slider) Components.get("main-menu-music-volume")).value() / 100.0F);
 				}
 			}
 
@@ -216,7 +216,7 @@ public class G3Demo extends G3Application {
 			final boolean state = ((Checkbox) Components.get("music-checkbox")).isChecked();
 			if (state) {
 				Audios.stop("background");
-				Audios.loop("background", -1, ((Slider) Components.get("main-menu-music-volume")).getValue() / 100.0F);
+				Audios.loop("background", -1, ((Slider) Components.get("main-menu-music-volume")).value() / 100.0F);
 			} else {
 				Audios.stop("background");
 			}
@@ -228,7 +228,7 @@ public class G3Demo extends G3Application {
 		Binds.registerBind("in-game", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, () -> Scenes.switchTo("main-menu"));
 		Binds.registerBind("settings", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, () -> Scenes.switchTo("main-menu"));
 		Binds.registerBind("main-menu", new Integer[] { Keyboard.KEY_ESCAPE, Keyboard.KEY_SPACE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN, Keyboard.KeyState.DOWN }, () -> this.stop());
-		Binds.registerBind("*", new Integer[] { Keyboard.KEY_F5 }, new KeyState[] { KeyState.DOWN_IN_FRAME }, () -> this.screenshot("scr/" + Utilities.fileNameCompatibleDateString() + ".png"));
+		Binds.registerBind("*", new Integer[] { Keyboard.KEY_F5 }, new KeyState[] { KeyState.DOWN_IN_CURRENT_FRAME }, () -> this.screenshot("scr/" + Utilities.fileNameCompatibleDateString() + ".png"));
 	}
 
 	@Override
@@ -249,8 +249,8 @@ public class G3Demo extends G3Application {
 	public static void main(final String[] args) {
 		// Set debugging messages
 		Logger.toggleLoggingToFile();
-		Logger.setDebuggingState(DebuggingType.CLASSIC, true);
-		Logger.setDebuggingState(DebuggingType.DEVELOPMENT, false);
+		Logger.setStateForDebuggingType(DebuggingType.CLASSIC, true);
+		Logger.setStateForDebuggingType(DebuggingType.DEVELOPMENT, false);
 		new G3Demo().start();
 	}
 }

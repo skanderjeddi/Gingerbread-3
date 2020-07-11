@@ -92,14 +92,14 @@ public class Sprite extends G3Object {
 	/**
 	 * Self explanatory.
 	 */
-	public String getIdentifier() {
+	public String identifier() {
 		return this.identifier;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public BufferedImage getImage() {
+	public BufferedImage image() {
 		return this.image;
 	}
 

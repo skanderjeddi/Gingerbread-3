@@ -49,13 +49,13 @@ public class Binds {
 		final Keyboard keyboard = g3Application.keyboard();
 		if (keyboard != null) {
 			final Integer[] keysDown = keyboard.getKeysByState(Keyboard.KeyState.DOWN);
-			final Integer[] keysDownInFrame = keyboard.getKeysByState(Keyboard.KeyState.DOWN_IN_FRAME);
+			final Integer[] keysDownInFrame = keyboard.getKeysByState(Keyboard.KeyState.DOWN_IN_CURRENT_FRAME);
 			final Map<Integer, KeyState> states = new HashMap<Integer, KeyState>();
 			for (final int key : keysDown) {
 				states.put(key, KeyState.DOWN);
 			}
 			for (final int key : keysDownInFrame) {
-				states.put(key, KeyState.DOWN_IN_FRAME);
+				states.put(key, KeyState.DOWN_IN_CURRENT_FRAME);
 			}
 			for (final Bind bind : Binds.binds) {
 				if (Registry.identifier(Scenes.scene()).equals(Registry.identifier(bind.targetScene())) || bind.skipChecks()) {
@@ -68,7 +68,7 @@ public class Binds {
 						}
 					}
 					if (execute) {
-						bind.g3Action().execute();
+						bind.action().execute();
 						Logger.log(Binds.class, LogLevel.DEBUG, "Executing bind %s", bind.toString());
 					}
 				}

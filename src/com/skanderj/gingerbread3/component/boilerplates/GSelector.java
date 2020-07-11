@@ -49,7 +49,7 @@ public final class GSelector extends Selector {
 	 */
 	public synchronized void render(final Screen screen) {
 		screen.rectangle(Color.WHITE, this.x + 10 + this.arrowSize, this.y, this.width, this.height, true, 0, 0);
-		new Label(this.currentOption, this.properties, this.properties.getColor().darker().darker()).drawCentered(screen, this.x + 10 + this.arrowSize, this.y, this.width, this.height);
+		new Label(this.currentOption, this.properties, this.properties.color.darker().darker()).drawCentered(screen, this.x + 10 + this.arrowSize, this.y, this.width, this.height);
 		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x + 10 + this.arrowSize, this.y, this.width, this.height, false, 0, 0);
 		}
@@ -100,7 +100,7 @@ public final class GSelector extends Selector {
 	/**
 	 * Self explanatory.
 	 */
-	public LabelProperties getProperties() {
+	public LabelProperties labelProperties() {
 		return this.properties;
 	}
 
@@ -123,7 +123,7 @@ public final class GSelector extends Selector {
 	/**
 	 * Self explanatory.
 	 */
-	public int getArrowSize() {
+	public int arrowSize() {
 		return this.arrowSize;
 	}
 

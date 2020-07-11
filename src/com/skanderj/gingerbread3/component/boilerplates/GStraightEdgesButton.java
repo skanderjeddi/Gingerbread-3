@@ -88,21 +88,21 @@ public final class GStraightEdgesButton extends Button {
 	/**
 	 * Self explanatory.
 	 */
-	public Label getLabel() {
+	public Label label() {
 		return this.label;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public Color getBackgroundColor() {
+	public Color backgroundColor() {
 		return this.backgroundColor;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public Color getBorderColor() {
+	public Color borderColor() {
 		return this.borderColor;
 	}
 

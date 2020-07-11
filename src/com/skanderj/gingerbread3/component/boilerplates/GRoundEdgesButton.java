@@ -92,28 +92,28 @@ public final class GRoundEdgesButton extends Button {
 	/**
 	 * Self explanatory.
 	 */
-	public Label getLabel() {
+	public Label label() {
 		return this.label;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public Color getBackgroundColor() {
+	public Color backgroundColor() {
 		return this.backgroundColor;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public Color getBorderColor() {
+	public Color borderColor() {
 		return this.borderColor;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public int getBorderIncline() {
+	public int borderIncline() {
 		return this.borderIncline;
 	}
 

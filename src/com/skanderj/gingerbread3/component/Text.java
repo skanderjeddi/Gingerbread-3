@@ -49,7 +49,7 @@ public abstract class Text extends Component {
 	/**
 	 * Self explanatory.
 	 */
-	public Label getLabel() {
+	public Label label() {
 		return this.label;
 	}
 
