@@ -19,6 +19,7 @@ public abstract class RecurrentTask implements Task {
 	private final int delay;
 	private final int repeats;
 	private int repeatsCounter;
+	private final Thread thread;
 
 	public RecurrentTask(final String identifier, final int delay) {
 		this(identifier, delay, RecurrentTask.REPEAT_INDEFINITELY);
@@ -38,24 +39,53 @@ public abstract class RecurrentTask implements Task {
 		} else {
 			this.timer = -1;
 		}
+		this.thread = new Thread(this, identifier);
 	}
 
 	@Override
-	public void update() {
-		if ((this.repeats != -1) && (this.repeatsCounter >= this.repeats)) {
-			Registry.markForDeletion(this.identifier);
-			Scheduler.delete(this);
+	public final void start() {
+		synchronized (this.thread) {
+			this.thread.start();
 		}
-		if (this.timer == -1) {
-			this.execute();
-			this.timer = 0;
+	}
+
+	@Override
+	public final void run() {
+		while (true) {
+			synchronized (this.thread) {
+				if ((this.repeats != -1) && (this.repeatsCounter >= this.repeats)) {
+					Registry.markForDeletion(this.identifier);
+					Scheduler.delete(this);
+					try {
+						this.thread.join();
+					} catch (final InterruptedException exception) {
+						exception.printStackTrace();
+					}
+				}
+				if (this.timer == -1) {
+					this.execute();
+					this.timer = 0;
+				}
+				this.timer += 1;
+				if (this.timer >= this.delay) {
+					this.execute();
+					this.timer = 0;
+					this.repeatsCounter += 1;
+					Logger.log(Scheduler.class, LogLevel.DEVELOPMENT, "Resetting recurrent task %s's timer", this.identifier);
+				}
+				try {
+					this.thread.wait();
+				} catch (final InterruptedException interruptedException) {
+					interruptedException.printStackTrace();
+				}
+			}
 		}
-		this.timer += 1;
-		if (this.timer >= this.delay) {
-			this.execute();
-			this.timer = 0;
-			this.repeatsCounter += 1;
-			Logger.log(Scheduler.class, LogLevel.DEVELOPMENT, "Resetting recurrent task %s's timer", this.identifier);
+	}
+
+	@Override
+	public final void update() {
+		synchronized (this.thread) {
+			this.thread.notify();
 		}
 	}
 
@@ -64,11 +94,11 @@ public abstract class RecurrentTask implements Task {
 		return this.identifier;
 	}
 
-	public int getDelay() {
+	public int delay() {
 		return this.delay;
 	}
 
-	public int getRepeats() {
+	public int repeats() {
 		return this.repeats;
 	}
 }

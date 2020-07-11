@@ -4,31 +4,24 @@ import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.scheduler.Scheduler;
 import com.skanderj.gingerbread3.scheduler.Task;
 
-/**
- *
- * @author Skander TODO
- *
- */
-public abstract class DelayedTask implements Task {
+public abstract class LongTask implements Task, Runnable {
 	private final String identifier;
-	private int timer;
-	private final int delay;
 	private final Thread thread;
 
-	public DelayedTask(final String identifier, final int delay) {
+	public LongTask(final String identifier) {
 		this.identifier = identifier;
-		this.timer = 0;
-		this.delay = delay;
 		this.thread = new Thread(this, identifier);
 	}
 
 	@Override
 	public final void start() {
-		return;
+		synchronized (this.thread) {
+			this.thread.start();
+		}
 	}
 
 	@Override
-	public final void run() {
+	public void run() {
 		synchronized (this.thread) {
 			this.execute();
 		}
@@ -37,23 +30,7 @@ public abstract class DelayedTask implements Task {
 	}
 
 	@Override
-	public final void update() {
-		this.timer += 1;
-		if (this.timer >= this.delay) {
-			synchronized (this.thread) {
-				if (!this.thread.isAlive()) {
-					this.thread.start();
-				}
-			}
-		}
-	}
-
-	@Override
-	public String identifier() {
+	public final String identifier() {
 		return this.identifier;
-	}
-
-	public int getDelay() {
-		return this.delay;
 	}
 }

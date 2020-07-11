@@ -29,6 +29,7 @@ public final class Scheduler {
 	public static synchronized void scheduleTask(final G3Application g3Application, final Task task) {
 		Registry.register(task.identifier(), G3Object.constructFromUpdatable(g3Application, task));
 		Scheduler.schedule.add(task);
+		task.start();
 	}
 
 	/**
@@ -39,7 +40,7 @@ public final class Scheduler {
 	}
 
 	public static void update() {
-		for (final Task task : Scheduler.schedule) {
+		for (final Task task : Scheduler.schedule.toArray(new Task[Scheduler.schedule.size()])) {
 			Logger.log(Scheduler.class, LogLevel.DEVELOPMENT, "Executing task %s", task.identifier());
 			task.update();
 		}

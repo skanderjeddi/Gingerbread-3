@@ -60,9 +60,7 @@ public class G3Demo extends G3Application {
 	private LabelProperties buttonProps;
 
 	// G3Application scenes
-	private final Scene mainMenuScene;
-	private final Scene mainGameScene;
-	private final Scene settingsScene;
+	private final Scene mainMenuScene, mainGameScene, settingsScene;
 
 	public G3Demo() {
 		super(G3Demo.IDENTIFIER, G3Demo.REFRESH_RATE, G3Demo.TITLE, G3Demo.WIDTH, G3Demo.HEIGHT, G3Demo.BUFFERS, Keyboard.AZERTY);
@@ -101,8 +99,8 @@ public class G3Demo extends G3Application {
 		this.mainGameScene = new Scene(this) {
 			@Override
 			public void update() {
-				Registry.parameterize("mouse-position-indicator", new String[] { "mouse-x", "mouse-y" }, new Object[] { this.g3Application.mouse().getX(), this.g3Application.mouse().getY() });
 				super.update();
+				Registry.parameterize("mouse-position-indicator", new String[] { "mouse-x", "mouse-y" }, new Object[] { this.g3Application.mouse().getX(), this.g3Application.mouse().getY() });
 			}
 
 			@Override
