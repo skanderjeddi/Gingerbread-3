@@ -106,7 +106,9 @@ public class Sprite extends G3Object implements Moveable {
 	 */
 	@Override
 	public final void render(final Screen screen) {
-		screen.image(this.image(), this.x, this.y, this.width, this.height);
+		if ((this.x > 0) && (this.y > 0)) {
+			screen.image(this.image(), this.x, this.y, this.width, this.height);
+		}
 	}
 
 	/**

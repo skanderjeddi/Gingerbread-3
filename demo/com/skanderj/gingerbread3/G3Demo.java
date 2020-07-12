@@ -24,6 +24,7 @@ import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.input.Binds;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.Keyboard.KeyState;
+import com.skanderj.gingerbread3.lighting.DirectionalLightSource;
 import com.skanderj.gingerbread3.lighting.OmnidirectionLightSource;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.DebuggingType;
@@ -71,7 +72,7 @@ public class G3Demo extends G3Application {
 			public List<String> sceneObjects() {
 				// Those are the only components which will be rendered/updated during this
 				// scene
-				return Arrays.asList("background-clock", "yellow-source", "red-sprite-comp", "title", "main-menu-background", "play-button", "settings-button", "exit-button", "music-checkbox", "stars-background");
+				return Arrays.asList("background-clock", "yellow-source", "cyan-conic-source", "red-sprite-comp", "title", "main-menu-background", "play-button", "settings-button", "exit-button", "music-checkbox", "stars-background");
 			}
 
 			@Override
@@ -164,7 +165,8 @@ public class G3Demo extends G3Application {
 
 	@Override
 	public void registerGameObjects() {
-		Registry.register("yellow-source", new OmnidirectionLightSource(this, new Color(Color.CYAN.getRed(), Color.CYAN.getGreen(), Color.CYAN.getBlue(), 150), 150, 80, 20));
+		Registry.register("yellow-source", new OmnidirectionLightSource(this, new Color(Color.YELLOW.getRed(), Color.YELLOW.getGreen(), Color.YELLOW.getBlue(), 200), 150, 90, 90));
+		Registry.register("cyan-conic-source", new DirectionalLightSource(this, 250, 80, new Color(Color.CYAN.getRed(), Color.CYAN.getGreen(), Color.CYAN.getBlue(), 50), 50, 90, 45));
 		Registry.register("campfire-animation", new RandomizedAnimation(this, (G3Demo.WIDTH / 2) - 70, G3Demo.HEIGHT - 140, Sprite.fromImages(this, "campfire_%d", Images.getCollectionByID("campfire")), new int[] { 8, 10, 12 }));
 		final Sprite[] ashes = Sprite.fromImages(this, "ashe_%d", Images.getCollectionByID("ashe"));
 		Registry.register("stars-background", new Particles(this, G3Demo.WIDTH / 2, 0, 10, 2 * G3Demo.HEIGHT, G3Demo.BACKGROUND_PARTICLES, ashes, Vector2.randomVectors(G3Demo.BACKGROUND_PARTICLES, -1, 1, 1, 1), 5, 2));

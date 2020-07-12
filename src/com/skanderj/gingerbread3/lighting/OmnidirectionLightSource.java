@@ -3,33 +3,29 @@ package com.skanderj.gingerbread3.lighting;
 import java.awt.Color;
 
 import com.skanderj.gingerbread3.core.G3Application;
-import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
-import com.skanderj.gingerbread3.core.object.G3Object;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.particle.Moveable;
 import com.skanderj.gingerbread3.util.Utilities;
 
-public class OmnidirectionLightSource extends G3Object implements Moveable {
+public class OmnidirectionLightSource extends LightSource {
 	private final Color color;
-	private int x, y;
 	private final int radius;
 
 	public OmnidirectionLightSource(final G3Application g3Application, final Color color, final int x, final int y, final int radius) {
-		super(g3Application);
+		super(g3Application, x, y);
 		this.color = color;
-		this.x = x;
-		this.y = y;
 		this.radius = radius;
 	}
 
 	@Override
-	public void update() {
-		// TODO
+	public final void update() {
+		// TODO: here flickering and stuff
+		return;
 	}
 
 	@Override
-	public void render(final Screen screen) {
+	public final void render(final Screen screen) {
 //		for (int c = 0; c < this.radius; c += 1) {
 //			float[] hsb = Color.RGBtoHSB(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), null);
 //			System.out.println(hsb[0] + ", " + hsb[1] + ", " + hsb[2]);
@@ -47,11 +43,6 @@ public class OmnidirectionLightSource extends G3Object implements Moveable {
 		}
 	}
 
-	@Override
-	public Priority priority() {
-		return Priority.EXTREMELY_LOW;
-	}
-
 	/**
 	 * Self explanatory.
 	 */
@@ -64,38 +55,6 @@ public class OmnidirectionLightSource extends G3Object implements Moveable {
 	 */
 	public final int radius() {
 		return this.radius;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	@Override
-	public void setX(final int x) {
-		this.x = x;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	@Override
-	public void setY(final int y) {
-		this.y = y;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	@Override
-	public int x() {
-		return this.x;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	@Override
-	public int y() {
-		return this.y;
 	}
 
 	@Override

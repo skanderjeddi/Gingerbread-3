@@ -176,6 +176,19 @@ public class Screen {
 		this.drawGraphics.setColor(tempColor);
 	}
 
+	public final void arc(final Color color, final int centerX, final int centerY, final int width, final int height, final int startAngle, final int arcAngle, final boolean fill) {
+		final Color tempColor = this.drawGraphics.getColor();
+		{
+			this.drawGraphics.setColor(color);
+			if (fill) {
+				this.drawGraphics.drawArc(centerX - (int) Math.floor(width / 2), centerY - (int) Math.floor(height / 2), width, height, startAngle, arcAngle);
+			} else {
+				this.drawGraphics.fillArc(centerX - (int) Math.floor(width / 2), centerY - (int) Math.floor(height / 2), width, height, startAngle, arcAngle);
+			}
+		}
+		this.drawGraphics.setColor(tempColor);
+	}
+
 	/**
 	 * Lowers the rendering quality of the drawGraphics object as much as possible -
 	 * no noticeable performance gain.
