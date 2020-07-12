@@ -20,7 +20,7 @@ import com.skanderj.gingerbread3.scene.Scenes;
  *
  */
 public class Binds {
-	private final static Set<Bind> binds = new HashSet<Bind>();
+	private final static Set<Bind> binds = new HashSet<>();
 
 	private Binds() {
 		return;
@@ -50,7 +50,7 @@ public class Binds {
 		if (keyboard != null) {
 			final Integer[] keysDown = keyboard.getKeysByState(Keyboard.KeyState.DOWN);
 			final Integer[] keysDownInFrame = keyboard.getKeysByState(Keyboard.KeyState.DOWN_IN_CURRENT_FRAME);
-			final Map<Integer, KeyState> states = new HashMap<Integer, KeyState>();
+			final Map<Integer, KeyState> states = new HashMap<>();
 			for (final int key : keysDown) {
 				states.put(key, KeyState.DOWN);
 			}

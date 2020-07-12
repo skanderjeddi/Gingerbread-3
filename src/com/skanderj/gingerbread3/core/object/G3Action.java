@@ -7,8 +7,11 @@ package com.skanderj.gingerbread3.core.object;
  *
  */
 public interface G3Action {
-	G3Action DEFAULT_DO_NOTHING = () -> {
-		return;
+	public static final G3Action DEFAULT_DO_NOTHING = new G3Action() {
+		@Override
+		public void execute() {
+			return;
+		}
 	};
 
 	// Do what's here

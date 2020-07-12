@@ -13,6 +13,7 @@ import com.skanderj.gingerbread3.component.ComponentState;
 import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.Slider;
 import com.skanderj.gingerbread3.component.boilerplates.GCheckbox;
+import com.skanderj.gingerbread3.component.boilerplates.GImageBackground;
 import com.skanderj.gingerbread3.component.boilerplates.GSlider;
 import com.skanderj.gingerbread3.component.boilerplates.GSolidColorBackground;
 import com.skanderj.gingerbread3.component.boilerplates.GStraightEdgesButton;
@@ -23,6 +24,7 @@ import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.input.Binds;
 import com.skanderj.gingerbread3.input.Keyboard;
 import com.skanderj.gingerbread3.input.Keyboard.KeyState;
+import com.skanderj.gingerbread3.lighting.OmnidirectionLightSource;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.DebuggingType;
 import com.skanderj.gingerbread3.math.Vector2;
@@ -69,7 +71,7 @@ public class G3Demo extends G3Application {
 			public List<String> sceneObjects() {
 				// Those are the only components which will be rendered/updated during this
 				// scene
-				return Arrays.asList("background-clock", "title", "main-menu-background", "play-button", "settings-button", "exit-button", "music-checkbox", "stars-background");
+				return Arrays.asList("background-clock", "yellow-source", "red-sprite-comp", "title", "main-menu-background", "play-button", "settings-button", "exit-button", "music-checkbox", "stars-background");
 			}
 
 			@Override
@@ -157,14 +159,17 @@ public class G3Demo extends G3Application {
 		Fonts.load("lunchds", "res/font/lunchds.ttf");
 		Images.loadAll("ashe_%d", "res/sprite/ashe/");
 		Images.loadAll("campfire_%d", "res/sprite/campfire");
+		Images.register("red", "res/sprite/red.png");
 	}
 
 	@Override
 	public void registerGameObjects() {
+		Registry.register("yellow-source", new OmnidirectionLightSource(this, new Color(Color.CYAN.getRed(), Color.CYAN.getGreen(), Color.CYAN.getBlue(), 150), 150, 80, 20));
 		Registry.register("campfire-animation", new RandomizedAnimation(this, (G3Demo.WIDTH / 2) - 70, G3Demo.HEIGHT - 140, Sprite.fromImages(this, "campfire_%d", Images.getCollectionByID("campfire")), new int[] { 8, 10, 12 }));
-		Registry.register("smoke-particles", new Particles(this, G3Demo.WIDTH / 2, (G3Demo.HEIGHT / 2) + (G3Demo.HEIGHT / 3) + 5, 25, 40, 10, Sprite.fromImages(this, "ashe_%d", Images.getCollectionByID("ashe")), Vector2.randomVectors(10, -1, 1, 0, -2), 1, 8));
-		Registry.register("stars-background", new Particles(this, G3Demo.WIDTH / 2, 0, 10, 2 * G3Demo.HEIGHT, G3Demo.BACKGROUND_PARTICLES, Sprite.fromImages(this, "ashe_%d", Images.getCollectionByID("ashe")), Vector2.randomVectors(G3Demo.BACKGROUND_PARTICLES, -1, 1, 1, 1), 5, 2));
+		final Sprite[] ashes = Sprite.fromImages(this, "ashe_%d", Images.getCollectionByID("ashe"));
+		Registry.register("stars-background", new Particles(this, G3Demo.WIDTH / 2, 0, 10, 2 * G3Demo.HEIGHT, G3Demo.BACKGROUND_PARTICLES, ashes, Vector2.randomVectors(G3Demo.BACKGROUND_PARTICLES, -1, 1, 1, 1), 5, 2));
 		Registry.register("fade-transition", new FadeTransition(this, 60, Color.BLACK));
+		Registry.register("red-sprite", new Sprite(this, "red-sprite", Images.get("red"), 32, 32));
 	}
 
 	@Override
@@ -205,11 +210,14 @@ public class G3Demo extends G3Application {
 		Components.register("back-to-main-menu-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), G3Demo.HEIGHT - (2 * G3Demo.B_HEIGHT), G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new Label("Back", this.buttonProps.build(Color.PINK)), Color.BLACK, Color.DARK_GRAY));
 		Components.register("music-checkbox", new GCheckbox(this, G3Demo.WIDTH - 90, G3Demo.HEIGHT - 45, 20, 20, new Label("Music", Color.BLACK, Fonts.get("lunchds", 14)), Color.GRAY, Color.DARK_GRAY, Color.PINK.darker(), ComponentLabelPosition.RIGHT));
 		Components.register("mouse-position-indicator", new GText(this, G3Demo.WIDTH - 175, G3Demo.HEIGHT - 40, 100, 30, new Label("Mouse position: (%d ; %d)", this.buttonProps.build(14).build(Color.BLACK))));
+		{
+			Components.register("red-sprite-comp", new GImageBackground(this, 0, 0, 128, 128, ((Sprite) Registry.get("red-sprite")).image()));
+		}
 		// Button actions
 		((Button) Components.get("play-button")).setG3ActionForState(ComponentState.ACTIVE, () -> Scenes.switchTo("in-game"));
 		((Button) Components.get("settings-button")).setG3ActionForState(ComponentState.ACTIVE, () -> Scenes.switchTo("settings"));
 		((Button) Components.get("back-to-main-menu-button")).setG3ActionForState(ComponentState.ACTIVE, () -> Scenes.switchTo("main-menu"));
-		((Button) Components.get("exit-button")).setG3ActionForState(ComponentState.ACTIVE, () -> this.stop());
+		((Button) Components.get("exit-button")).setG3ActionForState(ComponentState.ACTIVE, this::stop);
 		((Checkbox) Components.get("music-checkbox")).onSwitch(() -> {
 			final boolean state = ((Checkbox) Components.get("music-checkbox")).isChecked();
 			if (state) {
@@ -221,12 +229,18 @@ public class G3Demo extends G3Application {
 		});
 	}
 
+	float br = 0f;
+
 	@Override
 	public void registerBinds() {
 		Binds.registerBind("in-game", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, () -> Scenes.switchTo("main-menu"));
 		Binds.registerBind("settings", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, () -> Scenes.switchTo("main-menu"));
-		Binds.registerBind("main-menu", new Integer[] { Keyboard.KEY_ESCAPE, Keyboard.KEY_SPACE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN, Keyboard.KeyState.DOWN }, () -> this.stop());
+		Binds.registerBind("main-menu", new Integer[] { Keyboard.KEY_ESCAPE, Keyboard.KEY_SPACE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN, Keyboard.KeyState.DOWN }, this::stop);
 		Binds.registerBind("*", new Integer[] { Keyboard.KEY_F5 }, new KeyState[] { KeyState.DOWN_IN_CURRENT_FRAME }, () -> this.screenshot("scr/" + Utilities.fileNameCompatibleDateString() + ".png"));
+		Binds.registerBind("main-menu", new Integer[] { Keyboard.KEY_S }, new KeyState[] { Keyboard.KeyState.DOWN_IN_CURRENT_FRAME }, () -> {
+			((Sprite) Registry.get("red-sprite")).newBrightness(G3Demo.this.br += 0.1f);
+			((GImageBackground) Registry.get("red-sprite-comp")).setImage(((Sprite) Registry.get("red-sprite")).image());
+		});
 	}
 
 	@Override

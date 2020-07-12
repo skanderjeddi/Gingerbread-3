@@ -22,7 +22,7 @@ public final class Translations {
 	public static final Language DEFAULT_LANGUAGE = Language.ENGLISH;
 
 	// Translations map, only 1 language at a time (#TODO maybe change that?)
-	private static final Map<String, String> languageMap = new HashMap<String, String>();
+	private static final Map<String, String> languageMap = new HashMap<>();
 
 	private Translations() {
 		return;

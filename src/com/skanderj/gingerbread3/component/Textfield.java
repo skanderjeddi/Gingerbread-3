@@ -46,7 +46,7 @@ public abstract class Textfield extends Component {
 		this.cursorPosition = 0;
 		// Empty current line and lines collection
 		this.currentLine = new String();
-		this.text = new ArrayList<String>();
+		this.text = new ArrayList<>();
 	}
 
 	@Override

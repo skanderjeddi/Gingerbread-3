@@ -14,7 +14,7 @@ public final class NetworkManager {
 		return;
 	}
 
-	private static final Map<String, SimpleServer> serversMap = new HashMap<String, SimpleServer>();
+	private static final Map<String, SimpleServer> serversMap = new HashMap<>();
 
 	public static NetworkingError createSimpleServer(final String identifier, final int listenPort) {
 		if (NetworkManager.serversMap.containsKey(identifier)) {

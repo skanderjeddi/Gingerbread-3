@@ -27,7 +27,7 @@ public final class Scheduler {
 	 * Self explanatory.
 	 */
 	public static synchronized void scheduleTask(final G3Application g3Application, final Task task) {
-		Registry.register(task.identifier(), G3Object.constructFromUpdatable(g3Application, task));
+		Registry.register(task.identifier(), G3Object.constructFromUpdateable(g3Application, task));
 		Scheduler.schedule.add(task);
 		task.start();
 	}

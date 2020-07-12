@@ -17,7 +17,7 @@ import com.skanderj.gingerbread3.transition.Transition;
  */
 public final class Scenes {
 	// Scenes map to quickly retrieve a scene by its identifier
-	private static final Map<String, Scene> scenesMap = new HashMap<String, Scene>();
+	private static final Map<String, Scene> scenesMap = new HashMap<>();
 	private static Scene currentScene;
 	private static Transition currentTransition;
 
@@ -44,7 +44,7 @@ public final class Scenes {
 	 * Self explanatory.
 	 */
 	public static void switchTo(final String identifier) {
-		Scene previous = Scenes.currentScene;
+		final Scene previous = Scenes.currentScene;
 		Scenes.currentScene = Scenes.get(identifier);
 		if (previous != null) {
 			previous.exit();

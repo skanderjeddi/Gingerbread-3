@@ -31,7 +31,7 @@ public class SimpleServer {
 		try {
 			this.listenPort = listenPort;
 			this.serverSocket = new ServerSocket(listenPort);
-			this.clients = new HashMap<Integer, ClientObj>();
+			this.clients = new HashMap<>();
 		} catch (final Exception e) {
 			Logger.log(SimpleServer.class, LogLevel.SEVERE, "Networking exception: %s", e.getMessage());
 		}

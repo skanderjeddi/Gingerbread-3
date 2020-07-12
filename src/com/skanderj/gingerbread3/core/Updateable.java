@@ -7,7 +7,7 @@ import com.skanderj.gingerbread3.core.object.G3Object;
  * @author Skander
  *
  */
-public interface Updatable extends Comparable<G3Object> {
+public interface Updateable extends Comparable<G3Object> {
 	/**
 	 * Self explanatory.
 	 */

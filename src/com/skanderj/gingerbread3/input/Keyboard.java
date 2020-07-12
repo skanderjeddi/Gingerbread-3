@@ -316,7 +316,7 @@ public abstract class Keyboard extends KeyAdapter implements InputDevice {
 	 * Self explanatory.
 	 */
 	public synchronized final Integer[] getKeysByState(final KeyState state) {
-		final List<Integer> keys = new ArrayList<Integer>();
+		final List<Integer> keys = new ArrayList<>();
 		switch (state) {
 		case DOWN:
 			for (int keycode = 0; keycode < Keyboard.KEY_COUNT; keycode += 1) {

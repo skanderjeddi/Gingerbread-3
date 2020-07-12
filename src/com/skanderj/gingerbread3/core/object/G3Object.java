@@ -2,8 +2,9 @@ package com.skanderj.gingerbread3.core.object;
 
 import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Priority;
+import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.core.Renderable;
-import com.skanderj.gingerbread3.core.Updatable;
+import com.skanderj.gingerbread3.core.Updateable;
 import com.skanderj.gingerbread3.display.Screen;
 
 /**
@@ -16,12 +17,12 @@ public abstract class G3Object implements Comparable<G3Object> {
 	/**
 	 * Self explanatory.
 	 */
-	public static final G3Object constructFromUpdatable(final G3Application g3Application, final Updatable updatable) {
+	public static final G3Object constructFromUpdateable(final G3Application g3Application, final Updateable updateable) {
 		return new G3Object(g3Application) {
 
 			@Override
 			public void update() {
-				updatable.update();
+				updateable.update();
 			}
 
 			@Override
@@ -31,7 +32,12 @@ public abstract class G3Object implements Comparable<G3Object> {
 
 			@Override
 			public Priority priority() {
-				return updatable.priority();
+				return updateable.priority();
+			}
+
+			@Override
+			public String description() {
+				return Registry.identifier(this) + " = Updateable -> G3Object.class()";
 			}
 		};
 	}
@@ -55,6 +61,11 @@ public abstract class G3Object implements Comparable<G3Object> {
 			@Override
 			public Priority priority() {
 				return renderable.priority();
+			}
+
+			@Override
+			public String description() {
+				return Registry.identifier(this) + " = Renderable -> G3Object.class()";
 			}
 		};
 	}
@@ -108,5 +119,12 @@ public abstract class G3Object implements Comparable<G3Object> {
 	 */
 	public final void setShouldSkipRegistryChecks(final boolean shouldSkipRegistryChecks) {
 		this.shouldSkipRegistryChecks = shouldSkipRegistryChecks;
+	}
+
+	public abstract String description();
+
+	@Override
+	public final String toString() {
+		return this.description();
 	}
 }

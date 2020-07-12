@@ -27,7 +27,7 @@ public final class Images {
 	}
 
 	// Images map
-	private static final Map<String, BufferedImage> imagesMap = new HashMap<String, BufferedImage>();
+	private static final Map<String, BufferedImage> imagesMap = new HashMap<>();
 
 	/**
 	 * Loads an image from the provided path. Returns true if the font was
@@ -87,7 +87,7 @@ public final class Images {
 	 * Self explanatory.
 	 */
 	public static BufferedImage[] getCollectionByID(final String identifier) {
-		final List<BufferedImage> images = new ArrayList<BufferedImage>();
+		final List<BufferedImage> images = new ArrayList<>();
 		for (final String id : Images.imagesMap.keySet()) {
 			if (id.contains(identifier)) {
 				images.add(Images.imagesMap.get(id));

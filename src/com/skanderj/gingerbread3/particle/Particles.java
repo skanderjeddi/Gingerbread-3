@@ -2,12 +2,12 @@ package com.skanderj.gingerbread3.particle;
 
 import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Priority;
+import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.core.object.G3Object;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 import com.skanderj.gingerbread3.math.Vector2;
-import com.skanderj.gingerbread3.sprite.Sprite;
 import com.skanderj.gingerbread3.util.Utilities;
 
 /**
@@ -28,12 +28,12 @@ public final class Particles extends G3Object {
 	 * @param centerY        y center of the spawn circle
 	 * @param radius
 	 * @param particlesCount
-	 * @param sprites
+	 * @param moveables
 	 * @param accelerations
 	 * @param chaosValue
 	 * @param updateRate     how many frames before each update
 	 */
-	public Particles(final G3Application g3Application, final int centerX, final int centerY, final int radius, final int maxRadius, final int particlesCount, final Sprite[] sprites, final Vector2[] accelerations, final int chaosValue, final int updateRate) {
+	public Particles(final G3Application g3Application, final int centerX, final int centerY, final int radius, final int maxRadius, final int particlesCount, final Moveable[] moveables, final Vector2[] accelerations, final int chaosValue, final int updateRate) {
 		super(g3Application);
 		if (accelerations.length != particlesCount) {
 			Logger.log(Particles.class, LogLevel.FATAL, "Size mismatch between particles count and accelerations array size");
@@ -46,9 +46,11 @@ public final class Particles extends G3Object {
 		for (int i = 0; i < particlesCount; i += 1) {
 			final int randomX = centerX + Utilities.randomInteger(-radius, radius);
 			final int randomY = centerY + Utilities.randomInteger(-radius, radius);
-			final Sprite randomSprite = sprites[Utilities.randomInteger(0, sprites.length - 1)];
+			final Moveable moveable = moveables[Utilities.randomInteger(0, moveables.length - 1)];
 			final Vector2 acceleration = accelerations[i];
-			this.particles[i] = new Particle(g3Application, randomX, randomY, randomSprite, acceleration);
+			moveable.setX(randomX);
+			moveable.setY(randomY);
+			this.particles[i] = new Particle(g3Application, randomX, randomY, moveable, acceleration);
 		}
 		this.chaosValue = chaosValue;
 		this.updateRate = updateRate;
@@ -94,5 +96,10 @@ public final class Particles extends G3Object {
 	@Override
 	public Priority priority() {
 		return Priority.REGULAR;
+	}
+
+	@Override
+	public String description() {
+		return Registry.identifier(this) + " -> Particles(" + this.centerX + ", " + this.centerY + ", " + this.radius + ", " + this.maxRadius + ", " + this.particles.length + ", " + this.chaosValue + ")";
 	}
 }

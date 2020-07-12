@@ -73,7 +73,7 @@ public abstract class Selector extends Component {
 	 */
 	public Selector(final G3Application g3Application, final String[] optionsArray, final String defaultOption) {
 		super(g3Application);
-		this.options = new ArrayList<String>();
+		this.options = new ArrayList<>();
 		for (final String option : optionsArray) {
 			this.options.add(option);
 		}

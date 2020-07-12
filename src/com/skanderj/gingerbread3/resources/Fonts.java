@@ -25,7 +25,7 @@ public final class Fonts {
 	}
 
 	// Fonts map by identifier for the custom fonts
-	private static final Map<String, Font> fontsMap = new HashMap<String, Font>();
+	private static final Map<String, Font> fontsMap = new HashMap<>();
 
 	/**
 	 * Loads a font from the provided path. File must be .TTF format (for now).

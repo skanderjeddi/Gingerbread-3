@@ -33,13 +33,13 @@ import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 public final class Audios {
 	// Reusable audio streams map - how we can play multiple sounds at once over and
 	// over
-	public static final Map<String, AudioInputStream> audioMap = new HashMap<String, AudioInputStream>();
+	public static final Map<String, AudioInputStream> audioMap = new HashMap<>();
 	// Clips map to handle pausing, playing, resuming...
-	public static final Map<String, Clip> clipsMap = new HashMap<String, Clip>();
+	public static final Map<String, Clip> clipsMap = new HashMap<>();
 	// Threads map, wrappers for each individual clip
-	public static final Map<String, Thread> threadsMap = new HashMap<String, Thread>();
+	public static final Map<String, Thread> threadsMap = new HashMap<>();
 	// Keep track of which clips are paused
-	public static final Set<String> pausesMap = new HashSet<String>();
+	public static final Set<String> pausesMap = new HashSet<>();
 
 	private Audios() {
 		return;

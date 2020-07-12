@@ -26,9 +26,9 @@ public final class Components {
 
 	// Components map, for easily finding any component from any class
 	// Makes it possible to not instantiate any actual component
-	private static final Map<String, Component> componentsMap = new HashMap<String, Component>();
+	private static final Map<String, Component> componentsMap = new HashMap<>();
 	// Skipped components
-	private static final Set<String> skippedComponents = new HashSet<String>();
+	private static final Set<String> skippedComponents = new HashSet<>();
 	// Currently focused component on screen
 	private static Component inFocus = null;
 
@@ -117,7 +117,7 @@ public final class Components {
 	 * Makes a list of all the active components.
 	 */
 	public static synchronized List<Component> activeComponents() {
-		final List<Component> active = new ArrayList<Component>();
+		final List<Component> active = new ArrayList<>();
 		for (final String identifier : Components.componentsMap.keySet()) {
 			final Component component = Components.componentsMap.get(identifier);
 			if (component.shouldSkipRegistryChecks()) {

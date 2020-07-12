@@ -27,13 +27,13 @@ import com.skanderj.gingerbread3.scene.Scenes;
  */
 public final class Registry {
 	// All the g3Application objects are stored here
-	private final static Map<String, G3Object> contents = new HashMap<String, G3Object>();
+	private final static Map<String, G3Object> contents = new HashMap<>();
 	// Args for each object
-	private final static Map<String, Map<String, Object>> parameters = new HashMap<String, Map<String, Object>>();
+	private final static Map<String, Map<String, Object>> parameters = new HashMap<>();
 	// G3Application objects to be deleted on the next update
-	private final static Set<G3Object> deletions = new HashSet<G3Object>();
+	private final static Set<G3Object> deletions = new HashSet<>();
 	// G3Application objects to be skipped
-	private final static Set<G3Object> skips = new HashSet<G3Object>();
+	private final static Set<G3Object> skips = new HashSet<>();
 
 	private Registry() {
 		return;
@@ -88,8 +88,8 @@ public final class Registry {
 		String name = new String();
 		if (object instanceof Scene) {
 			name = "Scene";
-		} else if (object instanceof Updatable) {
-			name = "Updatable";
+		} else if (object instanceof Updateable) {
+			name = "Updateable";
 		} else if (object instanceof Renderable) {
 			name = "Renderable";
 		} else if (object instanceof G3Object) {
@@ -140,7 +140,7 @@ public final class Registry {
 	 * Sorts then updates all the g3Application components.
 	 */
 	public static synchronized void update() {
-		final List<G3Object> toUpdate = new ArrayList<G3Object>();
+		final List<G3Object> toUpdate = new ArrayList<>();
 		if (!Registry.deletions.isEmpty()) {
 			for (final G3Object object : Registry.deletions) {
 				for (final String key : Registry.contents.keySet().toArray(new String[Registry.contents.size()])) {
@@ -153,7 +153,7 @@ public final class Registry {
 			}
 		}
 		Registry.deletions.clear();
-		final List<String> allowedComponents = new ArrayList<String>();
+		final List<String> allowedComponents = new ArrayList<>();
 		if (Scenes.scene() != null) {
 			allowedComponents.addAll(Scenes.scene().sceneObjects());
 		}
@@ -193,8 +193,8 @@ public final class Registry {
 	 * Sorts then renders all the g3Application components.
 	 */
 	public static synchronized void render(final Screen screen) {
-		final List<G3Object> toRender = new ArrayList<G3Object>();
-		final List<String> allowedComponents = new ArrayList<String>();
+		final List<G3Object> toRender = new ArrayList<>();
+		final List<String> allowedComponents = new ArrayList<>();
 		if (Scenes.scene() != null) {
 			allowedComponents.addAll(Scenes.scene().sceneObjects());
 		}

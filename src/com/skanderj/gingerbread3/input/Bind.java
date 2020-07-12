@@ -29,13 +29,13 @@ public class Bind {
 		this.targetKeyStates = mappings.values().toArray(new KeyState[mappings.size()]);
 		this.g3Action = g3Action;
 		this.skipChecks = (scene == null);
-		Logger.log(Bind.class, LogLevel.DEVELOPMENT, "Skip checks (C1)? " + skipChecks);
+		Logger.log(Bind.class, LogLevel.DEVELOPMENT, "Skip checks (C1)? " + this.skipChecks);
 	}
 
 	public Bind(final String sceneIdentifier, final Integer[] keycodes, final KeyState[] states, final G3Action g3Action) {
 		this(Scenes.get(sceneIdentifier), keycodes, states, g3Action);
-		this.skipChecks = sceneIdentifier.equals("*") || Scenes.get(sceneIdentifier) == null;
-		Logger.log(Bind.class, LogLevel.DEVELOPMENT, "Skip checks (C2)? " + skipChecks + ", " + Scenes.get(sceneIdentifier));
+		this.skipChecks = sceneIdentifier.equals("*") || (Scenes.get(sceneIdentifier) == null);
+		Logger.log(Bind.class, LogLevel.DEVELOPMENT, "Skip checks (C2)? " + this.skipChecks + ", " + Scenes.get(sceneIdentifier));
 	}
 
 	public Bind(final Scene scene, final Integer[] keycodes, final KeyState[] states, final G3Action g3Action) {
@@ -47,7 +47,7 @@ public class Bind {
 		this.targetKeyStates = states;
 		this.g3Action = g3Action;
 		this.skipChecks = (scene == null);
-		Logger.log(Bind.class, LogLevel.DEVELOPMENT, "Skip checks (C3)? " + skipChecks);
+		Logger.log(Bind.class, LogLevel.DEVELOPMENT, "Skip checks (C3)? " + this.skipChecks);
 	}
 
 	/**

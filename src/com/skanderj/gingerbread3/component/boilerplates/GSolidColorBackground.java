@@ -5,6 +5,7 @@ import java.awt.Color;
 import com.skanderj.gingerbread3.component.Background;
 import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Priority;
+import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
 
 /**
@@ -134,5 +135,10 @@ public class GSolidColorBackground extends Background {
 	@Override
 	public Priority priority() {
 		return Priority.HIGH;
+	}
+
+	@Override
+	public String description() {
+		return Registry.identifier(this) + " -> GSolidColorBackground.class(" + this.x + ", " + this.y + ", " + this.width + ", " + this.height + ")";
 	}
 }

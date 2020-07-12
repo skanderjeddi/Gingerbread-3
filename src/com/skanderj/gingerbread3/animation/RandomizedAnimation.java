@@ -1,7 +1,10 @@
 package com.skanderj.gingerbread3.animation;
 
+import java.util.Arrays;
+
 import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Priority;
+import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.sprite.Sprite;
 import com.skanderj.gingerbread3.util.Utilities;
@@ -105,5 +108,14 @@ public class RandomizedAnimation extends Animation {
 	@Override
 	public Priority priority() {
 		return Priority.LOW;
+	}
+
+	@Override
+	public String description() {
+		final Integer[] timersAsObjects = new Integer[this.timers.length];
+		for (int t = 0; t < timersAsObjects.length; t += 1) {
+			timersAsObjects[t] = this.timers[t];
+		}
+		return Registry.identifier(this) + " -> RandomizedAnimation.class(" + this.x + ", " + this.y + ", " + Arrays.deepToString(this.sprites) + ", " + Arrays.deepToString(timersAsObjects) + ")";
 	}
 }

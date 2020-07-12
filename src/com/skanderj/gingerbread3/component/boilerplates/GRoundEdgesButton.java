@@ -7,6 +7,7 @@ import com.skanderj.gingerbread3.component.Button;
 import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Priority;
+import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.util.Label;
 
@@ -183,5 +184,10 @@ public final class GRoundEdgesButton extends Button {
 	@Override
 	public Priority priority() {
 		return Priority.LOW;
+	}
+
+	@Override
+	public String description() {
+		return Registry.identifier(this) + " -> GRoundEdgesButton.class(" + this.x + ", " + this.y + ", " + this.width + ", " + this.height + ", " + this.label.toString() + ")";
 	}
 }

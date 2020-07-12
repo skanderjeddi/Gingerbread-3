@@ -133,4 +133,9 @@ public final class GText extends Text {
 	public Priority priority() {
 		return Priority.LOW;
 	}
+
+	@Override
+	public String description() {
+		return Registry.identifier(this) + " -> GText.class(" + this.x + ", " + this.y + ", " + this.label.toString() + ")";
+	}
 }

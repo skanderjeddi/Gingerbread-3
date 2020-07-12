@@ -8,6 +8,7 @@ import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.Slider;
 import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Priority;
+import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.util.Label;
 import com.skanderj.gingerbread3.util.Utilities;
@@ -239,5 +240,10 @@ public final class GSlider extends Slider {
 	@Override
 	public Priority priority() {
 		return Priority.LOW;
+	}
+
+	@Override
+	public String description() {
+		return Registry.identifier(this) + " -> GSelector.class(" + this.x + ", " + this.y + ", " + this.width + ", " + this.height + ", " + this.label.toString() + ")";
 	}
 }

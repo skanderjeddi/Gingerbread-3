@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import com.skanderj.gingerbread3.component.Background;
 import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Priority;
+import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
 
 /**
@@ -117,14 +118,14 @@ public class GImageBackground extends Background {
 	/**
 	 * Self explanatory.
 	 */
-	public BufferedImage getBufferedImage() {
+	public BufferedImage image() {
 		return this.image;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setBufferedImage(final BufferedImage image) {
+	public void setImage(final BufferedImage image) {
 		this.image = image;
 	}
 
@@ -134,5 +135,10 @@ public class GImageBackground extends Background {
 	@Override
 	public Priority priority() {
 		return Priority.HIGH;
+	}
+
+	@Override
+	public String description() {
+		return Registry.identifier(this) + " -> GImageBackground.class(" + this.x + ", " + this.y + ", " + this.image + ")";
 	}
 }

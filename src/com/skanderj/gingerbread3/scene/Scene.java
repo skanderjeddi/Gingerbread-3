@@ -48,4 +48,9 @@ public abstract class Scene extends G3Object {
 	public Priority priority() {
 		return Priority.HIGH;
 	}
+
+	@Override
+	public String description() {
+		return Registry.identifier(this) + " -> Scene.class()";
+	}
 }
