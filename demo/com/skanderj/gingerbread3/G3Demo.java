@@ -52,7 +52,7 @@ public class G3Demo extends G3Application {
 	 * it's pretty nice.
 	 */
 	public static final String IDENTIFIER = "g3-d", TITLE = "Gingerbread-3 [DEMO]";
-	public static final double REFRESH_RATE = 144.0D;
+	public static final double REFRESH_RATE = 300.0D;
 	public static final int WIDTH = 1200, HEIGHT = (G3Demo.WIDTH / 16) * 9, BUFFERS = 2;
 
 	public static final int BACKGROUND_PARTICLES = 50;
@@ -165,8 +165,8 @@ public class G3Demo extends G3Application {
 
 	@Override
 	public void registerGameObjects() {
-		Registry.register("yellow-source", new OmnidirectionLightSource(this, new Color(Color.YELLOW.getRed(), Color.YELLOW.getGreen(), Color.YELLOW.getBlue(), 200), 150, 90, 90));
-		Registry.register("cyan-conic-source", new DirectionalLightSource(this, 250, 80, new Color(Color.CYAN.getRed(), Color.CYAN.getGreen(), Color.CYAN.getBlue(), 50), 50, 90, 45));
+		Registry.register("yellow-source", new OmnidirectionLightSource(this, new Color(Color.YELLOW.getRed(), Color.YELLOW.getGreen(), Color.YELLOW.getBlue(), 200), 300, 200, 300));
+		Registry.register("cyan-conic-source", new DirectionalLightSource(this, 250, 80, new Color(Color.CYAN.getRed(), Color.CYAN.getGreen(), Color.CYAN.getBlue(), 50), 50, 90, 90));
 		Registry.register("campfire-animation", new RandomizedAnimation(this, (G3Demo.WIDTH / 2) - 70, G3Demo.HEIGHT - 140, Sprite.fromImages(this, "campfire_%d", Images.getCollectionByID("campfire")), new int[] { 8, 10, 12 }));
 		final Sprite[] ashes = Sprite.fromImages(this, "ashe_%d", Images.getCollectionByID("ashe"));
 		Registry.register("stars-background", new Particles(this, G3Demo.WIDTH / 2, 0, 10, 2 * G3Demo.HEIGHT, G3Demo.BACKGROUND_PARTICLES, ashes, Vector2.randomVectors(G3Demo.BACKGROUND_PARTICLES, -1, 1, 1, 1), 5, 2));
@@ -189,6 +189,7 @@ public class G3Demo extends G3Application {
 		super.postCreate();
 		// Enable profiler
 		this.useProfiler();
+		this.window.enableOpenGL();
 	}
 
 	@Override
