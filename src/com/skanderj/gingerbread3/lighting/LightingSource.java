@@ -13,19 +13,13 @@ import com.skanderj.gingerbread3.particle.Moveable;
  */
 public abstract class LightingSource extends G3Object implements Moveable {
 	protected int x, y;
+	protected Priority priority;
 
-	public LightingSource(final G3Application g3Application, final int x, final int y) {
+	public LightingSource(final G3Application g3Application, final int x, final int y, Priority priority) {
 		super(g3Application);
 		this.x = x;
 		this.y = y;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	@Override
-	public Priority priority() {
-		return Priority.EXTREMELY_LOW;
+		this.priority = priority;
 	}
 
 	/**
@@ -58,5 +52,10 @@ public abstract class LightingSource extends G3Object implements Moveable {
 	@Override
 	public int y() {
 		return this.y;
+	}
+
+	@Override
+	public Priority priority() {
+		return this.priority;
 	}
 }
