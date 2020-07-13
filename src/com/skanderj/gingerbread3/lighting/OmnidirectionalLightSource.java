@@ -10,11 +10,11 @@ import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.particle.Moveable;
 
-public class OmnidirectionLightSource extends LightSource {
+public class OmnidirectionalLightSource extends LightSource {
 	private final Color color;
 	private final int radius;
 
-	public OmnidirectionLightSource(final G3Application g3Application, final Color color, final int x, final int y, final int radius) {
+	public OmnidirectionalLightSource(final G3Application g3Application, final Color color, final int x, final int y, final int radius) {
 		super(g3Application, x, y);
 		this.color = color;
 		this.radius = radius;
@@ -64,7 +64,7 @@ public class OmnidirectionLightSource extends LightSource {
 
 	@Override
 	public Moveable copy() {
-		return new OmnidirectionLightSource(this.g3Application, this.color, this.x, this.y, this.radius);
+		return new OmnidirectionalLightSource(this.g3Application, this.color, this.x, this.y, this.radius);
 	}
 
 	@Override
