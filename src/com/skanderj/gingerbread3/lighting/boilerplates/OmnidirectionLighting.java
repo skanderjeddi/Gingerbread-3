@@ -1,4 +1,4 @@
-package com.skanderj.gingerbread3.lighting;
+package com.skanderj.gingerbread3.lighting.boilerplates;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -8,13 +8,20 @@ import java.awt.geom.Ellipse2D;
 import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
+import com.skanderj.gingerbread3.lighting.LightingSource;
 import com.skanderj.gingerbread3.particle.Moveable;
 
-public class OmnidirectionalLightSource extends LightSource {
+/**
+ * Represents an omnidirectional (in a circle) fading lighting source.
+ *
+ * @author Skander
+ *
+ */
+public class OmnidirectionLighting extends LightingSource {
 	private final Color color;
 	private final int radius;
 
-	public OmnidirectionalLightSource(final G3Application g3Application, final Color color, final int x, final int y, final int radius) {
+	public OmnidirectionLighting(final G3Application g3Application, final Color color, final int x, final int y, final int radius) {
 		super(g3Application, x, y);
 		this.color = color;
 		this.radius = radius;
@@ -64,11 +71,11 @@ public class OmnidirectionalLightSource extends LightSource {
 
 	@Override
 	public Moveable copy() {
-		return new OmnidirectionalLightSource(this.g3Application, this.color, this.x, this.y, this.radius);
+		return new OmnidirectionLighting(this.g3Application, this.color, this.x, this.y, this.radius);
 	}
 
 	@Override
 	public String description() {
-		return Registry.identifier(this) + " -> OmnidirectionalLightSource.class(" + this.x + ", " + this.y + ", " + this.radius + ", " + this.color + ")";
+		return Registry.identifier(this) + " -> OmnidirectionLighting.class(" + this.x + ", " + this.y + ", " + this.radius + ", " + this.color + ")";
 	}
 }

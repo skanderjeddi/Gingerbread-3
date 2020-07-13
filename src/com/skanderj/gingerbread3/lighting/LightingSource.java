@@ -5,10 +5,16 @@ import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.object.G3Object;
 import com.skanderj.gingerbread3.particle.Moveable;
 
-public abstract class LightSource extends G3Object implements Moveable {
+/**
+ * Represents a simple lighting source.
+ *
+ * @author Skander
+ *
+ */
+public abstract class LightingSource extends G3Object implements Moveable {
 	protected int x, y;
 
-	public LightSource(final G3Application g3Application, final int x, final int y) {
+	public LightingSource(final G3Application g3Application, final int x, final int y) {
 		super(g3Application);
 		this.x = x;
 		this.y = y;

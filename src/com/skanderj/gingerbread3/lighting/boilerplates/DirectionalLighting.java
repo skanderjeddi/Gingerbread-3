@@ -1,4 +1,4 @@
-package com.skanderj.gingerbread3.lighting;
+package com.skanderj.gingerbread3.lighting.boilerplates;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -8,15 +8,22 @@ import java.awt.geom.Arc2D;
 import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
+import com.skanderj.gingerbread3.lighting.LightingSource;
 import com.skanderj.gingerbread3.particle.Moveable;
 
-public class DirectionalLightSource extends LightSource {
+/**
+ * Represents a directed (in a cone) lighting source.
+ *
+ * @author Skander
+ *
+ */
+public class DirectionalLighting extends LightingSource {
 	private Color color;
 	private final int radius;
 	private int startingAngle;
 	private int arcAngle;
 
-	public DirectionalLightSource(final G3Application g3Application, final int x, final int y, final Color color, final int radius, final int angleStart, final int angleEnd) {
+	public DirectionalLighting(final G3Application g3Application, final int x, final int y, final Color color, final int radius, final int angleStart, final int angleEnd) {
 		super(g3Application, x, y);
 		this.color = color;
 		this.radius = radius;
@@ -26,7 +33,7 @@ public class DirectionalLightSource extends LightSource {
 
 	@Override
 	public Moveable copy() {
-		return new DirectionalLightSource(this.g3Application, this.x, this.y, this.color, this.radius, this.startingAngle, this.arcAngle);
+		return new DirectionalLighting(this.g3Application, this.x, this.y, this.color, this.radius, this.startingAngle, this.arcAngle);
 	}
 
 	@Override
@@ -68,6 +75,6 @@ public class DirectionalLightSource extends LightSource {
 
 	@Override
 	public String description() {
-		return Registry.identifier(this) + " -> DirectionalLightSource.class(" + this.x + ", " + this.y + ", " + this.startingAngle + ", " + this.arcAngle + ", " + this.color + ")";
+		return Registry.identifier(this) + " -> DirectionalLighting.class(" + this.x + ", " + this.y + ", " + this.startingAngle + ", " + this.arcAngle + ", " + this.color + ")";
 	}
 }
