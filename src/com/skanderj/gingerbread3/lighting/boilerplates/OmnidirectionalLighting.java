@@ -17,11 +17,11 @@ import com.skanderj.gingerbread3.particle.Moveable;
  * @author Skander
  *
  */
-public class OmnidirectionLighting extends LightingSource {
+public class OmnidirectionalLighting extends LightingSource {
 	private final Color color;
 	private final int radius;
 
-	public OmnidirectionLighting(final G3Application g3Application, final Color color, final int x, final int y, final int radius) {
+	public OmnidirectionalLighting(final G3Application g3Application, final Color color, final int x, final int y, final int radius) {
 		super(g3Application, x, y);
 		this.color = color;
 		this.radius = radius;
@@ -71,11 +71,11 @@ public class OmnidirectionLighting extends LightingSource {
 
 	@Override
 	public Moveable copy() {
-		return new OmnidirectionLighting(this.g3Application, this.color, this.x, this.y, this.radius);
+		return new OmnidirectionalLighting(this.g3Application, this.color, this.x, this.y, this.radius);
 	}
 
 	@Override
 	public String description() {
-		return Registry.identifier(this) + " -> OmnidirectionLighting.class(" + this.x + ", " + this.y + ", " + this.radius + ", " + this.color + ")";
+		return Registry.identifier(this) + " -> OmnidirectionalLighting.class(" + this.x + ", " + this.y + ", " + this.radius + ", " + this.color + ")";
 	}
 }

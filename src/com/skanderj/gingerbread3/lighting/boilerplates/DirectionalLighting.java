@@ -23,11 +23,11 @@ public class DirectionalLighting extends LightingSource {
 	private int startingAngle;
 	private int arcAngle;
 
-	public DirectionalLighting(final G3Application g3Application, final int x, final int y, final Color color, final int radius, final int angleStart, final int angleEnd) {
+	public DirectionalLighting(final G3Application g3Application, final int x, final int y, final Color color, final int radius, final int startingAngle, final int angleEnd) {
 		super(g3Application, x, y);
 		this.color = color;
 		this.radius = radius;
-		this.startingAngle = angleStart;
+		this.startingAngle = startingAngle;
 		this.arcAngle = angleEnd;
 	}
 
