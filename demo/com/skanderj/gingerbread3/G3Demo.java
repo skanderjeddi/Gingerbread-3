@@ -20,6 +20,8 @@ import com.skanderj.gingerbread3.component.boilerplates.GText;
 import com.skanderj.gingerbread3.core.G3Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.object.G3Action;
+import com.skanderj.gingerbread3.core.object.G3Object;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.input.Binds;
 import com.skanderj.gingerbread3.input.Keyboard;
@@ -54,11 +56,11 @@ public class G3Demo extends G3Application {
 	public static final double REFRESH_RATE = 60.0D;
 	public static final int WIDTH = 1200, HEIGHT = (G3Demo.WIDTH / 16) * 9, BUFFERS = 2;
 
-	public static final int BACKGROUND_PARTICLES = 50;
+	public static final int BACKGROUND_PARTICLES = 150;
 
 	// Constants for button until I implements a better system (how? I don't
 	// fucking have a clue)
-	public static final int B_WIDTH = 120, B_HEIGHT = (100 / 16) * 9;
+	public static final int BUTTONS_WIDTH = 120, BUTTONS_HEIGHT = (100 / 16) * 10;
 	private LabelProperties buttonProps;
 
 	// G3Application scenes
@@ -199,23 +201,24 @@ public class G3Demo extends G3Application {
 		// Register all the components here once and for all then manage them through
 		// scenes switching
 		Components.register("main-menu-background", new GSolidColorBackground(this, Screen.DEFAULT_ORIGIN_X, Screen.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.WHITE));
-		Components.register("title", new GText(this, 0, 0, G3Demo.WIDTH, G3Demo.HEIGHT / 3, new Label("G3DEMO", Color.BLACK, Fonts.get("lunchds", 72))));
-		Components.register("play-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new Label("Play!", this.buttonProps), Color.BLACK, Color.WHITE));
-		Components.register("settings-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 130, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new Label("Settings", this.buttonProps), Color.BLACK, Color.WHITE));
-		Components.register("exit-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), (G3Demo.HEIGHT / 2) + 210, G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new Label("Exit", this.buttonProps), Color.BLACK, Color.WHITE));
+		Components.register("title", new GText(this, 0, 0, G3Demo.WIDTH, G3Demo.HEIGHT / 3, new Label("G3DEMO", new Color(0f, 0f, 0f, 0.75f), Fonts.get("lunchds", 72))));
+		Components.register("play-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.BUTTONS_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.BUTTONS_WIDTH, G3Demo.BUTTONS_HEIGHT, new Label("Play!", this.buttonProps), new Color(0f, 0f, 0f, 0.7f), Color.GRAY));
+		Components.register("settings-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.BUTTONS_WIDTH / 2), (G3Demo.HEIGHT / 2) + 130, G3Demo.BUTTONS_WIDTH, G3Demo.BUTTONS_HEIGHT, new Label("Settings", this.buttonProps), new Color(0f, 0f, 0f, 0.7f), Color.GRAY));
+		Components.register("exit-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.BUTTONS_WIDTH / 2), (G3Demo.HEIGHT / 2) + 210, G3Demo.BUTTONS_WIDTH, G3Demo.BUTTONS_HEIGHT, new Label("Exit", this.buttonProps), new Color(0f, 0f, 0f, 0.7f), Color.GRAY));
 		Components.register("in-game-background", new GSolidColorBackground(this, Screen.DEFAULT_ORIGIN_X, Screen.DEFAULT_ORIGIN_Y, G3Demo.WIDTH, G3Demo.HEIGHT, Color.PINK));
 		Components.register("instructions-label", new GText(this, Screen.DEFAULT_ORIGIN_X, (G3Demo.HEIGHT / 2) - 50, G3Demo.WIDTH - 1, 100, new Label("Press escape to return to the main menu", this.buttonProps.build(28).build(Color.BLACK))));
 		Components.register("main-menu-music-volume", new GSlider(this, (G3Demo.WIDTH / 2) - 150, (G3Demo.HEIGHT / 2) - 100, 300, 20, 6, 6, 0, 100, 50, Color.GRAY, new Label("Main menu music (%.2f%%)", Color.PINK, Fonts.get("lunchds", 14)), ComponentLabelPosition.TOP));
-		Components.register("back-to-main-menu-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.B_WIDTH / 2), G3Demo.HEIGHT - (2 * G3Demo.B_HEIGHT), G3Demo.B_WIDTH, G3Demo.B_HEIGHT, new Label("Back", this.buttonProps.build(Color.PINK)), Color.BLACK, Color.DARK_GRAY));
+		Components.register("back-to-main-menu-button", new GStraightEdgesButton(this, (G3Demo.WIDTH / 2) - (G3Demo.BUTTONS_WIDTH / 2), G3Demo.HEIGHT - (2 * G3Demo.BUTTONS_HEIGHT), G3Demo.BUTTONS_WIDTH, G3Demo.BUTTONS_HEIGHT, new Label("Back", this.buttonProps.build(Color.PINK)), Color.BLACK, Color.DARK_GRAY));
 		Components.register("music-checkbox", new GCheckbox(this, G3Demo.WIDTH - 90, G3Demo.HEIGHT - 45, 20, 20, new Label("Music", Color.BLACK, Fonts.get("lunchds", 14)), Color.GRAY, Color.DARK_GRAY, Color.PINK.darker(), ComponentLabelPosition.RIGHT));
 		Components.register("mouse-position-indicator", new GText(this, G3Demo.WIDTH - 175, G3Demo.HEIGHT - 40, 100, 30, new Label("Mouse position: (%d ; %d)", this.buttonProps.build(14).build(Color.BLACK))));
 		// Button actions
-		((Button) Components.get("play-button")).setG3ActionForState(ComponentState.ACTIVE, () -> Scenes.switchTo("in-game"));
-		((Button) Components.get("settings-button")).setG3ActionForState(ComponentState.ACTIVE, () -> Scenes.switchTo("settings"));
-		((Button) Components.get("back-to-main-menu-button")).setG3ActionForState(ComponentState.ACTIVE, () -> Scenes.switchTo("main-menu"));
-		((Button) Components.get("exit-button")).setG3ActionForState(ComponentState.ACTIVE, this::stop);
-		((Checkbox) Components.get("music-checkbox")).onSwitch(() -> {
-			final boolean state = ((Checkbox) Components.get("music-checkbox")).isChecked();
+		((Button) Components.get("play-button")).mapActionToState(ComponentState.ACTIVE, (object) -> Scenes.switchTo("in-game"));
+		((Button) Components.get("settings-button")).mapActionToState(ComponentState.ACTIVE, (object) -> Scenes.switchTo("settings"));
+		((Button) Components.get("back-to-main-menu-button")).mapActionToState(ComponentState.ACTIVE, (object) -> Scenes.switchTo("main-menu"));
+		((Button) Components.get("exit-button")).mapActionToState(ComponentState.ACTIVE, (object) -> this.stop());
+		((Checkbox) Components.get("music-checkbox")).onSwitch((object) -> {
+			Checkbox checkbox = (Checkbox) object;
+			final boolean state = checkbox.isChecked();
 			if (state) {
 				Audios.stop("background");
 				Audios.loop("background", -1, ((Slider) Components.get("main-menu-music-volume")).value() / 100.0F);
@@ -223,16 +226,57 @@ public class G3Demo extends G3Application {
 				Audios.stop("background");
 			}
 		});
+		{
+			// Play button
+			{
+				((Button) Components.get("play-button")).mapActionToState(ComponentState.IDLE, new G3Action() {
+					@Override
+					public void execute(G3Object object) {
+						GStraightEdgesButton button = (GStraightEdgesButton) object;
+						button.setBackgroundColor(new Color(0f, 0f, 0f, 0.7f));
+						button.label().color = Color.WHITE;
+					}
+				});
+				((Button) Components.get("play-button")).mapActionToState(ComponentState.HOVERED, (object) -> ((GStraightEdgesButton) object).setBackgroundColor(new Color(0f, 0f, 0f, 0.9f)));
+				((Button) Components.get("play-button")).mapActionToState(ComponentState.HELD, (object) -> ((GStraightEdgesButton) object).label().color = Color.PINK);
+			}
+			// Settings button
+			{
+				((Button) Components.get("settings-button")).mapActionToState(ComponentState.IDLE, new G3Action() {
+					@Override
+					public void execute(G3Object object) {
+						GStraightEdgesButton button = (GStraightEdgesButton) object;
+						button.setBackgroundColor(new Color(0f, 0f, 0f, 0.7f));
+						button.label().color = Color.WHITE;
+					}
+				});
+				((Button) Components.get("settings-button")).mapActionToState(ComponentState.HOVERED, (object) -> ((GStraightEdgesButton) object).setBackgroundColor(new Color(0f, 0f, 0f, 0.9f)));
+				((Button) Components.get("settings-button")).mapActionToState(ComponentState.HELD, (object) -> ((GStraightEdgesButton) object).label().color = Color.PINK);
+			}
+			// Exit button
+			{
+				((Button) Components.get("exit-button")).mapActionToState(ComponentState.IDLE, new G3Action() {
+					@Override
+					public void execute(G3Object object) {
+						GStraightEdgesButton button = (GStraightEdgesButton) object;
+						button.setBackgroundColor(new Color(0f, 0f, 0f, 0.7f));
+						button.label().color = Color.WHITE;
+					}
+				});
+				((Button) Components.get("exit-button")).mapActionToState(ComponentState.HOVERED, (object) -> ((GStraightEdgesButton) object).setBackgroundColor(new Color(0f, 0f, 0f, 0.9f)));
+				((Button) Components.get("exit-button")).mapActionToState(ComponentState.HELD, (object) -> ((GStraightEdgesButton) object).label().color = Color.PINK);
+			}
+		}
 	}
 
 	float br = 0f;
 
 	@Override
 	public void registerBinds() {
-		Binds.registerBind("in-game", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, () -> Scenes.switchTo("main-menu"));
-		Binds.registerBind("settings", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, () -> Scenes.switchTo("main-menu"));
-		Binds.registerBind("main-menu", new Integer[] { Keyboard.KEY_ESCAPE, Keyboard.KEY_SPACE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN, Keyboard.KeyState.DOWN }, this::stop);
-		Binds.registerBind("*", new Integer[] { Keyboard.KEY_F5 }, new KeyState[] { KeyState.DOWN_IN_CURRENT_FRAME }, () -> this.screenshot("scr/" + Utilities.fileNameCompatibleDateString() + ".png"));
+		Binds.registerBind("in-game", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, (object) -> Scenes.switchTo("main-menu"));
+		Binds.registerBind("settings", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, (object) -> Scenes.switchTo("main-menu"));
+		Binds.registerBind("main-menu", new Integer[] { Keyboard.KEY_ESCAPE, Keyboard.KEY_SPACE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN, Keyboard.KeyState.DOWN }, (object) -> this.stop());
+		Binds.registerBind("*", new Integer[] { Keyboard.KEY_F5 }, new KeyState[] { KeyState.DOWN_IN_CURRENT_FRAME }, (object) -> this.screenshot("scr/" + Utilities.fileNameCompatibleDateString() + ".png"));
 	}
 
 	@Override

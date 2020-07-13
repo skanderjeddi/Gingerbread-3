@@ -23,7 +23,7 @@ public abstract class LongTask implements Task, Runnable {
 	@Override
 	public void run() {
 		synchronized (this.thread) {
-			this.execute();
+			this.execute(null);
 		}
 		Registry.markForDeletion(this.identifier);
 		Scheduler.delete(this);

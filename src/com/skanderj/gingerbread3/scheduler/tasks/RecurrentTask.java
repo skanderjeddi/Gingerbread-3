@@ -63,12 +63,12 @@ public abstract class RecurrentTask implements Task {
 					}
 				}
 				if (this.timer == -1) {
-					this.execute();
+					this.execute(null);
 					this.timer = 0;
 				}
 				this.timer += 1;
 				if (this.timer >= this.delay) {
-					this.execute();
+					this.execute(null);
 					this.timer = 0;
 					this.repeatsCounter += 1;
 					Logger.log(Scheduler.class, LogLevel.DEVELOPMENT, "Resetting recurrent task %s's timer", this.identifier);

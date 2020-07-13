@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import com.skanderj.gingerbread3.core.object.G3Object;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.display.Window;
 import com.skanderj.gingerbread3.input.Binds;
@@ -219,7 +220,7 @@ public abstract class G3Application extends ThreadWrapper {
 			}
 
 			@Override
-			public void execute() {
+			public void execute(G3Object object) {
 				final Map<String, Object> argsMap = Registry.parameters(G3Application.this.profilerIdentifier());
 				if (argsMap == null) {
 					Logger.log(this.application().getClass(), LogLevel.WARNING, "Skipping profiler output (null args)");

@@ -30,7 +30,7 @@ public abstract class DelayedTask implements Task {
 	@Override
 	public final void run() {
 		synchronized (this.thread) {
-			this.execute();
+			this.execute(null);
 		}
 		Registry.markForDeletion(this.identifier);
 		Scheduler.delete(this);

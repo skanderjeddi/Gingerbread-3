@@ -84,13 +84,13 @@ public abstract class Selector extends Component {
 		this.currentOptionIndex = this.options.lastIndexOf(defaultOption);
 		this.leftArrow = new SelectorArrow();
 		this.rightArrow = new SelectorArrow();
-		this.leftArrow.g3Actions[ComponentState.ACTIVE.identifier()] = () -> {
+		this.leftArrow.g3Actions[ComponentState.ACTIVE.identifier()] = (object) -> {
 			Selector.this.currentOptionIndex -= 1;
 			if (Selector.this.currentOptionIndex < 0) {
 				Selector.this.currentOptionIndex = Selector.this.options.size() - 1;
 			}
 		};
-		this.rightArrow.g3Actions[ComponentState.ACTIVE.identifier()] = () -> {
+		this.rightArrow.g3Actions[ComponentState.ACTIVE.identifier()] = (object) -> {
 			Selector.this.currentOptionIndex += 1;
 			Selector.this.currentOptionIndex %= Selector.this.options.size();
 		};
@@ -154,8 +154,8 @@ public abstract class Selector extends Component {
 				this.rightArrow.currentState = ComponentState.ACTIVE;
 			}
 		}
-		this.leftArrow.g3Actions[this.leftArrow.currentState.identifier()].execute();
-		this.rightArrow.g3Actions[this.rightArrow.currentState.identifier()].execute();
+		this.leftArrow.g3Actions[this.leftArrow.currentState.identifier()].execute(this);
+		this.rightArrow.g3Actions[this.rightArrow.currentState.identifier()].execute(this);
 		this.currentOption = this.options.get(this.currentOptionIndex);
 	}
 

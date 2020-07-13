@@ -14,7 +14,7 @@ import com.skanderj.gingerbread3.input.Mouse;
  */
 public abstract class Button extends Component {
 	protected ComponentState previousState, state;
-	protected G3Action[] g3Actions;
+	protected G3Action[] actions;
 	protected boolean hasFocus, mouseWasIn;
 
 	/**
@@ -24,10 +24,10 @@ public abstract class Button extends Component {
 		super(g3Application);
 		this.previousState = ComponentState.IDLE;
 		this.state = ComponentState.IDLE;
-		this.g3Actions = new G3Action[4];
+		this.actions = new G3Action[4];
 		// Set default actions (do nothing) for every currentState
-		for (int index = 0; index < this.g3Actions.length; index += 1) {
-			this.g3Actions[index] = G3Action.DEFAULT_DO_NOTHING;
+		for (int index = 0; index < this.actions.length; index += 1) {
+			this.actions[index] = G3Action.DEFAULT_DO_NOTHING;
 		}
 		this.hasFocus = false;
 	}
@@ -60,15 +60,15 @@ public abstract class Button extends Component {
 		if ((this.previousState == ComponentState.HELD) && ((this.state == ComponentState.IDLE) || (this.state == ComponentState.HOVERED)) && mouseIn) {
 			this.state = ComponentState.ACTIVE;
 		}
-		this.g3Actions[this.state.identifier()].execute();
+		this.actions[this.state.identifier()].execute(this);
 	}
 
 	/**
 	 * Sets the button actions that will be executed when the provided currentState
 	 * is the current currentState.
 	 */
-	public void setG3ActionForState(final ComponentState state, final G3Action g3Action) {
-		this.g3Actions[state.identifier()] = g3Action;
+	public void mapActionToState(final ComponentState state, final G3Action g3Action) {
+		this.actions[state.identifier()] = g3Action;
 	}
 
 	/**
@@ -102,13 +102,13 @@ public abstract class Button extends Component {
 	 * Self explanatory.
 	 */
 	public G3Action[] actions() {
-		return this.g3Actions;
+		return this.actions;
 	}
 
 	/**
 	 * Self explanatory. Can be used to set multiple actions at once.
 	 */
 	public void setActions(final G3Action[] actions) {
-		this.g3Actions = actions;
+		this.actions = actions;
 	}
 }

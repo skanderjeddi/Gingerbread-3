@@ -54,9 +54,9 @@ public abstract class Checkbox extends Component {
 		}
 		if (this.state == ComponentState.ACTIVE) {
 			this.isChecked = !this.isChecked;
-			this.actions[4].execute();
+			this.actions[4].execute(this);
 		}
-		this.actions[this.state.identifier()].execute();
+		this.actions[this.state.identifier()].execute(this);
 	}
 
 	/**

@@ -68,7 +68,7 @@ public class Binds {
 						}
 					}
 					if (execute) {
-						bind.action().execute();
+						bind.action().execute(null);
 						Logger.log(Binds.class, LogLevel.DEBUG, "Executing bind %s", bind.toString());
 					}
 				}
