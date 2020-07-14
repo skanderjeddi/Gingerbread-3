@@ -7,7 +7,7 @@ import com.skanderj.gingerbread3.component.Checkbox;
 import com.skanderj.gingerbread3.component.ComponentLabelPosition;
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.util.Label;
 
@@ -222,6 +222,6 @@ public class GCheckbox extends Checkbox {
 
 	@Override
 	public String description() {
-		return Registry.identifier(this) + " -> GCheckBox.class(" + this.x + ", " + this.y + ", " + this.label.toString() + ")";
+		return Engine.identifier(this) + " -> GCheckBox.class(" + this.x + ", " + this.y + ", " + this.label.toString() + ")";
 	}
 }

@@ -183,7 +183,7 @@ public abstract class Application extends ThreadWrapper {
 			}
 			if ((System.currentTimeMillis() - resetTime) >= 1000) {
 				resetTime += 1000;
-				Registry.parameterize(this.profilerIdentifier(), new String[] { "frames", "updates" }, new Object[] { frames, updates });
+				Engine.parameterize(this.profilerIdentifier(), new String[] { "frames", "updates" }, new Object[] { frames, updates });
 				frames = 0;
 				updates = 0;
 			}
@@ -221,7 +221,7 @@ public abstract class Application extends ThreadWrapper {
 
 			@Override
 			public void execute(final ApplicationObject object) {
-				final Map<String, Object> argsMap = Registry.parameters(Application.this.profilerIdentifier());
+				final Map<String, Object> argsMap = Engine.parameters(Application.this.profilerIdentifier());
 				if (argsMap == null) {
 					Logger.log(this.application().getClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
 				} else {

@@ -3,7 +3,7 @@ package com.skanderj.gingerbread3.transition.boilerplates;
 import java.awt.Color;
 
 import com.skanderj.gingerbread3.core.Application;
-import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.transition.Transition;
 import com.skanderj.gingerbread3.util.Utilities;
@@ -51,6 +51,6 @@ public class FadeTransition extends Transition {
 
 	@Override
 	public String description() {
-		return Registry.identifier(this) + " -> FadeTransition.class(" + this.duration + ", " + this.color + ")";
+		return Engine.identifier(this) + " -> FadeTransition.class(" + this.duration + ", " + this.color + ")";
 	}
 }

@@ -2,7 +2,7 @@ package com.skanderj.gingerbread3.particle;
 
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.logging.Logger;
@@ -100,6 +100,6 @@ public final class Particles extends ApplicationObject {
 
 	@Override
 	public String description() {
-		return Registry.identifier(this) + " -> Particles(" + this.centerX + ", " + this.centerY + ", " + this.radius + ", " + this.maxRadius + ", " + this.particles.length + ", " + this.chaosValue + ")";
+		return Engine.identifier(this) + " -> Particles(" + this.centerX + ", " + this.centerY + ", " + this.radius + ", " + this.maxRadius + ", " + this.particles.length + ", " + this.chaosValue + ")";
 	}
 }

@@ -7,7 +7,7 @@ import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.Text;
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.util.Label;
 
@@ -41,8 +41,8 @@ public final class GText extends Text {
 	 */
 	@Override
 	public synchronized void render(final Screen screen) {
-		final String identifier = Registry.identifier(this);
-		final Map<String, Object> parameters = Registry.parameters(identifier);
+		final String identifier = Engine.identifier(this);
+		final Map<String, Object> parameters = Engine.parameters(identifier);
 		if (parameters != null) {
 			final Object[] args = parameters.values().toArray(new Object[parameters.size()]);
 			this.label.drawCentered(screen, this.x, this.y, this.width, this.height, args);
@@ -136,6 +136,6 @@ public final class GText extends Text {
 
 	@Override
 	public String description() {
-		return Registry.identifier(this) + " -> GText.class(" + this.x + ", " + this.y + ", " + this.label.toString() + ")";
+		return Engine.identifier(this) + " -> GText.class(" + this.x + ", " + this.y + ", " + this.label.toString() + ")";
 	}
 }

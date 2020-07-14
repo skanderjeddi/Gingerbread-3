@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import com.skanderj.gingerbread3.component.Background;
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.display.Screen;
 
 /**
@@ -139,6 +139,6 @@ public class GBackgroundImage extends Background {
 
 	@Override
 	public String description() {
-		return Registry.identifier(this) + " -> GBackgroundImage.class(" + this.x + ", " + this.y + ", " + this.image + ")";
+		return Engine.identifier(this) + " -> GBackgroundImage.class(" + this.x + ", " + this.y + ", " + this.image + ")";
 	}
 }

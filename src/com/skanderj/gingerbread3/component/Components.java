@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.skanderj.gingerbread3.audio.Audios;
-import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 
@@ -41,7 +41,7 @@ public final class Components {
 	 */
 	public static void register(final String identifier, final Component component) {
 		Components.componentsMap.put(identifier, component);
-		Registry.register(identifier, component);
+		Engine.register(identifier, component);
 	}
 
 	/**

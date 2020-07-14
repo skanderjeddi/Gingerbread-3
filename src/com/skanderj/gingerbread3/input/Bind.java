@@ -3,7 +3,7 @@ package com.skanderj.gingerbread3.input;
 import java.util.Arrays;
 import java.util.Map;
 
-import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.core.object.Action;
 import com.skanderj.gingerbread3.input.Keyboard.KeyState;
 import com.skanderj.gingerbread3.logging.Logger;
@@ -87,6 +87,6 @@ public class Bind {
 
 	@Override
 	public String toString() {
-		return "<" + Registry.identifier(this.targetScene) + " | " + Arrays.toString(this.targetKeycodes) + " | " + Arrays.toString(this.targetKeyStates) + ">";
+		return "<" + Engine.identifier(this.targetScene) + " | " + Arrays.toString(this.targetKeycodes) + " | " + Arrays.toString(this.targetKeyStates) + ">";
 	}
 }

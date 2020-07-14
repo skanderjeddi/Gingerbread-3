@@ -1,6 +1,6 @@
 package com.skanderj.gingerbread3.scheduler.tasks;
 
-import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 import com.skanderj.gingerbread3.scheduler.Scheduler;
@@ -54,7 +54,7 @@ public abstract class RecurrentTask implements Task {
 		while (true) {
 			synchronized (this.thread) {
 				if ((this.repeats != -1) && (this.repeatsCounter >= this.repeats)) {
-					Registry.markForDeletion(this.identifier);
+					Engine.markForDeletion(this.identifier);
 					Scheduler.delete(this);
 					try {
 						this.thread.join();

@@ -1,10 +1,11 @@
-package com.skanderj.gingerbread3.animation;
+package com.skanderj.gingerbread3.animation.boilerplates;
 
 import java.util.Arrays;
 
+import com.skanderj.gingerbread3.animation.Animation;
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.sprite.Sprite;
 import com.skanderj.gingerbread3.util.Utilities;
@@ -116,6 +117,6 @@ public class RandomizedAnimation extends Animation {
 		for (int t = 0; t < timersAsObjects.length; t += 1) {
 			timersAsObjects[t] = this.timers[t];
 		}
-		return Registry.identifier(this) + " -> RandomizedAnimation.class(" + this.x + ", " + this.y + ", " + Arrays.deepToString(this.sprites) + ", " + Arrays.deepToString(timersAsObjects) + ")";
+		return Engine.identifier(this) + " -> RandomizedAnimation.class(" + this.x + ", " + this.y + ", " + Arrays.deepToString(this.sprites) + ", " + Arrays.deepToString(timersAsObjects) + ")";
 	}
 }

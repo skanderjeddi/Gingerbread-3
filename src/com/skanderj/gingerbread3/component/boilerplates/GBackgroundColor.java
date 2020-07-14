@@ -5,7 +5,7 @@ import java.awt.Color;
 import com.skanderj.gingerbread3.component.Background;
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.display.Screen;
 
 /**
@@ -139,6 +139,6 @@ public class GBackgroundColor extends Background {
 
 	@Override
 	public String description() {
-		return Registry.identifier(this) + " -> GBackgroundColor.class(" + this.x + ", " + this.y + ", " + this.width + ", " + this.height + ")";
+		return Engine.identifier(this) + " -> GBackgroundColor.class(" + this.x + ", " + this.y + ", " + this.width + ", " + this.height + ")";
 	}
 }

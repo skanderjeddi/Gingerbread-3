@@ -2,7 +2,7 @@ package com.skanderj.gingerbread3.transition;
 
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.scene.Scenes;
 
@@ -28,7 +28,7 @@ public abstract class Transition extends ApplicationObject {
 	public void update() {
 		this.timer += 1;
 		if (this.timer >= this.duration) {
-			Registry.skip(Registry.identifier(this));
+			Engine.skip(Engine.identifier(this));
 			if (Scenes.transition() == this) {
 				Scenes.transition(null);
 			}

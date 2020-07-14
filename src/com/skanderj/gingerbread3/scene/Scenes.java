@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.skanderj.gingerbread3.component.Components;
-import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.transition.Transition;
 
@@ -30,7 +30,7 @@ public final class Scenes {
 	 */
 	public static void register(final String identifier, final Scene scene) {
 		Scenes.scenesMap.put(identifier, scene);
-		Registry.register(identifier, scene);
+		Engine.register(identifier, scene);
 	}
 
 	/**
@@ -49,7 +49,7 @@ public final class Scenes {
 		if (previous != null) {
 			previous.exit();
 		}
-		Registry.newScene();
+		Engine.newScene();
 		final List<String> gameObjects = Scenes.currentScene.sceneObjects();
 		Components.considerOnly(gameObjects);
 		Scenes.currentScene.enter();
@@ -83,7 +83,7 @@ public final class Scenes {
 	 * Self explanatory.
 	 */
 	public static void transition(final String identifier) {
-		Scenes.currentTransition = (Transition) Registry.get(identifier);
+		Scenes.currentTransition = (Transition) Engine.get(identifier);
 	}
 
 	/**

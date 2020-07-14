@@ -2,7 +2,7 @@ package com.skanderj.gingerbread3.core.object;
 
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.core.Renderable;
 import com.skanderj.gingerbread3.core.Updateable;
 import com.skanderj.gingerbread3.display.Screen;
@@ -37,7 +37,7 @@ public abstract class ApplicationObject implements Comparable<ApplicationObject>
 
 			@Override
 			public String description() {
-				return Registry.identifier(this) + " = Updateable -> ApplicationObject.class()";
+				return Engine.identifier(this) + " = Updateable -> ApplicationObject.class()";
 			}
 		};
 	}
@@ -65,7 +65,7 @@ public abstract class ApplicationObject implements Comparable<ApplicationObject>
 
 			@Override
 			public String description() {
-				return Registry.identifier(this) + " = Renderable -> ApplicationObject.class()";
+				return Engine.identifier(this) + " = Renderable -> ApplicationObject.class()";
 			}
 		};
 	}

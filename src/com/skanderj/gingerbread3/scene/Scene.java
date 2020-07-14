@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.display.Screen;
 
@@ -25,13 +25,13 @@ public abstract class Scene extends ApplicationObject {
 	// Logic happens here
 	@Override
 	public synchronized void update() {
-		Registry.update();
+		Engine.update();
 	}
 
 	// Rendering happens here
 	@Override
 	public synchronized void render(final Screen screen) {
-		Registry.render(screen);
+		Engine.render(screen);
 	}
 
 	/**
@@ -51,6 +51,6 @@ public abstract class Scene extends ApplicationObject {
 
 	@Override
 	public String description() {
-		return Registry.identifier(this) + " -> Scene.class()";
+		return Engine.identifier(this) + " -> Scene.class()";
 	}
 }

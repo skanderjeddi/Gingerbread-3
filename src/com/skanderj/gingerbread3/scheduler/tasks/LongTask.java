@@ -1,6 +1,6 @@
 package com.skanderj.gingerbread3.scheduler.tasks;
 
-import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.scheduler.Scheduler;
 import com.skanderj.gingerbread3.scheduler.Task;
 
@@ -25,7 +25,7 @@ public abstract class LongTask implements Task, Runnable {
 		synchronized (this.thread) {
 			this.execute(null);
 		}
-		Registry.markForDeletion(this.identifier);
+		Engine.markForDeletion(this.identifier);
 		Scheduler.delete(this);
 	}
 

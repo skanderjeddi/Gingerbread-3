@@ -2,7 +2,7 @@ package com.skanderj.gingerbread3.particle;
 
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.math.Vector2;
@@ -61,6 +61,6 @@ public class Particle extends ApplicationObject {
 
 	@Override
 	public String description() {
-		return Registry.identifier(this) + " -> Particle.class(" + this.x + ", " + this.y + ", " + this.velocity + ")";
+		return Engine.identifier(this) + " -> Particle.class(" + this.x + ", " + this.y + ", " + this.velocity + ")";
 	}
 }

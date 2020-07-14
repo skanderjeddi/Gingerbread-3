@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.particle.Moveable;
@@ -33,7 +33,7 @@ public class Sprite extends ApplicationObject implements Moveable {
 		final Sprite[] array = new Sprite[images.length];
 		for (int i = 0; i < array.length; i += 1) {
 			array[i] = new Sprite(application, String.format(identifier, i), images[i], images[i].getWidth(), images[i].getHeight());
-			Registry.register(String.format(identifier, i), array[i]);
+			Engine.register(String.format(identifier, i), array[i]);
 		}
 		return array;
 	}
@@ -51,7 +51,7 @@ public class Sprite extends ApplicationObject implements Moveable {
 		final AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, scaleMethod);
 		finalImage = affineTransformOp.filter(loadedImage, finalImage);
 		final Sprite sprite = new Sprite(application, identifier, finalImage, width, height);
-		Registry.register(identifier, sprite);
+		Engine.register(identifier, sprite);
 		return sprite;
 	}
 
@@ -192,6 +192,6 @@ public class Sprite extends ApplicationObject implements Moveable {
 
 	@Override
 	public String description() {
-		return Registry.identifier(this) + " -> Sprite.class(" + this.width + "," + this.height + ")";
+		return Engine.identifier(this) + " -> Sprite.class(" + this.width + "," + this.height + ")";
 	}
 }

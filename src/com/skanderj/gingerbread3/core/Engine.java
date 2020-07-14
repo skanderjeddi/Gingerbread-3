@@ -25,7 +25,7 @@ import com.skanderj.gingerbread3.scene.Scenes;
  * @author Skander
  *
  */
-public final class Registry {
+public final class Engine {
 	// All the application objects are stored here
 	private final static Map<String, ApplicationObject> contents = new HashMap<>();
 	// Args for each object
@@ -35,7 +35,7 @@ public final class Registry {
 	// Application objects to be skipped
 	private final static Set<ApplicationObject> skips = new HashSet<>();
 
-	private Registry() {
+	private Engine() {
 		return;
 	}
 
@@ -43,42 +43,42 @@ public final class Registry {
 	 * Self explanatory.
 	 */
 	public static synchronized void skip(final String identifier) {
-		Registry.skip(Registry.contents.get(identifier));
+		Engine.skip(Engine.contents.get(identifier));
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	private static synchronized void skip(final ApplicationObject object) {
-		Registry.skips.add(object);
+		Engine.skips.add(object);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public static synchronized void unskip(final String identifier) {
-		Registry.unskip(Registry.contents.get(identifier));
+		Engine.unskip(Engine.contents.get(identifier));
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	private static synchronized void unskip(final ApplicationObject object) {
-		Registry.skips.remove(object);
+		Engine.skips.remove(object);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public static synchronized void markForDeletion(final String identifier) {
-		Registry.markForDeletion(Registry.contents.get(identifier));
+		Engine.markForDeletion(Engine.contents.get(identifier));
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	private static synchronized void markForDeletion(final ApplicationObject object) {
-		Registry.deletions.add(object);
+		Engine.deletions.add(object);
 	}
 
 	/**
@@ -97,23 +97,23 @@ public final class Registry {
 		} else {
 			name = object.getClass().getSimpleName();
 		}
-		Logger.log(Registry.class, LogLevel.DEBUG, "ApplicationObject registered: <class : %s> -> \"%s\"", object.getClass().getSimpleName().equals("") ? object.getClass().getEnclosingClass().getSimpleName() + "#" + name : object.getClass().getSimpleName(), identifier);
-		Registry.contents.put(identifier, object);
+		Logger.log(Engine.class, LogLevel.DEBUG, "ApplicationObject registered: <class : %s> -> \"%s\"", object.getClass().getSimpleName().equals("") ? object.getClass().getEnclosingClass().getSimpleName() + "#" + name : object.getClass().getSimpleName(), identifier);
+		Engine.contents.put(identifier, object);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public static synchronized ApplicationObject get(final String identifier) {
-		return Registry.contents.getOrDefault(identifier, null);
+		return Engine.contents.getOrDefault(identifier, null);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public static synchronized String identifier(final ApplicationObject object) {
-		for (final String identifier : Registry.contents.keySet()) {
-			if (Registry.contents.get(identifier) == object) {
+		for (final String identifier : Engine.contents.keySet()) {
+			if (Engine.contents.get(identifier) == object) {
 				return identifier;
 			}
 		}
@@ -122,18 +122,18 @@ public final class Registry {
 
 	public static void parameterize(final String identifier, final String[] identifiers, final Object[] args) {
 		if (identifiers.length != args.length) {
-			Logger.log(Registry.class, LogLevel.FATAL, "Size mismatch between identifiers and values (%d vs %d)", identifiers.length, args.length);
+			Logger.log(Engine.class, LogLevel.FATAL, "Size mismatch between identifiers and values (%d vs %d)", identifiers.length, args.length);
 		}
-		if (Registry.parameters.get(identifier) == null) {
-			Registry.parameters.put(identifier, new HashMap<String, Object>());
+		if (Engine.parameters.get(identifier) == null) {
+			Engine.parameters.put(identifier, new HashMap<String, Object>());
 		}
 		for (int i = 0; i < identifiers.length; i += 1) {
-			Registry.parameters.get(identifier).put(identifiers[i], args[i]);
+			Engine.parameters.get(identifier).put(identifiers[i], args[i]);
 		}
 	}
 
 	public static Map<String, Object> parameters(final String identifier) {
-		return Registry.parameters.get(identifier);
+		return Engine.parameters.get(identifier);
 	}
 
 	/**
@@ -141,24 +141,24 @@ public final class Registry {
 	 */
 	public static synchronized void update() {
 		final List<ApplicationObject> toUpdate = new ArrayList<>();
-		if (!Registry.deletions.isEmpty()) {
-			for (final ApplicationObject object : Registry.deletions) {
-				for (final String key : Registry.contents.keySet().toArray(new String[Registry.contents.size()])) {
-					if (Registry.contents.get(key) == object) {
-						Registry.contents.remove(key);
-						Logger.log(Registry.class, LogLevel.DEBUG, "ApplicationObject deleted: [\"%s\"]", key);
+		if (!Engine.deletions.isEmpty()) {
+			for (final ApplicationObject object : Engine.deletions) {
+				for (final String key : Engine.contents.keySet().toArray(new String[Engine.contents.size()])) {
+					if (Engine.contents.get(key) == object) {
+						Engine.contents.remove(key);
+						Logger.log(Engine.class, LogLevel.DEBUG, "ApplicationObject deleted: [\"%s\"]", key);
 						return;
 					}
 				}
 			}
 		}
-		Registry.deletions.clear();
+		Engine.deletions.clear();
 		final List<String> allowedComponents = new ArrayList<>();
 		if (Scenes.scene() != null) {
 			allowedComponents.addAll(Scenes.scene().sceneObjects());
 		}
-		for (final String identifier : Registry.contents.keySet()) {
-			final ApplicationObject object = Registry.contents.get(identifier);
+		for (final String identifier : Engine.contents.keySet()) {
+			final ApplicationObject object = Engine.contents.get(identifier);
 			if (object != null) {
 				if (object.shouldSkipRegistryChecks()) {
 					toUpdate.add(object);
@@ -169,7 +169,7 @@ public final class Registry {
 						toUpdate.add(object);
 						continue;
 					}
-					if ((object instanceof Component) || Registry.skips.contains(object)) {
+					if ((object instanceof Component) || Engine.skips.contains(object)) {
 						continue;
 					}
 					toUpdate.add(object);
@@ -198,8 +198,8 @@ public final class Registry {
 		if (Scenes.scene() != null) {
 			allowedComponents.addAll(Scenes.scene().sceneObjects());
 		}
-		for (final String identifier : Registry.contents.keySet()) {
-			final ApplicationObject object = Registry.contents.get(identifier);
+		for (final String identifier : Engine.contents.keySet()) {
+			final ApplicationObject object = Engine.contents.get(identifier);
 			if (object != null) {
 				if (object.shouldSkipRegistryChecks()) {
 					toRender.add(object);
@@ -210,7 +210,7 @@ public final class Registry {
 						toRender.add(object);
 						continue;
 					}
-					if ((object instanceof Component) || Registry.skips.contains(object)) {
+					if ((object instanceof Component) || Engine.skips.contains(object)) {
 						continue;
 					}
 					toRender.add(object);
@@ -228,34 +228,34 @@ public final class Registry {
 	 * Called when a new scene is switched to.
 	 */
 	public static synchronized void newScene() {
-		for (final String identifier : Registry.contents.keySet()) {
-			final ApplicationObject object = Registry.contents.get(identifier);
+		for (final String identifier : Engine.contents.keySet()) {
+			final ApplicationObject object = Engine.contents.get(identifier);
 			if (object != null) {
 				object.sceneChange();
 			}
 		}
-		Registry.skips.clear();
-		Registry.deletions.clear();
+		Engine.skips.clear();
+		Engine.deletions.clear();
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public static synchronized void updateObject(final String identifier, final double delta) {
-		Registry.contents.get(identifier).update();
+		Engine.contents.get(identifier).update();
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public static synchronized void renderObject(final String identifier, final Screen screen) {
-		Registry.contents.get(identifier).render(screen);
+		Engine.contents.get(identifier).render(screen);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public static synchronized Collection<ApplicationObject> getObjects() {
-		return Registry.contents.values();
+		return Engine.contents.values();
 	}
 }

@@ -8,7 +8,7 @@ import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.Textfield;
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.util.Label;
 import com.skanderj.gingerbread3.util.LabelProperties;
@@ -349,6 +349,6 @@ public final class GTextfield extends Textfield {
 
 	@Override
 	public String description() {
-		return Registry.identifier(this) + " -> GTextField.class(" + this.x + ", " + this.y + ", " + this.width + ", " + this.height + ")";
+		return Engine.identifier(this) + " -> GTextField.class(" + this.x + ", " + this.y + ", " + this.width + ", " + this.height + ")";
 	}
 }

@@ -18,7 +18,7 @@ import com.skanderj.gingerbread3.component.boilerplates.GSlider;
 import com.skanderj.gingerbread3.component.boilerplates.GText;
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
-import com.skanderj.gingerbread3.core.Registry;
+import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.input.Binds;
 import com.skanderj.gingerbread3.input.Keyboard;
@@ -101,7 +101,7 @@ public class G3Demo extends Application {
 			@Override
 			public void update() {
 				super.update();
-				Registry.parameterize("mouse-position-indicator", new String[] { "mouse-x", "mouse-y" }, new Object[] { this.application.mouse().getX(), this.application.mouse().getY() });
+				Engine.parameterize("mouse-position-indicator", new String[] { "mouse-x", "mouse-y" }, new Object[] { this.application.mouse().getX(), this.application.mouse().getY() });
 			}
 
 			@Override
@@ -162,10 +162,10 @@ public class G3Demo extends Application {
 
 	@Override
 	public void registerGameObjects() {
-		Registry.register("pink-source", new OmnidirectionalLighting(this, new Color(Color.PINK.getRed(), Color.PINK.getGreen(), Color.PINK.getBlue(), 255), G3Demo.WIDTH / 2, G3Demo.HEIGHT / 2, G3Demo.WIDTH + (G3Demo.WIDTH / 2), Priority.REGULAR));
+		Engine.register("pink-source", new OmnidirectionalLighting(this, new Color(Color.PINK.getRed(), Color.PINK.getGreen(), Color.PINK.getBlue(), 255), G3Demo.WIDTH / 2, G3Demo.HEIGHT / 2, G3Demo.WIDTH + (G3Demo.WIDTH / 2), Priority.REGULAR));
 		final Sprite[] ashes = Sprite.fromImages(this, "ashe_%d", Images.getCollectionByID("ashe"));
-		Registry.register("flowers", new Particles(this, G3Demo.WIDTH / 2, 0, 10, 2 * G3Demo.HEIGHT, G3Demo.BACKGROUND_PARTICLES, ashes, Vector2.randomVectors(G3Demo.BACKGROUND_PARTICLES, -1, 1, 1, 1), 5, 2));
-		Registry.register("fade-transition", new FadeTransition(this, 60, Color.BLACK));
+		Engine.register("flowers", new Particles(this, G3Demo.WIDTH / 2, 0, 10, 2 * G3Demo.HEIGHT, G3Demo.BACKGROUND_PARTICLES, ashes, Vector2.randomVectors(G3Demo.BACKGROUND_PARTICLES, -1, 1, 1, 1), 5, 2));
+		Engine.register("fade-transition", new FadeTransition(this, 60, Color.BLACK));
 	}
 
 	@Override
