@@ -21,6 +21,7 @@ public class RandomizedAnimation extends Animation {
 	private final Sprite[] sprites;
 	private final int[] timers;
 	private int currentSpriteIndex, currentSpriteTimer;
+	private boolean playing;
 
 	public RandomizedAnimation(final Application application, final int x, final int y, final Sprite[] sprites, final int[] timers) {
 		super(application);
@@ -30,6 +31,7 @@ public class RandomizedAnimation extends Animation {
 		this.timers = timers;
 		this.currentSpriteIndex = 0;
 		this.currentSpriteTimer = 0;
+		this.playing = true;
 	}
 
 	/**
@@ -37,11 +39,13 @@ public class RandomizedAnimation extends Animation {
 	 */
 	@Override
 	public synchronized void update() {
-		this.currentSpriteTimer += 1;
-		if (this.currentSpriteTimer >= this.timers[this.currentSpriteIndex]) {
-			this.currentSpriteIndex = this.newRandomSprite(this.currentSpriteIndex);
-			this.currentSpriteIndex %= this.sprites.length;
-			this.currentSpriteTimer = 0;
+		if (this.playing) {
+			this.currentSpriteTimer += 1;
+			if (this.currentSpriteTimer >= this.timers[this.currentSpriteIndex]) {
+				this.currentSpriteIndex = this.newRandomSprite(this.currentSpriteIndex);
+				this.currentSpriteIndex %= this.sprites.length;
+				this.currentSpriteTimer = 0;
+			}
 		}
 	}
 
@@ -62,6 +66,27 @@ public class RandomizedAnimation extends Animation {
 	@Override
 	public synchronized void render(final Screen screen) {
 		screen.image(this.sprites[this.currentSpriteIndex].image(), this.x, this.y, this.sprites[this.currentSpriteIndex].getWidth(), this.sprites[this.currentSpriteIndex].getHeight());
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public void pause() {
+		this.playing = false;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public void play() {
+		this.playing = true;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public void reset() {
+		this.currentSpriteIndex = 0;
 	}
 
 	/**
@@ -104,6 +129,13 @@ public class RandomizedAnimation extends Animation {
 	 */
 	public void setY(final int y) {
 		this.y = y;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public int getCurrentSpriteIndex() {
+		return this.currentSpriteIndex;
 	}
 
 	@Override
