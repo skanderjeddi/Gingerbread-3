@@ -50,7 +50,7 @@ public class G3Demo extends Application {
 	 * pretty nice.
 	 */
 	public static final String IDENTIFIER = "g3-d", TITLE = "Gingerbread-3 [DEMO]";
-	public static final double REFRESH_RATE = 60.0D;
+	public static final double REFRESH_RATE = 100.0D;
 	public static final int WIDTH = 1200, HEIGHT = (G3Demo.WIDTH / 16) * 9, BUFFERS = 2;
 
 	public static final int BACKGROUND_PARTICLES = 150;
@@ -70,7 +70,7 @@ public class G3Demo extends Application {
 			public List<String> sceneObjects() {
 				// Those are the only components which will be rendered/updated during this
 				// scene
-				return Arrays.asList("pink-source", "title", "play-button", "settings-button", "exit-button", "music-checkbox", "flowers");
+				return Arrays.asList("pink-source", "title", "play-button", "settings-button", "exit-button", "music-checkbox", "flowers", "petit-pd-jaune");
 			}
 
 			@Override
@@ -165,6 +165,7 @@ public class G3Demo extends Application {
 		final Sprite[] petals = Sprite.fromImages(this, "petal_%d", Images.getCollectionByID("petal"));
 		Engine.register("flowers", new Particles(this, G3Demo.WIDTH / 2, 0, 10, 2 * G3Demo.HEIGHT, G3Demo.BACKGROUND_PARTICLES, petals, Vector2.randomVectors(G3Demo.BACKGROUND_PARTICLES, -1, 1, 1, 1), 5, 2));
 		Engine.register("fade-transition", new FadeTransition(this, 60, Color.BLACK));
+		Engine.register("petit-pd-jaune", new PetitPD(this));
 	}
 
 	@Override
@@ -182,7 +183,6 @@ public class G3Demo extends Application {
 		super.postCreate();
 		// Enable profiler
 		this.useProfiler();
-		this.window.enableOpenGL();
 	}
 
 	@Override
