@@ -156,15 +156,14 @@ public class G3Demo extends Application {
 		// Register some audio and some fonts
 		Audios.load("background", "res/audio/background.wav");
 		Fonts.load("lunchds", "res/font/lunchds.ttf");
-		Images.loadAll("ashe_%d", "res/sprite/ashe/");
-		Images.loadAll("campfire_%d", "res/sprite/campfire");
+		Images.loadAll("petal_%d", "res/sprite/flowers/");
 	}
 
 	@Override
 	public void registerGameObjects() {
 		Engine.register("pink-source", new OmnidirectionalLighting(this, new Color(Color.PINK.getRed(), Color.PINK.getGreen(), Color.PINK.getBlue(), 255), G3Demo.WIDTH / 2, G3Demo.HEIGHT / 2, G3Demo.WIDTH + (G3Demo.WIDTH / 2), Priority.REGULAR));
-		final Sprite[] ashes = Sprite.fromImages(this, "ashe_%d", Images.getCollectionByID("ashe"));
-		Engine.register("flowers", new Particles(this, G3Demo.WIDTH / 2, 0, 10, 2 * G3Demo.HEIGHT, G3Demo.BACKGROUND_PARTICLES, ashes, Vector2.randomVectors(G3Demo.BACKGROUND_PARTICLES, -1, 1, 1, 1), 5, 2));
+		final Sprite[] petals = Sprite.fromImages(this, "petal_%d", Images.getCollectionByID("petal"));
+		Engine.register("flowers", new Particles(this, G3Demo.WIDTH / 2, 0, 10, 2 * G3Demo.HEIGHT, G3Demo.BACKGROUND_PARTICLES, petals, Vector2.randomVectors(G3Demo.BACKGROUND_PARTICLES, -1, 1, 1, 1), 5, 2));
 		Engine.register("fade-transition", new FadeTransition(this, 60, Color.BLACK));
 	}
 
