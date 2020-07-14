@@ -70,7 +70,7 @@ public class G3Demo extends Application {
 			public List<String> sceneObjects() {
 				// Those are the only components which will be rendered/updated during this
 				// scene
-				return Arrays.asList("background-clock", "pink-source", "title", "play-button", "settings-button", "exit-button", "music-checkbox", "flowers");
+				return Arrays.asList("pink-source", "title", "play-button", "settings-button", "exit-button", "music-checkbox", "flowers");
 			}
 
 			@Override
