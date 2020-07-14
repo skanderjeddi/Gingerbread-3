@@ -17,8 +17,8 @@ import com.skanderj.gingerbread3.component.boilerplates.GCheckbox;
 import com.skanderj.gingerbread3.component.boilerplates.GSlider;
 import com.skanderj.gingerbread3.component.boilerplates.GText;
 import com.skanderj.gingerbread3.core.Application;
-import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Engine;
+import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.input.Binds;
 import com.skanderj.gingerbread3.input.Keyboard;
@@ -101,7 +101,7 @@ public class G3Demo extends Application {
 			@Override
 			public void update() {
 				super.update();
-				Engine.parameterize("mouse-position-indicator", new String[] { "mouse-x", "mouse-y" }, new Object[] { this.application.mouse().getX(), this.application.mouse().getY() });
+				Engine.parameterize("mouse-position-indicator", Utilities.createArray("mouse-x", "mouse-y"), Utilities.createArray(this.application.mouse().getX(), this.application.mouse().getY()));
 			}
 
 			@Override
@@ -284,10 +284,10 @@ public class G3Demo extends Application {
 
 	@Override
 	public void registerBinds() {
-		Binds.registerBind("in-game", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, object -> Scenes.switchTo("main-menu"));
-		Binds.registerBind("settings", new Integer[] { Keyboard.KEY_ESCAPE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN }, object -> Scenes.switchTo("main-menu"));
-		Binds.registerBind("main-menu", new Integer[] { Keyboard.KEY_ESCAPE, Keyboard.KEY_SPACE }, new Keyboard.KeyState[] { Keyboard.KeyState.DOWN, Keyboard.KeyState.DOWN }, object -> this.stop());
-		Binds.registerBind("*", new Integer[] { Keyboard.KEY_F5 }, new KeyState[] { KeyState.DOWN_IN_CURRENT_FRAME }, object -> this.screenshot("scr/" + Utilities.fileNameCompatibleDateString() + ".png"));
+		Binds.registerBind("in-game", Utilities.createArray(Keyboard.KEY_ESCAPE), Utilities.createArray(KeyState.DOWN), object -> Scenes.switchTo("main-menu"));
+		Binds.registerBind("settings", Utilities.createArray(Keyboard.KEY_ESCAPE), Utilities.createArray(KeyState.DOWN), object -> Scenes.switchTo("main-menu"));
+		Binds.registerBind("main-menu", Utilities.createArray(Keyboard.KEY_ESCAPE, Keyboard.KEY_SPACE), Utilities.createArray(KeyState.DOWN, KeyState.DOWN), object -> this.stop());
+		Binds.registerBind("*", Utilities.createArray(Keyboard.KEY_F5), Utilities.createArray(KeyState.DOWN_IN_CURRENT_FRAME), object -> this.screenshot("scr/" + Utilities.fileNameCompatibleDateString() + ".png"));
 	}
 
 	@Override
