@@ -1,7 +1,7 @@
 package com.skanderj.gingerbread3.component;
 
-import com.skanderj.gingerbread3.core.G3Application;
-import com.skanderj.gingerbread3.core.object.G3Action;
+import com.skanderj.gingerbread3.core.Application;
+import com.skanderj.gingerbread3.core.object.Action;
 import com.skanderj.gingerbread3.input.Mouse;
 
 /**
@@ -14,17 +14,17 @@ public abstract class Checkbox extends Component {
 	protected ComponentState previousState, state;
 	protected boolean isChecked;
 	protected boolean hasFocus, mouseWasIn;
-	protected G3Action[] actions;
+	protected Action[] actions;
 
-	public Checkbox(final G3Application g3Application) {
-		super(g3Application);
+	public Checkbox(final Application application) {
+		super(application);
 		this.isChecked = false;
 		this.previousState = ComponentState.IDLE;
 		this.state = ComponentState.IDLE;
-		this.actions = new G3Action[5];
+		this.actions = new Action[5];
 		// Set default actions (do nothing) for every currentState
 		for (int index = 0; index < this.actions.length; index += 1) {
-			this.actions[index] = G3Action.DEFAULT_DO_NOTHING;
+			this.actions[index] = Action.DEFAULT_DO_NOTHING;
 		}
 		this.hasFocus = false;
 	}
@@ -32,8 +32,8 @@ public abstract class Checkbox extends Component {
 	@Override
 	public void update() {
 		this.previousState = this.state;
-		final int mouseX = this.g3Application.mouse().getX(), mouseY = this.g3Application.mouse().getY();
-		final boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = this.g3Application.mouse().isButtonDown(Mouse.BUTTON_LEFT);
+		final int mouseX = this.application.mouse().getX(), mouseY = this.application.mouse().getY();
+		final boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = this.application.mouse().isButtonDown(Mouse.BUTTON_LEFT);
 		if (mouseIn && mouseClicked && !this.hasFocus) {
 			this.hasFocus = true;
 		}
@@ -63,8 +63,8 @@ public abstract class Checkbox extends Component {
 	 * Sets the component actions that will be executed when the provided
 	 * currentState is the current currentState.
 	 */
-	public void mapAction(final ComponentState state, final G3Action g3Action) {
-		this.actions[state.identifier()] = g3Action;
+	public void mapAction(final ComponentState state, final Action action) {
+		this.actions[state.identifier()] = action;
 	}
 
 	/**
@@ -97,14 +97,14 @@ public abstract class Checkbox extends Component {
 	/**
 	 * Self explanatory.
 	 */
-	public G3Action[] actions() {
+	public Action[] actions() {
 		return this.actions;
 	}
 
 	/**
 	 * Self explanatory. Can be used to set multiple actions at once.
 	 */
-	public void setActions(final G3Action[] actions) {
+	public void setActions(final Action[] actions) {
 		this.actions = actions;
 	}
 
@@ -125,7 +125,7 @@ public abstract class Checkbox extends Component {
 	/**
 	 * Self explanatory.
 	 */
-	public void onSwitch(final G3Action onSwitchG3Action) {
-		this.actions[4] = onSwitchG3Action;
+	public void onSwitch(final Action onSwitchAction) {
+		this.actions[4] = onSwitchAction;
 	}
 }

@@ -1,6 +1,6 @@
 package com.skanderj.gingerbread3.core.object;
 
-import com.skanderj.gingerbread3.core.G3Application;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.core.Renderable;
@@ -8,17 +8,17 @@ import com.skanderj.gingerbread3.core.Updateable;
 import com.skanderj.gingerbread3.display.Screen;
 
 /**
- * Represents a g3Application object, the building blocks of any g3Application.
+ * Represents a application object, the building blocks of any application.
  *
  * @author Skander
  *
  */
-public abstract class G3Object implements Comparable<G3Object> {
+public abstract class ApplicationObject implements Comparable<ApplicationObject> {
 	/**
 	 * Self explanatory.
 	 */
-	public static final G3Object constructFromUpdateable(final G3Application g3Application, final Updateable updateable) {
-		return new G3Object(g3Application) {
+	public static final ApplicationObject constructFromUpdateable(final Application application, final Updateable updateable) {
+		return new ApplicationObject(application) {
 
 			@Override
 			public void update() {
@@ -37,7 +37,7 @@ public abstract class G3Object implements Comparable<G3Object> {
 
 			@Override
 			public String description() {
-				return Registry.identifier(this) + " = Updateable -> G3Object.class()";
+				return Registry.identifier(this) + " = Updateable -> ApplicationObject.class()";
 			}
 		};
 	}
@@ -45,8 +45,8 @@ public abstract class G3Object implements Comparable<G3Object> {
 	/**
 	 * Self explanatory.
 	 */
-	public static final G3Object constructFromRenderable(final G3Application g3Application, final Renderable renderable) {
-		return new G3Object(g3Application) {
+	public static final ApplicationObject constructFromRenderable(final Application application, final Renderable renderable) {
+		return new ApplicationObject(application) {
 
 			@Override
 			public void update() {
@@ -65,16 +65,16 @@ public abstract class G3Object implements Comparable<G3Object> {
 
 			@Override
 			public String description() {
-				return Registry.identifier(this) + " = Renderable -> G3Object.class()";
+				return Registry.identifier(this) + " = Renderable -> ApplicationObject.class()";
 			}
 		};
 	}
 
-	protected final G3Application g3Application;
+	protected final Application application;
 	protected boolean shouldSkipRegistryChecks;
 
-	public G3Object(final G3Application g3Application) {
-		this.g3Application = g3Application;
+	public ApplicationObject(final Application application) {
+		this.application = application;
 		this.shouldSkipRegistryChecks = false;
 	}
 
@@ -95,16 +95,16 @@ public abstract class G3Object implements Comparable<G3Object> {
 	/**
 	 * Returns this object's app.
 	 */
-	public final G3Application application() {
-		return this.g3Application;
+	public final Application application() {
+		return this.application;
 	}
 
 	public abstract Priority priority();
 
 	// Priority comparison, could be nicer but flemme
 	@Override
-	public int compareTo(final G3Object g3Object) {
-		return -(this.priority().priorityIndex - g3Object.priority().priorityIndex);
+	public int compareTo(final ApplicationObject object) {
+		return -(this.priority().priorityIndex - object.priority().priorityIndex);
 	}
 
 	/**

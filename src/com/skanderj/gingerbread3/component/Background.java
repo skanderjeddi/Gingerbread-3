@@ -1,6 +1,6 @@
 package com.skanderj.gingerbread3.component;
 
-import com.skanderj.gingerbread3.core.G3Application;
+import com.skanderj.gingerbread3.core.Application;
 
 /**
  *
@@ -8,8 +8,8 @@ import com.skanderj.gingerbread3.core.G3Application;
  *
  */
 public abstract class Background extends Component {
-	public Background(final G3Application g3Application) {
-		super(g3Application);
+	public Background(final Application application) {
+		super(application);
 	}
 
 	/**

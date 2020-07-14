@@ -6,9 +6,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.skanderj.gingerbread3.core.G3Application;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Registry;
-import com.skanderj.gingerbread3.core.object.G3Action;
+import com.skanderj.gingerbread3.core.object.Action;
 import com.skanderj.gingerbread3.input.Keyboard.KeyState;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
@@ -29,8 +29,8 @@ public class Binds {
 	/**
 	 * Self explanatory.
 	 */
-	public static synchronized final void registerBind(final String targetScene, final Integer[] targetKeycodes, final Keyboard.KeyState[] targetState, final G3Action g3Action) {
-		Binds.registerBind(new Bind(targetScene, targetKeycodes, targetState, g3Action));
+	public static synchronized final void registerBind(final String targetScene, final Integer[] targetKeycodes, final Keyboard.KeyState[] targetState, final Action action) {
+		Binds.registerBind(new Bind(targetScene, targetKeycodes, targetState, action));
 	}
 
 	/**
@@ -45,8 +45,8 @@ public class Binds {
 	/**
 	 * Self explanatory. Logic happens here.
 	 */
-	public static synchronized final void update(final G3Application g3Application) {
-		final Keyboard keyboard = g3Application.keyboard();
+	public static synchronized final void update(final Application application) {
+		final Keyboard keyboard = application.keyboard();
 		if (keyboard != null) {
 			final Integer[] keysDown = keyboard.getKeysByState(Keyboard.KeyState.DOWN);
 			final Integer[] keysDownInFrame = keyboard.getKeysByState(Keyboard.KeyState.DOWN_IN_CURRENT_FRAME);

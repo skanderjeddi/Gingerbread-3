@@ -1,7 +1,7 @@
 package com.skanderj.gingerbread3.core;
 
 /**
- * Represents a g3Application object priority, or what order do the objects get
+ * Represents a application object priority, or what order do the objects get
  * updated/drawn in.
  *
  * @author Skander

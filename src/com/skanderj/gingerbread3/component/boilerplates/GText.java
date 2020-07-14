@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.Text;
-import com.skanderj.gingerbread3.core.G3Application;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
@@ -20,8 +20,8 @@ import com.skanderj.gingerbread3.util.Label;
 public final class GText extends Text {
 	private int x, y, width, height;
 
-	public GText(final G3Application g3Application, final int x, final int y, final int width, final int height, final Label label) {
-		super(g3Application, label);
+	public GText(final Application application, final int x, final int y, final int width, final int height, final Label label) {
+		super(application, label);
 		this.x = x;
 		this.y = y;
 		this.width = width;

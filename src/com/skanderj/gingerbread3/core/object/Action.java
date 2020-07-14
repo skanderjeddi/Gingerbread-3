@@ -6,14 +6,14 @@ package com.skanderj.gingerbread3.core.object;
  * @author Skander
  *
  */
-public interface G3Action {
-	public static final G3Action DEFAULT_DO_NOTHING = new G3Action() {
+public interface Action {
+	public static final Action DEFAULT_DO_NOTHING = new Action() {
 		@Override
-		public void execute(G3Object object) {
+		public void execute(ApplicationObject object) {
 			return;
 		}
 	};
 
 	// Do what's here
-	void execute(G3Object object);
+	void execute(ApplicationObject object);
 }

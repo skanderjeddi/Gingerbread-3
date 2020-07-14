@@ -3,9 +3,9 @@ package com.skanderj.gingerbread3.scheduler;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.skanderj.gingerbread3.core.G3Application;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Registry;
-import com.skanderj.gingerbread3.core.object.G3Object;
+import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 
@@ -26,8 +26,8 @@ public final class Scheduler {
 	/**
 	 * Self explanatory.
 	 */
-	public static synchronized void scheduleTask(final G3Application g3Application, final Task task) {
-		Registry.register(task.identifier(), G3Object.constructFromUpdateable(g3Application, task));
+	public static synchronized void scheduleTask(final Application application, final Task task) {
+		Registry.register(task.identifier(), ApplicationObject.constructFromUpdateable(application, task));
 		Scheduler.schedule.add(task);
 		task.start();
 	}

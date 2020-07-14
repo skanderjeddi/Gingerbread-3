@@ -1,9 +1,9 @@
 package com.skanderj.gingerbread3.transition;
 
-import com.skanderj.gingerbread3.core.G3Application;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
-import com.skanderj.gingerbread3.core.object.G3Object;
+import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.scene.Scenes;
 
 /**
@@ -12,11 +12,11 @@ import com.skanderj.gingerbread3.scene.Scenes;
  * @author Skander
  *
  */
-public abstract class Transition extends G3Object {
+public abstract class Transition extends ApplicationObject {
 	protected int duration, timer;
 
-	public Transition(final G3Application g3Application, final int duration) {
-		super(g3Application);
+	public Transition(final Application application, final int duration) {
+		super(application);
 		this.duration = duration;
 		this.timer = 0;
 	}

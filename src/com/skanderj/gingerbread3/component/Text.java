@@ -1,6 +1,6 @@
 package com.skanderj.gingerbread3.component;
 
-import com.skanderj.gingerbread3.core.G3Application;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.util.Label;
 
 /**
@@ -17,8 +17,8 @@ public abstract class Text extends Component {
 	/**
 	 * Very basic constructor.
 	 */
-	public Text(final G3Application g3Application, final Label label) {
-		super(g3Application);
+	public Text(final Application application, final Label label) {
+		super(application);
 		this.label = label;
 	}
 

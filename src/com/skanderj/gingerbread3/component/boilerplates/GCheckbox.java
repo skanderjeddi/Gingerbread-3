@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 
 import com.skanderj.gingerbread3.component.Checkbox;
 import com.skanderj.gingerbread3.component.ComponentLabelPosition;
-import com.skanderj.gingerbread3.core.G3Application;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
@@ -23,8 +23,8 @@ public class GCheckbox extends Checkbox {
 	private Color backgroundColor, borderColor, crossColor;
 	private ComponentLabelPosition labelPosition;
 
-	public GCheckbox(final G3Application g3Application, final int x, final int y, final int width, final int height, final Label label, final Color backgroundColor, final Color borderColor, final Color crossColor, final ComponentLabelPosition labelPosition) {
-		super(g3Application);
+	public GCheckbox(final Application application, final int x, final int y, final int width, final int height, final Label label, final Color backgroundColor, final Color borderColor, final Color crossColor, final ComponentLabelPosition labelPosition) {
+		super(application);
 		this.x = x;
 		this.y = y;
 		this.width = width;

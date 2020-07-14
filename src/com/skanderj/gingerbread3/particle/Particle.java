@@ -1,9 +1,9 @@
 package com.skanderj.gingerbread3.particle;
 
-import com.skanderj.gingerbread3.core.G3Application;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
-import com.skanderj.gingerbread3.core.object.G3Object;
+import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.math.Vector2;
 
@@ -12,13 +12,13 @@ import com.skanderj.gingerbread3.math.Vector2;
  * @author Skander
  *
  */
-public class Particle extends G3Object {
+public class Particle extends ApplicationObject {
 	protected int x, y;
 	protected Moveable moveable;
 	protected Vector2 velocity;
 
-	public Particle(final G3Application g3Application, final int x, final int y, final Moveable moveable, final Vector2 velocity) {
-		super(g3Application);
+	public Particle(final Application application, final int x, final int y, final Moveable moveable, final Vector2 velocity) {
+		super(application);
 		this.x = x;
 		this.y = y;
 		this.moveable = moveable.copy();

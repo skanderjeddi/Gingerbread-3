@@ -5,7 +5,7 @@ import java.awt.Point;
 import java.awt.RadialGradientPaint;
 import java.awt.geom.Arc2D;
 
-import com.skanderj.gingerbread3.core.G3Application;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
@@ -24,8 +24,8 @@ public class DirectionalLighting extends LightingSource {
 	private int startingAngle;
 	private int arcAngle;
 
-	public DirectionalLighting(final G3Application g3Application, final int x, final int y, final Color color, final int radius, final int startingAngle, final int angleEnd, Priority priority) {
-		super(g3Application, x, y, priority);
+	public DirectionalLighting(final Application application, final int x, final int y, final Color color, final int radius, final int startingAngle, final int angleEnd, final Priority priority) {
+		super(application, x, y, priority);
 		this.color = color;
 		this.radius = radius;
 		this.startingAngle = startingAngle;
@@ -34,7 +34,7 @@ public class DirectionalLighting extends LightingSource {
 
 	@Override
 	public Moveable copy() {
-		return new DirectionalLighting(this.g3Application, this.x, this.y, this.color, this.radius, this.startingAngle, this.arcAngle, this.priority);
+		return new DirectionalLighting(this.application, this.x, this.y, this.color, this.radius, this.startingAngle, this.arcAngle, this.priority);
 	}
 
 	@Override

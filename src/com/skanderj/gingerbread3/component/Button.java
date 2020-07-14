@@ -1,33 +1,33 @@
 package com.skanderj.gingerbread3.component;
 
-import com.skanderj.gingerbread3.core.G3Application;
-import com.skanderj.gingerbread3.core.object.G3Action;
+import com.skanderj.gingerbread3.core.Application;
+import com.skanderj.gingerbread3.core.object.Action;
 import com.skanderj.gingerbread3.input.Mouse;
 
 /**
  * Represents an abstract button, basis for other button classes which can
- * implement their rendering the way they please. See GStraightEdgesButton and
- * GRoundEdgesButton for basic, ready-to-be-used examples.
+ * implement their rendering the way they please. See GButton and GButton for
+ * basic, ready-to-be-used examples.
  *
  * @author Skander
  *
  */
 public abstract class Button extends Component {
 	protected ComponentState previousState, state;
-	protected G3Action[] actions;
+	protected Action[] actions;
 	protected boolean hasFocus, mouseWasIn;
 
 	/**
 	 * Basic constructor: position.
 	 */
-	public Button(final G3Application g3Application) {
-		super(g3Application);
+	public Button(final Application application) {
+		super(application);
 		this.previousState = ComponentState.IDLE;
 		this.state = ComponentState.IDLE;
-		this.actions = new G3Action[4];
+		this.actions = new Action[4];
 		// Set default actions (do nothing) for every currentState
 		for (int index = 0; index < this.actions.length; index += 1) {
-			this.actions[index] = G3Action.DEFAULT_DO_NOTHING;
+			this.actions[index] = Action.DEFAULT_DO_NOTHING;
 		}
 		this.hasFocus = false;
 	}
@@ -40,8 +40,8 @@ public abstract class Button extends Component {
 	@Override
 	public void update() {
 		this.previousState = this.state;
-		final int mouseX = this.g3Application.mouse().getX(), mouseY = this.g3Application.mouse().getY();
-		final boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = this.g3Application.mouse().isButtonDown(Mouse.BUTTON_LEFT);
+		final int mouseX = this.application.mouse().getX(), mouseY = this.application.mouse().getY();
+		final boolean mouseIn = this.containsMouse(mouseX, mouseY), mouseClicked = this.application.mouse().isButtonDown(Mouse.BUTTON_LEFT);
 		if (mouseIn && mouseClicked && !this.hasFocus) {
 			this.hasFocus = true;
 		}
@@ -67,8 +67,8 @@ public abstract class Button extends Component {
 	 * Sets the button actions that will be executed when the provided currentState
 	 * is the current currentState.
 	 */
-	public void mapActionToState(final ComponentState state, final G3Action g3Action) {
-		this.actions[state.identifier()] = g3Action;
+	public void mapActionToState(final ComponentState state, final Action action) {
+		this.actions[state.identifier()] = action;
 	}
 
 	/**
@@ -101,14 +101,14 @@ public abstract class Button extends Component {
 	/**
 	 * Self explanatory.
 	 */
-	public G3Action[] actions() {
+	public Action[] actions() {
 		return this.actions;
 	}
 
 	/**
 	 * Self explanatory. Can be used to set multiple actions at once.
 	 */
-	public void setActions(final G3Action[] actions) {
+	public void setActions(final Action[] actions) {
 		this.actions = actions;
 	}
 }

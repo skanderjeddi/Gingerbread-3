@@ -5,10 +5,10 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
-import com.skanderj.gingerbread3.core.G3Application;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
-import com.skanderj.gingerbread3.core.object.G3Object;
+import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.particle.Moveable;
 import com.skanderj.gingerbread3.resources.Images;
@@ -19,7 +19,7 @@ import com.skanderj.gingerbread3.resources.Images;
  * @author Skander
  *
  */
-public class Sprite extends G3Object implements Moveable {
+public class Sprite extends ApplicationObject implements Moveable {
 	private final String identifier;
 	private final BufferedImage originalImage;
 	private BufferedImage editedImage;
@@ -29,10 +29,10 @@ public class Sprite extends G3Object implements Moveable {
 	/**
 	 * Self explanatory.
 	 */
-	public static final Sprite[] fromImages(final G3Application g3Application, final String identifier, final BufferedImage... images) {
+	public static final Sprite[] fromImages(final Application application, final String identifier, final BufferedImage... images) {
 		final Sprite[] array = new Sprite[images.length];
 		for (int i = 0; i < array.length; i += 1) {
-			array[i] = new Sprite(g3Application, String.format(identifier, i), images[i], images[i].getWidth(), images[i].getHeight());
+			array[i] = new Sprite(application, String.format(identifier, i), images[i], images[i].getWidth(), images[i].getHeight());
 			Registry.register(String.format(identifier, i), array[i]);
 		}
 		return array;
@@ -41,7 +41,7 @@ public class Sprite extends G3Object implements Moveable {
 	/**
 	 * Self explanatory.
 	 */
-	public static final Sprite fromImage(final G3Application g3Application, final String identifier, final String path, final int width, final int height, final int scaleMethod) {
+	public static final Sprite fromImage(final Application application, final String identifier, final String path, final int width, final int height, final int scaleMethod) {
 		Images.register(identifier, path);
 		final BufferedImage loadedImage = Images.get(identifier);
 		final int loadedImageWidth = loadedImage.getWidth(), loadedImageHeight = loadedImage.getHeight();
@@ -50,13 +50,13 @@ public class Sprite extends G3Object implements Moveable {
 		affineTransform.scale((float) width / (float) loadedImageWidth, (float) height / (float) loadedImageWidth);
 		final AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, scaleMethod);
 		finalImage = affineTransformOp.filter(loadedImage, finalImage);
-		final Sprite sprite = new Sprite(g3Application, identifier, finalImage, width, height);
+		final Sprite sprite = new Sprite(application, identifier, finalImage, width, height);
 		Registry.register(identifier, sprite);
 		return sprite;
 	}
 
-	public Sprite(final G3Application g3Application, final String identifier, final BufferedImage image, final int width, final int height) {
-		super(g3Application);
+	public Sprite(final Application application, final String identifier, final BufferedImage image, final int width, final int height) {
+		super(application);
 		this.identifier = identifier;
 		this.originalImage = image;
 		this.width = width;
@@ -155,7 +155,7 @@ public class Sprite extends G3Object implements Moveable {
 	 */
 	@Override
 	public final Sprite copy() {
-		return new Sprite(this.g3Application, this.identifier, this.editedImage == null ? this.originalImage : this.editedImage, this.width, this.height);
+		return new Sprite(this.application, this.identifier, this.editedImage == null ? this.originalImage : this.editedImage, this.width, this.height);
 	}
 
 	/**

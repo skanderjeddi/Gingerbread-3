@@ -1,13 +1,13 @@
 package com.skanderj.gingerbread3.core;
 
-import com.skanderj.gingerbread3.core.object.G3Object;
+import com.skanderj.gingerbread3.core.object.ApplicationObject;
 
 /**
  *
  * @author Skander
  *
  */
-public interface Updateable extends Comparable<G3Object> {
+public interface Updateable extends Comparable<ApplicationObject> {
 	/**
 	 * Self explanatory.
 	 */
@@ -21,13 +21,13 @@ public interface Updateable extends Comparable<G3Object> {
 	/**
 	 * Self explanatory.
 	 */
-	G3Application application();
+	Application application();
 
 	/**
 	 * Self explanatory.
 	 */
 	@Override
-	default int compareTo(final G3Object g3Object) {
-		return -(this.priority().priorityIndex - g3Object.priority().priorityIndex);
+	default int compareTo(final ApplicationObject applicationObject) {
+		return -(this.priority().priorityIndex - applicationObject.priority().priorityIndex);
 	}
 }

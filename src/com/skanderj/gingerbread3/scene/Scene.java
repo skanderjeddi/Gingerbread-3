@@ -2,10 +2,10 @@ package com.skanderj.gingerbread3.scene;
 
 import java.util.List;
 
-import com.skanderj.gingerbread3.core.G3Application;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
-import com.skanderj.gingerbread3.core.object.G3Object;
+import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.display.Screen;
 
 /**
@@ -14,12 +14,12 @@ import com.skanderj.gingerbread3.display.Screen;
  * @author Skander
  *
  */
-public abstract class Scene extends G3Object {
-	public Scene(final G3Application g3Application) {
-		super(g3Application);
+public abstract class Scene extends ApplicationObject {
+	public Scene(final Application application) {
+		super(application);
 	}
 
-	// Set the scene g3Application objects
+	// Set the scene application objects
 	public abstract List<String> sceneObjects();
 
 	// Logic happens here

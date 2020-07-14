@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 
 import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.Selector;
-import com.skanderj.gingerbread3.core.G3Application;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
@@ -27,15 +27,15 @@ public final class GSelector extends Selector {
 	/**
 	 * Self explanatory.
 	 */
-	public GSelector(final G3Application g3Application, final int x, final int y, final int width, final int height, final int arrowSize, final LabelProperties properties, final String[] optionsArray) {
-		this(g3Application, x, y, width, height, arrowSize, properties, optionsArray, optionsArray[0]);
+	public GSelector(final Application application, final int x, final int y, final int width, final int height, final int arrowSize, final LabelProperties properties, final String[] optionsArray) {
+		this(application, x, y, width, height, arrowSize, properties, optionsArray, optionsArray[0]);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public GSelector(final G3Application g3Application, final int x, final int y, final int width, final int height, final int arrowSize, final LabelProperties properties, final String[] optionsArray, final String defaultOption) {
-		super(g3Application, optionsArray, defaultOption);
+	public GSelector(final Application application, final int x, final int y, final int width, final int height, final int arrowSize, final LabelProperties properties, final String[] optionsArray, final String defaultOption) {
+		super(application, optionsArray, defaultOption);
 		this.x = x;
 		this.y = y;
 		this.properties = properties;

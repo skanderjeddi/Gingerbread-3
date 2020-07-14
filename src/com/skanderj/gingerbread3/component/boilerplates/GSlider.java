@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 import com.skanderj.gingerbread3.component.ComponentLabelPosition;
 import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.Slider;
-import com.skanderj.gingerbread3.core.G3Application;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
@@ -26,8 +26,8 @@ public final class GSlider extends Slider {
 	private ComponentLabelPosition labelPosition;
 	private Color color;
 
-	public GSlider(final G3Application g3Application, final int x, final int y, final int width, final int height, final int sliderWidth, final int sliderHeight, final float min, final float max, final float defaultValue, final Color color, final Label label, final ComponentLabelPosition position) {
-		super(g3Application, min, max, defaultValue);
+	public GSlider(final Application application, final int x, final int y, final int width, final int height, final int sliderWidth, final int sliderHeight, final float min, final float max, final float defaultValue, final Color color, final Label label, final ComponentLabelPosition position) {
+		super(application, min, max, defaultValue);
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -44,7 +44,7 @@ public final class GSlider extends Slider {
 	public synchronized void update() {
 		super.update();
 		if (this.hasFocus) {
-			this.sliderX = (int) Utilities.map(this.g3Application.mouse().getX(), this.x, this.x + this.getWidth(), this.x, this.x + this.getWidth(), true);
+			this.sliderX = (int) Utilities.map(this.application.mouse().getX(), this.x, this.x + this.getWidth(), this.x, this.x + this.getWidth(), true);
 		}
 	}
 

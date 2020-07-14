@@ -3,8 +3,8 @@ package com.skanderj.gingerbread3.component;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.skanderj.gingerbread3.core.G3Application;
-import com.skanderj.gingerbread3.core.object.G3Action;
+import com.skanderj.gingerbread3.core.Application;
+import com.skanderj.gingerbread3.core.object.Action;
 import com.skanderj.gingerbread3.input.Mouse;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
@@ -28,25 +28,25 @@ public abstract class Selector extends Component {
 		protected ComponentState currentState, previousState;
 		protected boolean hasFocus;
 		protected boolean mouseWasIn;
-		private final G3Action[] g3Actions;
+		private final Action[] actions;
 
 		public SelectorArrow() {
 			this.currentState = ComponentState.IDLE;
 			this.previousState = ComponentState.IDLE;
 			this.hasFocus = false;
 			this.mouseWasIn = false;
-			this.g3Actions = new G3Action[4];
+			this.actions = new Action[4];
 			// Set default actions (do nothing) for every currentState
-			for (int index = 0; index < this.g3Actions.length; index += 1) {
-				this.g3Actions[index] = G3Action.DEFAULT_DO_NOTHING;
+			for (int index = 0; index < this.actions.length; index += 1) {
+				this.actions[index] = Action.DEFAULT_DO_NOTHING;
 			}
 		}
 
-		public final void setG3Action(final ComponentState state, final G3Action g3Action) {
+		public final void setAction(final ComponentState state, final Action action) {
 			if (state == ComponentState.ACTIVE) {
 				Logger.log(Selector.SelectorArrow.class, LogLevel.ERROR, "Can't change the on click behavior of a selector arrow");
 			} else {
-				this.g3Actions[state.identifier()] = g3Action;
+				this.actions[state.identifier()] = action;
 			}
 		}
 	}
@@ -64,15 +64,15 @@ public abstract class Selector extends Component {
 	 * Nothing to say, calls the 2nd constructor with the first element of the
 	 * options array as the default options.
 	 */
-	public Selector(final G3Application g3Application, final String[] optionsArray) {
-		this(g3Application, optionsArray, optionsArray[0]);
+	public Selector(final Application application, final String[] optionsArray) {
+		this(application, optionsArray, optionsArray[0]);
 	}
 
 	/**
 	 * Pretty self explanatory.
 	 */
-	public Selector(final G3Application g3Application, final String[] optionsArray, final String defaultOption) {
-		super(g3Application);
+	public Selector(final Application application, final String[] optionsArray, final String defaultOption) {
+		super(application);
 		this.options = new ArrayList<>();
 		for (final String option : optionsArray) {
 			this.options.add(option);
@@ -84,13 +84,13 @@ public abstract class Selector extends Component {
 		this.currentOptionIndex = this.options.lastIndexOf(defaultOption);
 		this.leftArrow = new SelectorArrow();
 		this.rightArrow = new SelectorArrow();
-		this.leftArrow.g3Actions[ComponentState.ACTIVE.identifier()] = (object) -> {
+		this.leftArrow.actions[ComponentState.ACTIVE.identifier()] = object -> {
 			Selector.this.currentOptionIndex -= 1;
 			if (Selector.this.currentOptionIndex < 0) {
 				Selector.this.currentOptionIndex = Selector.this.options.size() - 1;
 			}
 		};
-		this.rightArrow.g3Actions[ComponentState.ACTIVE.identifier()] = (object) -> {
+		this.rightArrow.actions[ComponentState.ACTIVE.identifier()] = object -> {
 			Selector.this.currentOptionIndex += 1;
 			Selector.this.currentOptionIndex %= Selector.this.options.size();
 		};
@@ -107,11 +107,11 @@ public abstract class Selector extends Component {
 		this.leftArrow.previousState = this.leftArrow.currentState;
 		this.rightArrow.previousState = this.rightArrow.currentState;
 		// Get the mouse position
-		final int mouseX = this.g3Application.mouse().getX(), mouseY = this.g3Application.mouse().getY();
+		final int mouseX = this.application.mouse().getX(), mouseY = this.application.mouse().getY();
 		// Left arrow handling, this block magically works and it took me a lot of time
 		// but I couldn't for the life of me explain it..
 		{
-			final boolean mouseInLeft = this.leftArrowContainsMouse(mouseX, mouseY), mouseClicked = this.g3Application.mouse().isButtonDown(Mouse.BUTTON_LEFT);
+			final boolean mouseInLeft = this.leftArrowContainsMouse(mouseX, mouseY), mouseClicked = this.application.mouse().isButtonDown(Mouse.BUTTON_LEFT);
 			if (mouseInLeft && mouseClicked && !this.leftArrow.hasFocus) {
 				this.leftArrow.hasFocus = true;
 			}
@@ -134,7 +134,7 @@ public abstract class Selector extends Component {
 		// Right arrow handling, this block magically works and it took me a lot of time
 		// but I couldn't for the life of me explain it..
 		{
-			final boolean mouseInRight = this.rightArrowContainsMouse(mouseX, mouseY), mouseClicked = this.g3Application.mouse().isButtonDown(Mouse.BUTTON_LEFT);
+			final boolean mouseInRight = this.rightArrowContainsMouse(mouseX, mouseY), mouseClicked = this.application.mouse().isButtonDown(Mouse.BUTTON_LEFT);
 			if (mouseInRight && mouseClicked && !this.rightArrow.hasFocus) {
 				this.rightArrow.hasFocus = true;
 			}
@@ -154,8 +154,8 @@ public abstract class Selector extends Component {
 				this.rightArrow.currentState = ComponentState.ACTIVE;
 			}
 		}
-		this.leftArrow.g3Actions[this.leftArrow.currentState.identifier()].execute(this);
-		this.rightArrow.g3Actions[this.rightArrow.currentState.identifier()].execute(this);
+		this.leftArrow.actions[this.leftArrow.currentState.identifier()].execute(this);
+		this.rightArrow.actions[this.rightArrow.currentState.identifier()].execute(this);
 		this.currentOption = this.options.get(this.currentOptionIndex);
 	}
 

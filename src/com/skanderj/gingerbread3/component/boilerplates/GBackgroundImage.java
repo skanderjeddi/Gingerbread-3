@@ -3,7 +3,7 @@ package com.skanderj.gingerbread3.component.boilerplates;
 import java.awt.image.BufferedImage;
 
 import com.skanderj.gingerbread3.component.Background;
-import com.skanderj.gingerbread3.core.G3Application;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Registry;
 import com.skanderj.gingerbread3.display.Screen;
@@ -14,12 +14,12 @@ import com.skanderj.gingerbread3.display.Screen;
  * @author Skander
  *
  */
-public class GImageBackground extends Background {
+public class GBackgroundImage extends Background {
 	private int x, y, width, height;
 	private BufferedImage image;
 
-	public GImageBackground(final G3Application g3Application, final int x, final int y, final int width, final int height, final BufferedImage image) {
-		super(g3Application);
+	public GBackgroundImage(final Application application, final int x, final int y, final int width, final int height, final BufferedImage image) {
+		super(application);
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -139,6 +139,6 @@ public class GImageBackground extends Background {
 
 	@Override
 	public String description() {
-		return Registry.identifier(this) + " -> GImageBackground.class(" + this.x + ", " + this.y + ", " + this.image + ")";
+		return Registry.identifier(this) + " -> GBackgroundImage.class(" + this.x + ", " + this.y + ", " + this.image + ")";
 	}
 }
