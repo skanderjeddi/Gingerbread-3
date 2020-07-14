@@ -1,8 +1,8 @@
 package com.skanderj.gingerbread3.core.object;
 
 import com.skanderj.gingerbread3.core.Application;
-import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Engine;
+import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Renderable;
 import com.skanderj.gingerbread3.core.Updateable;
 import com.skanderj.gingerbread3.display.Screen;

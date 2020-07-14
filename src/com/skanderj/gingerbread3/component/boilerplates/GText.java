@@ -6,8 +6,8 @@ import java.util.Map;
 import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.Text;
 import com.skanderj.gingerbread3.core.Application;
-import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Engine;
+import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.util.Label;
 

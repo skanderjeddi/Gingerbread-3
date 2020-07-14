@@ -3,8 +3,8 @@ package com.skanderj.gingerbread3.scene;
 import java.util.List;
 
 import com.skanderj.gingerbread3.core.Application;
-import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Engine;
+import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.display.Screen;
 

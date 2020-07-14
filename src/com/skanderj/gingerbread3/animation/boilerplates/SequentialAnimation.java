@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import com.skanderj.gingerbread3.animation.Animation;
 import com.skanderj.gingerbread3.core.Application;
-import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.sprite.Sprite;
@@ -16,21 +15,8 @@ import com.skanderj.gingerbread3.sprite.Sprite;
  *
  */
 public class SequentialAnimation extends Animation {
-	private int x, y;
-	private final Sprite[] sprites;
-	private final int[] timers;
-	private int currentSpriteIndex, currentSpriteTimer;
-	private boolean playing;
-
 	public SequentialAnimation(final Application application, final int x, final int y, final Sprite[] sprites, final int[] timers) {
-		super(application);
-		this.x = x;
-		this.y = y;
-		this.sprites = sprites;
-		this.timers = timers;
-		this.currentSpriteIndex = 0;
-		this.currentSpriteTimer = 0;
-		this.playing = true;
+		super(application, x, y, sprites, timers);
 	}
 
 	/**
@@ -56,88 +42,6 @@ public class SequentialAnimation extends Animation {
 	@Override
 	public synchronized void render(final Screen screen) {
 		screen.image(this.sprites[this.currentSpriteIndex].image(), this.x, this.y, this.sprites[this.currentSpriteIndex].getWidth(), this.sprites[this.currentSpriteIndex].getHeight());
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public void pause() {
-		this.playing = false;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public void play() {
-		this.playing = true;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public void reset() {
-		this.currentSpriteIndex = 0;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public int getX() {
-		return this.x;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public int getY() {
-		return this.y;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public Sprite[] sprites() {
-		return this.sprites;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public int[] timers() {
-		return this.timers;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public void setX(final int x) {
-		this.x = x;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public void setY(final int y) {
-		this.y = y;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public int getCurrentSpriteIndex() {
-		return this.currentSpriteIndex;
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public void setCurrentSpriteIndex(final int index) {
-		this.currentSpriteIndex = index;
-	}
-
-	@Override
-	public Priority priority() {
-		return Priority.LOW;
 	}
 
 	@Override

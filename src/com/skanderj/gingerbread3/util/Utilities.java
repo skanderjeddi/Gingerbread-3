@@ -19,7 +19,7 @@ public final class Utilities {
 	}
 
 	@SafeVarargs
-	public static final <T> T[] createArray(T... ts) {
+	public static final <T> T[] createArray(final T... ts) {
 		return ts;
 	}
 
