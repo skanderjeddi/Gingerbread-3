@@ -59,6 +59,13 @@ public final class Utilities {
 	}
 
 	/**
+	 * Self explanatory.
+	 */
+	public static Color buildAgainst(Color color, int alpha) {
+		return new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
+	}
+
+	/**
 	 * Returns a random color. If useAlpha, color will have a random transparency.
 	 */
 	public static Color randomColor(final boolean useAlpha) {

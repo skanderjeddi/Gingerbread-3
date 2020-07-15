@@ -205,7 +205,7 @@ public class G3Demo extends Application {
 		}
 		// Labels
 		{
-			Components.register("title", new GText(this, 0, 0, G3Demo.WIDTH, G3Demo.HEIGHT / 3, new Label("G3DEMO", new Color(0f, 0f, 0f, 0.75f), Fonts.get("lunchds", 72))));
+			Components.register("title", new GText(this, 0, 0, G3Demo.WIDTH, G3Demo.HEIGHT / 3, new Label("G3DEMO", Utilities.buildAgainst(Color.BLACK, 200), Fonts.get("lunchds", 72))));
 			Components.register("instructions-label", new GText(this, Screen.DEFAULT_ORIGIN_X, (G3Demo.HEIGHT / 2) - 50, G3Demo.WIDTH - 1, 100, new Label("Press escape to return to the main menu", this.buttonProps.build(28).build(Color.BLACK))));
 			Components.register("mouse-position-indicator", new GText(this, G3Demo.WIDTH - 175, G3Demo.HEIGHT - 40, 100, 30, new Label("Mouse position: (%d ; %d)", this.buttonProps.build(14).build(Color.BLACK))));
 		}
@@ -225,10 +225,10 @@ public class G3Demo extends Application {
 				((Button) Components.get("back-to-main-menu-button")).mapActionToState(ComponentState.IDLE, object -> {
 					final GButton button = (GButton) object;
 					button.setBackgroundColor(new Color(1f, 1f, 1f, 0.3f));
-					button.label().color = Color.BLACK;
+					button.label().color = Color.PINK;
 				});
-				((Button) Components.get("back-to-main-menu-button")).mapActionToState(ComponentState.HOVERED, object -> ((GButton) object).setBackgroundColor(new Color(1f, 1f, 1f, 0.7f)));
-				((Button) Components.get("back-to-main-menu-button")).mapActionToState(ComponentState.HELD, object -> ((GButton) object).label().color = Color.PINK);
+				((Button) Components.get("back-to-main-menu-button")).mapActionToState(ComponentState.HOVERED, object -> ((GButton) object).setBackgroundColor(Utilities.buildAgainst(Color.WHITE, 100)));
+				((Button) Components.get("back-to-main-menu-button")).mapActionToState(ComponentState.HELD, object -> ((GButton) object).label().color = Color.BLACK);
 				((Button) Components.get("back-to-main-menu-button")).mapActionToState(ComponentState.ACTIVE, object -> Scenes.switchTo("main-menu"));
 			}
 			((Checkbox) Components.get("music-checkbox")).onSwitch(object -> {
@@ -244,37 +244,37 @@ public class G3Demo extends Application {
 			{
 				// Play button
 				{
-					Components.register("play-button", new GButton(this, (G3Demo.WIDTH / 2) - (G3Demo.BUTTONS_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.BUTTONS_WIDTH, G3Demo.BUTTONS_HEIGHT, new Label("Play!", this.buttonProps), new Color(0f, 0f, 0f, 0.7f), Color.GRAY, 12));
+					Components.register("play-button", new GButton(this, (G3Demo.WIDTH / 2) - (G3Demo.BUTTONS_WIDTH / 2), (G3Demo.HEIGHT / 2) + 50, G3Demo.BUTTONS_WIDTH, G3Demo.BUTTONS_HEIGHT, new Label("Play!", this.buttonProps), Utilities.buildAgainst(Color.BLACK, 200), Color.GRAY, 12));
 					((Button) Components.get("play-button")).mapActionToState(ComponentState.IDLE, object -> {
 						final GButton button = (GButton) object;
-						button.setBackgroundColor(new Color(0f, 0f, 0f, 0.7f));
+						button.setBackgroundColor(Utilities.buildAgainst(Color.BLACK, 180));
 						button.label().color = Color.WHITE;
 					});
-					((Button) Components.get("play-button")).mapActionToState(ComponentState.HOVERED, object -> ((GButton) object).setBackgroundColor(new Color(0f, 0f, 0f, 0.9f)));
+					((Button) Components.get("play-button")).mapActionToState(ComponentState.HOVERED, object -> ((GButton) object).setBackgroundColor(Utilities.buildAgainst(Color.BLACK, 225)));
 					((Button) Components.get("play-button")).mapActionToState(ComponentState.HELD, object -> ((GButton) object).label().color = Color.PINK);
 					((Button) Components.get("play-button")).mapActionToState(ComponentState.ACTIVE, object -> Scenes.switchTo("in-game"));
 				}
 				// Settings button
 				{
-					Components.register("settings-button", new GButton(this, (G3Demo.WIDTH / 2) - (G3Demo.BUTTONS_WIDTH / 2), (G3Demo.HEIGHT / 2) + 130, G3Demo.BUTTONS_WIDTH, G3Demo.BUTTONS_HEIGHT, new Label("Settings", this.buttonProps), new Color(0f, 0f, 0f, 0.7f), Color.GRAY, 12));
+					Components.register("settings-button", new GButton(this, (G3Demo.WIDTH / 2) - (G3Demo.BUTTONS_WIDTH / 2), (G3Demo.HEIGHT / 2) + 130, G3Demo.BUTTONS_WIDTH, G3Demo.BUTTONS_HEIGHT, new Label("Settings", this.buttonProps), Utilities.buildAgainst(Color.BLACK, 200), Color.GRAY, 12));
 					((Button) Components.get("settings-button")).mapActionToState(ComponentState.IDLE, object -> {
 						final GButton button = (GButton) object;
-						button.setBackgroundColor(new Color(0f, 0f, 0f, 0.7f));
+						button.setBackgroundColor(Utilities.buildAgainst(Color.BLACK, 180));
 						button.label().color = Color.WHITE;
 					});
-					((Button) Components.get("settings-button")).mapActionToState(ComponentState.HOVERED, object -> ((GButton) object).setBackgroundColor(new Color(0f, 0f, 0f, 0.9f)));
+					((Button) Components.get("settings-button")).mapActionToState(ComponentState.HOVERED, object -> ((GButton) object).setBackgroundColor(Utilities.buildAgainst(Color.BLACK, 225)));
 					((Button) Components.get("settings-button")).mapActionToState(ComponentState.HELD, object -> ((GButton) object).label().color = Color.PINK);
 					((Button) Components.get("settings-button")).mapActionToState(ComponentState.ACTIVE, object -> Scenes.switchTo("settings"));
 				}
 				// Exit button
 				{
-					Components.register("exit-button", new GButton(this, (G3Demo.WIDTH / 2) - (G3Demo.BUTTONS_WIDTH / 2), (G3Demo.HEIGHT / 2) + 210, G3Demo.BUTTONS_WIDTH, G3Demo.BUTTONS_HEIGHT, new Label("Exit", this.buttonProps), new Color(0f, 0f, 0f, 0.7f), Color.GRAY, 12));
+					Components.register("exit-button", new GButton(this, (G3Demo.WIDTH / 2) - (G3Demo.BUTTONS_WIDTH / 2), (G3Demo.HEIGHT / 2) + 210, G3Demo.BUTTONS_WIDTH, G3Demo.BUTTONS_HEIGHT, new Label("Exit", this.buttonProps), Utilities.buildAgainst(Color.BLACK, 200), Color.GRAY, 12));
 					((Button) Components.get("exit-button")).mapActionToState(ComponentState.IDLE, object -> {
 						final GButton button = (GButton) object;
-						button.setBackgroundColor(new Color(0f, 0f, 0f, 0.7f));
+						button.setBackgroundColor(Utilities.buildAgainst(Color.BLACK, 180));
 						button.label().color = Color.WHITE;
 					});
-					((Button) Components.get("exit-button")).mapActionToState(ComponentState.HOVERED, object -> ((GButton) object).setBackgroundColor(new Color(0f, 0f, 0f, 0.9f)));
+					((Button) Components.get("exit-button")).mapActionToState(ComponentState.HOVERED, object -> ((GButton) object).setBackgroundColor(Utilities.buildAgainst(Color.BLACK, 225)));
 					((Button) Components.get("exit-button")).mapActionToState(ComponentState.HELD, object -> ((GButton) object).label().color = Color.PINK);
 					((Button) Components.get("exit-button")).mapActionToState(ComponentState.ACTIVE, object -> this.stop());
 				}
