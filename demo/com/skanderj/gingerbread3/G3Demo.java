@@ -33,7 +33,8 @@ import com.skanderj.gingerbread3.resources.Images;
 import com.skanderj.gingerbread3.scene.Scene;
 import com.skanderj.gingerbread3.scene.Scenes;
 import com.skanderj.gingerbread3.sprite.Sprite;
-import com.skanderj.gingerbread3.transition.boilerplates.FadeTransition;
+import com.skanderj.gingerbread3.transition.boilerplates.FadeInTransition;
+import com.skanderj.gingerbread3.transition.boilerplates.FadeOutTransition;
 import com.skanderj.gingerbread3.util.Label;
 import com.skanderj.gingerbread3.util.LabelProperties;
 import com.skanderj.gingerbread3.util.Utilities;
@@ -88,6 +89,16 @@ public class G3Demo extends Application {
 			}
 
 			@Override
+			public String enteringTransition() {
+				return "fade-in-transition";
+			}
+
+			@Override
+			public String exitingTransition() {
+				return "fade-out-transition";
+			}
+
+			@Override
 			public synchronized void update() {
 				super.update();
 			}
@@ -116,16 +127,22 @@ public class G3Demo extends Application {
 
 			@Override
 			public void enter() {
-				/**
-				 * If you need to ignore a specific component (for special updates), you do it
-				 * here.
-				 */
-				Scenes.transition("fade-transition");
+				return;
+			}
+
+			@Override
+			public String enteringTransition() {
+				return "fade-in-transition";
 			}
 
 			@Override
 			public void exit() {
-				Scenes.transition("fade-transition");
+				return;
+			}
+
+			@Override
+			public String exitingTransition() {
+				return "fade-out-transition";
 			}
 		};
 		this.settingsScene = new Scene(this) {
@@ -135,13 +152,23 @@ public class G3Demo extends Application {
 			}
 
 			@Override
-			public void exit() {
-				Scenes.transition("fade-transition");
+			public void enter() {
+				return;
 			}
 
 			@Override
-			public void enter() {
-				Scenes.transition("fade-transition");
+			public String enteringTransition() {
+				return "fade-in-transition";
+			}
+
+			@Override
+			public void exit() {
+				return;
+			}
+
+			@Override
+			public String exitingTransition() {
+				return "fade-out-transition";
 			}
 
 			@Override
@@ -166,7 +193,8 @@ public class G3Demo extends Application {
 		Engine.register("pink-source", new OmnidirectionalLighting(this, new Color(Color.PINK.getRed(), Color.PINK.getGreen(), Color.PINK.getBlue(), 255), G3Demo.WIDTH / 2, G3Demo.HEIGHT / 2, G3Demo.WIDTH + (G3Demo.WIDTH / 2), Priority.REGULAR));
 		final Sprite[] petals = Sprite.fromImages(this, "petal_%d", Images.getCollectionByID("petal"));
 		Engine.register("flowers", new Particles(this, G3Demo.WIDTH / 2, 0, 10, 2 * G3Demo.HEIGHT, G3Demo.BACKGROUND_PARTICLES, petals, Vector2.randomVectors(G3Demo.BACKGROUND_PARTICLES, -1, 1, 1, 1), 5, 2));
-		Engine.register("fade-transition", new FadeTransition(this, 60, Color.BLACK));
+		Engine.register("fade-in-transition", new FadeInTransition(this, 60, Color.BLACK));
+		Engine.register("fade-out-transition", new FadeOutTransition(this, 60, Color.BLACK));
 	}
 
 	@Override

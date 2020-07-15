@@ -14,10 +14,10 @@ import com.skanderj.gingerbread3.util.Utilities;
  * @author skand
  *
  */
-public class FadeTransition extends Transition {
+public class FadeInTransition extends Transition {
 	private final Color color;
 
-	public FadeTransition(final Application application, final int duration, final Color color) {
+	public FadeInTransition(final Application application, final int duration, final Color color) {
 		super(application, duration);
 		this.color = color;
 	}
@@ -36,7 +36,7 @@ public class FadeTransition extends Transition {
 	@Override
 	public void render(final Screen screen) {
 		int alpha = 0;
-		alpha = (int) Utilities.map(this.timer, 0, this.duration, 255, 0, false);
+		alpha = (int) Utilities.map(this.timer, 0, this.duration, 255, 0, true);
 		final Color newColor = new Color(this.color.getRed(), this.color.getBlue(), this.color.getGreen(), alpha);
 		screen.rectangle(newColor, 0, 0, this.application.window().getWidth(), this.application.window().getHeight(), true);
 	}
@@ -51,6 +51,6 @@ public class FadeTransition extends Transition {
 
 	@Override
 	public String description() {
-		return Engine.identifier(this) + " -> FadeTransition.class(" + this.duration + ", " + this.color + ")";
+		return Engine.identifier(this) + " -> FadeInTransition.class(" + this.duration + ", " + this.color + ")";
 	}
 }

@@ -5,8 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.skanderj.gingerbread3.component.Components;
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Engine;
+import com.skanderj.gingerbread3.core.Priority;
+import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.display.Screen;
+import com.skanderj.gingerbread3.scheduler.Scheduler;
+import com.skanderj.gingerbread3.scheduler.tasks.DelayedTask;
 import com.skanderj.gingerbread3.transition.Transition;
 
 /**
@@ -48,7 +53,42 @@ public final class Scenes {
 		Scenes.currentScene = Scenes.get(identifier);
 		if (previous != null) {
 			previous.exit();
+			if (((Transition) Engine.get(previous.exitingTransition()) != null)) {
+				final Transition exit = (Transition) Engine.get(previous.exitingTransition());
+				Scenes.currentTransition = exit;
+				Scheduler.scheduleTask(previous.application(), new DelayedTask("transition-time", exit.duration()) {
+					@Override
+					public Priority priority() {
+						return Priority.MONITOR;
+					}
+
+					@Override
+					public Application application() {
+						return previous.application();
+					}
+
+					@Override
+					public void execute(final ApplicationObject object) {
+						if (Scenes.currentScene.enteringTransition() != null) {
+							Scenes.currentTransition = (Transition) Engine.get(Scenes.currentScene.enteringTransition());
+							Scenes.newScene();
+						} else {
+							Scenes.currentTransition = null;
+							Scenes.newScene();
+						}
+					}
+				});
+			} else {
+				Scenes.currentTransition = (Transition) Engine.get(Scenes.currentScene.enteringTransition());
+				Scenes.newScene();
+			}
+		} else {
+			Scenes.currentTransition = (Transition) Engine.get(Scenes.currentScene.enteringTransition());
+			Scenes.newScene();
 		}
+	}
+
+	public static void newScene() {
 		Engine.newScene();
 		final List<String> gameObjects = Scenes.currentScene.sceneObjects();
 		Components.considerOnly(gameObjects);
@@ -77,13 +117,6 @@ public final class Scenes {
 		if (Scenes.currentTransition != null) {
 			Scenes.currentTransition.render(screen);
 		}
-	}
-
-	/**
-	 * Self explanatory.
-	 */
-	public static void transition(final String identifier) {
-		Scenes.currentTransition = (Transition) Engine.get(identifier);
 	}
 
 	/**

@@ -20,7 +20,7 @@ import com.skanderj.gingerbread3.resources.Images;
 import com.skanderj.gingerbread3.scene.Scene;
 import com.skanderj.gingerbread3.scene.Scenes;
 import com.skanderj.gingerbread3.sprite.Sprite;
-import com.skanderj.gingerbread3.transition.boilerplates.FadeTransition;
+import com.skanderj.gingerbread3.transition.boilerplates.FadeInTransition;
 import com.skanderj.gingerbread3.util.Utilities;
 
 public class TalkToMe extends Application {
@@ -43,7 +43,7 @@ public class TalkToMe extends Application {
 
 			@Override
 			public void enter() {
-				Scenes.transition("fade-transition");
+				Scenes.queueTransition("fade-transition");
 				Audios.loop("anxiety", -1, 1);
 			}
 
@@ -51,7 +51,7 @@ public class TalkToMe extends Application {
 			public void exit() {
 				// Stop the audio
 				Audios.stopAll();
-				Scenes.transition("fade-transition");
+				Scenes.queueTransition("fade-transition");
 			}
 
 			@Override
@@ -81,7 +81,7 @@ public class TalkToMe extends Application {
 		final int[] timers = new int[15];
 		Arrays.fill(timers, 12);
 		Engine.register("lena", new SequentialAnimation(this, 820, 608, lena_sprites, timers));
-		Engine.register("fade-transition", new FadeTransition(this, 1000, Color.BLACK));
+		Engine.register("fade-transition", new FadeInTransition(this, 1000, Color.BLACK));
 		Engine.register("city", Sprite.fromImage(this, "city", "res/sprites/spr_city.png", 1920, 1080, AffineTransformOp.TYPE_NEAREST_NEIGHBOR));
 		((Sprite) Engine.get("city")).setX(0);
 		((Sprite) Engine.get("city")).setY(0);

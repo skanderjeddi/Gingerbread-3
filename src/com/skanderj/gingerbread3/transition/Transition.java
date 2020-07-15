@@ -4,7 +4,6 @@ import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.object.ApplicationObject;
-import com.skanderj.gingerbread3.scene.Scenes;
 
 /**
  * Represents a basic graphical transition.
@@ -29,9 +28,6 @@ public abstract class Transition extends ApplicationObject {
 		this.timer += 1;
 		if (this.timer >= this.duration) {
 			Engine.skip(Engine.identifier(this));
-			if (Scenes.transition() == this) {
-				Scenes.transition(null);
-			}
 		}
 	}
 

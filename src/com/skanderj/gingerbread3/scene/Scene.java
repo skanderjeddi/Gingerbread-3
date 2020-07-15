@@ -44,6 +44,20 @@ public abstract class Scene extends ApplicationObject {
 	 */
 	public abstract void exit();
 
+	/**
+	 * Entering transition.
+	 */
+	public String enteringTransition() {
+		return null;
+	}
+
+	/**
+	 * Exiting transition.
+	 */
+	public String exitingTransition() {
+		return null;
+	}
+
 	@Override
 	public Priority priority() {
 		return Priority.HIGH;

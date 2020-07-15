@@ -32,7 +32,8 @@ import com.skanderj.gingerbread3.scene.Scenes;
 import com.skanderj.gingerbread3.scheduler.Scheduler;
 import com.skanderj.gingerbread3.scheduler.tasks.DelayedTask;
 import com.skanderj.gingerbread3.scheduler.tasks.RecurrentTask;
-import com.skanderj.gingerbread3.transition.boilerplates.FadeTransition;
+import com.skanderj.gingerbread3.transition.boilerplates.FadeInTransition;
+import com.skanderj.gingerbread3.transition.boilerplates.FadeOutTransition;
 import com.skanderj.gingerbread3.util.Label;
 import com.skanderj.gingerbread3.util.Utilities;
 
@@ -169,7 +170,8 @@ public abstract class Application extends ThreadWrapper {
 			}
 		});
 		Components.register("powered-by-gingerbread-label", new GText(this, 0, 0, this.window.getWidth(), this.window.getHeight() + (this.window.getHeight() / 2), new Label("Powered by Gingerbread", Utilities.buildAgainst(Color.BLACK, 200), Fonts.get("lunchds").deriveFont(72f))));
-		Engine.register("splash-fade-transition", new FadeTransition(this, 180, Color.BLACK));
+		Engine.register("splash-fade-in-transition", new FadeInTransition(this, 180, Color.BLACK));
+		Engine.register("splash-fade-out-transition", new FadeOutTransition(this, 180, Color.BLACK));
 		Scenes.register("gingerbread-splashscreen", new Scene(this) {
 
 			@Override
@@ -179,12 +181,22 @@ public abstract class Application extends ThreadWrapper {
 
 			@Override
 			public void enter() {
-				Scenes.transition("splash-fade-transition");
+				return;
+			}
+
+			@Override
+			public String enteringTransition() {
+				return "splash-fade-in-transition";
 			}
 
 			@Override
 			public void exit() {
-				Scenes.transition("splash-fade-transition");
+				return;
+			}
+
+			@Override
+			public String exitingTransition() {
+				return "splash-fade-out-transition";
 			}
 		});
 		Scenes.switchTo("gingerbread-splashscreen");
