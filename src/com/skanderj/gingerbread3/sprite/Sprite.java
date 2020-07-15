@@ -142,7 +142,7 @@ public class Sprite extends ApplicationObject implements Moveable {
 	 */
 	@Override
 	public final void render(final Screen screen) {
-		if ((this.x > 0) && (this.y > 0)) {
+		if ((this.x >= 0) && (this.y >= 0)) {
 			screen.image(this.image(), this.x, this.y, this.width, this.height);
 		}
 	}

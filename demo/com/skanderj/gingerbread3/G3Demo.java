@@ -155,8 +155,8 @@ public class G3Demo extends Application {
 	public void loadResources() {
 		// Register some audio and some fonts
 		Audios.load("background", "res/audio/background.wav");
-		Fonts.load("lunchds", "res/font/lunchds.ttf");
-		Images.loadAll("petal_%d", "res/sprite/flowers/");
+		Fonts.load("lunchds", "res/fonts/lunchds.ttf");
+		Images.loadAll("petal_%d", "res/sprites/flowers/");
 	}
 
 	@Override
@@ -165,7 +165,6 @@ public class G3Demo extends Application {
 		final Sprite[] petals = Sprite.fromImages(this, "petal_%d", Images.getCollectionByID("petal"));
 		Engine.register("flowers", new Particles(this, G3Demo.WIDTH / 2, 0, 10, 2 * G3Demo.HEIGHT, G3Demo.BACKGROUND_PARTICLES, petals, Vector2.randomVectors(G3Demo.BACKGROUND_PARTICLES, -1, 1, 1, 1), 5, 2));
 		Engine.register("fade-transition", new FadeTransition(this, 60, Color.BLACK));
-		Engine.register("petit-pd-jaune", new PetitPD(this));
 	}
 
 	@Override
