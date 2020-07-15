@@ -20,6 +20,7 @@ You'll need Java 11.
 ## Authors
 
 * **Skander Jeddi** - [skanderjeddi](https://github.com/skanderjeddi)
+* **Nim** - [DaRealNim](https://github.com/DaRealNim)
 
 ## License
 
