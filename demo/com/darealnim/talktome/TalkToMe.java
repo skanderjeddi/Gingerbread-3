@@ -1,4 +1,4 @@
-package com.darealnim.talktome
+package com.darealnim.talktome;
 
 import java.awt.Color;
 import java.util.Arrays;
