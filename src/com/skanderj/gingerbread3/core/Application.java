@@ -172,7 +172,7 @@ public abstract class Application extends ThreadWrapper {
 			}
 			if (shouldRender) {
 				frames++;
-				this.bufferStrategy = this.window.getBufferStrategy();
+				this.bufferStrategy = this.window.bufferStrategy();
 				this.screen().reset();
 				this.screen().clear(this.window, Color.BLACK);
 				this.render(this.screen());

@@ -18,6 +18,7 @@ import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.input.InputDevice;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
+import com.skanderj.gingerbread3.resources.Images;
 
 /**
  * A class representing an abstract window. Subclasses Regular and Fullscreen
@@ -119,13 +120,20 @@ public abstract class Window {
 	 * #TODO explain this and implement it properly (it works but I want it wrapped
 	 * in something clearer).
 	 */
-	public BufferStrategy getBufferStrategy() {
+	public BufferStrategy bufferStrategy() {
 		final BufferStrategy bufferStrategy = this.canvas.getBufferStrategy();
 		if (bufferStrategy == null) {
 			this.canvas.createBufferStrategy(this.buffers);
-			return this.getBufferStrategy();
+			return this.bufferStrategy();
 		}
 		return bufferStrategy;
+	}
+	
+	/**
+	 * Self explanatory.
+	 */
+	public void setIcon(String imageIdentifier) {
+		this.frame.setIconImage(Images.get(imageIdentifier));
 	}
 
 	/**

@@ -157,6 +157,8 @@ public class G3Demo extends Application {
 		Audios.load("background", "res/audio/background.wav");
 		Fonts.load("lunchds", "res/fonts/lunchds.ttf");
 		Images.loadAll("petal_%d", "res/sprites/flowers/");
+		Images.register("g3-icon", "res/icon.png");
+		this.window.setIcon("g3-icon");
 	}
 
 	@Override

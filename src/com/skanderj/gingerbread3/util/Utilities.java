@@ -1,6 +1,7 @@
 package com.skanderj.gingerbread3.util;
 
 import java.awt.Color;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -21,6 +22,23 @@ public final class Utilities {
 	@SafeVarargs
 	public static final <T> T[] createArray(final T... ts) {
 		return ts;
+	}
+
+	/**
+	 * Self explanatory.
+	 */
+	public static boolean fileExistsInDirectory(String directoryPath, String fileName) {
+		File directory = new File(directoryPath);
+		if (directory.exists() && directory.isDirectory()) {
+			for (File f : directory.listFiles()) {
+				if (f.isFile()) {
+					if (f.getName().equals(fileName)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
