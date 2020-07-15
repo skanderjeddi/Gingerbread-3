@@ -34,6 +34,7 @@ public class TalkToMe extends Application {
 	public TalkToMe() {
 		super(TalkToMe.IDENTIFIER, TalkToMe.REFRESH_RATE, TalkToMe.TITLE, TalkToMe.BUFFERS, 0, Keyboard.AZERTY);
 		this.mainGameScene = new Scene(this) {
+			@Override
 			public List<String> sceneObjects() {
 				// Those are the only components which will be rendered/updated during this
 				// scene
@@ -77,7 +78,7 @@ public class TalkToMe extends Application {
 	@Override
 	public void registerGameObjects() {
 		final Sprite[] lena_sprites = Sprite.fromImages(this, "lena_%d", Images.getCollectionByID("lena"));
-		int[] timers = new int[15];
+		final int[] timers = new int[15];
 		Arrays.fill(timers, 12);
 		Engine.register("lena", new SequentialAnimation(this, 820, 608, lena_sprites, timers));
 		Engine.register("fade-transition", new FadeTransition(this, 1000, Color.BLACK));
@@ -136,6 +137,7 @@ public class TalkToMe extends Application {
 		// this.screenshot("scr/" + Utilities.fileNameCompatibleDateString() + ".png"));
 	}
 
+	@Override
 	public void createComponents() {
 	}
 

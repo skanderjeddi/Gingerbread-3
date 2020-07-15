@@ -128,11 +128,11 @@ public abstract class Window {
 		}
 		return bufferStrategy;
 	}
-	
+
 	/**
 	 * Self explanatory.
 	 */
-	public void setIcon(String imageIdentifier) {
+	public void setIcon(final String imageIdentifier) {
 		this.frame.setIconImage(Images.get(imageIdentifier));
 	}
 

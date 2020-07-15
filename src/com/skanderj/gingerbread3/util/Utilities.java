@@ -27,10 +27,10 @@ public final class Utilities {
 	/**
 	 * Self explanatory.
 	 */
-	public static boolean fileExistsInDirectory(String directoryPath, String fileName) {
-		File directory = new File(directoryPath);
+	public static boolean fileExistsInDirectory(final String directoryPath, final String fileName) {
+		final File directory = new File(directoryPath);
 		if (directory.exists() && directory.isDirectory()) {
-			for (File f : directory.listFiles()) {
+			for (final File f : directory.listFiles()) {
 				if (f.isFile()) {
 					if (f.getName().equals(fileName)) {
 						return true;
