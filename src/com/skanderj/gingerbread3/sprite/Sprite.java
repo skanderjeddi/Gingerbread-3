@@ -26,6 +26,10 @@ public class Sprite extends ApplicationObject implements Moveable {
 	private final int width, height;
 	private int x, y;
 
+	public static final int SCALE_BICUBIC = AffineTransformOp.TYPE_BICUBIC;
+	public static final int SCALE_BILINEAR = AffineTransformOp.TYPE_BILINEAR;
+	public static final int SCALE_NEAREST_NEIGHBOR = AffineTransformOp.TYPE_NEAREST_NEIGHBOR;
+
 	/**
 	 * Self explanatory.
 	 */
@@ -45,9 +49,9 @@ public class Sprite extends ApplicationObject implements Moveable {
 		Images.register(identifier, path);
 		final BufferedImage loadedImage = Images.get(identifier);
 		final int loadedImageWidth = loadedImage.getWidth(), loadedImageHeight = loadedImage.getHeight();
-		BufferedImage finalImage = new BufferedImage(loadedImageWidth, loadedImageHeight, loadedImage.getType());
+		BufferedImage finalImage = new BufferedImage(width, height, loadedImage.getType());
 		final AffineTransform affineTransform = new AffineTransform();
-		affineTransform.scale((float) width / (float) loadedImageWidth, (float) height / (float) loadedImageWidth);
+		affineTransform.scale((float) width / (float) loadedImageWidth, (float) height / (float) loadedImageHeight);
 		final AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, scaleMethod);
 		finalImage = affineTransformOp.filter(loadedImage, finalImage);
 		final Sprite sprite = new Sprite(application, identifier, finalImage, width, height);
