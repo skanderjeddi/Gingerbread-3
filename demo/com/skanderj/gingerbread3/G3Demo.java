@@ -175,8 +175,6 @@ public class G3Demo extends Application {
 		Scenes.register("main-menu", this.mainMenuScene);
 		Scenes.register("in-game", this.mainGameScene);
 		Scenes.register("settings", this.settingsScene);
-		// Set the current scene
-		Scenes.switchTo("main-menu");
 	}
 
 	@Override
@@ -305,11 +303,17 @@ public class G3Demo extends Application {
 		// Scene-independent rendering --- not recommended, but flexibility
 	}
 
+	@Override
+	public String firstScene() {
+		return "main-menu";
+	}
+
 	public static void main(final String[] args) {
 		// Set debugging messages
 		Logger.toggleLoggingToFile();
-		Logger.setStateForDebuggingType(DebuggingType.CLASSIC, true);
+		Logger.setStateForDebuggingType(DebuggingType.CLASSIC, false);
 		Logger.setStateForDebuggingType(DebuggingType.DEVELOPMENT, false);
 		new G3Demo().start();
 	}
+
 }

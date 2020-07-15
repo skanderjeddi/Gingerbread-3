@@ -26,7 +26,7 @@ public abstract class LongTask implements Task, Runnable {
 			this.execute(null);
 		}
 		Engine.markForDeletion(this.identifier);
-		Scheduler.delete(this);
+		Scheduler.delete(this.identifier);
 	}
 
 	@Override

@@ -35,8 +35,13 @@ public final class Scheduler {
 	/**
 	 * Self explanatory.
 	 */
-	public static synchronized void delete(final Task task) {
-		Scheduler.schedule.remove(task);
+	public static synchronized void delete(final String taskIdentifier) {
+		final Task[] tasks = Scheduler.schedule.toArray(new Task[Scheduler.schedule.size()]);
+		for (final Task task : tasks) {
+			if (task.identifier().equals(taskIdentifier)) {
+				Scheduler.schedule.remove(task);
+			}
+		}
 	}
 
 	public static void update() {

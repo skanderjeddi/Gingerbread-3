@@ -51,12 +51,12 @@ public final class Images {
 	}
 
 	/**
-	 * Loads all the image files randomly in the provided directory, formatting
-	 * the identifier. Returns true if successful, false otherwise.
+	 * Loads all the image files randomly in the provided directory, formatting the
+	 * identifier. Returns true if successful, false otherwise.
 	 */
 	public static boolean loadAll(final String identifier, final String path) {
- 		final File directory = new File(path);
- 		if (directory.isDirectory()) {
+		final File directory = new File(path);
+		if (directory.isDirectory()) {
 			int counter = 0;
 			boolean success = true;
 			for (final File file : directory.listFiles()) {
@@ -66,16 +66,16 @@ public final class Images {
 				counter += 1;
 			}
 			return success;
- 		} else {
- 			Logger.log(Images.class, Logger.LogLevel.SEVERE, "Provided path %s doesn't point to a directory", path);
- 			return false;
- 		}
- 	}
+		} else {
+			Logger.log(Images.class, Logger.LogLevel.SEVERE, "Provided path %s doesn't point to a directory", path);
+			return false;
+		}
+	}
 
 	/**
-	 * Loads all the image files in order in the provided directory following
-	 * the fileFormat format string. The identifier is also formatted.
-	 * Returns true if successful, false otherwise.
+	 * Loads all the image files in order in the provided directory following the
+	 * fileFormat format string. The identifier is also formatted. Returns true if
+	 * successful, false otherwise.
 	 */
 	public static boolean loadAll(final String identifier, final String path, final String fileFormat) {
 		final File directory = new File(path);
@@ -83,7 +83,7 @@ public final class Images {
 			int counter = 1;
 			boolean success = true;
 			while (true) {
-				String filename = String.format(fileFormat, counter);
+				final String filename = String.format(fileFormat, counter);
 				if (Utilities.fileExistsInDirectory(path, filename)) {
 					if (!Images.register(String.format(identifier, counter), path + "/" + filename)) {
 						success = false;

@@ -61,7 +61,7 @@ public final class Utilities {
 	/**
 	 * Self explanatory.
 	 */
-	public static Color buildAgainst(Color color, int alpha) {
+	public static Color buildAgainst(final Color color, final int alpha) {
 		return new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
 	}
 

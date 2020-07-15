@@ -6,21 +6,35 @@ import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import com.skanderj.gingerbread3.component.Components;
+import com.skanderj.gingerbread3.component.boilerplates.GBackgroundColor;
+import com.skanderj.gingerbread3.component.boilerplates.GBackgroundImage;
+import com.skanderj.gingerbread3.component.boilerplates.GText;
 import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.display.Window;
 import com.skanderj.gingerbread3.input.Binds;
 import com.skanderj.gingerbread3.input.Keyboard;
+import com.skanderj.gingerbread3.input.Keyboard.KeyState;
 import com.skanderj.gingerbread3.input.Mouse;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
+import com.skanderj.gingerbread3.resources.Fonts;
+import com.skanderj.gingerbread3.resources.Images;
+import com.skanderj.gingerbread3.scene.Scene;
 import com.skanderj.gingerbread3.scene.Scenes;
 import com.skanderj.gingerbread3.scheduler.Scheduler;
+import com.skanderj.gingerbread3.scheduler.tasks.DelayedTask;
 import com.skanderj.gingerbread3.scheduler.tasks.RecurrentTask;
+import com.skanderj.gingerbread3.transition.boilerplates.FadeTransition;
+import com.skanderj.gingerbread3.util.Label;
+import com.skanderj.gingerbread3.util.Utilities;
 
 /**
  * Most important class, all G3-based apps must extend this class. Pretty self
@@ -130,15 +144,70 @@ public abstract class Application extends ThreadWrapper {
 		this.registerGameObjects();
 		this.createComponents();
 		this.registerScenes();
+		this.setupSplashscreen();
 		this.registerBinds();
 		this.window.requestFocus();
 	}
+
+	public abstract String firstScene();
 
 	@Override
 	protected void destroy() {
 		this.window.hide();
 		this.cleanUp();
 		System.exit(0);
+	}
+
+	private final void setupSplashscreen() {
+		Images.register("gingerbread-logo", "res/g3-logo.png");
+		Fonts.load("lunchds", "res/fonts/lunchds.ttf");
+		Components.register("splash-background", new GBackgroundColor(this, 0, 0, this.window.getWidth(), this.window.getHeight(), Color.PINK));
+		Components.register("gingerbread-logo", new GBackgroundImage(this, (this.window.getWidth() / 2) - 50, (this.window.getHeight() / 2) - 50, 100, 100, Images.get("gingerbread-logo")) {
+			@Override
+			public Priority priority() {
+				return Priority.LOW;
+			}
+		});
+		Components.register("powered-by-gingerbread-label", new GText(this, 0, 0, this.window.getWidth(), this.window.getHeight() + (this.window.getHeight() / 2), new Label("Powered by Gingerbread", Utilities.buildAgainst(Color.BLACK, 200), Fonts.get("lunchds").deriveFont(72f))));
+		Engine.register("splash-fade-transition", new FadeTransition(this, 180, Color.BLACK));
+		Scenes.register("gingerbread-splashscreen", new Scene(this) {
+
+			@Override
+			public List<String> sceneObjects() {
+				return Arrays.asList("splash-background", "gingerbread-logo", "powered-by-gingerbread-label");
+			}
+
+			@Override
+			public void enter() {
+				Scenes.transition("splash-fade-transition");
+			}
+
+			@Override
+			public void exit() {
+				Scenes.transition("splash-fade-transition");
+			}
+		});
+		Scenes.switchTo("gingerbread-splashscreen");
+		Scheduler.scheduleTask(this, new DelayedTask("splashscreen-exit", (int) (this.refreshRate() * 5)) {
+			@Override
+			public Priority priority() {
+				return Priority.REGULAR;
+			}
+
+			@Override
+			public Application application() {
+				return Application.this;
+			}
+
+			@Override
+			public void execute(final ApplicationObject object) {
+				Scenes.switchTo(Application.this.firstScene());
+			}
+		});
+		Binds.registerBind("gingerbread-splashscreen", Utilities.createArray(Keyboard.KEY_SPACE), Utilities.createArray(KeyState.DOWN_IN_CURRENT_FRAME), object -> {
+			Scenes.switchTo(Application.this.firstScene());
+			Scheduler.delete("splashscreen-exit");
+		});
 	}
 
 	/**

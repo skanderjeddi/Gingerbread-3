@@ -55,7 +55,7 @@ public abstract class RecurrentTask implements Task {
 			synchronized (this.thread) {
 				if ((this.repeats != -1) && (this.repeatsCounter >= this.repeats)) {
 					Engine.markForDeletion(this.identifier);
-					Scheduler.delete(this);
+					Scheduler.delete(this.identifier);
 					try {
 						this.thread.join();
 					} catch (final InterruptedException exception) {

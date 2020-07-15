@@ -33,7 +33,7 @@ public abstract class DelayedTask implements Task {
 			this.execute(null);
 		}
 		Engine.markForDeletion(this.identifier);
-		Scheduler.delete(this);
+		Scheduler.delete(this.identifier);
 	}
 
 	@Override
