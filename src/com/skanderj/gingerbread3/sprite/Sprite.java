@@ -31,7 +31,7 @@ public class Sprite extends ApplicationObject implements Moveable {
 	public static final int SCALE_NEAREST_NEIGHBOR = AffineTransformOp.TYPE_NEAREST_NEIGHBOR;
 
 	/**
-	 * Self explanatory.
+	 * Makes array of Sprites from array of BufferedImages without rescaling them
 	 */
 	public static final Sprite[] fromImages(final Application application, final String identifier, final BufferedImage... images) {
 		final Sprite[] array = new Sprite[images.length];
@@ -43,7 +43,39 @@ public class Sprite extends ApplicationObject implements Moveable {
 	}
 
 	/**
-	 * Self explanatory.
+	 * Makes array of Sprites from array of BufferedImages rescaling them to width*height size with the passed scaleMethod
+	 */
+	public static final Sprite[] fromImages(final Application application, final String identifier, final int width, final int height, final int scaleMethod, final BufferedImage... images) {
+		final Sprite[] array = new Sprite[images.length];
+		for (int i = 0; i < array.length; i += 1) {
+
+			int loadedImageWidth = images[i].getWidth();
+			int loadedImageHeight = images[i].getHeight();
+			BufferedImage finalImage = new BufferedImage(width, height, images[i].getType());
+			final AffineTransform affineTransform = new AffineTransform();
+			affineTransform.scale((float) width / (float) loadedImageWidth, (float) height / (float) loadedImageHeight);
+			final AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, scaleMethod);
+			finalImage = affineTransformOp.filter(images[i], finalImage);
+
+			array[i] = new Sprite(application, String.format(identifier, i), finalImage, finalImage.getWidth(), finalImage.getHeight());
+			Engine.register(String.format(identifier, i), array[i]);
+		}
+		return array;
+	}
+
+	/**
+	 * Makes sprite from image path without rescaling
+	 */
+	public static final Sprite fromImage(final Application application, final String identifier, final String path) {
+		Images.register(identifier, path);
+		final BufferedImage loadedImage = Images.get(identifier);
+		final Sprite sprite = new Sprite(application, identifier, loadedImage, loadedImage.getWidth(), loadedImage.getHeight());
+		Engine.register(identifier, sprite);
+		return sprite;
+	}
+
+	/**
+	 * Makes sprite from image path rescaling it to width*height size with the passed scaleMethod
 	 */
 	public static final Sprite fromImage(final Application application, final String identifier, final String path, final int width, final int height, final int scaleMethod) {
 		Images.register(identifier, path);
