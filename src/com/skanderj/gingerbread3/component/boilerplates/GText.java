@@ -18,9 +18,10 @@ import com.skanderj.gingerbread3.util.Label;
  *
  */
 public final class GText extends Text {
-	private int x, y, width, height;
+	private double x, y;
+	private int width, height;
 
-	public GText(final Application application, final int x, final int y, final int width, final int height, final Label label) {
+	public GText(final Application application, final double x, final double y, final int width, final int height, final Label label) {
 		super(application, label);
 		this.x = x;
 		this.y = y;
@@ -58,7 +59,7 @@ public final class GText extends Text {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getX() {
+	public double getX() {
 		return this.x;
 	}
 
@@ -66,7 +67,7 @@ public final class GText extends Text {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getY() {
+	public double getY() {
 		return this.y;
 	}
 
@@ -90,7 +91,7 @@ public final class GText extends Text {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setX(final int x) {
+	public void setX(final double x) {
 		this.x = x;
 	}
 
@@ -98,7 +99,7 @@ public final class GText extends Text {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setY(final int y) {
+	public void setY(final double y) {
 		this.y = y;
 	}
 
