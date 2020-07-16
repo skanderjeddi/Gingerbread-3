@@ -20,6 +20,16 @@ public class Vector2 {
 		return vects;
 	}
 
+	public static final Vector2[] randomVectors(final int count, final double xMin, final double xMax, final double yMin, final double yMax) {
+		final Vector2[] vects = new Vector2[count];
+		for (int i = 0; i < count; i += 1) {
+			final double randomX = Utilities.randomDouble(xMin, xMax);
+			final double randomY = Utilities.randomDouble(yMin, yMax);
+			vects[i] = new Vector2(randomX, randomY);
+		}
+		return vects;
+	}
+
 	/**
 	 * Self explanatory.
 	 */
