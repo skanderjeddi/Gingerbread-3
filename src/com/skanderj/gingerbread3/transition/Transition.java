@@ -29,9 +29,9 @@ public abstract class Transition extends ApplicationObject {
 	public void update() {
 		if (!this.isDone) {
 			this.timer += 1;
-			if (this.timer > this.duration) {
-				Engine.skip(Engine.identifier(this));
+			if (this.timer >= this.duration) {
 				this.isDone = true;
+				Engine.skip(Engine.identifier(this));
 			}
 		}
 	}

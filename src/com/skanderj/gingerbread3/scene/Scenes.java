@@ -72,11 +72,6 @@ public final class Scenes {
 
 					@Override
 					public void execute(final ApplicationObject object) {
-						/**
-						 * Okay so if I print this, it works, but if I don't, it doesn't (properly at
-						 * least?) ??????? WHAT ?????????
-						 */
-						System.out.println("Scenes.switchTo(...).new RecurrentTask() {...}.execute()");
 						if (exitingTransition.isDone()) {
 							Engine.get(previous.exitingTransition()).setShouldSkipRegistryChecks(false);
 							Engine.skip(previous.exitingTransition());
@@ -99,7 +94,7 @@ public final class Scenes {
 			if (enteringTransition != null) {
 				Engine.register(next.enteringTransition(), enteringTransition);
 				Engine.get(next.enteringTransition()).setShouldSkipRegistryChecks(true);
-				Scheduler.scheduleTask(enteringTransition.application(), new DelayedTask(next.application(), next.enteringTransition() + "-delayed", enteringTransition.duration() + 1) {
+				Scheduler.scheduleTask(enteringTransition.application(), new DelayedTask(next.application(), next.enteringTransition() + "-delayed", enteringTransition.duration()) {
 					@Override
 					public Priority priority() {
 						return Priority.EXTREMELY_HIGH;
