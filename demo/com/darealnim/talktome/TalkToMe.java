@@ -42,13 +42,13 @@ public class TalkToMe extends Application {
 			}
 
 			@Override
-			public void enter() {
+			public void in() {
 				Scenes.queueTransition("fade-transition");
 				Audios.loop("anxiety", -1, 1);
 			}
 
 			@Override
-			public void exit() {
+			public void out() {
 				// Stop the audio
 				Audios.stopAll();
 				Scenes.queueTransition("fade-transition");

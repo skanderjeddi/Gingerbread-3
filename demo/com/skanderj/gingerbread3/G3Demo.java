@@ -75,7 +75,7 @@ public class G3Demo extends Application {
 			}
 
 			@Override
-			public void enter() {
+			public void in() {
 				// Play some audio
 				if (((Checkbox) Components.get("music-checkbox")).isChecked()) {
 					Audios.loop("background", -1, ((Slider) Components.get("main-menu-music-volume")).value() / 100.0F);
@@ -83,18 +83,18 @@ public class G3Demo extends Application {
 			}
 
 			@Override
-			public void exit() {
+			public void out() {
 				// Stop the audio
 				Audios.stopAll();
 			}
 
 			@Override
-			public String enteringTransition() {
+			public String inTransition() {
 				return "fade-in-transition";
 			}
 
 			@Override
-			public String exitingTransition() {
+			public String outTransition() {
 				return "fade-out-transition";
 			}
 
@@ -126,22 +126,22 @@ public class G3Demo extends Application {
 			}
 
 			@Override
-			public void enter() {
+			public void in() {
 				return;
 			}
 
 			@Override
-			public String enteringTransition() {
+			public String inTransition() {
 				return "fade-in-transition";
 			}
 
 			@Override
-			public void exit() {
+			public void out() {
 				return;
 			}
 
 			@Override
-			public String exitingTransition() {
+			public String outTransition() {
 				return "fade-out-transition";
 			}
 		};
@@ -152,22 +152,22 @@ public class G3Demo extends Application {
 			}
 
 			@Override
-			public void enter() {
+			public void in() {
 				return;
 			}
 
 			@Override
-			public String enteringTransition() {
+			public String inTransition() {
 				return "fade-in-transition";
 			}
 
 			@Override
-			public void exit() {
+			public void out() {
 				return;
 			}
 
 			@Override
-			public String exitingTransition() {
+			public String outTransition() {
 				return "fade-out-transition";
 			}
 

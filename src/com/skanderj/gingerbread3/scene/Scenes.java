@@ -48,18 +48,24 @@ public final class Scenes {
 	}
 
 	public static void switchTo(final String identifier) {
+		// Get the possible previous and next scenes
 		final Scene previous = Scenes.currentScene, next = Scenes.get(identifier);
+		// If next is null, no scenes to switch to
 		if (next == null) {
 			Logger.log(Scenes.class, LogLevel.SEVERE, "Can't switch to non existent scene %s", identifier);
 			return;
 		}
+		// If there is actually a previous scene
 		if (previous != null) {
-			final Transition exitingTransition = (Transition) Engine.get(previous.exitingTransition());
-			final Transition enteringTransition = (Transition) Engine.get(next.enteringTransition());
-			if (exitingTransition != null) {
-				Engine.register(previous.exitingTransition(), exitingTransition);
-				Engine.get(previous.exitingTransition()).setShouldSkipRegistryChecks(true);
-				Scheduler.scheduleTask(exitingTransition.application(), new RecurrentTask(previous.application(), previous.exitingTransition() + "-recurr", 0) {
+			// Try to get the previous scene's exiting transition
+			final Transition outTransition = (Transition) Engine.get(previous.outTransition());
+			// Try to get the next scene's transition
+			final Transition inTransition = (Transition) Engine.get(next.inTransition());
+			// If there is actually an exiting transition
+			if (outTransition != null) {
+				Engine.register(previous.outTransition(), outTransition);
+				Engine.get(previous.outTransition()).setShouldSkipRegistryChecks(true);
+				Scheduler.scheduleTask(outTransition.application(), new RecurrentTask(previous.application(), previous.outTransition() + "-recurr", 0) {
 					@Override
 					public Priority priority() {
 						return Priority.EXTREMELY_HIGH;
@@ -67,34 +73,34 @@ public final class Scenes {
 
 					@Override
 					public Application application() {
-						return exitingTransition.application();
+						return outTransition.application();
 					}
 
 					@Override
 					public void execute(final ApplicationObject object) {
-						if (exitingTransition.isDone()) {
-							Engine.get(previous.exitingTransition()).setShouldSkipRegistryChecks(false);
-							Engine.skip(previous.exitingTransition());
-							Scheduler.delete(previous.exitingTransition() + "-recurr");
+						if (outTransition.isDone()) {
+							Engine.get(previous.outTransition()).setShouldSkipRegistryChecks(false);
+							Engine.skip(previous.outTransition());
+							Scheduler.delete(previous.outTransition() + "-recurr");
 							Scenes.currentScene = next;
 							Scenes.newScene();
-							if (enteringTransition != null) {
-								Engine.register(next.enteringTransition(), enteringTransition);
-								Engine.get(next.enteringTransition()).setShouldSkipRegistryChecks(true);
+							if (inTransition != null) {
+								Engine.register(next.inTransition(), inTransition);
+								Engine.get(next.inTransition()).setShouldSkipRegistryChecks(true);
 							}
 						}
 					}
 				});
 			}
-			previous.exit();
+			previous.out();
 		} else {
 			Scenes.currentScene = next;
 			Scenes.newScene();
-			final Transition enteringTransition = (Transition) Engine.get(next.enteringTransition());
-			if (enteringTransition != null) {
-				Engine.register(next.enteringTransition(), enteringTransition);
-				Engine.get(next.enteringTransition()).setShouldSkipRegistryChecks(true);
-				Scheduler.scheduleTask(enteringTransition.application(), new DelayedTask(next.application(), next.enteringTransition() + "-delayed", enteringTransition.duration()) {
+			final Transition inTransition = (Transition) Engine.get(next.inTransition());
+			if (inTransition != null) {
+				Engine.register(next.inTransition(), inTransition);
+				Engine.get(next.inTransition()).setShouldSkipRegistryChecks(true);
+				Scheduler.scheduleTask(inTransition.application(), new DelayedTask(next.application(), next.inTransition() + "-delayed", inTransition.duration()) {
 					@Override
 					public Priority priority() {
 						return Priority.EXTREMELY_HIGH;
@@ -102,15 +108,15 @@ public final class Scenes {
 
 					@Override
 					public Application application() {
-						return enteringTransition.application();
+						return inTransition.application();
 					}
 
 					@Override
 					public void execute(final ApplicationObject object) {
-						if (enteringTransition.isDone()) {
-							Engine.get(next.enteringTransition()).setShouldSkipRegistryChecks(false);
-							Engine.skip(next.enteringTransition());
-							Scheduler.delete(next.enteringTransition() + "-recurr");
+						if (inTransition.isDone()) {
+							Engine.get(next.inTransition()).setShouldSkipRegistryChecks(false);
+							Engine.skip(next.inTransition());
+							Scheduler.delete(next.inTransition() + "-recurr");
 						}
 					}
 				});
@@ -122,7 +128,7 @@ public final class Scenes {
 		Engine.newScene();
 		final List<String> gameObjects = Scenes.currentScene.sceneObjects();
 		Components.considerOnly(gameObjects);
-		Scenes.currentScene.enter();
+		Scenes.currentScene.in();
 	}
 
 	/**

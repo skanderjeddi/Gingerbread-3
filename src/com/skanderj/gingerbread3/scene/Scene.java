@@ -37,24 +37,24 @@ public abstract class Scene extends ApplicationObject {
 	/**
 	 * What to do when the scene is first called into effect.
 	 */
-	public abstract void enter();
+	public abstract void in();
 
 	/**
 	 * What to do when the scene is switched.
 	 */
-	public abstract void exit();
+	public abstract void out();
 
 	/**
 	 * Entering transition.
 	 */
-	public String enteringTransition() {
+	public String inTransition() {
 		return null;
 	}
 
 	/**
 	 * Exiting transition.
 	 */
-	public String exitingTransition() {
+	public String outTransition() {
 		return null;
 	}
 

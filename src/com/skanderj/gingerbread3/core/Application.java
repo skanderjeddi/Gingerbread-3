@@ -185,22 +185,22 @@ public abstract class Application extends ThreadWrapper {
 			}
 
 			@Override
-			public void enter() {
+			public void in() {
 				return;
 			}
 
 			@Override
-			public String enteringTransition() {
+			public String inTransition() {
 				return "splash-fade-in-transition";
 			}
 
 			@Override
-			public void exit() {
+			public void out() {
 				return;
 			}
 
 			@Override
-			public String exitingTransition() {
+			public String outTransition() {
 				return "splash-fade-out-transition";
 			}
 		});
