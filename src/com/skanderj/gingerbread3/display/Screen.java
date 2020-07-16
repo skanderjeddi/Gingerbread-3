@@ -119,50 +119,45 @@ public class Screen {
 	/**
 	 * Self explanatory.
 	 */
-	public final void image(final BufferedImage image, final int x, final int y, final int width, final int height) {
-		this.drawGraphics.drawImage(image, x, y, width, height, null);
+	public final void image(final BufferedImage image, final double x, final double y, final int width, final int height) {
+		this.drawGraphics.drawImage(image, (int)x, (int)y, width, height, null);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final void string(final String string, final int x, final int y) {
-		this.drawGraphics.drawString(string, x, y);
+	public final void string(final String string, final double x, final double y) {
+		this.drawGraphics.drawString(string, (int)x, (int)y);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final void rectangle(final Color color, final int x, final int y, final int width, final int height, final boolean fill) {
-		this.rectangle(color, x, y, width, height, fill, 0, 0);
+	public final void rectangle(final Color color, final double x, final double y, final int width, final int height, final boolean fill) {
+		this.rectangle(color, (int)x, (int)y, width, height, fill, 0, 0);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public final void rectangle(final Color color, final int x, final int y, final int width, final int height, final boolean fill, final int arcWidth, final int arcHeight) {
+	public final void rectangle(final Color color, final double x, final double y, final int width, final int height, final boolean fill, final int arcWidth, final int arcHeight) {
 		final Color tempColor = this.drawGraphics.getColor();
 		{
 			this.drawGraphics.setColor(color);
 			if (fill) {
-				this.drawGraphics.fillRoundRect(x, y, width, height, arcWidth, arcHeight);
+				this.drawGraphics.fillRoundRect((int)x, (int)y, width, height, arcWidth, arcHeight);
 			} else {
-				this.drawGraphics.drawRoundRect(x, y, width, height, arcWidth, arcHeight);
+				this.drawGraphics.drawRoundRect((int)x, (int)y, width, height, arcWidth, arcHeight);
 			}
-		}
+
 		this.drawGraphics.setColor(tempColor);
+		}
 	}
 
-	/**
-	 * Self explanatory.
-	 */
 	public final void translate(final int x, final int y) {
-		this.drawGraphics.translate(x, y);
+		this.drawGraphics.translate((int)x, (int)y);
 	}
 
-	/**
-	 * Self explanatory.
-	 */
 	public final void oval(final Color color, final int centerX, final int centerY, final int width, final int height, final boolean fill) {
 		final Color tempColor = this.drawGraphics.getColor();
 		{

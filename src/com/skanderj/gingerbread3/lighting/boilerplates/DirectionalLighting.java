@@ -24,7 +24,7 @@ public class DirectionalLighting extends LightingSource {
 	private int startingAngle;
 	private int arcAngle;
 
-	public DirectionalLighting(final Application application, final int x, final int y, final Color color, final int radius, final int startingAngle, final int angleEnd, final Priority priority) {
+	public DirectionalLighting(final Application application, final double x, final double y, final Color color, final int radius, final int startingAngle, final int angleEnd, final Priority priority) {
 		super(application, x, y, priority);
 		this.color = color;
 		this.radius = radius;
@@ -45,9 +45,9 @@ public class DirectionalLighting extends LightingSource {
 
 	@Override
 	public void render(final Screen screen) {
-		final RadialGradientPaint paint = new RadialGradientPaint(new Point(this.x + (this.radius / 2), this.y + (this.radius / 2)), this.radius, new float[] { 0f, 1f }, new Color[] { this.color, new Color(1f, 1f, 1f, 0.1f) });
+		final RadialGradientPaint paint = new RadialGradientPaint(new Point((int)this.x + (this.radius / 2), (int)this.y + (this.radius / 2)), this.radius, new float[] { 0f, 1f }, new Color[] { this.color, new Color(1f, 1f, 1f, 0.1f) });
 		screen.drawGraphics().setPaint(paint);
-		screen.drawGraphics().fill(new Arc2D.Float(this.x, this.y, this.radius, this.radius, this.startingAngle, this.arcAngle, Arc2D.PIE));
+		screen.drawGraphics().fill(new Arc2D.Float((int)this.x, (int)this.y, this.radius, this.radius, this.startingAngle, this.arcAngle, Arc2D.PIE));
 	}
 
 	public final Color color() {

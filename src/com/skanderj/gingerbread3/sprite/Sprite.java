@@ -24,7 +24,7 @@ public class Sprite extends ApplicationObject implements Moveable {
 	private final BufferedImage originalImage;
 	private BufferedImage editedImage;
 	private final int width, height;
-	private int x, y;
+	private double x, y;
 
 	public static final int SCALE_BICUBIC = AffineTransformOp.TYPE_BICUBIC;
 	public static final int SCALE_BILINEAR = AffineTransformOp.TYPE_BILINEAR;
@@ -200,7 +200,7 @@ public class Sprite extends ApplicationObject implements Moveable {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setX(final int x) {
+	public void setX(final double x) {
 		this.x = x;
 	}
 
@@ -208,7 +208,7 @@ public class Sprite extends ApplicationObject implements Moveable {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setY(final int y) {
+	public void setY(final double y) {
 		this.y = y;
 	}
 
@@ -216,7 +216,7 @@ public class Sprite extends ApplicationObject implements Moveable {
 	 * Self explanatory.
 	 */
 	@Override
-	public int x() {
+	public double x() {
 		return this.x;
 	}
 
@@ -224,7 +224,7 @@ public class Sprite extends ApplicationObject implements Moveable {
 	 * Self explanatory.
 	 */
 	@Override
-	public int y() {
+	public double y() {
 		return this.y;
 	}
 

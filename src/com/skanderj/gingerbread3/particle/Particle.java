@@ -13,7 +13,7 @@ import com.skanderj.gingerbread3.math.Vector2;
  *
  */
 public class Particle extends ApplicationObject {
-	protected int x, y;
+	protected double x, y;
 	protected Moveable moveable;
 	protected Vector2 velocity;
 
@@ -32,10 +32,10 @@ public class Particle extends ApplicationObject {
 	public synchronized void update() {
 		final int limit = 40;
 		if (Math.abs(this.velocity.x) > limit) {
-			this.velocity.x = (int) (Math.signum(this.x) * limit);
+			this.velocity.x = (Math.signum(this.x) * limit);
 		}
 		if (Math.abs(this.velocity.y) > limit) {
-			this.velocity.y = (int) (Math.signum(this.y) * limit);
+			this.velocity.y = (Math.signum(this.y) * limit);
 		}
 		this.x += this.velocity.x;
 		this.y += this.velocity.y;

@@ -12,10 +12,10 @@ import com.skanderj.gingerbread3.particle.Moveable;
  *
  */
 public abstract class LightingSource extends ApplicationObject implements Moveable {
-	protected int x, y;
+	protected double x, y;
 	protected Priority priority;
 
-	public LightingSource(final Application application, final int x, final int y, final Priority priority) {
+	public LightingSource(final Application application, final double x, final double y, final Priority priority) {
 		super(application);
 		this.x = x;
 		this.y = y;
@@ -26,7 +26,7 @@ public abstract class LightingSource extends ApplicationObject implements Moveab
 	 * Self explanatory.
 	 */
 	@Override
-	public void setX(final int x) {
+	public void setX(final double x) {
 		this.x = x;
 	}
 
@@ -34,7 +34,7 @@ public abstract class LightingSource extends ApplicationObject implements Moveab
 	 * Self explanatory.
 	 */
 	@Override
-	public void setY(final int y) {
+	public void setY(final double y) {
 		this.y = y;
 	}
 
@@ -42,7 +42,7 @@ public abstract class LightingSource extends ApplicationObject implements Moveab
 	 * Self explanatory.
 	 */
 	@Override
-	public int x() {
+	public double x() {
 		return this.x;
 	}
 
@@ -50,7 +50,7 @@ public abstract class LightingSource extends ApplicationObject implements Moveab
 	 * Self explanatory.
 	 */
 	@Override
-	public int y() {
+	public double y() {
 		return this.y;
 	}
 

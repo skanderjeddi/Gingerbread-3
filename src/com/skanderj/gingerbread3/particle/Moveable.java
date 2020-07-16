@@ -3,13 +3,13 @@ package com.skanderj.gingerbread3.particle;
 import com.skanderj.gingerbread3.core.Renderable;
 
 public interface Moveable extends Renderable {
-	void setX(int x);
+	void setX(double x);
 
-	void setY(int y);
+	void setY(double y);
 
-	int x();
+	double x();
 
-	int y();
+	double y();
 
 	Moveable copy();
 }
