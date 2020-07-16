@@ -11,14 +11,14 @@ import com.skanderj.gingerbread3.sprite.Sprite;
  * @author Skander
  *
  */
-public abstract class Animation extends ApplicationObject {
-	protected int x, y;
+public abstract class Animation extends ApplicationObject implements Moveable {
+	protected double x, y;
 	protected final Sprite[] sprites;
 	protected final int[] timers;
 	protected int currentSpriteIndex, currentSpriteTimer;
 	protected boolean playing;
 
-	public Animation(final Application application, final int x, final int y, final Sprite[] sprites, final int[] timers) {
+	public Animation(final Application application, final double x, final double y, final Sprite[] sprites, final int[] timers) {
 		super(application);
 		this.x = x;
 		this.y = y;
@@ -53,14 +53,14 @@ public abstract class Animation extends ApplicationObject {
 	/**
 	 * Self explanatory.
 	 */
-	public int getX() {
+	public double getX() {
 		return this.x;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public int getY() {
+	public double getY() {
 		return this.y;
 	}
 
@@ -81,14 +81,14 @@ public abstract class Animation extends ApplicationObject {
 	/**
 	 * Self explanatory.
 	 */
-	public void setX(final int x) {
+	public void setX(final double x) {
 		this.x = x;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setY(final int y) {
+	public void setY(final double y) {
 		this.y = y;
 	}
 
