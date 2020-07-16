@@ -8,4 +8,14 @@ package com.skanderj.gingerbread3;
  */
 public final class Gingerbread3 {
 	public static final String RELEASE = "R0.9.3";
+
+	private static boolean splashScreen = false;
+
+	public static void enableSplashScreen() {
+		Gingerbread3.splashScreen = true;
+	}
+
+	public static boolean splashScreenEnabled() {
+		return Gingerbread3.splashScreen;
+	}
 }

@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import com.skanderj.gingerbread3.Gingerbread3;
 import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.boilerplates.GBackgroundColor;
 import com.skanderj.gingerbread3.component.boilerplates.GBackgroundImage;
@@ -145,7 +146,11 @@ public abstract class Application extends ThreadWrapper {
 		this.registerGameObjects();
 		this.createComponents();
 		this.registerScenes();
-		this.setupSplashscreen();
+		if (Gingerbread3.splashScreenEnabled()) {
+			this.setupSplashscreen();
+		} else {
+			Scenes.switchTo(this.firstScene());
+		}
 		this.registerBinds();
 		this.window.requestFocus();
 	}
