@@ -58,6 +58,11 @@ public final class Utilities {
 		return Utilities.random.nextInt(Math.abs(min < 0 ? 2 * max : max) + 1) + ((min < 0 ? 1 : -1) * min);
 	}
 
+	public static double randomDouble(final double a, final double b) {
+		double d = Utilities.random.nextDouble();
+		return a + (b - a)*d;
+	}
+
 	/**
 	 * Self explanatory.
 	 */
