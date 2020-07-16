@@ -118,49 +118,6 @@ public final class Scenes {
 		}
 	}
 
-	/**
-	 * Self explanatory.
-	 */
-//	public static void switchTo_OLD(final String identifier) {
-//		final Scene previous = Scenes.currentScene;
-//		Scenes.currentScene = Scenes.get(identifier);
-//		if (previous != null) {
-//			previous.exit();
-//			if (((Transition) Engine.get(previous.exitingTransition()) != null)) {
-//				final Transition exit = (Transition) Engine.get(previous.exitingTransition());
-//				Scenes.currentTransition = exit;
-//				Scheduler.scheduleTask(previous.application(), new DelayedTask("transition-time", exit.duration()) {
-//					@Override
-//					public Priority priority() {
-//						return Priority.MONITOR;
-//					}
-//
-//					@Override
-//					public Application application() {
-//						return previous.application();
-//					}
-//
-//					@Override
-//					public void execute(final ApplicationObject object) {
-//						if (Scenes.currentScene.enteringTransition() != null) {
-//							Scenes.currentTransition = (Transition) Engine.get(Scenes.currentScene.enteringTransition());
-//							Scenes.newScene();
-//						} else {
-//							Scenes.currentTransition = null;
-//							Scenes.newScene();
-//						}
-//					}
-//				});
-//			} else {
-//				Scenes.currentTransition = (Transition) Engine.get(Scenes.currentScene.enteringTransition());
-//				Scenes.newScene();
-//			}
-//		} else {
-//			Scenes.currentTransition = (Transition) Engine.get(Scenes.currentScene.enteringTransition());
-//			Scenes.newScene();
-//		}
-//	}
-
 	public static void newScene() {
 		Engine.newScene();
 		final List<String> gameObjects = Scenes.currentScene.sceneObjects();
