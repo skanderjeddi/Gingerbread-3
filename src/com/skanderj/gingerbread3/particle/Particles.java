@@ -65,8 +65,10 @@ public final class Particles extends ApplicationObject {
 		this.updatesCounter += 1;
 		if ((this.updatesCounter % this.updateRate) == 0) {
 			for (final Particle particle : this.particles) {
-				// particle.velocity.x = particle.velocity.x + Utilities.randomInteger(-this.chaosValue, this.chaosValue);
-				// particle.velocity.y = particle.velocity.y + Utilities.randomInteger(-this.chaosValue, this.chaosValue);
+				// particle.velocity.x = particle.velocity.x +
+				// Utilities.randomInteger(-this.chaosValue, this.chaosValue);
+				// particle.velocity.y = particle.velocity.y +
+				// Utilities.randomInteger(-this.chaosValue, this.chaosValue);
 				particle.velocity.x = particle.velocity.x + Utilities.randomDouble(-this.chaosValue, this.chaosValue);
 				particle.velocity.y = particle.velocity.y + Utilities.randomDouble(-this.chaosValue, this.chaosValue);
 				particle.update();

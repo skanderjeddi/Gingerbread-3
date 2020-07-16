@@ -120,21 +120,21 @@ public class Screen {
 	 * Self explanatory.
 	 */
 	public final void image(final BufferedImage image, final double x, final double y, final int width, final int height) {
-		this.drawGraphics.drawImage(image, (int)x, (int)y, width, height, null);
+		this.drawGraphics.drawImage(image, (int) x, (int) y, width, height, null);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public final void string(final String string, final double x, final double y) {
-		this.drawGraphics.drawString(string, (int)x, (int)y);
+		this.drawGraphics.drawString(string, (int) x, (int) y);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	public final void rectangle(final Color color, final double x, final double y, final int width, final int height, final boolean fill) {
-		this.rectangle(color, (int)x, (int)y, width, height, fill, 0, 0);
+		this.rectangle(color, (int) x, (int) y, width, height, fill, 0, 0);
 	}
 
 	/**
@@ -145,17 +145,17 @@ public class Screen {
 		{
 			this.drawGraphics.setColor(color);
 			if (fill) {
-				this.drawGraphics.fillRoundRect((int)x, (int)y, width, height, arcWidth, arcHeight);
+				this.drawGraphics.fillRoundRect((int) x, (int) y, width, height, arcWidth, arcHeight);
 			} else {
-				this.drawGraphics.drawRoundRect((int)x, (int)y, width, height, arcWidth, arcHeight);
+				this.drawGraphics.drawRoundRect((int) x, (int) y, width, height, arcWidth, arcHeight);
 			}
 
-		this.drawGraphics.setColor(tempColor);
+			this.drawGraphics.setColor(tempColor);
 		}
 	}
 
 	public final void translate(final int x, final int y) {
-		this.drawGraphics.translate((int)x, (int)y);
+		this.drawGraphics.translate(x, y);
 	}
 
 	public final void oval(final Color color, final int centerX, final int centerY, final int width, final int height, final boolean fill) {

@@ -52,7 +52,7 @@ public class OmnidirectionalLighting extends LightingSource {
 //			screen.oval(new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), alpha), this.x, this.y, c, c, false);
 //		}
 
-		final RadialGradientPaint paint = new RadialGradientPaint(new Point((int)this.x, (int)this.y), this.radius, new float[] { 0f, 1f }, new Color[] { this.color, new Color(1f, 1f, 1f, 1f) });
+		final RadialGradientPaint paint = new RadialGradientPaint(new Point((int) this.x, (int) this.y), this.radius, new float[] { 0f, 1f }, new Color[] { this.color, new Color(1f, 1f, 1f, 1f) });
 		screen.drawGraphics().translate(0, 0);
 		screen.drawGraphics().setPaint(paint);
 		screen.drawGraphics().fill(new Ellipse2D.Double(this.x - (this.radius / 2), this.y - (this.radius / 2), this.radius, this.radius));

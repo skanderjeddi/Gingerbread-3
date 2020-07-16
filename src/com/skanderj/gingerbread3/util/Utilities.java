@@ -59,8 +59,8 @@ public final class Utilities {
 	}
 
 	public static double randomDouble(final double a, final double b) {
-		double d = Utilities.random.nextDouble();
-		return a + (b - a)*d;
+		final double d = Utilities.random.nextDouble();
+		return a + ((b - a) * d);
 	}
 
 	/**
