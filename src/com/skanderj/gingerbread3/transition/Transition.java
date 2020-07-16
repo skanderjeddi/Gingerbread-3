@@ -13,11 +13,13 @@ import com.skanderj.gingerbread3.core.object.ApplicationObject;
  */
 public abstract class Transition extends ApplicationObject {
 	protected int duration, timer;
+	protected boolean isDone;
 
 	public Transition(final Application application, final int duration) {
 		super(application);
 		this.duration = duration;
 		this.timer = 0;
+		this.isDone = false;
 	}
 
 	/**
@@ -25,9 +27,12 @@ public abstract class Transition extends ApplicationObject {
 	 */
 	@Override
 	public void update() {
-		this.timer += 1;
-		if (this.timer >= this.duration) {
-			Engine.skip(Engine.identifier(this));
+		if (!this.isDone) {
+			this.timer += 1;
+			if (this.timer > this.duration) {
+				Engine.skip(Engine.identifier(this));
+				this.isDone = true;
+			}
 		}
 	}
 
@@ -43,6 +48,7 @@ public abstract class Transition extends ApplicationObject {
 	 */
 	@Override
 	public void sceneChange() {
+		this.isDone = false;
 		this.timer = 0;
 	}
 
@@ -51,6 +57,10 @@ public abstract class Transition extends ApplicationObject {
 	 */
 	@Override
 	public Priority priority() {
-		return Priority.CRITICAL;
+		return Priority.EXTREMELY_LOW;
+	}
+
+	public boolean isDone() {
+		return this.isDone;
 	}
 }

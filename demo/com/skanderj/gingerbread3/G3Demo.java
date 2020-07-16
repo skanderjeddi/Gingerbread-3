@@ -339,7 +339,7 @@ public class G3Demo extends Application {
 	public static void main(final String[] args) {
 		// Set debugging messages
 		Logger.toggleLoggingToFile();
-		Logger.setStateForDebuggingType(DebuggingType.CLASSIC, false);
+		Logger.setStateForDebuggingType(DebuggingType.CLASSIC, true);
 		Logger.setStateForDebuggingType(DebuggingType.DEVELOPMENT, false);
 		new G3Demo().start();
 	}

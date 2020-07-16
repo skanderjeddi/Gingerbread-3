@@ -35,10 +35,12 @@ public class FadeOutTransition extends Transition {
 	 */
 	@Override
 	public void render(final Screen screen) {
-		int alpha = 0;
-		alpha = (int) Utilities.map(this.timer, 0, this.duration, 0, 255, true);
-		final Color newColor = new Color(this.color.getRed(), this.color.getBlue(), this.color.getGreen(), alpha);
-		screen.rectangle(newColor, 0, 0, this.application.window().getWidth(), this.application.window().getHeight(), true);
+		if (!this.isDone) {
+			int alpha = 0;
+			alpha = (int) Utilities.map(this.timer, 0, this.duration, 0, 255, true);
+			final Color newColor = new Color(this.color.getRed(), this.color.getBlue(), this.color.getGreen(), alpha);
+			screen.rectangle(newColor, 0, 0, this.application.window().getWidth(), this.application.window().getHeight(), true);
+		}
 	}
 
 	/**
