@@ -1,6 +1,8 @@
 package com.skanderj.gingerbread3.scheduler.tasks;
 
+import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Engine;
+import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 import com.skanderj.gingerbread3.scheduler.Scheduler;
@@ -14,6 +16,7 @@ import com.skanderj.gingerbread3.scheduler.Task;
 public abstract class RecurrentTask implements Task {
 	public static final int REPEAT_INDEFINITELY = -1;
 
+	private final Application source;
 	private final String identifier;
 	private int timer;
 	private final int delay;
@@ -21,15 +24,16 @@ public abstract class RecurrentTask implements Task {
 	private int repeatsCounter;
 	private final Thread thread;
 
-	public RecurrentTask(final String identifier, final int delay) {
-		this(identifier, delay, RecurrentTask.REPEAT_INDEFINITELY);
+	public RecurrentTask(final Application source, final String identifier, final int delay) {
+		this(source, identifier, delay, RecurrentTask.REPEAT_INDEFINITELY);
 	}
 
-	public RecurrentTask(final String identifier, final int delay, final int repeats) {
-		this(identifier, delay, repeats, false);
+	public RecurrentTask(final Application source, final String identifier, final int delay, final int repeats) {
+		this(source, identifier, delay, repeats, false);
 	}
 
-	public RecurrentTask(final String identifier, final int delay, final int repeats, final boolean delayOnFirstExecution) {
+	public RecurrentTask(final Application source, final String identifier, final int delay, final int repeats, final boolean delayOnFirstExecution) {
+		this.source = source;
 		this.identifier = identifier;
 		this.delay = delay;
 		this.repeats = repeats;
@@ -63,7 +67,7 @@ public abstract class RecurrentTask implements Task {
 					}
 				}
 				if (this.timer == -1) {
-					this.execute(null);
+					this.execute(ApplicationObject.constructFromUpdateable(this.source, this));
 					this.timer = 0;
 				}
 				this.timer += 1;
@@ -100,5 +104,10 @@ public abstract class RecurrentTask implements Task {
 
 	public int repeats() {
 		return this.repeats;
+	}
+
+	@Override
+	public Application source() {
+		return this.source;
 	}
 }

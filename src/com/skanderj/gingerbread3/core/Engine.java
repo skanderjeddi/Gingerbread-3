@@ -18,7 +18,6 @@ import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 import com.skanderj.gingerbread3.scene.Scene;
 import com.skanderj.gingerbread3.scene.Scenes;
-import com.skanderj.gingerbread3.transition.Transition;
 
 /**
  * Probably the most important class and handles all the application objects.
@@ -235,13 +234,7 @@ public final class Engine {
 				object.sceneChange();
 			}
 		}
-		for (final ApplicationObject applicationObject : Engine.skips.toArray(new ApplicationObject[Engine.skips.size()])) {
-			if (applicationObject instanceof Transition) {
-				continue;
-			} else {
-				Engine.skips.remove(applicationObject);
-			}
-		}
+		Engine.skips.clear();
 		Engine.deletions.clear();
 	}
 

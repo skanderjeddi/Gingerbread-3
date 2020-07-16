@@ -205,7 +205,7 @@ public abstract class Application extends ThreadWrapper {
 			}
 		});
 		Scenes.switchTo("gingerbread-splashscreen");
-		Scheduler.scheduleTask(this, new DelayedTask("splashscreen-exit", (int) (this.refreshRate() * 5)) {
+		Scheduler.scheduleTask(this, new DelayedTask(this, "splashscreen-exit", (int) (this.refreshRate() * 5)) {
 			@Override
 			public Priority priority() {
 				return Priority.REGULAR;
@@ -294,7 +294,7 @@ public abstract class Application extends ThreadWrapper {
 	}
 
 	protected synchronized final void useProfiler() {
-		Scheduler.scheduleTask(this, new RecurrentTask(this.profilerIdentifier(), (int) this.refreshRate, RecurrentTask.REPEAT_INDEFINITELY, true) {
+		Scheduler.scheduleTask(this, new RecurrentTask(this, this.profilerIdentifier(), (int) this.refreshRate, RecurrentTask.REPEAT_INDEFINITELY, true) {
 			@Override
 			public Priority priority() {
 				return Priority.EXTREMELY_HIGH;
