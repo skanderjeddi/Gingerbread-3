@@ -155,6 +155,9 @@ public abstract class Application extends ThreadWrapper {
 		this.window.requestFocus();
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public abstract String firstScene();
 
 	@Override
@@ -164,6 +167,9 @@ public abstract class Application extends ThreadWrapper {
 		System.exit(0);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	private final void setupSplashscreen() {
 		Images.register("gingerbread-logo", "res/g3-logo.png");
 		Fonts.load("lunchds", "res/fonts/lunchds.ttf");
@@ -293,6 +299,9 @@ public abstract class Application extends ThreadWrapper {
 		}
 	}
 
+	/**
+	 * Profiler displays fps and ups each cycle.
+	 */
 	protected synchronized final void useProfiler() {
 		Scheduler.scheduleTask(this, new RecurrentTask(this, this.profilerIdentifier(), (int) this.refreshRate, RecurrentTask.REPEAT_INDEFINITELY, true) {
 			@Override

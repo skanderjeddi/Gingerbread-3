@@ -63,8 +63,11 @@ public final class Scenes {
 			final Transition inTransition = (Transition) Engine.get(next.inTransition());
 			// If there is actually an exiting transition
 			if (outTransition != null) {
+				// Register it
 				Engine.register(previous.outTransition(), outTransition);
+				// Make it renderable
 				Engine.get(previous.outTransition()).setShouldSkipRegistryChecks(true);
+				// Schedule a task to remove it and play the potential next transition
 				Scheduler.scheduleTask(outTransition.application(), new RecurrentTask(previous.application(), previous.outTransition() + "-recurr", 0) {
 					@Override
 					public Priority priority() {

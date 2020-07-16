@@ -2,6 +2,11 @@ package com.skanderj.gingerbread3.particle;
 
 import com.skanderj.gingerbread3.core.Renderable;
 
+/**
+ *
+ * @author Skander
+ *
+ */
 public interface Moveable extends Renderable {
 	void setX(double x);
 

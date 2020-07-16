@@ -28,12 +28,18 @@ public class OmnidirectionalLighting extends LightingSource {
 		this.radius = radius;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public final void update() {
 		// TODO: here flickering and stuff
 		return;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public final void render(final Screen screen) {
 //		for (int c = 0; c < this.radius; c += 1) {
@@ -72,11 +78,17 @@ public class OmnidirectionalLighting extends LightingSource {
 		return this.radius;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public Moveable copy() {
 		return new OmnidirectionalLighting(this.application, this.color, this.x, this.y, this.radius, this.priority);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public String description() {
 		return Engine.identifier(this) + " -> OmnidirectionalLighting.class(" + this.x + ", " + this.y + ", " + this.radius + ", " + this.color + ")";

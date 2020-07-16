@@ -121,8 +121,14 @@ public abstract class ApplicationObject implements Comparable<ApplicationObject>
 		this.shouldSkipRegistryChecks = shouldSkipRegistryChecks;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public abstract String description();
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public final String toString() {
 		return this.description();

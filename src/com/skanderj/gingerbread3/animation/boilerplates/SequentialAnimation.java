@@ -44,6 +44,9 @@ public class SequentialAnimation extends Animation {
 		screen.image(this.sprites[this.currentSpriteIndex].image(), this.x, this.y, this.sprites[this.currentSpriteIndex].getWidth(), this.sprites[this.currentSpriteIndex].getHeight());
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public String description() {
 		final Integer[] timersAsObjects = new Integer[this.timers.length];

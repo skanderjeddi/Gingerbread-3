@@ -6,6 +6,11 @@ import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.scheduler.Scheduler;
 import com.skanderj.gingerbread3.scheduler.Task;
 
+/**
+ *
+ * @author Skander TODO
+ *
+ */
 public abstract class LongTask implements Task, Runnable {
 	private final Application source;
 	private final String identifier;
@@ -17,6 +22,9 @@ public abstract class LongTask implements Task, Runnable {
 		this.thread = new Thread(this, identifier);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public final void start() {
 		synchronized (this.thread) {
@@ -24,6 +32,9 @@ public abstract class LongTask implements Task, Runnable {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public void run() {
 		synchronized (this.thread) {
@@ -33,11 +44,17 @@ public abstract class LongTask implements Task, Runnable {
 		Scheduler.delete(this.identifier);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public final String identifier() {
 		return this.identifier;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public Application source() {
 		return this.source;

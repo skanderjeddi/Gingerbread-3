@@ -137,6 +137,9 @@ public class GBackgroundImage extends Background {
 		return Priority.HIGH;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public String description() {
 		return Engine.identifier(this) + " -> GBackgroundImage.class(" + this.x + ", " + this.y + ", " + this.image + ")";

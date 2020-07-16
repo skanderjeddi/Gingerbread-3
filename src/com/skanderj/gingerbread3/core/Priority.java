@@ -16,6 +16,9 @@ public enum Priority {
 		this.priorityIndex = index;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public int priorityIndex() {
 		return this.priorityIndex;
 	}

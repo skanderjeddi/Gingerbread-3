@@ -32,17 +32,26 @@ public class DirectionalLighting extends LightingSource {
 		this.arcAngle = angleEnd;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public Moveable copy() {
 		return new DirectionalLighting(this.application, this.x, this.y, this.color, this.radius, this.startingAngle, this.arcAngle, this.priority);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public final void update() {
 		// TODO: potential flickering
 		return;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public void render(final Screen screen) {
 		final RadialGradientPaint paint = new RadialGradientPaint(new Point((int) this.x + (this.radius / 2), (int) this.y + (this.radius / 2)), this.radius, new float[] { 0f, 1f }, new Color[] { this.color, new Color(1f, 1f, 1f, 0.1f) });
@@ -50,30 +59,51 @@ public class DirectionalLighting extends LightingSource {
 		screen.drawGraphics().fill(new Arc2D.Float((int) this.x, (int) this.y, this.radius, this.radius, this.startingAngle, this.arcAngle, Arc2D.PIE));
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final Color color() {
 		return this.color;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final int startingAngle() {
 		return this.startingAngle;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final int arcAngle() {
 		return this.arcAngle;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public void setColor(final Color color) {
 		this.color = color;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public void setStartingAngle(final int startingAngle) {
 		this.startingAngle = startingAngle;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public void setArcAngle(final int arcAngle) {
 		this.arcAngle = arcAngle;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public String description() {
 		return Engine.identifier(this) + " -> DirectionalLighting.class(" + this.x + ", " + this.y + ", " + this.startingAngle + ", " + this.arcAngle + ", " + this.color + ")";

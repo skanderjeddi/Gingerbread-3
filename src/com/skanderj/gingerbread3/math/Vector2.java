@@ -10,6 +10,9 @@ import com.skanderj.gingerbread3.util.Utilities;
 public class Vector2 {
 	public double x, y;
 
+	/**
+	 * Self explanatory.
+	 */
 	public static final Vector2[] randomVectors(final int count, final int xMin, final int xMax, final int yMin, final int yMax) {
 		final Vector2[] vects = new Vector2[count];
 		for (int i = 0; i < count; i += 1) {
@@ -20,6 +23,9 @@ public class Vector2 {
 		return vects;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public static final Vector2[] randomVectors(final int count, final double xMin, final double xMax, final double yMin, final double yMax) {
 		final Vector2[] vects = new Vector2[count];
 		for (int i = 0; i < count; i += 1) {

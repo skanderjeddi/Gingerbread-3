@@ -137,6 +137,9 @@ public class GBackgroundColor extends Background {
 		return Priority.HIGH;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public String description() {
 		return Engine.identifier(this) + " -> GBackgroundColor.class(" + this.x + ", " + this.y + ", " + this.width + ", " + this.height + ")";

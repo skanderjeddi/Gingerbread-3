@@ -134,6 +134,9 @@ public final class GText extends Text {
 		return Priority.LOW;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public String description() {
 		return Engine.identifier(this) + " -> GText.class(" + this.x + ", " + this.y + ", " + this.label.toString() + ")";

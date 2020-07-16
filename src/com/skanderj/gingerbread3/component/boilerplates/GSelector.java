@@ -182,6 +182,9 @@ public final class GSelector extends Selector {
 		return Priority.LOW;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public String description() {
 		return Engine.identifier(this) + " -> GSelector.class(" + this.x + ", " + this.y + ", " + this.width + ", " + this.height + ", " + this.properties.toString() + ")";

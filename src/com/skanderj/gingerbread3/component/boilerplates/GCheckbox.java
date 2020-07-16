@@ -220,6 +220,9 @@ public class GCheckbox extends Checkbox {
 		return Priority.LOW;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public String description() {
 		return Engine.identifier(this) + " -> GCheckBox.class(" + this.x + ", " + this.y + ", " + this.label.toString() + ")";

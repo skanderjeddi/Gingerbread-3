@@ -44,6 +44,9 @@ public final class Scheduler {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public static void update() {
 		for (final Task task : Scheduler.schedule.toArray(new Task[Scheduler.schedule.size()])) {
 			Logger.log(Scheduler.class, LogLevel.DEVELOPMENT, "Executing task %s", task.identifier());

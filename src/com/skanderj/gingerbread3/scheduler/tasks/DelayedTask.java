@@ -26,11 +26,17 @@ public abstract class DelayedTask implements Task {
 		this.thread = new Thread(this, identifier);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public final void start() {
 		return;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public final void run() {
 		synchronized (this.thread) {
@@ -40,6 +46,9 @@ public abstract class DelayedTask implements Task {
 		Scheduler.delete(this.identifier);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public final void update() {
 		this.timer += 1;
@@ -52,15 +61,24 @@ public abstract class DelayedTask implements Task {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public String identifier() {
 		return this.identifier;
 	}
 
-	public int getDelay() {
+	/**
+	 * Self explanatory.
+	 */
+	public int delay() {
 		return this.delay;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public Application source() {
 		return this.source;

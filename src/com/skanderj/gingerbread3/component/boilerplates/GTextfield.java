@@ -347,6 +347,9 @@ public final class GTextfield extends Textfield {
 		return Priority.LOW;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public String description() {
 		return Engine.identifier(this) + " -> GTextField.class(" + this.x + ", " + this.y + ", " + this.width + ", " + this.height + ")";

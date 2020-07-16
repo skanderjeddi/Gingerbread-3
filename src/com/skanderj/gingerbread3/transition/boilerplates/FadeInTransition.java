@@ -51,6 +51,9 @@ public class FadeInTransition extends Transition {
 		super.sceneChange();
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public String description() {
 		return Engine.identifier(this) + " -> FadeInTransition.class(" + this.duration + ", " + this.color + ")";

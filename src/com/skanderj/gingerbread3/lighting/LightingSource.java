@@ -54,6 +54,9 @@ public abstract class LightingSource extends ApplicationObject implements Moveab
 		return this.y;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public Priority priority() {
 		return this.priority;

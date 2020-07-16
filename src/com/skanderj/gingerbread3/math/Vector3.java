@@ -10,6 +10,9 @@ import com.skanderj.gingerbread3.util.Utilities;
 public class Vector3 {
 	public double x, y, z;
 
+	/**
+	 * Self explanatory.
+	 */
 	public static final Vector3[] randomVectors(final int count, final int xMin, final int xMax, final int yMin, final int yMax, final int zMin, final int zMax) {
 		final Vector3[] vects = new Vector3[count];
 		for (int i = 0; i < count; i += 1) {

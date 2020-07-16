@@ -106,6 +106,9 @@ public abstract class Animation extends ApplicationObject {
 		this.currentSpriteIndex = index;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public Priority priority() {
 		return Priority.LOW;

@@ -59,6 +59,9 @@ public class Particle extends ApplicationObject {
 		return Priority.REGULAR;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public String description() {
 		return Engine.identifier(this) + " -> Particle.class(" + this.x + ", " + this.y + ", " + this.velocity + ")";

@@ -11,10 +11,16 @@ public final class Gingerbread3 {
 
 	private static boolean splashScreen = false;
 
+	/**
+	 * Self explanatory.
+	 */
 	public static void enableSplashScreen() {
 		Gingerbread3.splashScreen = true;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public static boolean splashScreenEnabled() {
 		return Gingerbread3.splashScreen;
 	}

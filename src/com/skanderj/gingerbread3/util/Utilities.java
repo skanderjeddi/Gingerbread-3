@@ -13,12 +13,17 @@ import java.util.Random;
  *
  */
 public final class Utilities {
+	public static final String NULL_STRING = null, EMPTY_STRING = new StringBuilder("").toString();
+
 	private static final Random random = new Random();
 
 	private Utilities() {
 		return;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@SafeVarargs
 	public static final <T> T[] createArray(final T... ts) {
 		return ts;
@@ -30,9 +35,9 @@ public final class Utilities {
 	public static boolean fileExistsInDirectory(final String directoryPath, final String fileName) {
 		final File directory = new File(directoryPath);
 		if (directory.exists() && directory.isDirectory()) {
-			for (final File f : directory.listFiles()) {
-				if (f.isFile()) {
-					if (f.getName().equals(fileName)) {
+			for (final File fileIn : directory.listFiles()) {
+				if (fileIn.isFile()) {
+					if (fileIn.getName().equals(fileName)) {
 						return true;
 					}
 				}
@@ -58,6 +63,9 @@ public final class Utilities {
 		return Utilities.random.nextInt(Math.abs(min < 0 ? 2 * max : max) + 1) + ((min < 0 ? 1 : -1) * min);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public static double randomDouble(final double a, final double b) {
 		final double d = Utilities.random.nextDouble();
 		return a + ((b - a) * d);

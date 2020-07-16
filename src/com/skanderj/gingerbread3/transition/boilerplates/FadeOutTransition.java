@@ -9,7 +9,7 @@ import com.skanderj.gingerbread3.transition.Transition;
 import com.skanderj.gingerbread3.util.Utilities;
 
 /**
- * A simple fade in transition.
+ * A simple fade out transition.
  *
  * @author skand
  *
@@ -51,6 +51,9 @@ public class FadeOutTransition extends Transition {
 		super.sceneChange();
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public String description() {
 		return Engine.identifier(this) + " -> FadeOutTransition.class(" + this.duration + ", " + this.color + ")";

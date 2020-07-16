@@ -102,6 +102,9 @@ public final class Particles extends ApplicationObject {
 		return Priority.EXTREMELY_LOW;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public String description() {
 		return Engine.identifier(this) + " -> Particles(" + this.centerX + ", " + this.centerY + ", " + this.radius + ", " + this.maxRadius + ", " + this.particles.length + ", " + this.chaosValue + ")";

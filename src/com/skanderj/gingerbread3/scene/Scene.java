@@ -7,6 +7,7 @@ import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.display.Screen;
+import com.skanderj.gingerbread3.util.Utilities;
 
 /**
  * Represents the current set of components and updates on screen.
@@ -48,21 +49,27 @@ public abstract class Scene extends ApplicationObject {
 	 * Entering transition.
 	 */
 	public String inTransition() {
-		return null;
+		return Utilities.NULL_STRING;
 	}
 
 	/**
 	 * Exiting transition.
 	 */
 	public String outTransition() {
-		return null;
+		return Utilities.NULL_STRING;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public Priority priority() {
-		return Priority.HIGH;
+		return Priority.REGULAR;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public String description() {
 		return Engine.identifier(this) + " -> Scene.class()";

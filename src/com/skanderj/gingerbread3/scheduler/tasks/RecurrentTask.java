@@ -46,6 +46,9 @@ public abstract class RecurrentTask implements Task {
 		this.thread = new Thread(this, identifier);
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public final void start() {
 		synchronized (this.thread) {
@@ -53,6 +56,9 @@ public abstract class RecurrentTask implements Task {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public final void run() {
 		while (true) {
@@ -86,6 +92,9 @@ public abstract class RecurrentTask implements Task {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public final void update() {
 		synchronized (this.thread) {
@@ -93,19 +102,31 @@ public abstract class RecurrentTask implements Task {
 		}
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public String identifier() {
 		return this.identifier;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public int delay() {
 		return this.delay;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public int repeats() {
 		return this.repeats;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public Application source() {
 		return this.source;

@@ -60,6 +60,9 @@ public abstract class Transition extends ApplicationObject {
 		return Priority.EXTREMELY_LOW;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public boolean isDone() {
 		return this.isDone;
 	}

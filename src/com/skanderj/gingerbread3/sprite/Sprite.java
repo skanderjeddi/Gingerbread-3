@@ -104,6 +104,9 @@ public class Sprite extends ApplicationObject implements Moveable {
 		this.y = -this.height;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	public final void newBrightness(final float brightnessPercentage) {
 		if (this.editedImage == null) {
 			this.editedImage = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_ARGB);
@@ -228,6 +231,9 @@ public class Sprite extends ApplicationObject implements Moveable {
 		return this.y;
 	}
 
+	/**
+	 * Self explanatory.
+	 */
 	@Override
 	public String description() {
 		return Engine.identifier(this) + " -> Sprite.class(" + this.width + "," + this.height + ")";
