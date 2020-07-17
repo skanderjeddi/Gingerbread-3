@@ -3,7 +3,7 @@ package com.skanderj.gingerbread3.lighting;
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.object.ApplicationObject;
-import com.skanderj.gingerbread3.particle.Moveable;
+import com.skanderj.gingerbread3.core.Moveable;
 
 /**
  * Represents a simple lighting source.

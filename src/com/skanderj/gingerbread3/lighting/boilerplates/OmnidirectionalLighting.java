@@ -10,7 +10,7 @@ import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.lighting.LightingSource;
-import com.skanderj.gingerbread3.particle.Moveable;
+import com.skanderj.gingerbread3.core.Moveable;
 
 /**
  * Represents an omnidirectional (in a circle) fading lighting source.
