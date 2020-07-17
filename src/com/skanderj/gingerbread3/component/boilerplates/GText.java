@@ -59,7 +59,7 @@ public final class GText extends Text {
 	 * Self explanatory.
 	 */
 	@Override
-	public double x() {
+	public double getX() {
 		return this.x;
 	}
 
@@ -67,7 +67,7 @@ public final class GText extends Text {
 	 * Self explanatory.
 	 */
 	@Override
-	public double y() {
+	public double getY() {
 		return this.y;
 	}
 
@@ -75,7 +75,7 @@ public final class GText extends Text {
 	 * Self explanatory.
 	 */
 	@Override
-	public int width() {
+	public int getWidth() {
 		return this.width;
 	}
 
@@ -83,7 +83,7 @@ public final class GText extends Text {
 	 * Self explanatory.
 	 */
 	@Override
-	public int height() {
+	public int getHeight() {
 		return this.height;
 	}
 

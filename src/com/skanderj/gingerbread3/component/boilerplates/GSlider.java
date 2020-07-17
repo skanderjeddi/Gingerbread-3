@@ -45,7 +45,7 @@ public final class GSlider extends Slider {
 	public synchronized void update() {
 		super.update();
 		if (this.hasFocus) {
-			this.sliderX = (int) Utilities.map(this.application.mouse().getX(), this.x, this.x + this.width(), this.x, this.x + this.width(), true);
+			this.sliderX = (int) Utilities.map(this.application.mouse().getX(), this.x, this.x + this.getWidth(), this.x, this.x + this.getWidth(), true);
 		}
 	}
 
@@ -83,7 +83,7 @@ public final class GSlider extends Slider {
 	 */
 	@Override
 	public boolean containsMouse(final int x, final int y) {
-		return new Rectangle((int) this.x(), (int) this.y(), this.width(), this.height()).contains(x, y);
+		return new Rectangle((int) this.getX(), (int) this.getY(), this.getWidth(), this.getHeight()).contains(x, y);
 	}
 
 	/**
@@ -91,14 +91,14 @@ public final class GSlider extends Slider {
 	 */
 	@Override
 	public double value() {
-		return Utilities.map(this.sliderX, this.x, this.x + this.width(), this.minimumValue, this.maximumValue, true);
+		return Utilities.map(this.sliderX, this.x, this.x + this.getWidth(), this.minimumValue, this.maximumValue, true);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	@Override
-	public double x() {
+	public double getX() {
 		return this.x;
 	}
 
@@ -106,7 +106,7 @@ public final class GSlider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public double y() {
+	public double getY() {
 		return this.y;
 	}
 
@@ -114,7 +114,7 @@ public final class GSlider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public int width() {
+	public int getWidth() {
 		return this.width;
 	}
 
@@ -122,7 +122,7 @@ public final class GSlider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public int height() {
+	public int getHeight() {
 		return this.height;
 	}
 

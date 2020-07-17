@@ -83,7 +83,7 @@ public class GCheckbox extends Checkbox {
 	 * Self explanatory.
 	 */
 	@Override
-	public double x() {
+	public double getX() {
 		return this.x;
 	}
 
@@ -91,7 +91,7 @@ public class GCheckbox extends Checkbox {
 	 * Self explanatory.
 	 */
 	@Override
-	public double y() {
+	public double getY() {
 		return this.y;
 	}
 
@@ -99,7 +99,7 @@ public class GCheckbox extends Checkbox {
 	 * Self explanatory.
 	 */
 	@Override
-	public int width() {
+	public int getWidth() {
 		return this.width;
 	}
 
@@ -107,7 +107,7 @@ public class GCheckbox extends Checkbox {
 	 * Self explanatory.
 	 */
 	@Override
-	public int height() {
+	public int getHeight() {
 		return this.height;
 	}
 
