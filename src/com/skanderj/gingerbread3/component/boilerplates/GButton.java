@@ -18,13 +18,14 @@ import com.skanderj.gingerbread3.util.Label;
  *
  */
 public final class GButton extends Button {
-	private int x, y, width, height;
+	private double x, y;
+	private int width, height;
 	private Label label;
 	private Color backgroundColor, borderColor;
 	// Border incline = how many pixels will be shaved off at each edge
 	private int borderIncline;
 
-	public GButton(final Application application, final int x, final int y, final int width, final int height, final Label label, final Color backgroundColor, final Color borderColor, final int borderIncline) {
+	public GButton(final Application application, final double x, final double y, final int width, final int height, final Label label, final Color backgroundColor, final Color borderColor, final int borderIncline) {
 		super(application);
 		this.x = x;
 		this.y = y;
@@ -43,7 +44,7 @@ public final class GButton extends Button {
 	@Override
 	public synchronized void render(final Screen screen) {
 		screen.rectangle(this.backgroundColor, this.x, this.y, this.width, this.height, true, this.borderIncline, this.borderIncline);
-		this.label.drawCentered(screen, this.x, this.y, this.width, this.height);
+		this.label.drawCentered(screen, (int) this.x, (int) this.y, this.width, this.height);
 		screen.rectangle(this.borderColor, this.x, this.y, this.width, this.height, false, this.borderIncline, this.borderIncline);
 		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, this.borderIncline, this.borderIncline);
@@ -55,14 +56,14 @@ public final class GButton extends Button {
 	 */
 	@Override
 	public boolean containsMouse(final int x, final int y) {
-		return new Rectangle(this.x, this.y, this.width, this.height).contains(x, y);
+		return new Rectangle((int) this.x, (int) this.y, this.width, this.height).contains(x, y);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	@Override
-	public int getX() {
+	public double x() {
 		return this.x;
 	}
 
@@ -70,7 +71,7 @@ public final class GButton extends Button {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getY() {
+	public double y() {
 		return this.y;
 	}
 
@@ -78,7 +79,7 @@ public final class GButton extends Button {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getWidth() {
+	public int width() {
 		return this.width;
 	}
 
@@ -86,7 +87,7 @@ public final class GButton extends Button {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getHeight() {
+	public int height() {
 		return this.height;
 	}
 
@@ -122,7 +123,7 @@ public final class GButton extends Button {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setX(final int x) {
+	public void setX(final double x) {
 		this.x = x;
 	}
 
@@ -130,7 +131,7 @@ public final class GButton extends Button {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setY(final int y) {
+	public void setY(final double y) {
 		this.y = y;
 	}
 

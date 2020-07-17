@@ -88,8 +88,8 @@ public final class Utilities {
 	/**
 	 * I invite you to read the p5js documentation for this beautiful function.
 	 */
-	public static float map(final float value, final float valueMin, final float valueMax, final float targetMin, final float targetMax, final boolean withinBounds) {
-		final float newval = (((value - valueMin) / (valueMax - valueMin)) * (targetMax - targetMin)) + targetMin;
+	public static double map(final double value, final double valueMin, final double valueMax, final double targetMin, final double targetMax, final boolean withinBounds) {
+		final double newval = (((value - valueMin) / (valueMax - valueMin)) * (targetMax - targetMin)) + targetMin;
 		if (!withinBounds) {
 			return newval;
 		}
@@ -104,7 +104,7 @@ public final class Utilities {
 	 * Used for {@link Utilities}{@link #map(float, float, float, float, float,
 	 * boolean))}
 	 */
-	private static float constraint(final float value, final float minimum, final float maximum) {
+	private static double constraint(final double value, final double minimum, final double maximum) {
 		return Math.max(Math.min(value, maximum), minimum);
 	}
 }

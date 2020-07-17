@@ -18,12 +18,13 @@ import com.skanderj.gingerbread3.util.Label;
  *
  */
 public class GCheckbox extends Checkbox {
-	private int x, y, width, height;
+	private double x, y;
+	private int width, height;
 	private Label label;
 	private Color backgroundColor, borderColor, crossColor;
 	private ComponentLabelPosition labelPosition;
 
-	public GCheckbox(final Application application, final int x, final int y, final int width, final int height, final Label label, final Color backgroundColor, final Color borderColor, final Color crossColor, final ComponentLabelPosition labelPosition) {
+	public GCheckbox(final Application application, final double x, final double y, final int width, final int height, final Label label, final Color backgroundColor, final Color borderColor, final Color crossColor, final ComponentLabelPosition labelPosition) {
 		super(application);
 		this.x = x;
 		this.y = y;
@@ -55,16 +56,16 @@ public class GCheckbox extends Checkbox {
 		if (!this.label.isEmpty()) {
 			switch (this.labelPosition) {
 			case TOP:
-				this.label.draw(screen, this.x, this.y - this.label.getHeight(screen));
+				this.label.draw(screen, (int) this.x, (int) this.y - this.label.getHeight(screen));
 				break;
 			case BOTTOM:
-				this.label.draw(screen, this.x, this.y + this.height + this.label.getAugmentedHeight(screen));
+				this.label.draw(screen, (int) this.x, (int) this.y + this.height + this.label.getAugmentedHeight(screen));
 				break;
 			case LEFT:
-				this.label.drawCenteredWidthless(screen, this.x - 10 - this.label.getWidth(screen), this.y, this.height);
+				this.label.drawCenteredWidthless(screen, (int) this.x - 10 - this.label.getWidth(screen), (int) this.y, this.height);
 				break;
 			case RIGHT:
-				this.label.drawCenteredWidthless(screen, this.x + this.width + 10, this.y, this.height);
+				this.label.drawCenteredWidthless(screen, (int) this.x + this.width + 10, (int) this.y, this.height);
 				break;
 			}
 		}
@@ -75,14 +76,14 @@ public class GCheckbox extends Checkbox {
 	 */
 	@Override
 	public boolean containsMouse(final int x, final int y) {
-		return new Rectangle(this.x, this.y, this.width, this.height).contains(x, y);
+		return new Rectangle((int) this.x, (int) this.y, this.width, this.height).contains(x, y);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	@Override
-	public int getX() {
+	public double x() {
 		return this.x;
 	}
 
@@ -90,7 +91,7 @@ public class GCheckbox extends Checkbox {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getY() {
+	public double y() {
 		return this.y;
 	}
 
@@ -98,7 +99,7 @@ public class GCheckbox extends Checkbox {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getWidth() {
+	public int width() {
 		return this.width;
 	}
 
@@ -106,7 +107,7 @@ public class GCheckbox extends Checkbox {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getHeight() {
+	public int height() {
 		return this.height;
 	}
 
@@ -149,7 +150,7 @@ public class GCheckbox extends Checkbox {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setX(final int x) {
+	public void setX(final double x) {
 		this.x = x;
 	}
 
@@ -157,7 +158,7 @@ public class GCheckbox extends Checkbox {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setY(final int y) {
+	public void setY(final double y) {
 		this.y = y;
 	}
 

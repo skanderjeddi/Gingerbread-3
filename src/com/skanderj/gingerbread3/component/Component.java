@@ -30,22 +30,22 @@ public abstract class Component extends ApplicationObject {
 	public abstract boolean containsMouse(int x, int y);
 
 	// Self explanatory, implementation is child-component dependent
-	public abstract int getX();
+	public abstract double x();
 
 	// Self explanatory, implementation is child-component dependent
-	public abstract int getY();
+	public abstract double y();
 
 	// Self explanatory, implementation is child-component dependent
-	public abstract void setX(int x);
+	public abstract void setX(double x);
 
 	// Self explanatory, implementation is child-component dependent
-	public abstract void setY(int y);
+	public abstract void setY(double y);
 
 	// Self explanatory, implementation is child-component dependent
-	public abstract int getWidth();
+	public abstract int width();
 
 	// Self explanatory, implementation is child-component dependent
-	public abstract int getHeight();
+	public abstract int height();
 
 	// Self explanatory, implementation is child-component dependent
 	public abstract void setWidth(int width);

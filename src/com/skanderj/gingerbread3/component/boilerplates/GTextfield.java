@@ -21,7 +21,8 @@ import com.skanderj.gingerbread3.util.Utilities;
  *
  */
 public final class GTextfield extends Textfield {
-	private int x, y, width, height;
+	private double x, y;
+	private int width, height;
 	private Color backgroundColor;
 	private final LabelProperties textProperties;
 	private final int maximumLines;
@@ -35,7 +36,7 @@ public final class GTextfield extends Textfield {
 	 * Background color for rendering a simple box and text properties for the font
 	 * and color, by default can only display 1 line.
 	 */
-	public GTextfield(final Application application, final int x, final int y, final int width, final Color backgroundColor, final LabelProperties textProperties) {
+	public GTextfield(final Application application, final double x, final double y, final int width, final Color backgroundColor, final LabelProperties textProperties) {
 		this(application, x, y, width, backgroundColor, textProperties, 0);
 	}
 
@@ -43,7 +44,7 @@ public final class GTextfield extends Textfield {
 	 * Background color for rendering a simple box, text properties for the font and
 	 * color, and amount maximumLines to display.
 	 */
-	public GTextfield(final Application application, final int x, final int y, final int width, final Color backgroundColor, final LabelProperties textProperties, final int lines) {
+	public GTextfield(final Application application, final double x, final double y, final int width, final Color backgroundColor, final LabelProperties textProperties, final int lines) {
 		super(application);
 		this.x = x;
 		this.y = y;
@@ -188,9 +189,9 @@ public final class GTextfield extends Textfield {
 				screen.string(this.currentLine, this.x + 10, this.y + (fontHeight * (this.linesCounter + 1)));
 			}
 			// Compute cursor position
-			cursorY = this.y + (fontHeight * this.linesCounter) + (metrics.getAscent() / 2) + (metrics.getDescent() / 2);
+			cursorY = (int) this.y + (fontHeight * this.linesCounter) + (metrics.getAscent() / 2) + (metrics.getDescent() / 2);
 			// Here is a fixed x-offset - need to change that to scale with the font
-			cursorX = this.x + this.stringWidth(metrics, this.currentLine, this.cursorPosition) + (this.textProperties.font.getSize() / 5);
+			cursorX = (int) this.x + this.stringWidth(metrics, this.currentLine, this.cursorPosition) + (this.textProperties.font.getSize() / 5);
 			// Constant width, 2/4 looks good IMO
 			if (this.textProperties.font.isBold()) {
 				cursorWidth = 6;
@@ -201,11 +202,11 @@ public final class GTextfield extends Textfield {
 			cursorHeight = (int) ((metrics.getDescent() / 2) + (metrics.getAscent() / 2) + Utilities.map(this.textProperties.font.getSize(), 0, 144, 0, 4, true));
 		} else {
 			// easy - maybe too memory heavy? might need a cache
-			new Label(this.currentLine, this.textProperties.color, this.textProperties.font).drawCenteredAbsolute(screen, this.x + 10, this.y, this.height);
+			new Label(this.currentLine, this.textProperties.color, this.textProperties.font).drawCenteredAbsolute(screen, (int) this.x + 10, (int) this.y, this.height);
 			// FIXED!
-			cursorY = this.y + 5;
+			cursorY = (int) this.y + 5;
 			// Here is a fixed x-offset - need to change that to scale with the font
-			cursorX = this.x + this.stringWidth(metrics, this.currentLine, this.cursorPosition) + (this.textProperties.font.getSize() / 5);
+			cursorX = (int) this.x + this.stringWidth(metrics, this.currentLine, this.cursorPosition) + (this.textProperties.font.getSize() / 5);
 			// Constant width, 2/4 looks good IMO
 			if (this.textProperties.font.isBold()) {
 				cursorWidth = 6;
@@ -230,7 +231,7 @@ public final class GTextfield extends Textfield {
 
 	@Override
 	public boolean containsMouse(final int x, final int y) {
-		return new Rectangle(this.x, this.y, this.width, this.height).contains(x, y);
+		return new Rectangle((int) this.x, (int) this.y, this.width, this.height).contains(x, y);
 	}
 
 	/**
@@ -244,7 +245,7 @@ public final class GTextfield extends Textfield {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getX() {
+	public double x() {
 		return this.x;
 	}
 
@@ -252,7 +253,7 @@ public final class GTextfield extends Textfield {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getY() {
+	public double y() {
 		return this.y;
 	}
 
@@ -260,7 +261,7 @@ public final class GTextfield extends Textfield {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getWidth() {
+	public int width() {
 		return this.width;
 	}
 
@@ -268,7 +269,7 @@ public final class GTextfield extends Textfield {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getHeight() {
+	public int height() {
 		return this.height;
 	}
 
@@ -304,7 +305,7 @@ public final class GTextfield extends Textfield {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setX(final int x) {
+	public void setX(final double x) {
 		this.x = x;
 	}
 
@@ -312,7 +313,7 @@ public final class GTextfield extends Textfield {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setY(final int y) {
+	public void setY(final double y) {
 		this.y = y;
 	}
 

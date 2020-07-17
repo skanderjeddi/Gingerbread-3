@@ -293,7 +293,7 @@ public final class Audios {
 	 * Self explanatory. Returns true if successful, false otherwise. -1 to loop
 	 * indefinitely.
 	 */
-	public static boolean loop(final String identifier, final int count, final float volume) {
+	public static boolean loop(final String identifier, final int count, final double volume) {
 		final AudioInputStream stream = Audios.audioMap.get(identifier);
 		if (stream == null) {
 			Logger.log(Audios.class, Logger.LogLevel.SEVERE, "Could not find audio stream with identifier \"%s\"", identifier);
@@ -314,7 +314,7 @@ public final class Audios {
 	 * a thread and loop it. Registering everything in the corresponding maps.
 	 * Returns true if successful, false otherwise.
 	 */
-	private static boolean loop(final String identifier, final int count, final AudioInputStream audioInputStream, final float volume) {
+	private static boolean loop(final String identifier, final int count, final AudioInputStream audioInputStream, final double volume) {
 		class AudioListener implements LineListener {
 			private boolean isDone = false;
 

@@ -46,9 +46,9 @@ public final class GText extends Text {
 		final Map<String, Object> parameters = Engine.parameters(identifier);
 		if (parameters != null) {
 			final Object[] args = parameters.values().toArray(new Object[parameters.size()]);
-			this.label.drawCentered(screen, this.x, this.y, this.width, this.height, args);
+			this.label.drawCentered(screen, (int) this.x, (int) this.y, this.width, this.height, args);
 		} else {
-			this.label.drawCentered(screen, this.x, this.y, this.width, this.height);
+			this.label.drawCentered(screen, (int) this.x, (int) this.y, this.width, this.height);
 		}
 		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, 0, 0);
@@ -59,7 +59,7 @@ public final class GText extends Text {
 	 * Self explanatory.
 	 */
 	@Override
-	public double getX() {
+	public double x() {
 		return this.x;
 	}
 
@@ -67,7 +67,7 @@ public final class GText extends Text {
 	 * Self explanatory.
 	 */
 	@Override
-	public double getY() {
+	public double y() {
 		return this.y;
 	}
 
@@ -75,7 +75,7 @@ public final class GText extends Text {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getWidth() {
+	public int width() {
 		return this.width;
 	}
 
@@ -83,7 +83,7 @@ public final class GText extends Text {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getHeight() {
+	public int height() {
 		return this.height;
 	}
 

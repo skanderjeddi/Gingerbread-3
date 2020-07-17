@@ -6,6 +6,7 @@ import com.skanderj.gingerbread3.animation.Animation;
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.display.Screen;
+import com.skanderj.gingerbread3.particle.Moveable;
 import com.skanderj.gingerbread3.sprite.Sprite;
 
 /**
@@ -15,7 +16,7 @@ import com.skanderj.gingerbread3.sprite.Sprite;
  *
  */
 public class SequentialAnimation extends Animation {
-	public SequentialAnimation(final Application application, final int x, final int y, final Sprite[] sprites, final int[] timers) {
+	public SequentialAnimation(final Application application, final double x, final double y, final Sprite[] sprites, final int[] timers) {
 		super(application, x, y, sprites, timers);
 	}
 
@@ -54,5 +55,20 @@ public class SequentialAnimation extends Animation {
 			timersAsObjects[t] = this.timers[t];
 		}
 		return Engine.identifier(this) + " -> SequentialAnimation.class(" + this.x + ", " + this.y + ", " + Arrays.deepToString(this.sprites) + ", " + Arrays.deepToString(timersAsObjects) + ")";
+	}
+
+	@Override
+	public double x() {
+		return this.x;
+	}
+
+	@Override
+	public double y() {
+		return this.y;
+	}
+
+	@Override
+	public Moveable copy() {
+		return new SequentialAnimation(this.application, this.x, this.y, this.sprites, this.timers);
 	}
 }

@@ -20,21 +20,22 @@ import com.skanderj.gingerbread3.util.LabelProperties;
  *
  */
 public final class GSelector extends Selector {
-	private int x, y, width, height;
+	private double x, y;
+	private int width, height;
 	private LabelProperties properties;
 	private int arrowSize;
 
 	/**
 	 * Self explanatory.
 	 */
-	public GSelector(final Application application, final int x, final int y, final int width, final int height, final int arrowSize, final LabelProperties properties, final String[] optionsArray) {
+	public GSelector(final Application application, final double x, final double y, final int width, final int height, final int arrowSize, final LabelProperties properties, final String[] optionsArray) {
 		this(application, x, y, width, height, arrowSize, properties, optionsArray, optionsArray[0]);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public GSelector(final Application application, final int x, final int y, final int width, final int height, final int arrowSize, final LabelProperties properties, final String[] optionsArray, final String defaultOption) {
+	public GSelector(final Application application, final double x, final double y, final int width, final int height, final int arrowSize, final LabelProperties properties, final String[] optionsArray, final String defaultOption) {
 		super(application, optionsArray, defaultOption);
 		this.x = x;
 		this.y = y;
@@ -50,17 +51,17 @@ public final class GSelector extends Selector {
 	 */
 	public synchronized void render(final Screen screen) {
 		screen.rectangle(Color.WHITE, this.x + 10 + this.arrowSize, this.y, this.width, this.height, true, 0, 0);
-		new Label(this.currentOption, this.properties, this.properties.color.darker().darker()).drawCentered(screen, this.x + 10 + this.arrowSize, this.y, this.width, this.height);
+		new Label(this.currentOption, this.properties, this.properties.color.darker().darker()).drawCentered(screen, (int) this.x + 10 + this.arrowSize, (int) this.y, this.width, this.height);
 		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x + 10 + this.arrowSize, this.y, this.width, this.height, false, 0, 0);
 		}
 		screen.rectangle(Color.WHITE, this.x, this.y, this.arrowSize, this.height, true, 0, 0);
-		new Label("<", Color.BLACK, Fonts.get("lunchtime", 24)).drawCentered(screen, this.x, this.y, this.arrowSize, this.height);
+		new Label("<", Color.BLACK, Fonts.get("lunchtime", 24)).drawCentered(screen, (int) this.x, (int) this.y, this.arrowSize, this.height);
 		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x, this.y, this.arrowSize, this.height, false, 0, 0);
 		}
 		screen.rectangle(Color.WHITE, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height, true, 0, 0);
-		new Label(">", Color.BLACK, Fonts.get("lunchtime", 24)).drawCentered(screen, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height);
+		new Label(">", Color.BLACK, Fonts.get("lunchtime", 24)).drawCentered(screen, (int) this.x + this.width + 20 + this.arrowSize, (int) this.y, this.arrowSize, this.height);
 		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height, false, 0, 0);
 		}
@@ -71,7 +72,7 @@ public final class GSelector extends Selector {
 	 */
 	@Override
 	public boolean leftArrowContainsMouse(final int x, final int y) {
-		return new Rectangle(this.x, this.y, this.arrowSize, this.height).contains(x, y);
+		return new Rectangle((int) this.x, (int) this.y, this.arrowSize, this.height).contains(x, y);
 	}
 
 	/**
@@ -79,14 +80,14 @@ public final class GSelector extends Selector {
 	 */
 	@Override
 	public boolean rightArrowContainsMouse(final int x, final int y) {
-		return new Rectangle(this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height).contains(x, y);
+		return new Rectangle((int) this.x + this.width + 20 + this.arrowSize, (int) this.y, this.arrowSize, this.height).contains(x, y);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	@Override
-	public int getX() {
+	public double x() {
 		return this.x;
 	}
 
@@ -94,7 +95,7 @@ public final class GSelector extends Selector {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getY() {
+	public double y() {
 		return this.y;
 	}
 
@@ -109,7 +110,7 @@ public final class GSelector extends Selector {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getWidth() {
+	public int width() {
 		return this.width;
 	}
 
@@ -117,7 +118,7 @@ public final class GSelector extends Selector {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getHeight() {
+	public int height() {
 		return this.height;
 	}
 
@@ -132,7 +133,7 @@ public final class GSelector extends Selector {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setX(final int x) {
+	public void setX(final double x) {
 		this.x = x;
 	}
 
@@ -140,7 +141,7 @@ public final class GSelector extends Selector {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setY(final int y) {
+	public void setY(final double y) {
 		this.y = y;
 	}
 

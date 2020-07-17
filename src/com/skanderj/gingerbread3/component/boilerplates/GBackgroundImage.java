@@ -15,10 +15,11 @@ import com.skanderj.gingerbread3.display.Screen;
  *
  */
 public class GBackgroundImage extends Background {
-	private int x, y, width, height;
+	private double x, y;
+	private int width, height;
 	private BufferedImage image;
 
-	public GBackgroundImage(final Application application, final int x, final int y, final int width, final int height, final BufferedImage image) {
+	public GBackgroundImage(final Application application, final double x, final double y, final int width, final int height, final BufferedImage image) {
 		super(application);
 		this.x = x;
 		this.y = y;
@@ -55,7 +56,7 @@ public class GBackgroundImage extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getX() {
+	public double x() {
 		return this.x;
 	}
 
@@ -63,7 +64,7 @@ public class GBackgroundImage extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getY() {
+	public double y() {
 		return this.y;
 	}
 
@@ -71,7 +72,7 @@ public class GBackgroundImage extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setX(final int x) {
+	public void setX(final double x) {
 		this.x = x;
 	}
 
@@ -79,7 +80,7 @@ public class GBackgroundImage extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setY(final int y) {
+	public void setY(final double y) {
 		this.y = y;
 	}
 
@@ -87,7 +88,7 @@ public class GBackgroundImage extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getWidth() {
+	public int width() {
 		return this.width;
 	}
 
@@ -95,7 +96,7 @@ public class GBackgroundImage extends Background {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getHeight() {
+	public int height() {
 		return this.height;
 	}
 

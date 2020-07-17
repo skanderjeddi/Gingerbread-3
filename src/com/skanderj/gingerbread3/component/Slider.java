@@ -12,7 +12,7 @@ import com.skanderj.gingerbread3.input.Mouse;
  *
  */
 public abstract class Slider extends Component {
-	protected float minimumValue, maximumValue;
+	protected double minimumValue, maximumValue;
 	protected boolean hasFocus, globalFocus;
 
 	/**
@@ -71,19 +71,19 @@ public abstract class Slider extends Component {
 	/**
 	 * Self explanatory
 	 */
-	public abstract float value();
+	public abstract double value();
 
 	/**
 	 * Self explanatory.
 	 */
-	public float minimumValue() {
+	public double minimumValue() {
 		return this.minimumValue;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public float maximumValue() {
+	public double maximumValue() {
 		return this.maximumValue;
 	}
 

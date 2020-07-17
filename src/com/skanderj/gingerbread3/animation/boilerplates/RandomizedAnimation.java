@@ -6,6 +6,7 @@ import com.skanderj.gingerbread3.animation.Animation;
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.display.Screen;
+import com.skanderj.gingerbread3.particle.Moveable;
 import com.skanderj.gingerbread3.sprite.Sprite;
 import com.skanderj.gingerbread3.util.Utilities;
 
@@ -17,7 +18,7 @@ import com.skanderj.gingerbread3.util.Utilities;
  */
 public class RandomizedAnimation extends Animation {
 
-	public RandomizedAnimation(final Application application, final int x, final int y, final Sprite[] sprites, final int[] timers) {
+	public RandomizedAnimation(final Application application, final double x, final double y, final Sprite[] sprites, final int[] timers) {
 		super(application, y, y, sprites, timers);
 	}
 
@@ -65,5 +66,21 @@ public class RandomizedAnimation extends Animation {
 			timersAsObjects[t] = this.timers[t];
 		}
 		return Engine.identifier(this) + " -> RandomizedAnimation.class(" + this.x + ", " + this.y + ", " + Arrays.deepToString(this.sprites) + ", " + Arrays.deepToString(timersAsObjects) + ")";
+	}
+
+	@Override
+	public double x() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double y() {
+		return this.x;
+	}
+
+	@Override
+	public Moveable copy() {
+		return new RandomizedAnimation(this.application, this.x, this.y, this.sprites, this.timers);
 	}
 }

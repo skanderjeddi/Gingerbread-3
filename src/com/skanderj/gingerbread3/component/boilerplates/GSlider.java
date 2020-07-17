@@ -20,20 +20,21 @@ import com.skanderj.gingerbread3.util.Utilities;
  *
  */
 public final class GSlider extends Slider {
-	private int x, y, width, height;
+	private double x, y;
+	private int width, height;
 	private int sliderX, sliderWidth, sliderHeight;
 	private Label label;
 	private ComponentLabelPosition labelPosition;
 	private Color color;
 
-	public GSlider(final Application application, final int x, final int y, final int width, final int height, final int sliderWidth, final int sliderHeight, final float min, final float max, final float defaultValue, final Color color, final Label label, final ComponentLabelPosition position) {
+	public GSlider(final Application application, final double x, final double y, final int width, final int height, final int sliderWidth, final int sliderHeight, final float min, final float max, final float defaultValue, final Color color, final Label label, final ComponentLabelPosition position) {
 		super(application, min, max, defaultValue);
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.label = label;
-		this.sliderX = x + (int) Utilities.map(defaultValue, this.minimumValue, this.maximumValue, 0, width, true);
+		this.sliderX = (int) (x + (int) Utilities.map(defaultValue, this.minimumValue, this.maximumValue, 0, width, true));
 		this.sliderWidth = sliderWidth;
 		this.sliderHeight = sliderHeight;
 		this.labelPosition = position;
@@ -44,7 +45,7 @@ public final class GSlider extends Slider {
 	public synchronized void update() {
 		super.update();
 		if (this.hasFocus) {
-			this.sliderX = (int) Utilities.map(this.application.mouse().getX(), this.x, this.x + this.getWidth(), this.x, this.x + this.getWidth(), true);
+			this.sliderX = (int) Utilities.map(this.application.mouse().getX(), this.x, this.x + this.width(), this.x, this.x + this.width(), true);
 		}
 	}
 
@@ -59,16 +60,16 @@ public final class GSlider extends Slider {
 		if (!this.label.isEmpty()) {
 			switch (this.labelPosition) {
 			case TOP:
-				this.label.draw(screen, this.x, this.y - this.label.getHeight(screen), this.value());
+				this.label.draw(screen, (int) this.x, (int) this.y - this.label.getHeight(screen), this.value());
 				break;
 			case BOTTOM:
-				this.label.draw(screen, this.x, this.y + this.height + this.label.getAugmentedHeight(screen), this.value());
+				this.label.draw(screen, (int) this.x, (int) this.y + this.height + this.label.getAugmentedHeight(screen), this.value());
 				break;
 			case LEFT:
-				this.label.drawCenteredWidthless(screen, this.x - 10 - this.label.getWidth(screen), this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.value());
+				this.label.drawCenteredWidthless(screen, (int) this.x - 10 - this.label.getWidth(screen), (int) this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.value());
 				break;
 			case RIGHT:
-				this.label.drawCenteredWidthless(screen, this.x + this.width + 10, this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.value());
+				this.label.drawCenteredWidthless(screen, (int) this.x + this.width + 10, (int) this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.value());
 				break;
 			}
 		}
@@ -82,22 +83,22 @@ public final class GSlider extends Slider {
 	 */
 	@Override
 	public boolean containsMouse(final int x, final int y) {
-		return new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight()).contains(x, y);
+		return new Rectangle((int) this.x(), (int) this.y(), this.width(), this.height()).contains(x, y);
 	}
 
 	/**
 	 * Boxes the current value between the minimum and maximum and returns it.
 	 */
 	@Override
-	public float value() {
-		return Utilities.map(this.sliderX, this.x, this.x + this.getWidth(), this.minimumValue, this.maximumValue, true);
+	public double value() {
+		return Utilities.map(this.sliderX, this.x, this.x + this.width(), this.minimumValue, this.maximumValue, true);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
 	@Override
-	public int getX() {
+	public double x() {
 		return this.x;
 	}
 
@@ -105,7 +106,7 @@ public final class GSlider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getY() {
+	public double y() {
 		return this.y;
 	}
 
@@ -113,7 +114,7 @@ public final class GSlider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getWidth() {
+	public int width() {
 		return this.width;
 	}
 
@@ -121,7 +122,7 @@ public final class GSlider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public int getHeight() {
+	public int height() {
 		return this.height;
 	}
 
@@ -171,7 +172,7 @@ public final class GSlider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setX(final int x) {
+	public void setX(final double x) {
 		this.x = x;
 	}
 
@@ -179,7 +180,7 @@ public final class GSlider extends Slider {
 	 * Self explanatory.
 	 */
 	@Override
-	public void setY(final int y) {
+	public void setY(final double y) {
 		this.y = y;
 	}
 
