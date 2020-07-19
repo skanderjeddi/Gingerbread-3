@@ -20,6 +20,7 @@ import com.skanderj.gingerbread3.util.Label;
 public final class GText extends Text {
 	private double x, y;
 	private int width, height;
+	private boolean centered;
 
 	public GText(final Application application, final double x, final double y, final int width, final int height, final Label label) {
 		super(application, label);
@@ -27,6 +28,7 @@ public final class GText extends Text {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.centered = true;
 	}
 
 	/**
@@ -46,9 +48,17 @@ public final class GText extends Text {
 		final Map<String, Object> parameters = Engine.parameters(identifier);
 		if (parameters != null) {
 			final Object[] args = parameters.values().toArray(new Object[parameters.size()]);
-			this.label.drawCentered(screen, (int) this.x, (int) this.y, this.width, this.height, args);
+			if (this.centered) {
+				this.label.drawCentered(screen, (int) this.x, (int) this.y, this.width, this.height, args);
+			} else {
+				this.label.draw(screen, (int) this.x, (int) this.y, args);
+			}
 		} else {
-			this.label.drawCentered(screen, (int) this.x, (int) this.y, this.width, this.height);
+			if (this.centered) {
+				this.label.drawCentered(screen, (int) this.x, (int) this.y, this.width, this.height);
+			} else {
+				this.label.draw(screen, (int) this.x, (int) this.y);
+			}
 		}
 		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, 0, 0);
@@ -117,6 +127,10 @@ public final class GText extends Text {
 	@Override
 	public void setHeight(final int height) {
 		this.height = height;
+	}
+
+	public void setCentered(final boolean state) {
+		this.centered = state;
 	}
 
 	/**
