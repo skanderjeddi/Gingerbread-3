@@ -44,15 +44,25 @@ public final class GTextbox extends Component {
     private String thingToRender;
     private boolean textVisible;
 
-    public GTextbox(final Application application, final double x, final double y, final int width, final int height, final String boxIdentifier, final String inAnimationIdentifier, final String outAnimationIdentifier, final int startTextRelativeX, final int startTextRelativeY, final int endTextRelativeX, final int endTextRelativeY, final String fontIdentifier, final int fontSize, final String text) {
+    public GTextbox(final Application application, final double x, final double y, final int width, final int height, final String boxIdentifier, final String inAnimationIdentifier, final String outAnimationIdentifier, final int startTextRelativeX, final int startTextRelativeY, final int endTextRelativeX, final int endTextRelativeY, final String fontIdentifier, final int fontSize) {
         super(application);
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.box = (Moveable) Engine.get(boxIdentifier);
-        if (inAnimationIdentifier != null) this.inAnimation = (Animation) Engine.get(inAnimationIdentifier);
-        if (outAnimationIdentifier != null) this.outAnimation = (Animation) Engine.get(outAnimationIdentifier);
+        this.box.setX(x);
+        this.box.setY(y);
+        if (inAnimationIdentifier != null){
+            this.inAnimation = (Animation) Engine.get(inAnimationIdentifier);
+            this.inAnimation.setX(x);
+            this.inAnimation.setY(y);
+        }
+        if (outAnimationIdentifier != null){
+            this.outAnimation = (Animation) Engine.get(outAnimationIdentifier);
+            this.outAnimation.setX(x);
+            this.outAnimation.setY(y);
+        }
         this.startTextRelativeX = startTextRelativeX;
         this.startTextRelativeY = startTextRelativeY;
         this.endTextRelativeX = endTextRelativeX;
@@ -61,9 +71,10 @@ public final class GTextbox extends Component {
         this.textColor = Color.WHITE;
         Label label = new Label("", this.textColor, this.font);
         this.textLabel = new GText(application, this.x+startTextRelativeX, this.x+startTextRelativeY, this.endTextRelativeX-this.startTextRelativeX, this.endTextRelativeY-this.startTextRelativeY, label);
-        this.text = text;
+        this.textLabel.setCentered(false);
+        this.text = "";
         this.displayedText = "";
-        this.timeBetweenChars = 0.003;
+        this.timeBetweenChars = 0.01;
         this.visibleCharacters = 0;
         this.frameCounter = 0;
         this.shouldUpdateVisibleCharacters = false;
@@ -72,22 +83,20 @@ public final class GTextbox extends Component {
     }
 
     @Override
-	public synchronized void update() {
-        this.textLabel.update();
-
-        if (this.thingToRender == "inAnim") {
+	public synchronized void update(){
+        if (this.thingToRender.equals("inAnim")) {
             if (this.inAnimation.sprites().length == this.inAnimation.getCurrentSpriteIndex()) {
                 this.thingToRender = "box";
                 this.shouldUpdateVisibleCharacters = true;
             }
         }
-        if (this.thingToRender == "outAnim") {
+        if (this.thingToRender.equals("outAnim")) {
             if (this.outAnimation.sprites().length == this.outAnimation.getCurrentSpriteIndex()) {
                 this.thingToRender = "";
                 this.shouldUpdateVisibleCharacters = false;
             }
         }
-        if (this.thingToRender == "box") {
+        if (this.thingToRender.equals("box")) {
             if (this.shouldUpdateVisibleCharacters) {
                 double elapsedTime = this.frameCounter/this.application().refreshRate();
                 if (elapsedTime >= this.timeBetweenChars) {
@@ -112,12 +121,12 @@ public final class GTextbox extends Component {
      */
     @Override
     public synchronized void render(final Screen screen) {
-        System.out.println(this.thingToRender);
-        if (this.thingToRender == "box") {
+        // System.out.println("fuck");
+        if (this.thingToRender.equals("box")) {
             this.box.render(screen);
-        } else if (this.thingToRender == "inAnim") {
+        } else if (this.thingToRender.equals("inAnim")) {
             this.inAnimation.render(screen);
-        } else if (this.thingToRender == "outAnim") {
+        } else if (this.thingToRender.equals("outAnim")) {
             this.outAnimation.render(screen);
         }
 
@@ -154,6 +163,7 @@ public final class GTextbox extends Component {
     }
 
     public void showBox() {
+        this.showText();
         if (this.inAnimation != null) {
             this.thingToRender = "inAnim";
         } else {
@@ -162,6 +172,7 @@ public final class GTextbox extends Component {
     }
 
     public void hideBox() {
+        this.hideText();
         if (this.outAnimation != null) {
             this.thingToRender = "outAnim";
         } else {
