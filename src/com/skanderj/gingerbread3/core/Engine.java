@@ -98,6 +98,13 @@ public final class Engine {
 			name = object.getClass().getSimpleName();
 		}
 		Logger.log(Engine.class, LogLevel.DEBUG, "ApplicationObject registered: <class : %s> -> \"%s\"", object.getClass().getSimpleName().equals("") ? object.getClass().getEnclosingClass().getSimpleName() + "#" + name : object.getClass().getSimpleName(), identifier);
+		if (object instanceof Component) {
+			if (Components.get(identifier) == null) {
+				Logger.log(Engine.class, LogLevel.SEVERE, "WARNING: registering a Component (%s) straight through the engine!!! You have to use Components.register(identifier, component) for all components registering!", identifier, object.description());
+				Components.register(identifier, (Component) object);
+				return;
+			}
+		}
 		Engine.contents.put(identifier, object);
 	}
 
