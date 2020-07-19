@@ -1,3 +1,5 @@
+package com.darealnim.talktome;
+
 import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
@@ -79,9 +81,6 @@ public class TalkToMe extends Application {
 			@Override
 			public synchronized void update() {
 				super.update();
-                GTextbox textbox = (GTextbox) Engine.get("textbox");
-                textbox.showBox();
-
 			}
 
 			@Override
@@ -116,9 +115,11 @@ public class TalkToMe extends Application {
         Engine.register("city", Sprite.fromImage(this, "city", "res/sprites/spr_city.png", 1920, 1080, Sprite.SCALE_NEAREST_NEIGHBOR));
         ((Sprite)Engine.get("city")).setX(1);
         ((Sprite)Engine.get("city")).setY(1);
-        Engine.register("textboxsprite", Sprite.fromImage(this, "textboxsprite", "res/sprites/textbox.png"));
+        Engine.register("textboxsprite", Sprite.fromImage(this, "textboxsprite", "res/sprites/textbox.png", 1024, 256, Sprite.SCALE_NEAREST_NEIGHBOR));
         Engine.register("fade-in-transition", new FadeInTransition(this, 1300, Color.BLACK));
-        Engine.register("textbox", new GTextbox(this, 200, 200, 256, 64, "textboxsprite", null, null, 7, 7, 250, 60, "8bit", 10, ""));
+        Engine.register("textbox", new GTextbox(this, 200, 200, 1024, 256, "textboxsprite", null, null, 25, 35, 950, 246, "8bit", 40));
+        ((GTextbox)Engine.get("textbox")).setTimeBetweenChars(0.05);
+        Engine.get("textbox").setShouldSkipRegistryChecks(true);
 	}
 
     @Override
@@ -168,7 +169,7 @@ public class TalkToMe extends Application {
 		Binds.registerBind("in-game", Utilities.createArray(Keyboard.KEY_ESCAPE, Keyboard.KEY_SPACE), Utilities.createArray(KeyState.DOWN, KeyState.DOWN), object -> this.stop());
         Binds.registerBind("in-game", Utilities.createArray(Keyboard.KEY_H), Utilities.createArray(KeyState.DOWN), object -> ((GTextbox)Engine.get("textbox")).hideBox());
         Binds.registerBind("in-game", Utilities.createArray(Keyboard.KEY_S), Utilities.createArray(KeyState.DOWN), object -> ((GTextbox)Engine.get("textbox")).showBox());
-        Binds.registerBind("in-game", Utilities.createArray(Keyboard.KEY_T), Utilities.createArray(KeyState.DOWN), object -> ((GTextbox)Engine.get("textbox")).setText("Yo fuck off mate, you think you can just code a textbox like that? Wtf is wrong with you? Do you thing we're some kind of slaves or something? Us Letters are disgusted by your actions."));
+        Binds.registerBind("in-game", Utilities.createArray(Keyboard.KEY_T), Utilities.createArray(KeyState.DOWN), object -> ((GTextbox)Engine.get("textbox")).setText("Yo fuck off mate, you think you can just code a textbox like that?\nWtf is wrong with you? Do you thing we're some kind of slaves or something? Us Letters are disgusted by your actions."));
         // Binds.registerBind("*", Utilities.createArray(Keyboard.KEY_F5), Utilities.createArray(KeyState.DOWN_IN_CURRENT_FRAME), object -> this.screenshot("scr/" + Utilities.fileNameCompatibleDateString() + ".png"));
 	}
 
