@@ -22,8 +22,9 @@ import com.skanderj.gingerbread3.util.Utilities;
 
 /**
  * Dialog component that can progressively type text, then clear and change it,
- * is easily hidden and showed with in and out animations, and has variable text
- * speeds,
+ * is easily hidden and showed with in and out animations and has variable text
+ * speeds. Lines will automatically wrap themselves in the provided box defined
+ * by startTextRelativeX, startTextRelativeY, endTextRelativeX, endTextRelativeY.
  *
  * @author Nim
  *
