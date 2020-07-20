@@ -9,10 +9,10 @@ import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
-import com.skanderj.gingerbread3.util.Label;
+import com.skanderj.gingerbread3.util.Text;
 
 /**
- * Represents a very basic checkbox with a label on on side.
+ * Represents a very basic checkbox with a text on on side.
  *
  * @author Skander
  *
@@ -20,17 +20,17 @@ import com.skanderj.gingerbread3.util.Label;
 public class GCheckbox extends Checkbox {
 	private double x, y;
 	private int width, height;
-	private Label label;
+	private Text text;
 	private Color backgroundColor, borderColor, crossColor;
 	private ComponentLabelPosition labelPosition;
 
-	public GCheckbox(final Application application, final double x, final double y, final int width, final int height, final Label label, final Color backgroundColor, final Color borderColor, final Color crossColor, final ComponentLabelPosition labelPosition) {
+	public GCheckbox(final Application application, final double x, final double y, final int width, final int height, final Text text, final Color backgroundColor, final Color borderColor, final Color crossColor, final ComponentLabelPosition labelPosition) {
 		super(application);
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.label = label;
+		this.text = text;
 		this.backgroundColor = backgroundColor;
 		this.borderColor = borderColor;
 		this.crossColor = crossColor;
@@ -43,7 +43,7 @@ public class GCheckbox extends Checkbox {
 	}
 
 	/**
-	 * Draws a simple rectangle for the checkbox and draws the label on the
+	 * Draws a simple rectangle for the checkbox and draws the text on the
 	 * appropriate position.
 	 */
 	@Override
@@ -53,19 +53,19 @@ public class GCheckbox extends Checkbox {
 			screen.rectangle(this.crossColor, this.x + 3, this.y + 3, this.width - 5, this.height - 5, true, 0, 0);
 		}
 		screen.rectangle(this.borderColor, this.x, this.y, this.width, this.height, false, 0, 0);
-		if (!this.label.isEmpty()) {
+		if (!this.text.isEmpty()) {
 			switch (this.labelPosition) {
 			case TOP:
-				this.label.draw(screen, (int) this.x, (int) this.y - this.label.getHeight(screen));
+				this.text.draw(screen, (int) this.x, (int) this.y - this.text.getHeight(screen));
 				break;
 			case BOTTOM:
-				this.label.draw(screen, (int) this.x, (int) this.y + this.height + this.label.getAugmentedHeight(screen));
+				this.text.draw(screen, (int) this.x, (int) this.y + this.height + this.text.getAugmentedHeight(screen));
 				break;
 			case LEFT:
-				this.label.drawCenteredWidthless(screen, (int) this.x - 10 - this.label.getWidth(screen), (int) this.y, this.height);
+				this.text.drawCenteredWidthless(screen, (int) this.x - 10 - this.text.getWidth(screen), (int) this.y, this.height);
 				break;
 			case RIGHT:
-				this.label.drawCenteredWidthless(screen, (int) this.x + this.width + 10, (int) this.y, this.height);
+				this.text.drawCenteredWidthless(screen, (int) this.x + this.width + 10, (int) this.y, this.height);
 				break;
 			}
 		}
@@ -114,8 +114,8 @@ public class GCheckbox extends Checkbox {
 	/**
 	 * Self explanatory.
 	 */
-	public Label label() {
-		return this.label;
+	public Text text() {
+		return this.text;
 	}
 
 	/**
@@ -181,8 +181,8 @@ public class GCheckbox extends Checkbox {
 	/**
 	 * Self explanatory.
 	 */
-	public void setLabel(final Label label) {
-		this.label = label;
+	public void setText(final Text text) {
+		this.text = text;
 	}
 
 	/**
@@ -218,7 +218,7 @@ public class GCheckbox extends Checkbox {
 	 */
 	@Override
 	public Priority priority() {
-		return Priority.LOW;
+		return Priority.REGULAR;
 	}
 
 	/**
@@ -226,6 +226,6 @@ public class GCheckbox extends Checkbox {
 	 */
 	@Override
 	public String description() {
-		return Engine.identifier(this) + " -> GCheckBox.class(" + this.x + ", " + this.y + ", " + this.label.toString() + ")";
+		return Engine.identifier(this) + " -> GCheckBox.class(" + this.x + ", " + this.y + ", " + this.text.toString() + ")";
 	}
 }

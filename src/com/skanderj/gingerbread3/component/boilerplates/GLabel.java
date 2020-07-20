@@ -4,26 +4,26 @@ import java.awt.Color;
 import java.util.Map;
 
 import com.skanderj.gingerbread3.component.Components;
-import com.skanderj.gingerbread3.component.Text;
+import com.skanderj.gingerbread3.component.Label;
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
-import com.skanderj.gingerbread3.util.Label;
+import com.skanderj.gingerbread3.util.Text;
 
 /**
- * Represents a simple label centered inside a rectangle.
+ * Represents a simple text centered inside a rectangle.
  *
  * @author Skander
  *
  */
-public final class GText extends Text {
+public final class GLabel extends Label {
 	private double x, y;
 	private int width, height;
 	private boolean centered;
 
-	public GText(final Application application, final double x, final double y, final int width, final int height, final Label label) {
-		super(application, label);
+	public GLabel(final Application application, final double x, final double y, final int width, final int height, final Text text) {
+		super(application, text);
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -49,15 +49,15 @@ public final class GText extends Text {
 		if (parameters != null) {
 			final Object[] args = parameters.values().toArray(new Object[parameters.size()]);
 			if (this.centered) {
-				this.label.drawCentered(screen, (int) this.x, (int) this.y, this.width, this.height, args);
+				this.text.drawCentered(screen, (int) this.x, (int) this.y, this.width, this.height, args);
 			} else {
-				this.label.draw(screen, (int) this.x, (int) this.y, args);
+				this.text.draw(screen, (int) this.x, (int) this.y, args);
 			}
 		} else {
 			if (this.centered) {
-				this.label.drawCentered(screen, (int) this.x, (int) this.y, this.width, this.height);
+				this.text.drawCentered(screen, (int) this.x, (int) this.y, this.width, this.height);
 			} else {
-				this.label.draw(screen, (int) this.x, (int) this.y);
+				this.text.draw(screen, (int) this.x, (int) this.y);
 			}
 		}
 		if (Components.GRAPHICAL_DEBUG) {
@@ -146,7 +146,7 @@ public final class GText extends Text {
 	 */
 	@Override
 	public Priority priority() {
-		return Priority.LOW;
+		return Priority.REGULAR;
 	}
 
 	/**
@@ -154,6 +154,6 @@ public final class GText extends Text {
 	 */
 	@Override
 	public String description() {
-		return Engine.identifier(this) + " -> GText.class(" + this.x + ", " + this.y + ", " + this.label.toString() + ")";
+		return Engine.identifier(this) + " -> GLabel.class(" + this.x + ", " + this.y + ", " + this.text.toString() + ")";
 	}
 }

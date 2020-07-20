@@ -9,7 +9,7 @@ import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
-import com.skanderj.gingerbread3.util.Label;
+import com.skanderj.gingerbread3.util.Text;
 
 /**
  * A round edges version of the button. Still very basic.
@@ -20,18 +20,18 @@ import com.skanderj.gingerbread3.util.Label;
 public final class GButton extends Button {
 	private double x, y;
 	private int width, height;
-	private Label label;
+	private Text text;
 	private Color backgroundColor, borderColor;
 	// Border incline = how many pixels will be shaved off at each edge
 	private int borderIncline;
 
-	public GButton(final Application application, final double x, final double y, final int width, final int height, final Label label, final Color backgroundColor, final Color borderColor, final int borderIncline) {
+	public GButton(final Application application, final double x, final double y, final int width, final int height, final Text text, final Color backgroundColor, final Color borderColor, final int borderIncline) {
 		super(application);
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.label = label;
+		this.text = text;
 		this.backgroundColor = backgroundColor;
 		this.borderColor = borderColor;
 		this.borderIncline = borderIncline;
@@ -39,12 +39,12 @@ public final class GButton extends Button {
 
 	/**
 	 * Draws a simple round rectangle for the background, draws the border and the
-	 * label.
+	 * text.
 	 */
 	@Override
 	public synchronized void render(final Screen screen) {
 		screen.rectangle(this.backgroundColor, this.x, this.y, this.width, this.height, true, this.borderIncline, this.borderIncline);
-		this.label.drawCentered(screen, (int) this.x, (int) this.y, this.width, this.height);
+		this.text.drawCentered(screen, (int) this.x, (int) this.y, this.width, this.height);
 		screen.rectangle(this.borderColor, this.x, this.y, this.width, this.height, false, this.borderIncline, this.borderIncline);
 		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x, this.y, this.width, this.height, false, this.borderIncline, this.borderIncline);
@@ -94,8 +94,8 @@ public final class GButton extends Button {
 	/**
 	 * Self explanatory.
 	 */
-	public Label label() {
-		return this.label;
+	public Text text() {
+		return this.text;
 	}
 
 	/**
@@ -154,8 +154,8 @@ public final class GButton extends Button {
 	/**
 	 * Self explanatory.
 	 */
-	public void setLabel(final Label label) {
-		this.label = label;
+	public void setText(final Text text) {
+		this.text = text;
 	}
 
 	/**
@@ -184,7 +184,7 @@ public final class GButton extends Button {
 	 */
 	@Override
 	public Priority priority() {
-		return Priority.LOW;
+		return Priority.REGULAR;
 	}
 
 	/**
@@ -192,6 +192,6 @@ public final class GButton extends Button {
 	 */
 	@Override
 	public String description() {
-		return Engine.identifier(this) + " -> GButton.class(" + this.x + ", " + this.y + ", " + this.width + ", " + this.height + ", " + this.label.toString() + ")";
+		return Engine.identifier(this) + " -> GButton.class(" + this.x + ", " + this.y + ", " + this.width + ", " + this.height + ", " + this.text.toString() + ")";
 	}
 }

@@ -2,8 +2,8 @@ package com.skanderj.gingerbread3.particle;
 
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Engine;
-import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.Moveable;
+import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.logging.Logger;

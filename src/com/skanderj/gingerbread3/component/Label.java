@@ -1,25 +1,25 @@
 package com.skanderj.gingerbread3.component;
 
 import com.skanderj.gingerbread3.core.Application;
-import com.skanderj.gingerbread3.util.Label;
+import com.skanderj.gingerbread3.util.Text;
 
 /**
- * Represents an abstract label, basis for other button classes which can
- * implement their rendering the way they please. See GText for a very basic,
+ * Represents an abstract text, basis for other button classes which can
+ * implement their rendering the way they please. See GLabel for a very basic,
  * ready-to-be-used example.
  *
  * @author Skander
  *
  */
-public abstract class Text extends Component {
-	protected Label label;
+public abstract class Label extends Component {
+	protected Text text;
 
 	/**
 	 * Very basic constructor.
 	 */
-	public Text(final Application application, final Label label) {
+	public Label(final Application application, final Text text) {
 		super(application);
-		this.label = label;
+		this.text = text;
 	}
 
 	/**
@@ -49,14 +49,14 @@ public abstract class Text extends Component {
 	/**
 	 * Self explanatory.
 	 */
-	public Label label() {
-		return this.label;
+	public Text text() {
+		return this.text;
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public void setLabel(final Label label) {
-		this.label = label;
+	public void setText(final Text text) {
+		this.text = text;
 	}
 }

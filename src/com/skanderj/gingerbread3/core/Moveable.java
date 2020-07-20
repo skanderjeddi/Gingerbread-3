@@ -1,7 +1,5 @@
 package com.skanderj.gingerbread3.core;
 
-import com.skanderj.gingerbread3.core.Renderable;
-
 /**
  *
  * @author Skander

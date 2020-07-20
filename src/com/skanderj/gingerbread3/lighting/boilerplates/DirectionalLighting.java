@@ -7,10 +7,10 @@ import java.awt.geom.Arc2D;
 
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Engine;
+import com.skanderj.gingerbread3.core.Moveable;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.lighting.LightingSource;
-import com.skanderj.gingerbread3.core.Moveable;
 
 /**
  * Represents a directed (in a cone) lighting source.

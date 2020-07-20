@@ -10,11 +10,11 @@ import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
-import com.skanderj.gingerbread3.util.Label;
+import com.skanderj.gingerbread3.util.Text;
 import com.skanderj.gingerbread3.util.Utilities;
 
 /**
- * Represents a very basic slider with a label on on side.
+ * Represents a very basic slider with a text on on side.
  *
  * @author Skander
  *
@@ -23,17 +23,17 @@ public final class GSlider extends Slider {
 	private double x, y;
 	private int width, height;
 	private int sliderX, sliderWidth, sliderHeight;
-	private Label label;
+	private Text text;
 	private ComponentLabelPosition labelPosition;
 	private Color color;
 
-	public GSlider(final Application application, final double x, final double y, final int width, final int height, final int sliderWidth, final int sliderHeight, final float min, final float max, final float defaultValue, final Color color, final Label label, final ComponentLabelPosition position) {
+	public GSlider(final Application application, final double x, final double y, final int width, final int height, final int sliderWidth, final int sliderHeight, final float min, final float max, final float defaultValue, final Color color, final Text text, final ComponentLabelPosition position) {
 		super(application, min, max, defaultValue);
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.label = label;
+		this.text = text;
 		this.sliderX = (int) (x + (int) Utilities.map(defaultValue, this.minimumValue, this.maximumValue, 0, width, true));
 		this.sliderWidth = sliderWidth;
 		this.sliderHeight = sliderHeight;
@@ -50,26 +50,26 @@ public final class GSlider extends Slider {
 	}
 
 	/**
-	 * Draws a simple rectangle for the slider and draws the label on the
-	 * appropriate position.
+	 * Draws a simple rectangle for the slider and draws the text on the appropriate
+	 * position.
 	 */
 	@Override
 	public synchronized void render(final Screen screen) {
 		screen.rectangle(this.color, this.x, this.y, this.width, this.height, false, 0, 0);
 		screen.rectangle(this.color.darker(), this.sliderX - (this.sliderWidth / 2), this.y - (this.sliderHeight / 4), this.sliderWidth, this.height + (this.sliderHeight / 2), true, 0, 0);
-		if (!this.label.isEmpty()) {
+		if (!this.text.isEmpty()) {
 			switch (this.labelPosition) {
 			case TOP:
-				this.label.draw(screen, (int) this.x, (int) this.y - this.label.getHeight(screen), this.value());
+				this.text.draw(screen, (int) this.x, (int) this.y - this.text.getHeight(screen), this.value());
 				break;
 			case BOTTOM:
-				this.label.draw(screen, (int) this.x, (int) this.y + this.height + this.label.getAugmentedHeight(screen), this.value());
+				this.text.draw(screen, (int) this.x, (int) this.y + this.height + this.text.getAugmentedHeight(screen), this.value());
 				break;
 			case LEFT:
-				this.label.drawCenteredWidthless(screen, (int) this.x - 10 - this.label.getWidth(screen), (int) this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.value());
+				this.text.drawCenteredWidthless(screen, (int) this.x - 10 - this.text.getWidth(screen), (int) this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.value());
 				break;
 			case RIGHT:
-				this.label.drawCenteredWidthless(screen, (int) this.x + this.width + 10, (int) this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.value());
+				this.text.drawCenteredWidthless(screen, (int) this.x + this.width + 10, (int) this.y - (this.sliderHeight / 2), this.height + this.sliderHeight, this.value());
 				break;
 			}
 		}
@@ -150,8 +150,8 @@ public final class GSlider extends Slider {
 	/**
 	 * Self explanatory.
 	 */
-	public Label label() {
-		return this.label;
+	public Text text() {
+		return this.text;
 	}
 
 	/**
@@ -217,8 +217,8 @@ public final class GSlider extends Slider {
 	/**
 	 * Self explanatory.
 	 */
-	public void setLabel(final Label label) {
-		this.label = label;
+	public void setText(final Text text) {
+		this.text = text;
 	}
 
 	/**
@@ -240,7 +240,7 @@ public final class GSlider extends Slider {
 	 */
 	@Override
 	public Priority priority() {
-		return Priority.LOW;
+		return Priority.REGULAR;
 	}
 
 	/**
@@ -248,6 +248,6 @@ public final class GSlider extends Slider {
 	 */
 	@Override
 	public String description() {
-		return Engine.identifier(this) + " -> GSelector.class(" + this.x + ", " + this.y + ", " + this.width + ", " + this.height + ", " + this.label.toString() + ")";
+		return Engine.identifier(this) + " -> GSelector.class(" + this.x + ", " + this.y + ", " + this.width + ", " + this.height + ", " + this.text.toString() + ")";
 	}
 }

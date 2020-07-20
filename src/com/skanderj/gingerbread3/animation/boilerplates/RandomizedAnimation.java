@@ -5,8 +5,8 @@ import java.util.Arrays;
 import com.skanderj.gingerbread3.animation.Animation;
 import com.skanderj.gingerbread3.core.Application;
 import com.skanderj.gingerbread3.core.Engine;
-import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.core.Moveable;
+import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.sprite.Sprite;
 import com.skanderj.gingerbread3.util.Utilities;
 

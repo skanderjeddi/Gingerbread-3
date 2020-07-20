@@ -16,7 +16,7 @@ import com.skanderj.gingerbread3.Gingerbread3;
 import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.boilerplates.GBackgroundColor;
 import com.skanderj.gingerbread3.component.boilerplates.GBackgroundImage;
-import com.skanderj.gingerbread3.component.boilerplates.GText;
+import com.skanderj.gingerbread3.component.boilerplates.GLabel;
 import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.display.Window;
@@ -35,7 +35,7 @@ import com.skanderj.gingerbread3.scheduler.tasks.DelayedTask;
 import com.skanderj.gingerbread3.scheduler.tasks.RecurrentTask;
 import com.skanderj.gingerbread3.transition.boilerplates.FadeInTransition;
 import com.skanderj.gingerbread3.transition.boilerplates.FadeOutTransition;
-import com.skanderj.gingerbread3.util.Label;
+import com.skanderj.gingerbread3.util.Text;
 import com.skanderj.gingerbread3.util.Utilities;
 
 /**
@@ -180,14 +180,14 @@ public abstract class Application extends ThreadWrapper {
 				return Priority.LOW;
 			}
 		});
-		Components.register("powered-by-gingerbread-label", new GText(this, 0, 0, this.window.getWidth(), this.window.getHeight() + (this.window.getHeight() / 2), new Label("Powered by Gingerbread", Utilities.buildAgainst(Color.BLACK, 200), Fonts.get("lunchds").deriveFont(72f))));
+		Components.register("powered-by-gingerbread-text", new GLabel(this, 0, 0, this.window.getWidth(), this.window.getHeight() + (this.window.getHeight() / 2), new Text("Powered by Gingerbread", Utilities.buildAgainst(Color.BLACK, 200), Fonts.get("lunchds").deriveFont(72f))));
 		Engine.register("splash-fade-in-transition", new FadeInTransition(this, 180, Color.BLACK));
 		Engine.register("splash-fade-out-transition", new FadeOutTransition(this, 180, Color.BLACK));
 		Scenes.register("gingerbread-splashscreen", new Scene(this) {
 
 			@Override
 			public List<String> sceneObjects() {
-				return Arrays.asList("splash-background", "gingerbread-logo", "powered-by-gingerbread-label");
+				return Arrays.asList("splash-background", "gingerbread-logo", "powered-by-gingerbread-text");
 			}
 
 			@Override

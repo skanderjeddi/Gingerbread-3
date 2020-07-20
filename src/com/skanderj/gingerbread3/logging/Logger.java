@@ -58,7 +58,7 @@ public final class Logger {
 				}
 			}
 			// Display the Gingerbread version message
-			Logger.log(Gingerbread3.class, LogLevel.INFO, "Gingerbread-3 release %s - by SkanderJ", Gingerbread3.RELEASE);
+			Logger.log(Gingerbread3.class, LogLevel.INFO, "Gingerbread-3 release %s - by SkanderJ - running on %s", Gingerbread3.RELEASE, System.getProperty("os.name"));
 			System.setOut(new Logger.LoggerPrintStream(Logger.DEFAULT_SYSTEM_OUTPUT, Logger.DEFAULT_SYSTEM_ERROR_OUTPUT));
 			System.setErr(new Logger.LoggerPrintStream(Logger.DEFAULT_SYSTEM_ERROR_OUTPUT, Logger.DEFAULT_SYSTEM_ERROR_OUTPUT));
 			Logger.outputRedirected = true;

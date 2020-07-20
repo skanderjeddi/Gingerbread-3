@@ -21,6 +21,25 @@ public final class Utilities {
 		return;
 	}
 
+	public static OperatingSystem getOperatingSystem() {
+		final String osName = System.getProperty("os.name");
+		if (osName.toLowerCase().contains("win")) {
+			return OperatingSystem.WINDOWS;
+		} else if (osName.toLowerCase().contains("unix")) {
+			return OperatingSystem.UNIX;
+		} else if (osName.toLowerCase().contains("linux")) {
+			return OperatingSystem.LINUX;
+		} else if (osName.toLowerCase().contains("mac")) {
+			return OperatingSystem.MACOS;
+		} else {
+			return OperatingSystem.OTHER;
+		}
+	}
+
+	public static void disableHiDPI() {
+		System.setProperty("sun.java2d.uiScale", "1.0");
+	}
+
 	/**
 	 * Self explanatory.
 	 */

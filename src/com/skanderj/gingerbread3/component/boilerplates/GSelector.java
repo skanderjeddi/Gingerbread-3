@@ -10,8 +10,8 @@ import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.core.Priority;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.resources.Fonts;
-import com.skanderj.gingerbread3.util.Label;
-import com.skanderj.gingerbread3.util.LabelProperties;
+import com.skanderj.gingerbread3.util.Text;
+import com.skanderj.gingerbread3.util.TextProperties;
 
 /**
  * A basic selector with rectangle arrows.
@@ -22,20 +22,20 @@ import com.skanderj.gingerbread3.util.LabelProperties;
 public final class GSelector extends Selector {
 	private double x, y;
 	private int width, height;
-	private LabelProperties properties;
+	private TextProperties properties;
 	private int arrowSize;
 
 	/**
 	 * Self explanatory.
 	 */
-	public GSelector(final Application application, final double x, final double y, final int width, final int height, final int arrowSize, final LabelProperties properties, final String[] optionsArray) {
+	public GSelector(final Application application, final double x, final double y, final int width, final int height, final int arrowSize, final TextProperties properties, final String[] optionsArray) {
 		this(application, x, y, width, height, arrowSize, properties, optionsArray, optionsArray[0]);
 	}
 
 	/**
 	 * Self explanatory.
 	 */
-	public GSelector(final Application application, final double x, final double y, final int width, final int height, final int arrowSize, final LabelProperties properties, final String[] optionsArray, final String defaultOption) {
+	public GSelector(final Application application, final double x, final double y, final int width, final int height, final int arrowSize, final TextProperties properties, final String[] optionsArray, final String defaultOption) {
 		super(application, optionsArray, defaultOption);
 		this.x = x;
 		this.y = y;
@@ -51,17 +51,17 @@ public final class GSelector extends Selector {
 	 */
 	public synchronized void render(final Screen screen) {
 		screen.rectangle(Color.WHITE, this.x + 10 + this.arrowSize, this.y, this.width, this.height, true, 0, 0);
-		new Label(this.currentOption, this.properties, this.properties.color.darker().darker()).drawCentered(screen, (int) this.x + 10 + this.arrowSize, (int) this.y, this.width, this.height);
+		new Text(this.currentOption, this.properties, this.properties.color.darker().darker()).drawCentered(screen, (int) this.x + 10 + this.arrowSize, (int) this.y, this.width, this.height);
 		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x + 10 + this.arrowSize, this.y, this.width, this.height, false, 0, 0);
 		}
 		screen.rectangle(Color.WHITE, this.x, this.y, this.arrowSize, this.height, true, 0, 0);
-		new Label("<", Color.BLACK, Fonts.get("lunchtime", 24)).drawCentered(screen, (int) this.x, (int) this.y, this.arrowSize, this.height);
+		new Text("<", Color.BLACK, Fonts.get("lunchtime", 24)).drawCentered(screen, (int) this.x, (int) this.y, this.arrowSize, this.height);
 		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x, this.y, this.arrowSize, this.height, false, 0, 0);
 		}
 		screen.rectangle(Color.WHITE, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height, true, 0, 0);
-		new Label(">", Color.BLACK, Fonts.get("lunchtime", 24)).drawCentered(screen, (int) this.x + this.width + 20 + this.arrowSize, (int) this.y, this.arrowSize, this.height);
+		new Text(">", Color.BLACK, Fonts.get("lunchtime", 24)).drawCentered(screen, (int) this.x + this.width + 20 + this.arrowSize, (int) this.y, this.arrowSize, this.height);
 		if (Components.GRAPHICAL_DEBUG) {
 			screen.rectangle(Color.RED, this.x + this.width + 20 + this.arrowSize, this.y, this.arrowSize, this.height, false, 0, 0);
 		}
@@ -102,7 +102,7 @@ public final class GSelector extends Selector {
 	/**
 	 * Self explanatory.
 	 */
-	public LabelProperties labelProperties() {
+	public TextProperties textProperties() {
 		return this.properties;
 	}
 
@@ -164,7 +164,7 @@ public final class GSelector extends Selector {
 	/**
 	 * Self explanatory.
 	 */
-	public void setProperties(final LabelProperties properties) {
+	public void setProperties(final TextProperties properties) {
 		this.properties = properties;
 	}
 
@@ -180,7 +180,7 @@ public final class GSelector extends Selector {
 	 */
 	@Override
 	public Priority priority() {
-		return Priority.LOW;
+		return Priority.REGULAR;
 	}
 
 	/**
