@@ -131,7 +131,6 @@ public final class GDialog extends Component {
 	@Override
 	public synchronized void render(final Screen screen) {
 		this.metrics = screen.fontMetrics(this.font);
-		// System.out.println("fuck");
 		if (this.thingToRender.equals("box")) {
 			this.box.render(screen);
 		} else if (this.thingToRender.equals("inAnim")) {
@@ -149,13 +148,11 @@ public final class GDialog extends Component {
 		int indexOfBeginingOfLineInFinalText = 0;
 		String currentText = text;
 		while(true) {
-			System.out.println("currentText="+currentText);
 			if(currentText.charAt(0) == ' ') currentText = currentText.substring(1, currentText.length());
 			// If the text doesn't fit in the given width
 			if(fontMetrics.stringWidth(currentText) > width) {
 				//We progressively remove words to see when it'll fit
 				String lineTry = currentText;
-				System.out.println("lineTry="+lineTry);
 				while(true) {
 					String[] txtSplit = lineTry.split(" ");
 					lineTry = String.join(" ", Arrays.copyOfRange(txtSplit, 0, txtSplit.length-2));
@@ -163,11 +160,9 @@ public final class GDialog extends Component {
 						break;
 					}
 				}
-				System.out.println("displayedLine="+lineTry);
 				lines.add(lineTry);
 				indexOfBeginingOfLineInFinalText = lineTry.length();
 			} else {
-				System.out.println("displayedLine="+currentText);
 				lines.add(currentText);
 			}
 			if (indexOfBeginingOfLineInFinalText >= currentText.length()) break;
