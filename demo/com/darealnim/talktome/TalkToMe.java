@@ -28,7 +28,7 @@ import com.skanderj.gingerbread3.util.Utilities;
 
 public class TalkToMe extends Application {
 	public static final String IDENTIFIER = "talktome", TITLE = "Talk to Me";
-	public static final double REFRESH_RATE = 100.0D;
+	public static final double REFRESH_RATE = 144.0D;
 	public static final int WIDTH = 1920, HEIGHT = (TalkToMe.WIDTH / 16) * 9, BUFFERS = 2;
 
 	// Application scenes
@@ -137,10 +137,10 @@ public class TalkToMe extends Application {
 		// Binds.registerBind("settings", Utilities.createArray(Keyboard.KEY_ESCAPE),
 		// Utilities.createArray(KeyState.DOWN), object ->
 		// Scenes.switchTo("main-menu"));
-		Binds.registerBind("in-game", Utilities.createArray(Keyboard.KEY_ESCAPE, Keyboard.KEY_SPACE), Utilities.createArray(KeyState.DOWN, KeyState.DOWN), object -> this.stop());
+		Binds.registerBind("in-game", Utilities.createArray(Keyboard.KEY_ESCAPE), Utilities.createArray(KeyState.DOWN), object -> this.stop());
 		Binds.registerBind("in-game", Utilities.createArray(Keyboard.KEY_H), Utilities.createArray(KeyState.DOWN), object -> ((GDialog) Engine.get("textbox")).hideBox());
 		Binds.registerBind("in-game", Utilities.createArray(Keyboard.KEY_S), Utilities.createArray(KeyState.DOWN), object -> ((GDialog) Engine.get("textbox")).showBox());
-		Binds.registerBind("in-game", Utilities.createArray(Keyboard.KEY_T), Utilities.createArray(KeyState.DOWN), object -> ((GDialog) Engine.get("textbox")).setText("Yo fuck off mate, you think you can just code a textbox like that?\nWtf is wrong with you? Do you thing we're some kind of slaves or something? Us Letters are disgusted by your actions."));
+		Binds.registerBind("in-game", Utilities.createArray(Keyboard.KEY_T), Utilities.createArray(KeyState.DOWN), object -> ((GDialog) Engine.get("textbox")).setText("Yo fuck off mate, you think you can just code a textbox like that?\n Wtf is wrong with you? Do you think we're some kind of slaves or something? Us Letters are disgusted by your actions."));
 		// Binds.registerBind("*", Utilities.createArray(Keyboard.KEY_F5),
 		// Utilities.createArray(KeyState.DOWN_IN_CURRENT_FRAME), object ->
 		// this.screenshot("scr/" + Utilities.fileNameCompatibleDateString() + ".png"));
@@ -148,8 +148,9 @@ public class TalkToMe extends Application {
 
 	@Override
 	public void createComponents() {
-		Engine.register("textbox", new GDialog(this, 200, 200, 1024, 256, "textboxsprite", null, null, 25, 35, 950, 246, "8bit", 40));
+		Engine.register("textbox", new GDialog(this, 200, 200, 1024, 256, "textboxsprite", null, null, 35, 55, 950, 246, "8bit", 40));
 		((GDialog) Engine.get("textbox")).setTimeBetweenChars(0.05);
+		((GDialog) Engine.get("textbox")).setExtraSpaceBetweenLines(25);
 	}
 
 	public static void main(final String[] args) {

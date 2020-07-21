@@ -7,7 +7,6 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
 import com.skanderj.gingerbread3.animation.Animation;
 import com.skanderj.gingerbread3.component.Component;
 import com.skanderj.gingerbread3.component.boilerplates.GLabel;
@@ -24,7 +23,8 @@ import com.skanderj.gingerbread3.util.Utilities;
  * Dialog component that can progressively type text, then clear and change it,
  * is easily hidden and showed with in and out animations and has variable text
  * speeds. Lines will automatically wrap themselves in the provided box defined
- * by startTextRelativeX, startTextRelativeY, endTextRelativeX, endTextRelativeY.
+ * by startTextRelativeX, startTextRelativeY, endTextRelativeX,
+ * endTextRelativeY.
  *
  * @author Nim
  *
@@ -83,7 +83,7 @@ public final class GDialog extends Component {
 		this.shouldUpdateVisibleCharacters = false;
 		this.thingToRender = Utilities.EMPTY_STRING;
 		this.textVisible = true;
-		this.textLabels = new ArrayList<GLabel>();
+		this.textLabels = new ArrayList<>();
 		this.extraSpaceBetweenLines = 0;
 	}
 
@@ -108,14 +108,14 @@ public final class GDialog extends Component {
 					this.visibleCharacters++;
 					this.frameCounter = 0;
 				}
-				String text = this.lines.get(this.lineIndexToPrint);
-				String displayedText = text.substring(0, this.visibleCharacters);
+				final String text = this.lines.get(this.lineIndexToPrint);
+				final String displayedText = text.substring(0, this.visibleCharacters);
 				this.textLabels.get(this.lineIndexToPrint).text().content = displayedText;
 				this.textLabels.get(this.lineIndexToPrint).text().color = this.textColor;
 				this.textLabels.get(this.lineIndexToPrint).text().font = this.font;
 				if (this.visibleCharacters >= text.length()) {
 					this.lineIndexToPrint++;
-					if ((this.lineIndexToPrint+1) > this.lines.size()) {
+					if ((this.lineIndexToPrint + 1) > this.lines.size()) {
 						this.shouldUpdateVisibleCharacters = false;
 					}
 					this.visibleCharacters = 0;
@@ -139,24 +139,28 @@ public final class GDialog extends Component {
 			this.outAnimation.render(screen);
 		}
 		if (this.textVisible) {
-			for(GLabel label : this.textLabels) label.render(screen);
+			for (final GLabel label : this.textLabels) {
+				label.render(screen);
+			}
 		}
 	}
 
-	private ArrayList<String> getLinesByFontMetrics(FontMetrics fontMetrics, String text, int width) {
-		ArrayList<String> lines = new ArrayList<String>();
+	private ArrayList<String> getLinesByFontMetrics(final FontMetrics fontMetrics, final String text, final int width) {
+		final ArrayList<String> lines = new ArrayList<>();
 		int indexOfBeginingOfLineInFinalText = 0;
 		String currentText = text;
-		while(true) {
-			if(currentText.charAt(0) == ' ') currentText = currentText.substring(1, currentText.length());
+		while (true) {
+			if (currentText.charAt(0) == ' ') {
+				currentText = currentText.substring(1, currentText.length());
+			}
 			// If the text doesn't fit in the given width
-			if(fontMetrics.stringWidth(currentText) > width) {
-				//We progressively remove words to see when it'll fit
+			if (fontMetrics.stringWidth(currentText) > width) {
+				// We progressively remove words to see when it'll fit
 				String lineTry = currentText;
-				while(true) {
-					String[] txtSplit = lineTry.split(" ");
-					lineTry = String.join(" ", Arrays.copyOfRange(txtSplit, 0, txtSplit.length-2));
-					if(fontMetrics.stringWidth(lineTry) <= width) {
+				while (true) {
+					final String[] txtSplit = lineTry.split(" ");
+					lineTry = String.join(" ", Arrays.copyOfRange(txtSplit, 0, txtSplit.length - 2));
+					if (fontMetrics.stringWidth(lineTry) <= width) {
 						break;
 					}
 				}
@@ -165,26 +169,25 @@ public final class GDialog extends Component {
 			} else {
 				lines.add(currentText);
 			}
-			if (indexOfBeginingOfLineInFinalText >= currentText.length()) break;
+			if (indexOfBeginingOfLineInFinalText >= currentText.length()) {
+				break;
+			}
 			currentText = currentText.substring(indexOfBeginingOfLineInFinalText, currentText.length());
 		}
 		return lines;
 	}
 
-
-
 	public void setText(final String text) {
 		this.visibleCharacters = 0;
 		this.text = text;
 		this.shouldUpdateVisibleCharacters = true;
-		this.lines = this.getLinesByFontMetrics(this.metrics, this.text, this.endTextRelativeX-this.startTextRelativeX);
+		this.lines = this.getLinesByFontMetrics(this.metrics, this.text, this.endTextRelativeX - this.startTextRelativeX);
 		this.lineIndexToPrint = 0;
-
-		//TODO IMPLEMENT MULTIPLE GLABELS FOR MULTIPLE LINES
-		//ALMOSE DONE
+		// TODO IMPLEMENT MULTIPLE GLABELS FOR MULTIPLE LINES
+		// ALMOSE DONE
 		this.textLabels.clear();
-		for(int i = 0; i<this.lines.size(); i++) {
-			GLabel label = new GLabel(application, this.x + startTextRelativeX, this.y + startTextRelativeY + (i*(this.metrics.getHeight()+this.extraSpaceBetweenLines)), this.endTextRelativeX - this.startTextRelativeX, this.endTextRelativeY - this.startTextRelativeY, new Text(Utilities.EMPTY_STRING, this.textColor, this.font));
+		for (int i = 0; i < this.lines.size(); i++) {
+			final GLabel label = new GLabel(this.application, this.x + this.startTextRelativeX, this.y + this.startTextRelativeY + (i * (this.metrics.getHeight() + this.extraSpaceBetweenLines)), this.endTextRelativeX - this.startTextRelativeX, this.endTextRelativeY - this.startTextRelativeY, new Text(Utilities.EMPTY_STRING, this.textColor, this.font));
 			label.setCentered(false);
 			this.textLabels.add(label);
 		}
@@ -240,7 +243,7 @@ public final class GDialog extends Component {
 		this.font = Fonts.get(fontIdentifier, size);
 	}
 
-	public void setExtraSpaceBetweenLines(int space) {
+	public void setExtraSpaceBetweenLines(final int space) {
 		this.extraSpaceBetweenLines = space;
 	}
 
@@ -342,7 +345,7 @@ public final class GDialog extends Component {
 	 */
 	@Override
 	public Priority priority() {
-		return Priority.REGULAR;
+		return Priority.EXTREMELY_LOW;
 	}
 
 	/**
