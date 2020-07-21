@@ -50,6 +50,7 @@ public final class GDialog extends Component {
 	private FontMetrics metrics;
 	private ArrayList<String> lines;
 	private int lineIndexToPrint;
+	private int extraSpaceBetweenLines;
 
 	public GDialog(final Application application, final double x, final double y, final int width, final int height, final String boxIdentifier, final String inAnimationIdentifier, final String outAnimationIdentifier, final int startTextRelativeX, final int startTextRelativeY, final int endTextRelativeX, final int endTextRelativeY, final String fontIdentifier, final int fontSize) {
 		super(application);
@@ -85,6 +86,7 @@ public final class GDialog extends Component {
 		this.thingToRender = Utilities.EMPTY_STRING;
 		this.textVisible = true;
 		this.textLabels = new ArrayList<GLabel>();
+		this.extraSpaceBetweenLines = 0;
 	}
 
 	@Override
@@ -184,7 +186,7 @@ public final class GDialog extends Component {
 		//ALMOSE DONE
 		this.textLabels.clear();
 		for(int i = 0; i<this.lines.size(); i++) {
-			GLabel label = new GLabel(application, this.x + startTextRelativeX, this.y + startTextRelativeY + (i*this.metrics.getHeight()), this.endTextRelativeX - this.startTextRelativeX, this.endTextRelativeY - this.startTextRelativeY, new Text(Utilities.EMPTY_STRING, this.textColor, this.font));
+			GLabel label = new GLabel(application, this.x + startTextRelativeX, this.y + startTextRelativeY + (i*(this.metrics.getHeight()+this.extraSpaceBetweenLines)), this.endTextRelativeX - this.startTextRelativeX, this.endTextRelativeY - this.startTextRelativeY, new Text(Utilities.EMPTY_STRING, this.textColor, this.font));
 			label.setCentered(false);
 			this.textLabels.add(label);
 		}
@@ -238,6 +240,10 @@ public final class GDialog extends Component {
 
 	public void changeFont(final String fontIdentifier, final int size) {
 		this.font = Fonts.get(fontIdentifier, size);
+	}
+
+	public void setExtraSpaceBetweenLines(int space) {
+		this.extraSpaceBetweenLines = space;
 	}
 
 	/**
