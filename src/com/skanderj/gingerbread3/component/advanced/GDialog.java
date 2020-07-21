@@ -41,7 +41,6 @@ public final class GDialog extends Component {
 	private double timeBetweenChars;
 	private Font font;
 	private String text;
-	private String displayedText;
 	private Color textColor;
 	private boolean shouldUpdateVisibleCharacters;
 	private long frameCounter;
@@ -78,7 +77,6 @@ public final class GDialog extends Component {
 		this.font = Fonts.get(fontIdentifier, fontSize);
 		this.textColor = Color.WHITE;
 		this.text = Utilities.EMPTY_STRING;
-		this.displayedText = Utilities.EMPTY_STRING;
 		this.timeBetweenChars = 0.01;
 		this.visibleCharacters = 0;
 		this.frameCounter = 0;
