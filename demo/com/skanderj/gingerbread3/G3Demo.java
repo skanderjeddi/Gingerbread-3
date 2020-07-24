@@ -339,7 +339,7 @@ public class G3Demo extends Application {
 	public static void main(final String[] args) {
 		Gingerbread3.enableSplashScreen();
 		// Set debugging messages
-		Logger.toggleLoggingToFile();
+		// BROKEN!! -> Logger.toggleLoggingToFile();
 		Logger.setStateForDebuggingType(DebuggingType.CLASSIC, true);
 		Logger.setStateForDebuggingType(DebuggingType.DEVELOPMENT, false);
 		new G3Demo().start();

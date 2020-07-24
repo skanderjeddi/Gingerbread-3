@@ -17,7 +17,6 @@ import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.component.boilerplates.GBackgroundColor;
 import com.skanderj.gingerbread3.component.boilerplates.GBackgroundImage;
 import com.skanderj.gingerbread3.component.boilerplates.GLabel;
-import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.display.Window;
 import com.skanderj.gingerbread3.input.Binds;
@@ -31,8 +30,7 @@ import com.skanderj.gingerbread3.resources.Images;
 import com.skanderj.gingerbread3.scene.Scene;
 import com.skanderj.gingerbread3.scene.Scenes;
 import com.skanderj.gingerbread3.scheduler.Scheduler;
-import com.skanderj.gingerbread3.scheduler.tasks.DelayedTask;
-import com.skanderj.gingerbread3.scheduler.tasks.RecurrentTask;
+import com.skanderj.gingerbread3.scheduler.Task;
 import com.skanderj.gingerbread3.transition.boilerplates.FadeInTransition;
 import com.skanderj.gingerbread3.transition.boilerplates.FadeOutTransition;
 import com.skanderj.gingerbread3.util.Text;
@@ -184,7 +182,6 @@ public abstract class Application extends ThreadWrapper {
 		Engine.register("splash-fade-in-transition", new FadeInTransition(this, 180, Color.BLACK));
 		Engine.register("splash-fade-out-transition", new FadeOutTransition(this, 180, Color.BLACK));
 		Scenes.register("gingerbread-splashscreen", new Scene(this) {
-
 			@Override
 			public List<String> sceneObjects() {
 				return Arrays.asList("splash-background", "gingerbread-logo", "powered-by-gingerbread-text");
@@ -211,25 +208,15 @@ public abstract class Application extends ThreadWrapper {
 			}
 		});
 		Scenes.switchTo("gingerbread-splashscreen");
-		Scheduler.scheduleTask(this, new DelayedTask(this, "splashscreen-exit", (int) (this.refreshRate() * 5)) {
+		Scheduler.scheduleTask("splashscreen-exit", new Task(this, (int) this.refreshRate * 5) {
 			@Override
-			public Priority priority() {
-				return Priority.REGULAR;
-			}
-
-			@Override
-			public Application application() {
-				return Application.this;
-			}
-
-			@Override
-			public void execute(final ApplicationObject object) {
+			public void execute() {
 				Scenes.switchTo(Application.this.firstScene());
 			}
 		});
 		Binds.registerBind("gingerbread-splashscreen", Utilities.createArray(Keyboard.KEY_SPACE), Utilities.createArray(KeyState.DOWN_IN_CURRENT_FRAME), object -> {
 			Scenes.switchTo(Application.this.firstScene());
-			Scheduler.delete("splashscreen-exit");
+			Scheduler.cancel("splashscreen-exit", false);
 		});
 	}
 
@@ -303,24 +290,14 @@ public abstract class Application extends ThreadWrapper {
 	 * Profiler displays fps and ups each cycle.
 	 */
 	protected synchronized final void useProfiler() {
-		Scheduler.scheduleTask(this, new RecurrentTask(this, this.profilerIdentifier(), (int) this.refreshRate, RecurrentTask.REPEAT_INDEFINITELY, true) {
+		Scheduler.scheduleTask(this.profilerIdentifier(), new Task(this, (int) this.refreshRate, (int) this.refreshRate) {
 			@Override
-			public Priority priority() {
-				return Priority.EXTREMELY_HIGH;
-			}
-
-			@Override
-			public Application application() {
-				return Application.this;
-			}
-
-			@Override
-			public void execute(final ApplicationObject object) {
+			public void execute() {
 				final Map<String, Object> argsMap = Engine.parameters(Application.this.profilerIdentifier());
 				if (argsMap == null) {
-					Logger.log(this.application().getClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
+					Logger.log(this.getClass(), LogLevel.WARNING, "Skipping profiler output (null args)");
 				} else {
-					Logger.log(this.application().getClass(), LogLevel.DEBUG, "%d frames last second for %d updates", argsMap.get("frames"), argsMap.get("updates"));
+					Logger.log(this.getClass(), LogLevel.DEBUG, "%d frames last second for %d updates", argsMap.get("frames"), argsMap.get("updates"));
 				}
 			}
 		});
@@ -337,7 +314,6 @@ public abstract class Application extends ThreadWrapper {
 	 */
 	protected synchronized void update() {
 		Binds.update(this);
-		Scheduler.update();
 		Scenes.update();
 	}
 

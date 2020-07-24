@@ -1,11 +1,12 @@
 package com.skanderj.gingerbread3.scheduler;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
-import com.skanderj.gingerbread3.core.Application;
-import com.skanderj.gingerbread3.core.Engine;
-import com.skanderj.gingerbread3.core.object.ApplicationObject;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
 
@@ -17,40 +18,31 @@ import com.skanderj.gingerbread3.logging.Logger.LogLevel;
  */
 public final class Scheduler {
 	// All scheduled actions
-	private static final Set<Task> schedule = new HashSet<>();
+	private static final ScheduledExecutorService executor = Executors.newScheduledThreadPool(0);
+
+	private static final Map<String, ScheduledFuture<?>> scheduledFutures = new HashMap<>();
 
 	private Scheduler() {
 		return;
 	}
 
-	/**
-	 * Self explanatory.
-	 */
-	public static synchronized void scheduleTask(final Application application, final Task task) {
-		Engine.register(task.identifier(), ApplicationObject.constructFromUpdateable(application, task));
-		Scheduler.schedule.add(task);
-		task.start();
+	public static void scheduleTask(final String identifier, final Task task) {
+		Logger.log(Scheduler.class, LogLevel.INFO, "Scheduling task %s", identifier);
+		Scheduler.schedule(identifier, task.asRunnable(), task.initialDelay(), task.period() != -1, task.period());
 	}
 
-	/**
-	 * Self explanatory.
-	 */
-	public static synchronized void delete(final String taskIdentifier) {
-		final Task[] tasks = Scheduler.schedule.toArray(new Task[Scheduler.schedule.size()]);
-		for (final Task task : tasks) {
-			if (task.identifier().equals(taskIdentifier)) {
-				Scheduler.schedule.remove(task);
-			}
+	public static ScheduledFuture<?> schedule(final String identifier, final Runnable runnable, final int delay, final boolean repeat, final int delayBetweenRepeats) {
+		ScheduledFuture<?> future = null;
+		if (repeat) {
+			future = Scheduler.executor.scheduleAtFixedRate(runnable, delay, delayBetweenRepeats, TimeUnit.MILLISECONDS);
+		} else {
+			future = Scheduler.executor.schedule(runnable, delay, TimeUnit.MILLISECONDS);
 		}
+		Scheduler.scheduledFutures.put(identifier, future);
+		return future;
 	}
 
-	/**
-	 * Self explanatory.
-	 */
-	public static void update() {
-		for (final Task task : Scheduler.schedule.toArray(new Task[Scheduler.schedule.size()])) {
-			Logger.log(Scheduler.class, LogLevel.DEVELOPMENT, "Executing task %s", task.identifier());
-			task.update();
-		}
+	public static void cancel(final String identifier, final boolean finish) {
+		Scheduler.scheduledFutures.get(identifier).cancel(!finish);
 	}
 }
