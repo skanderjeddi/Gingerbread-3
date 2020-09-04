@@ -1,40 +1,59 @@
 package com.skanderj.gingerbread3.scheduler;
 
-import com.skanderj.gingerbread3.core.Application;
-import com.skanderj.gingerbread3.util.Utilities;
+import java.util.concurrent.TimeUnit;
 
+/**
+ * Represents a task which will be executed by the scheduler.
+ *
+ * @author Skander J.
+ */
 public abstract class Task {
-	public static final int DO_NOT_REPEAT = -1;
+	public static final int NO_REPEATS = -1;
 
-	private final Application source;
-	private final int initialDelay;
-	private final int period;
+	private final TimeValue initialDelay;
+	private final TimeValue period;
+	private int repeatsCounter;
 
-	public Task(final Application source, final int initialDelayInFrames) {
-		this(source, initialDelayInFrames, Task.DO_NOT_REPEAT);
+	public Task(final int initialDelay, final TimeUnit unit) {
+		this(new TimeValue(initialDelay, unit));
 	}
 
-	public Task(final Application source, final int initialDelayInFrames, final int periodInFrames) {
-		this.source = source;
-		this.initialDelay = Utilities.framesToMS(initialDelayInFrames, source.refreshRate());
-		this.period = periodInFrames == -1 ? -1 : Utilities.framesToMS(periodInFrames, source.refreshRate());
+	public Task(final int initialDelay, final int period, final TimeUnit unit) {
+		this(new TimeValue(initialDelay, unit), new TimeValue(period, unit));
+	}
+
+	public Task(final TimeValue initialDelay) {
+		this.initialDelay = initialDelay;
+		this.period = new TimeValue(Task.NO_REPEATS, null);
+		this.repeatsCounter = 0;
+	}
+
+	public Task(final TimeValue initialDelay, final TimeValue period) {
+		this.initialDelay = initialDelay;
+		this.period = period;
+		this.repeatsCounter = 0;
 	}
 
 	public abstract void execute();
 
 	public final Runnable asRunnable() {
-		return () -> Task.this.execute();
+		return () -> {
+			Task.this.execute();
+			Task.this.repeatsCounter += 1;
+		};
 	}
 
-	public int initialDelay() {
+	public final TimeValue getInitialDelay() {
 		return this.initialDelay;
 	}
 
-	public int period() {
+	public final TimeValue getPeriod() {
 		return this.period;
 	}
 
-	public Application source() {
-		return this.source;
+	public final int getRepeatsCounter() {
+		return this.repeatsCounter;
 	}
+
+	public abstract TaskType type();
 }

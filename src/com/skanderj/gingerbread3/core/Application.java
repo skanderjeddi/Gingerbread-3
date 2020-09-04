@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 
@@ -29,8 +30,10 @@ import com.skanderj.gingerbread3.resources.Fonts;
 import com.skanderj.gingerbread3.resources.Images;
 import com.skanderj.gingerbread3.scene.Scene;
 import com.skanderj.gingerbread3.scene.Scenes;
-import com.skanderj.gingerbread3.scheduler.Scheduler;
 import com.skanderj.gingerbread3.scheduler.Task;
+import com.skanderj.gingerbread3.scheduler.TaskScheduler;
+import com.skanderj.gingerbread3.scheduler.TaskType;
+import com.skanderj.gingerbread3.scheduler.TimeValue;
 import com.skanderj.gingerbread3.transition.boilerplates.FadeInTransition;
 import com.skanderj.gingerbread3.transition.boilerplates.FadeOutTransition;
 import com.skanderj.gingerbread3.util.Text;
@@ -208,15 +211,20 @@ public abstract class Application extends ThreadWrapper {
 			}
 		});
 		Scenes.switchTo("gingerbread-splashscreen");
-		Scheduler.scheduleTask("splashscreen-exit", new Task(this, (int) this.refreshRate * 5) {
+		TaskScheduler.scheduleTask("splashscreen-exit", new Task(new TimeValue((int) (this.refreshRate * 5), TimeUnit.MILLISECONDS)) {
 			@Override
 			public void execute() {
 				Scenes.switchTo(Application.this.firstScene());
 			}
+
+			@Override
+			public TaskType type() {
+				return TaskType.FIXED_DELAY;
+			}
 		});
 		Binds.registerBind("gingerbread-splashscreen", Utilities.createArray(Keyboard.KEY_SPACE), Utilities.createArray(KeyState.DOWN_IN_CURRENT_FRAME), object -> {
 			Scenes.switchTo(Application.this.firstScene());
-			Scheduler.cancel("splashscreen-exit", false);
+			TaskScheduler.cancelTask("splashscreen-exit", false);
 		});
 	}
 
@@ -290,7 +298,7 @@ public abstract class Application extends ThreadWrapper {
 	 * Profiler displays fps and ups each cycle.
 	 */
 	protected synchronized final void useProfiler() {
-		Scheduler.scheduleTask(this.profilerIdentifier(), new Task(this, (int) this.refreshRate, (int) this.refreshRate) {
+		TaskScheduler.scheduleTask(this.profilerIdentifier(), new Task(new TimeValue(1, TimeUnit.SECONDS), new TimeValue(1, TimeUnit.SECONDS)) {
 			@Override
 			public void execute() {
 				final Map<String, Object> argsMap = Engine.parameters(Application.this.profilerIdentifier());
@@ -299,6 +307,11 @@ public abstract class Application extends ThreadWrapper {
 				} else {
 					Logger.log(this.getClass(), LogLevel.DEBUG, "%d frames last second for %d updates", argsMap.get("frames"), argsMap.get("updates"));
 				}
+			}
+
+			@Override
+			public TaskType type() {
+				return TaskType.FIXED_DELAY;
 			}
 		});
 	}
@@ -309,8 +322,6 @@ public abstract class Application extends ThreadWrapper {
 
 	/**
 	 * Updates application logic
-	 *
-	 * @param delta the delay between the current update and last update
 	 */
 	protected synchronized void update() {
 		Binds.update(this);

@@ -3,14 +3,19 @@ package com.skanderj.gingerbread3.scene;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import com.skanderj.gingerbread3.component.Components;
 import com.skanderj.gingerbread3.core.Engine;
 import com.skanderj.gingerbread3.display.Screen;
 import com.skanderj.gingerbread3.logging.Logger;
 import com.skanderj.gingerbread3.logging.Logger.LogLevel;
-import com.skanderj.gingerbread3.scheduler.Scheduler;
+import com.skanderj.gingerbread3.scheduler.Task;
+import com.skanderj.gingerbread3.scheduler.TaskScheduler;
+import com.skanderj.gingerbread3.scheduler.TaskType;
+import com.skanderj.gingerbread3.scheduler.TimeValue;
 import com.skanderj.gingerbread3.transition.Transition;
+import com.skanderj.gingerbread3.util.Utilities;
 
 /**
  * Self explanatory.
@@ -63,13 +68,13 @@ public final class Scenes {
 				// Make it renderable
 				Engine.get(previous.outTransition()).setShouldSkipRegistryChecks(true);
 				// Schedule a task to remove it and play the potential next transition
-				Scheduler.schedule(previous.outTransition() + "-recurr", new Runnable() {
+				TaskScheduler.scheduleTask(previous.outTransition() + "-recurr", new Task(new TimeValue(Utilities.framesToMS(outTransition.duration(), outTransition.application().refreshRate()), TimeUnit.MILLISECONDS)) {
 					@Override
-					public void run() {
+					public void execute() {
 						if (outTransition.isDone()) {
 							Engine.get(previous.outTransition()).setShouldSkipRegistryChecks(false);
 							Engine.skip(previous.outTransition());
-							Scheduler.cancel(previous.outTransition() + "-recurr", true);
+							TaskScheduler.cancelTask(previous.outTransition() + "-recurr", true);
 							Scenes.currentScene = next;
 							Scenes.newScene();
 							if (inTransition != null) {
@@ -78,7 +83,12 @@ public final class Scenes {
 							}
 						}
 					}
-				}, 0, true, 1);
+
+					@Override
+					public TaskType type() {
+						return TaskType.FIXED_DELAY;
+					}
+				});
 			}
 			previous.out();
 		} else {
@@ -88,16 +98,21 @@ public final class Scenes {
 			if (inTransition != null) {
 				Engine.register(next.inTransition(), inTransition);
 				Engine.get(next.inTransition()).setShouldSkipRegistryChecks(true);
-				Scheduler.schedule(next.inTransition() + "-delayed", new Runnable() {
+				TaskScheduler.scheduleTask(next.inTransition() + "-delayed", new Task(new TimeValue(Utilities.framesToMS(inTransition.duration(), inTransition.application().refreshRate()), TimeUnit.MILLISECONDS)) {
 					@Override
-					public void run() {
+					public void execute() {
 						if (inTransition.isDone()) {
 							Engine.get(next.inTransition()).setShouldSkipRegistryChecks(false);
 							Engine.skip(next.inTransition());
-							Scheduler.cancel(next.inTransition() + "-recurr", true);
+							TaskScheduler.cancelTask(next.inTransition() + "-recurr", true);
 						}
 					}
-				}, inTransition.duration(), false, 0);
+
+					@Override
+					public TaskType type() {
+						return TaskType.FIXED_DELAY;
+					}
+				});
 			}
 		}
 	}
