@@ -44,6 +44,10 @@ public abstract class Animation extends ApplicationObject implements Moveable {
 		this.playing = true;
 	}
 
+	public boolean isPlaying() {
+		return this.playing;
+	}
+
 	/**
 	 * Self explanatory.
 	 */

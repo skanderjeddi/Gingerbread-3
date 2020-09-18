@@ -25,6 +25,8 @@ import com.skanderj.gingerbread3.util.Utilities;
  * is easily hidden and showed with in and out animations and has variable text
  * speeds. Lines will automatically wrap themselves in the provided box defined
  * by startTextRelativeX, startTextRelativeY, endTextRelativeX, endTextRelativeY.
+ * You can provide an dialog box opening and closing animations, as well as a
+ * waiting animation for when the text is finished displaying.
  *
  * @author Nim
  *
@@ -35,6 +37,7 @@ public final class GDialog extends Component {
 	private final Moveable box;
 	private Animation inAnimation;
 	private Animation outAnimation;
+	private Animation waitAnimation;
 	private final int startTextRelativeX, startTextRelativeY, endTextRelativeX, endTextRelativeY;
 	private final ArrayList<GLabel> textLabels;
 	private int visibleCharacters;
@@ -51,7 +54,7 @@ public final class GDialog extends Component {
 	private int lineIndexToPrint;
 	private int extraSpaceBetweenLines;
 
-	public GDialog(final Application application, final double x, final double y, final int width, final int height, final String boxIdentifier, final String inAnimationIdentifier, final String outAnimationIdentifier, final int startTextRelativeX, final int startTextRelativeY, final int endTextRelativeX, final int endTextRelativeY, final String fontIdentifier, final int fontSize) {
+	public GDialog(final Application application, final double x, final double y, final int width, final int height, final String boxIdentifier, final String inAnimationIdentifier, final String outAnimationIdentifier, final String waitAnimationIdentifier, final int startTextRelativeX, final int startTextRelativeY, final int endTextRelativeX, final int endTextRelativeY, final String fontIdentifier, final int fontSize) {
 		super(application);
 		this.x = x;
 		this.y = y;
@@ -69,6 +72,11 @@ public final class GDialog extends Component {
 			this.outAnimation = (Animation) Engine.get(outAnimationIdentifier);
 			this.outAnimation.setX(x);
 			this.outAnimation.setY(y);
+		}
+		if (waitAnimationIdentifier != null) {
+			this.waitAnimation = (Animation) Engine.get(waitAnimationIdentifier);
+			this.waitAnimation.setX(x);
+			this.waitAnimation.setY(y);
 		}
 		this.startTextRelativeX = startTextRelativeX;
 		this.startTextRelativeY = startTextRelativeY;
@@ -90,16 +98,21 @@ public final class GDialog extends Component {
 	@Override
 	public synchronized void update() {
 		if (this.thingToRender.equals("inAnim")) {
+			this.inAnimation.update();
 			if (this.inAnimation.sprites().length == this.inAnimation.getCurrentSpriteIndex()) {
 				this.thingToRender = "box";
 				this.shouldUpdateVisibleCharacters = true;
 			}
 		}
 		if (this.thingToRender.equals("outAnim")) {
+			this.outAnimation.update();
 			if (this.outAnimation.sprites().length == this.outAnimation.getCurrentSpriteIndex()) {
 				this.thingToRender = Utilities.EMPTY_STRING;
 				this.shouldUpdateVisibleCharacters = false;
 			}
+		}
+		if (this.thingToRender.equals("waitAnim")) {
+			this.waitAnimation.update();
 		}
 		if (this.thingToRender.equals("box")) {
 			if (this.shouldUpdateVisibleCharacters) {
@@ -117,6 +130,9 @@ public final class GDialog extends Component {
 					this.lineIndexToPrint++;
 					if ((this.lineIndexToPrint+1) > this.lines.size()) {
 						this.shouldUpdateVisibleCharacters = false;
+						if (this.waitAnimation != null) {
+							this.thingToRender = "waitAnim";
+						}
 					}
 					this.visibleCharacters = 0;
 				}
@@ -137,6 +153,8 @@ public final class GDialog extends Component {
 			this.inAnimation.render(screen);
 		} else if (this.thingToRender.equals("outAnim")) {
 			this.outAnimation.render(screen);
+		} else if (this.thingToRender.equals("waitAnim")) {
+			this.waitAnimation.render(screen);
 		}
 		if (this.textVisible) {
 			for(GLabel label : this.textLabels) label.render(screen);
@@ -154,8 +172,15 @@ public final class GDialog extends Component {
 				//We progressively remove words to see when it'll fit
 				String lineTry = currentText;
 				while(true) {
-					String[] txtSplit = lineTry.split(" ");
-					lineTry = String.join(" ", Arrays.copyOfRange(txtSplit, 0, txtSplit.length-2));
+					String[] txtSplit;
+					if (lineTry.contains(" ")) {
+						txtSplit = lineTry.split(" ");
+					} else {
+						lines.add(lineTry);
+						break;
+					}
+					// String[] txtSplit = lineTry.contains(" ") ? lineTry.split(" ") : new String[]{lineTry};
+					lineTry = String.join(" ", Arrays.copyOfRange(txtSplit, 0, lineTry.contains(" ") ? txtSplit.length - 1 : txtSplit.length-2));
 					if(fontMetrics.stringWidth(lineTry) <= width) {
 						break;
 					}
@@ -164,6 +189,7 @@ public final class GDialog extends Component {
 				indexOfBeginingOfLineInFinalText = lineTry.length();
 			} else {
 				lines.add(currentText);
+				break;
 			}
 			if (indexOfBeginingOfLineInFinalText >= currentText.length()) break;
 			currentText = currentText.substring(indexOfBeginingOfLineInFinalText, currentText.length());
@@ -188,6 +214,7 @@ public final class GDialog extends Component {
 			label.setCentered(false);
 			this.textLabels.add(label);
 		}
+		this.thingToRender = "box";
 	}
 
 	public String getText() {
