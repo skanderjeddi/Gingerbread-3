@@ -23,14 +23,9 @@ import com.skanderj.gingerbread3.util.Utilities;
  * Dialog component that can progressively type text, then clear and change it,
  * is easily hidden and showed with in and out animations and has variable text
  * speeds. Lines will automatically wrap themselves in the provided box defined
-<<<<<<< HEAD
  * by startTextRelativeX, startTextRelativeY, endTextRelativeX, endTextRelativeY.
  * You can provide an dialog box opening and closing animations, as well as a
  * waiting animation for when the text is finished displaying.
-=======
- * by startTextRelativeX, startTextRelativeY, endTextRelativeX,
- * endTextRelativeY.
->>>>>>> daf1d5acf8f7a2d83e06c7ecfb1fbb9117fb1d3b
  *
  * @author Nim
  *
@@ -179,7 +174,6 @@ public final class GDialog extends Component {
 			if (fontMetrics.stringWidth(currentText) > width) {
 				// We progressively remove words to see when it'll fit
 				String lineTry = currentText;
-<<<<<<< HEAD
 				while(true) {
 					String[] txtSplit;
 					if (lineTry.contains(" ")) {
@@ -191,12 +185,6 @@ public final class GDialog extends Component {
 					// String[] txtSplit = lineTry.contains(" ") ? lineTry.split(" ") : new String[]{lineTry};
 					lineTry = String.join(" ", Arrays.copyOfRange(txtSplit, 0, lineTry.contains(" ") ? txtSplit.length - 1 : txtSplit.length-2));
 					if(fontMetrics.stringWidth(lineTry) <= width) {
-=======
-				while (true) {
-					final String[] txtSplit = lineTry.split(" ");
-					lineTry = String.join(" ", Arrays.copyOfRange(txtSplit, 0, txtSplit.length - 2));
-					if (fontMetrics.stringWidth(lineTry) <= width) {
->>>>>>> daf1d5acf8f7a2d83e06c7ecfb1fbb9117fb1d3b
 						break;
 					}
 				}
