@@ -40,6 +40,13 @@ public final class Utilities {
 		System.setProperty("sun.java2d.uiScale", "1.0");
 	}
 
+	public static int framesToMS(int frames, double refreshRate) {
+		// 1000ms = refreshRate
+		// x ms = frames
+		int ms = (int) (1000 * frames / refreshRate);
+		return ms;
+	}
+
 	/**
 	 * Self explanatory.
 	 */
